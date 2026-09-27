@@ -2,7 +2,7 @@
 # RUBÉNIE — Bastion roulant
 # La Battle Fortress, à la rubénienne : une position fortifiée qui se
 # déplace. Elle ne tire que si des fantassins l'occupent, emporte son
-# propre ravitaillement (jamais isolée, ravitaille les unités autour)
+# propre ravitaillement (toujours ravitaillé, ravitaille les unités autour)
 # et se répare seule. Lente, mais « si ça tient, touche à rien ».
 # =====================================================================
 
@@ -20,7 +20,7 @@ BASTION:
 		BuildPaletteOrder: 65
 		BuildLimit: 3
 		Prerequisites: ~vehicles.rubenie, fix, stek, ~techlevel.high
-		Description: Forteresse roulante. 3 exemplaires maximum.\nDeux canons de 130 mm et un lanceur de missiles (aviation, infanterie),\nqui ne tirent que si des fantassins sont à bord (8 places).\nLivré avec 2 fusiliers, 1 grenadier et 1 chasseur antichar.\nRavitaille les unités proches (6 cases), ne peut pas être isolé,\nse répare seul hors combat.\n  Fort contre : blindés, infanterie, aviation\n  Faible contre : artillerie ; inutile sans équipage
+		Description: Forteresse roulante. 3 exemplaires maximum.\nDeux canons de 130 mm et un lanceur de missiles (aviation, infanterie),\nqui ne tirent que si des fantassins sont à bord (8 places).\nLivré avec 2 fusiliers, 1 grenadier et 1 chasseur antichar.\nRavitaille les unités proches (6 cases), toujours ravitaillé lui-même,\nse répare seul hors combat.\n  Fort contre : blindés, infanterie, aviation\n  Faible contre : artillerie ; inutile sans équipage
 	Selectable:
 		Class: bastion
 		DecorationBounds: 1877, 1621, 0, -170

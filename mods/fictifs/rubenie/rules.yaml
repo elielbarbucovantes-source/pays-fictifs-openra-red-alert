@@ -199,7 +199,7 @@ SICATIENT:
 	Buildable:
 		BuildPaletteOrder: 30
 		Prerequisites: ~vehicles.rubenie, fix, ~techlevel.medium
-		Description: Char de bataille principal. Canon de 115 mm, gros blindage.\nSe répare seul hors combat (jusqu'à 75 %), sauf s'il est isolé.\n  Fort contre : blindés, véhicules\n  Faible contre : infanterie, aviation
+		Description: Char de bataille principal. Canon de 115 mm, gros blindage.\nSe répare seul hors combat (jusqu'à 75 %).\n  Fort contre : blindés, véhicules\n  Faible contre : infanterie, aviation
 	Selectable:
 		Class: sicatient
 	Valued:
@@ -213,7 +213,6 @@ SICATIENT:
 	Armament:
 		Weapon: Rub115mm
 	ChangesHealth@FIABLE:
-		RequiresCondition: !isolee
 		Step: 300
 		Delay: 25
 		StartIfBelow: 75
@@ -253,7 +252,7 @@ FORTERESSE:
 	Buildable:
 		BuildPaletteOrder: 60
 		Prerequisites: ~vehicles.rubenie, fix, stek, ~techlevel.high
-		Description: Char lourd défensif. Blindage extrême, canon de 140 mm\net missiles antichars/antiaériens. Très lent.\nSe répare seul hors combat (jusqu'à 50 %), sauf s'il est isolé.\n  Fort contre : blindés, infanterie, aviation\n  Faible contre : artillerie
+		Description: Char lourd défensif. Blindage extrême, canon de 140 mm\net missiles antichars/antiaériens. Très lent.\nSe répare seul hors combat (jusqu'à 50 %).\n  Fort contre : blindés, infanterie, aviation\n  Faible contre : artillerie
 	Selectable:
 		Class: forteresse
 	Valued:
@@ -267,7 +266,6 @@ FORTERESSE:
 	Armament@PRIMARY:
 		Weapon: RubForteresse140mm
 	ChangesHealth@FIABLE:
-		RequiresCondition: !isolee
 		Step: 400
 		Delay: 25
 		StartIfBelow: 50

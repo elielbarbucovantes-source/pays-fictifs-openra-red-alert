@@ -2,10 +2,14 @@
 # RUBÉNIE — logistique
 #
 #   Centre logistique / QG / chantier de construction / véhicule logistique
+#   / Bastion roulant
 #        ↓ (rayon de ravitaillement)
-#   Unités terrestres ravitaillées : efficacité normale, réparation lente.
-#   Hors de tout rayon depuis 30 secondes : unité « isolée »
-#   (−25 % de dégâts, −25 % de cadence, plus de réparation).
+#   Unités terrestres ravitaillées : les plus fortes du jeu
+#   (+10 % de dégâts, −10 % de dégâts reçus) et réparation lente.
+#   Sans ravitaillement : un peu en dessous de la moyenne
+#   (−10 % de dégâts, +10 % de dégâts reçus).
+#   Le bonus dure encore 10 secondes après la sortie du rayon : le temps
+#   de contre-attaquer juste au-delà de la ligne, puis de se replier.
 #
 # Le système est redondant : chaque source ravitaille seule, détruire un
 # centre ne coupe pas toute la logistique.
@@ -18,21 +22,27 @@
 		Condition: ravitaille
 	ExternalCondition@ATELIER:
 		Condition: atelier
-	GrantConditionAfterDelay@ISOLEMENT:
-		RequiresCondition: !ravitaille
-		Condition: isolee
-		Delay: 750
-	FirepowerMultiplier@ISOLEE:
-		RequiresCondition: isolee
-		Modifier: 75
-	ReloadDelayMultiplier@ISOLEE:
-		RequiresCondition: isolee
-		Modifier: 133
-	WithDecoration@ISOLEE:
+	GrantTimedConditionOnConditionEnd@RAVITAILLE:
+		RequiresCondition: ravitaille
+		Condition: ravitaille-reste
+		Duration: 250
+	FirepowerMultiplier@NORMAL:
+		RequiresCondition: !ravitaille && !ravitaille-reste
+		Modifier: 90
+	DamageMultiplier@NORMAL:
+		RequiresCondition: !ravitaille && !ravitaille-reste
+		Modifier: 110
+	FirepowerMultiplier@RAVITAILLE:
+		RequiresCondition: ravitaille || ravitaille-reste
+		Modifier: 110
+	DamageMultiplier@RAVITAILLE:
+		RequiresCondition: ravitaille || ravitaille-reste
+		Modifier: 90
+	WithDecoration@RAVITAILLE:
 		Image: pips
-		Sequence: pip-red
+		Sequence: pip-green
 		Position: TopRight
-		RequiresCondition: isolee
+		RequiresCondition: ravitaille || ravitaille-reste
 	# Ravitaillée : réparation lente hors combat.
 	ChangesHealth@RAVITAILLE:
 		RequiresCondition: ravitaille
@@ -94,7 +104,7 @@ CENTRE.LOGISTIQUE:
 		Queue: Building
 		BuildPaletteOrder: 65
 		Prerequisites: proc, ~structures.rubenie, ~techlevel.low
-		Description: Ravitaille les unités terrestres rubéniennes à 14 cases :\nefficacité normale et réparation lente hors combat.\nHors de tout rayon de ravitaillement depuis 30 s,\nune unité est isolée : −25 % de dégâts et de cadence.\nPlusieurs centres se relaient.
+		Description: Ravitaille les unités terrestres rubéniennes à 14 cases :\n+10 % de dégâts, −10 % de dégâts reçus, réparation lente\nhors combat (bonus gardé 10 s après la sortie du rayon).\nSans ravitaillement : −10 % de dégâts, +10 % de dégâts reçus.\nPlusieurs centres se relaient.
 	Valued:
 		Cost: 1000
 	Tooltip:

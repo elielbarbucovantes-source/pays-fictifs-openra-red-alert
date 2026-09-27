@@ -31,8 +31,8 @@ Faction défensive au drapeau blanc et vert frappé d'une montagne. Ses unités 
 - **Défenses** : tranchées, bunker à 5 places, casemate antichar, tourelle AA, SAM, artillerie côtière.
 - **Aviation** (base aérienne) : chasseur polyvalent (air-air, air-sol, antinavire ; seul à apponter sur le porte-avions), intercepteur, avion d'attaque au sol, avion de reconnaissance.
 - **Marine** (chantier naval rubénien) : escorteur (bouclier antiaérien du groupe), frégate lance-missiles, sous-marin, porte-avions (3 chasseurs polyvalents).
-- **Logistique** : le centre logistique, le QG, le chantier de construction et le véhicule logistique ravitaillent les unités terrestres proches (réparation lente hors combat). Une unité hors de tout rayon depuis 30 secondes est isolée : −25 % de dégâts et de cadence, plus de réparation. Le véhicule logistique répare aussi vite, même au combat, les unités qui l'entourent.
-- **Bastion roulant** : la Battle Fortress à la rubénienne. Deux canons de 130 mm et des missiles qui ne tirent que si des fantassins sont à bord, ravitaillement embarqué (jamais isolé, ravitaille les unités autour), réparation autonome.
+- **Logistique** : le centre logistique, le QG, le chantier de construction, le véhicule logistique et le Bastion roulant ravitaillent les unités terrestres proches. Ravitaillées, elles sont les plus fortes du jeu (+10 % de dégâts, −10 % de dégâts reçus, réparation lente hors combat) ; sans ravitaillement, un peu en dessous de la moyenne (−10 % de dégâts, +10 % de dégâts reçus). Le bonus dure encore 10 secondes après la sortie du rayon. Le véhicule logistique répare aussi vite, même au combat, les unités qui l'entourent.
+- **Bastion roulant** : la Battle Fortress à la rubénienne. Deux canons de 130 mm et des missiles qui ne tirent que si des fantassins sont à bord, ravitaillement embarqué (toujours ravitaillé lui-même, ravitaille les unités autour), réparation autonome.
 - **Tunnelier** : livré avec 10 chasseurs antichars, il roule sous terre à mi-vitesse, invisible sauf pour les détecteurs sismiques (Éclaireur, véhicule de reconnaissance, QG, dômes radar). À l'arrêt, il émerge : 3 secondes immobile et vulnérable.
 - **QG rubénien** et pouvoirs de soutien :
   - **Contre-attaque éclair** : +40 % de vitesse et −25 % de temps de rechargement pendant 20 secondes, sur une zone.
@@ -61,7 +61,7 @@ make              # compile le moteur OpenRA (release-20231010) et le mod
 | `mods/fictifs/common/` | Règles partagées : factions, désignation laser, mandat présidentiel, IA |
 | `mods/fictifs/elielistan/` | Unités, armes, pouvoirs et sprites de l'Elielistan |
 | `mods/fictifs/rubenie/` | Unités, armes, défenses et sprites de la Rubénie |
-| `OpenRA.Mods.Fictifs/` | Code C# : Aguila Gate et Opération Taupe, Aguila Bridge, ordres prioritaires, vulnérabilité après largage, isolement logistique, Tunnelier, Mobilisation défensive, Supériorité aérienne |
+| `OpenRA.Mods.Fictifs/` | Code C# : Aguila Gate et Opération Taupe, Aguila Bridge, ordres prioritaires, vulnérabilité après largage, Tunnelier, Mobilisation défensive, Supériorité aérienne |
 | `tools/` | Scripts Python qui génèrent drapeaux, icônes et sprites |
 
 ## Crédits
