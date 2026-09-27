@@ -1,0 +1,43 @@
+# =====================================================================
+# PAYS FICTIFS — listes partagées de l'IA
+# Ces clés sont des listes uniques : un fichier qui les redéfinit écrase
+# les autres. Elles sont donc tenues ici, pour tous les pays à la fois :
+# listes de Red Alert (engine/mods/ra/rules/ai.yaml) + ajouts des pays.
+# Le reste de l'IA de chaque pays est dans <pays>/ia.yaml.
+# =====================================================================
+
+Player:
+	BaseBuilderBotModule@rush:
+		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub
+		ProductionTypes: barr,tent,weap, aerodromo, base.aerienne
+	BaseBuilderBotModule@normal:
+		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub
+		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne
+		NavalProductionTypes: spen, syrd, chantier.rub
+	BaseBuilderBotModule@turtle:
+		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub
+		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne
+		NavalProductionTypes: spen, syrd, chantier.rub
+	BaseBuilderBotModule@naval:
+		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub
+		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne
+		NavalProductionTypes: spen, syrd, chantier.rub
+	SquadManagerBotModule@rush:
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin
+		AirUnitsTypes: mig, yak, heli, hind, mh60, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
+	SquadManagerBotModule@normal:
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin
+		AirUnitsTypes: mig, yak, heli, hind, mh60, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque
+		NavalProductionTypes: spen, syrd, chantier.rub
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
+	SquadManagerBotModule@turtle:
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin
+		AirUnitsTypes: mig, yak, heli, hind, mh60, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque
+		NavalProductionTypes: spen, syrd, chantier.rub
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
+	SquadManagerBotModule@naval:
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin
+		AirUnitsTypes: mig, yak, heli, hind, mh60, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque
+		NavalProductionTypes: spen, syrd, chantier.rub
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub

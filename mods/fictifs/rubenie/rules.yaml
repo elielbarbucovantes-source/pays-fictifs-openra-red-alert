@@ -46,7 +46,7 @@ FUSILIER:
 	Tooltip:
 		Name: Fusilier rubénien
 	Health:
-		HP: 6000
+		HP: 5000
 	Mobile:
 		Speed: 50
 	Armament@PRIMARY:
@@ -70,7 +70,7 @@ GRENADIER:
 	Tooltip:
 		Name: Grenadier
 	Health:
-		HP: 5500
+		HP: 4800
 	Mobile:
 		Speed: 50
 	Armament@PRIMARY:
@@ -94,7 +94,7 @@ CHASSEUR.AT:
 	Tooltip:
 		Name: Chasseur antichar
 	Health:
-		HP: 5000
+		HP: 4400
 	Mobile:
 		Speed: 46
 	Armament@SECONDARY:
@@ -118,7 +118,7 @@ ECLAIREUR:
 	Tooltip:
 		Name: Éclaireur
 	Health:
-		HP: 3500
+		HP: 3100
 	Mobile:
 		Speed: 64
 	RevealsShroud:
@@ -165,7 +165,7 @@ SECOND.GALACTIQUE:
 	Tooltip:
 		Name: Second Galactique
 	Health:
-		HP: 15000
+		HP: 13000
 	Mobile:
 		Speed: 56
 	RevealsShroud:
@@ -207,7 +207,7 @@ SICATIENT:
 	Tooltip:
 		Name: « Si ça tient, touche à rien »
 	Health:
-		HP: 70000
+		HP: 60000
 	Mobile:
 		Speed: 56
 	Armament:
@@ -235,7 +235,7 @@ CONTREATTAQUE:
 	Tooltip:
 		Name: Char de contre-attaque
 	Health:
-		HP: 34000
+		HP: 30000
 	Mobile:
 		Speed: 128
 	Turreted:
@@ -260,7 +260,7 @@ FORTERESSE:
 	Tooltip:
 		Name: Char lourd de forteresse
 	Health:
-		HP: 130000
+		HP: 115000
 	Mobile:
 		Speed: 32
 	Armament@PRIMARY:
@@ -290,7 +290,7 @@ RECO.RUB:
 	Tooltip:
 		Name: Véhicule de reconnaissance
 	Health:
-		HP: 15000
+		HP: 13000
 	Mobile:
 		Speed: 150
 	RevealsShroud:
@@ -321,7 +321,7 @@ AA.RUB:
 	Tooltip:
 		Name: Véhicule antiaérien
 	Health:
-		HP: 18000
+		HP: 16000
 	Mobile:
 		Speed: 100
 	Armament@AA:
@@ -346,7 +346,7 @@ LANCEMISSILE:
 	Tooltip:
 		Name: Lance-missiles mobile
 	Health:
-		HP: 18000
+		HP: 16000
 	Armament:
 		Weapon: RubMissileBalistique
 
@@ -369,7 +369,7 @@ CANON.AUTO:
 	Tooltip:
 		Name: Canon automoteur
 	Health:
-		HP: 16000
+		HP: 14000
 	Armor:
 		Type: Heavy
 	Mobile:
@@ -393,7 +393,7 @@ ARTILLERIE.LOURDE:
 	Tooltip:
 		Name: Artillerie lourde
 	Health:
-		HP: 9000
+		HP: 8000
 	Mobile:
 		Speed: 28
 	RevealsShroud:
@@ -420,7 +420,7 @@ LRM:
 	Tooltip:
 		Name: Lance-roquettes multiple
 	Health:
-		HP: 12000
+		HP: 10500
 	Mobile:
 		Speed: 85
 	Armament:

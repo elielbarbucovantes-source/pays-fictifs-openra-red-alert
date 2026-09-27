@@ -1,7 +1,7 @@
 # =====================================================================
 # RUBÉNIE — intelligence artificielle
-# Les listes des modules de l'IA de Red Alert (engine/mods/ra/rules/ai.yaml)
-# sont reprises telles quelles, complétées des bâtiments et unités rubéniens.
+# Les listes de types (défenses, usines, avions, navires, protection)
+# partagées sont dans common/ia.yaml ; ici, ce qui est propre à la Rubénie.
 #
 # Volontairement laissés aux joueurs humains :
 #  - le Tunnelier (l'IA ne sait pas débarquer ses troupes) ;
@@ -13,7 +13,6 @@
 
 Player:
 	BaseBuilderBotModule@rush:
-		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub
 		BuildingLimits:
 			qg.rub: 1
 			centre.logistique: 2
@@ -25,9 +24,6 @@ Player:
 			tourelle.aa: 5
 			sam.rub: 3
 	BaseBuilderBotModule@normal:
-		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub
-		ProductionTypes: barr,tent,weap,afld,hpad, base.aerienne
-		NavalProductionTypes: spen, syrd, chantier.rub
 		BuildingLimits:
 			qg.rub: 1
 			centre.logistique: 2
@@ -43,9 +39,6 @@ Player:
 			tourelle.aa: 5
 			sam.rub: 2
 	BaseBuilderBotModule@turtle:
-		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub
-		ProductionTypes: barr,tent,weap,afld,hpad, base.aerienne
-		NavalProductionTypes: spen, syrd, chantier.rub
 		BuildingLimits:
 			qg.rub: 1
 			centre.logistique: 3
@@ -61,9 +54,6 @@ Player:
 			tourelle.aa: 6
 			sam.rub: 5
 	BaseBuilderBotModule@naval:
-		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub
-		ProductionTypes: barr,tent,weap,afld,hpad, base.aerienne
-		NavalProductionTypes: spen, syrd, chantier.rub
 		BuildingLimits:
 			qg.rub: 1
 			centre.logistique: 2
@@ -78,25 +68,6 @@ Player:
 			casemate.at: 12
 			tourelle.aa: 5
 			sam.rub: 5
-	SquadManagerBotModule@rush:
-		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, escorteur, fregate, sous.marin
-		AirUnitsTypes: mig, yak, heli, hind, mh60, chasseur.poly, intercepteur, avion.attaque
-		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
-	SquadManagerBotModule@normal:
-		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, escorteur, fregate, sous.marin
-		AirUnitsTypes: mig, yak, heli, hind, mh60, chasseur.poly, intercepteur, avion.attaque
-		NavalProductionTypes: spen, syrd, chantier.rub
-		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
-	SquadManagerBotModule@turtle:
-		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, escorteur, fregate, sous.marin
-		AirUnitsTypes: mig, yak, heli, hind, mh60, chasseur.poly, intercepteur, avion.attaque
-		NavalProductionTypes: spen, syrd, chantier.rub
-		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
-	SquadManagerBotModule@naval:
-		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, escorteur, fregate, sous.marin
-		AirUnitsTypes: mig, yak, heli, hind, mh60, chasseur.poly, intercepteur, avion.attaque
-		NavalProductionTypes: spen, syrd, chantier.rub
-		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
 	UnitBuilderBotModule@rush:
 		UnitsToBuild:
 			bastion: 8

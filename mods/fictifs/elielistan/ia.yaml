@@ -1,0 +1,150 @@
+# =====================================================================
+# ELIELISTAN — intelligence artificielle
+# Les listes de types (défenses, usines, avions, navires, protection)
+# partagées sont dans common/ia.yaml ; ici, ce qui est propre à l'Elielistan.
+#
+# Volontairement laissés aux joueurs humains :
+#  - le Cóndor, l'Aguila Carrier, le Pelícano et le porte-avions Aguila
+#    (l'IA ne sait ni accrocher, ni charger, ni débarquer, ni apponter) ;
+#  - l'antenne de gouvernement provisoire et les tranchées ;
+#  - l'Aguila Bridge et l'Aguila Gate (pouvoirs à deux clics).
+# =====================================================================
+
+Player:
+	BaseBuilderBotModule@rush:
+		BuildingLimits:
+			palacio: 1
+		BuildingFractions:
+			palacio: 1
+	BaseBuilderBotModule@normal:
+		BuildingLimits:
+			palacio: 1
+			aerodromo: 3
+		BuildingFractions:
+			palacio: 1
+			aerodromo: 3
+	BaseBuilderBotModule@turtle:
+		BuildingLimits:
+			palacio: 1
+			aerodromo: 2
+		BuildingFractions:
+			palacio: 1
+			aerodromo: 2
+	BaseBuilderBotModule@naval:
+		BuildingLimits:
+			palacio: 1
+			aerodromo: 8
+		BuildingFractions:
+			palacio: 1
+			aerodromo: 15
+	UnitBuilderBotModule@rush:
+		UnitsToBuild:
+			aguila: 65
+			cazador: 30
+			gavilan: 25
+			halcon: 25
+			jaguar: 50
+			trueno: 15
+			vigia: 20
+			carro.aguila: 30
+			aguila.nuclear: 10
+			nathan: 5
+	UnitBuilderBotModule@normal:
+		UnitsToBuild:
+			aguila: 65
+			cazador: 30
+			explorador: 5
+			nathan: 5
+			gavilan: 20
+			halcon: 30
+			jaguar: 50
+			trueno: 20
+			vigia: 25
+			carro.aguila: 40
+			aguila.nuclear: 15
+			lanzador: 10
+			avispa: 10
+			pico: 10
+			garra: 10
+			harpia: 20
+			bombardier.tactique: 10
+			b2.spirit: 5
+			kirov: 5
+			centinela: 10
+			tormenta: 10
+			tiburon: 10
+		UnitLimits:
+			explorador: 2
+			nathan: 2
+	UnitBuilderBotModule@turtle:
+		UnitsToBuild:
+			aguila: 65
+			cazador: 30
+			nathan: 5
+			gavilan: 15
+			halcon: 30
+			jaguar: 40
+			trueno: 25
+			vigia: 25
+			carro.aguila: 40
+			aguila.nuclear: 15
+			lanzador: 15
+			pico: 10
+			garra: 10
+			harpia: 15
+			kirov: 5
+			centinela: 10
+			tormenta: 10
+			tiburon: 10
+		UnitLimits:
+			nathan: 2
+	UnitBuilderBotModule@naval:
+		UnitsToBuild:
+			harpia: 30
+			garra: 15
+			b2.spirit: 5
+			centinela: 30
+			tormenta: 20
+			tiburon: 20
+	# Pouvoirs du palais et de l'héliport que l'IA sait utiliser.
+	SupportPowerBotModule:
+		Decisions:
+			elielistanorden:
+				OrderName: ElielistanPriorityOrder
+				MinimumAttractiveness: 8
+				Consideration@1:
+					Against: Ally
+					Types: GroundActor
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 3c0
+				Consideration@2:
+					Against: Enemy
+					Types: GroundActor, Structure
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 7c0
+			elielistanojo:
+				OrderName: ElielistanOjo
+				MinimumAttractiveness: 2000
+				Consideration@1:
+					Against: Enemy
+					Types: GroundActor, Structure
+					Attractiveness: 1
+					TargetMetric: Value
+					CheckRadius: 10c0
+			elielistanstrike:
+				OrderName: ElielistanAguilaStrike
+				MinimumAttractiveness: 2000
+				Consideration@1:
+					Against: Enemy
+					Types: GroundActor, Structure
+					Attractiveness: 1
+					TargetMetric: Value
+					CheckRadius: 3c0
+				Consideration@2:
+					Against: Ally
+					Types: GroundActor, Structure
+					Attractiveness: -3
+					TargetMetric: Value
+					CheckRadius: 4c0

@@ -58,9 +58,9 @@ QG.RUB:
 		Cursor: nuke
 		IconImage: rubenie-powers
 		Icon: precision
-		ChargeInterval: 6000
+		ChargeInterval: 9000
 		Name: Frappe de précision
-		Description: Un missile de croisière frappe un point précis.\nDétruit presque n'importe quel bâtiment,\nmais n'abîme presque rien autour.
+		Description: Un missile de croisière frappe un point précis.\nDétruit en un coup les petits bâtiments (centrales, casernes…),\nendommage lourdement les grands.\nN'abîme presque rien autour.
 		SelectTargetSpeechNotification: SelectTarget
 		SelectTargetTextNotification: Choisissez la cible.
 		EndChargeTextNotification: Frappe de précision prête.

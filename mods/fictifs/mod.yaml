@@ -60,12 +60,14 @@ Rules:
 	ra|rules/ships.yaml
 	ra|rules/fakes.yaml
 	fictifs|common/rules.yaml
+	fictifs|common/ia.yaml
 	fictifs|elielistan/rules.yaml
 	fictifs|elielistan/powers.yaml
 	fictifs|elielistan/projection.yaml
 	fictifs|elielistan/marine.yaml
 	fictifs|elielistan/defenses.yaml
 	fictifs|elielistan/speciaux.yaml
+	fictifs|elielistan/ia.yaml
 	fictifs|rubenie/rules.yaml
 	fictifs|rubenie/defenses.yaml
 	fictifs|rubenie/aviation.yaml

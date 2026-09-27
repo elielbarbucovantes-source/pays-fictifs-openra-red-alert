@@ -158,7 +158,7 @@ VEHICULE.LOGISTIQUE:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Health:
-		HP: 20000
+		HP: 17500
 	Armor:
 		Type: Light
 	Mobile:

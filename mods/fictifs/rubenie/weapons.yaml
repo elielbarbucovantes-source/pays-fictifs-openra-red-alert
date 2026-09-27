@@ -29,10 +29,14 @@ RubMissileAT:
 	Warhead@1Dam: SpreadDamage
 		Damage: 5500
 
-# Éclaireur : pistole silencieux, pour se défendre seulement.
+# Éclaireur : pistolet silencieux, pour se défendre seulement
+# (le PPK de l'espion tue d'une balle : dégâts ramenés à un tir d'autodéfense).
 RubPistolet:
 	Inherits: SilencedPPK
 	Range: 4c0
+	ReloadDelay: 30
+	Warhead@1Dam: SpreadDamage
+		Damage: 800
 
 # Second Galactique : décharge Tesla affaiblie (il est aussi officier).
 SecondGalactiqueTesla:
@@ -219,7 +223,7 @@ RubFrappePrecision:
 	ValidTargets: Ground, Water, GroundActor, WaterActor, Trees
 	Warhead@1Dam: SpreadDamage
 		Spread: 256
-		Damage: 90000
+		Damage: 60000
 		Falloff: 100, 20, 5, 0
 		ValidTargets: GroundActor, WaterActor, Trees
 	Warhead@2Smu: LeaveSmudge

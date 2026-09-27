@@ -32,7 +32,7 @@ TUNNELIER:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Health:
-		HP: 60000
+		HP: 52000
 	Armor:
 		Type: Heavy
 	Mobile:
