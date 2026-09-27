@@ -1,0 +1,12 @@
+Pays fictifs — mod pour OpenRA (Red Alert)
+
+Conception et direction : Leile
+Code et règles : Leile, avec Claude (Anthropic)
+
+Basé sur l'OpenRA Mod SDK et sur Red Alert d'OpenRA.
+Sprites des drones et du pont repris du mod « Mod moderne » (ratc) de Leile.
+Sprites de la tranchée, du camion porte-chars, du porte-avions, du sous-marin et du Harrier
+repris du mod « Mod moderne » (ratc).
+Sprites du tireur d'élite (Nathan), du B-2, du bombardier tactique, du Kirov et des bombes
+repris de la carte « Europe: WW3 Final Edition [BI-4.8] » (Trump, H, Therapist et autres),
+via son import dans le mod ratc.

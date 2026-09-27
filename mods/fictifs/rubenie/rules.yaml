@@ -1,0 +1,429 @@
+# =====================================================================
+# RUBÉNIE — unités terrestres
+# « Si ça tient, touche à rien. »
+#
+# Doctrine défensive : des unités plus solides et plus lentes que celles
+# de l'Elielistan, un peu plus chères, qui gagnent les combats qui durent.
+# La Rubénie construit la base soviétique ; sa caserne et son usine
+# produisent ses propres unités (voir common/rules.yaml).
+#
+# Aviation : aviation.yaml. Marine : marine.yaml. Logistique : logistique.yaml.
+# Tunnelier : tunnelier.yaml. QG et pouvoirs : defenses.yaml, pouvoirs.yaml.
+# =====================================================================
+
+^RubenieDoctrine:
+	# Aura du Second Galactique : +15 % de dégâts, −15 % de dégâts reçus.
+	ExternalCondition@GALACTIQUE:
+		Condition: second-galactique
+	FirepowerMultiplier@GALACTIQUE:
+		RequiresCondition: second-galactique
+		Modifier: 115
+	DamageMultiplier@GALACTIQUE:
+		RequiresCondition: second-galactique
+		Modifier: 85
+	WithDecoration@GALACTIQUE:
+		Image: pips
+		Sequence: pip-blue
+		Position: TopLeft
+		RequiresCondition: second-galactique
+
+# ---------------------------------------------------------------------
+# INFANTERIE (caserne soviétique)
+# ---------------------------------------------------------------------
+FUSILIER:
+	Inherits: E1
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: e1
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~infantry.rubenie, ~techlevel.infonly
+		Description: Infanterie de base, solide mais lente.\nÀ son meilleur dans une tranchée ou un bunker.\n  Fort contre : infanterie\n  Faible contre : véhicules, aviation
+	Selectable:
+		Class: fusilier
+	Valued:
+		Cost: 120
+	Tooltip:
+		Name: Fusilier rubénien
+	Health:
+		HP: 6000
+	Mobile:
+		Speed: 50
+	Armament@PRIMARY:
+		Weapon: RubFusil
+	Armament@GARRISONED:
+		Weapon: RubFusil
+
+GRENADIER:
+	Inherits: E2
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: e2
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~infantry.rubenie, ~techlevel.infonly
+		Description: Lance des grenades à zone d'effet élargie.\nRedoutable contre les groupes, en ville et dans les tranchées.\n  Fort contre : infanterie, bâtiments\n  Faible contre : véhicules, aviation
+	Selectable:
+		Class: grenadier
+	Valued:
+		Cost: 180
+	Tooltip:
+		Name: Grenadier
+	Health:
+		HP: 5500
+	Mobile:
+		Speed: 50
+	Armament@PRIMARY:
+		Weapon: RubGrenade
+	Armament@GARRISONED:
+		Weapon: RubGrenade
+
+CHASSEUR.AT:
+	Inherits: E3
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: e3
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~infantry.rubenie, ~techlevel.infonly
+		Description: Missile antichar à longue portée, lent à recharger.\nIdéal en embuscade ou depuis un bunker.\n  Fort contre : véhicules, aviation\n  Faible contre : infanterie
+	Selectable:
+		Class: chasseur.at
+	Valued:
+		Cost: 350
+	Tooltip:
+		Name: Chasseur antichar
+	Health:
+		HP: 5000
+	Mobile:
+		Speed: 46
+	Armament@SECONDARY:
+		Weapon: RubMissileAT
+	Armament@GARRISONED:
+		Weapon: RubMissileAT
+
+ECLAIREUR:
+	Inherits: E1
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: spy
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: ~infantry.rubenie, dome, ~techlevel.low
+		Description: Éclaireur camouflé. Très grande vision,\ndétecte les unités furtives et le Tunnelier sous terre.\nInvisible à l'arrêt ; ne tire que pour se défendre.\n  Faible contre : tout
+	Selectable:
+		Class: eclaireur
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: Éclaireur
+	Health:
+		HP: 3500
+	Mobile:
+		Speed: 64
+	RevealsShroud:
+		Range: 10c0
+	DetectCloaked:
+		Range: 7c0
+	DetectCloaked@SISMIQUE:
+		DetectionTypes: Seismic
+		Range: 7c0
+	Armament@PRIMARY:
+		Weapon: RubPistolet
+	# Le sprite d'espion n'a ni flammes de garnison ni pose de parachute.
+	-Armament@GARRISONED:
+	WithInfantryBody@PARACHUTE:
+		StandSequences: stand
+	AutoTarget:
+		InitialStance: ReturnFire
+		InitialStanceAI: ReturnFire
+	Cloak:
+		InitialDelay: 75
+		CloakDelay: 75
+		CloakSound: appear1.aud
+		UncloakSound: appear1.aud
+		IsPlayerPalette: true
+		UncloakOn: Attack, Move, Load, Unload, Dock, Damage
+
+# Second Galactique : à la fois officier (aura sur les unités rubéniennes
+# proches) et combattant d'élite (Tesla, charges de démolition), chaque
+# rôle étant moins fort que celui d'une unité spécialisée.
+SECOND.GALACTIQUE:
+	Inherits: SHOK
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: shok
+	Buildable:
+		BuildPaletteOrder: 50
+		BuildLimit: 1
+		Prerequisites: ~infantry.rubenie, qg.rub, ~techlevel.high
+		Description: Officier d'élite. 1 exemplaire maximum.\nAura (5 cases) : unités rubéniennes +15 % de dégâts,\n−15 % de dégâts reçus.\nDécharge Tesla, pose des charges de démolition.\n  Fort contre : infanterie, bâtiments\n  Faible contre : véhicules, aviation\n  Requiert : QG rubénien
+	Selectable:
+		Class: second.galactique
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Second Galactique
+	Health:
+		HP: 15000
+	Mobile:
+		Speed: 56
+	RevealsShroud:
+		Range: 7c0
+	Armament@PRIMARY:
+		Weapon: SecondGalactiqueTesla
+	Armament@GARRISONED:
+		Weapon: SecondGalactiqueTesla
+	Demolition:
+		DetonationDelay: 45
+		Voice: Attack
+	ProximityExternalCondition@GALACTIQUE:
+		Condition: second-galactique
+		Range: 5c0
+	WithRangeCircle@GALACTIQUE:
+		Type: second-galactique
+		Range: 5c0
+		Color: 4080FF80
+		Visible: WhenSelected
+
+# ---------------------------------------------------------------------
+# CHARS (usine soviétique)
+# ---------------------------------------------------------------------
+# « Si ça tient, touche à rien » : char de bataille principal. Fiabilité
+# avant mobilité : blindage élevé et réparation autonome hors combat.
+SICATIENT:
+	Inherits: 3TNK
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: 3tnk
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~vehicles.rubenie, fix, ~techlevel.medium
+		Description: Char de bataille principal. Canon de 115 mm, gros blindage.\nSe répare seul hors combat (jusqu'à 75 %), sauf s'il est isolé.\n  Fort contre : blindés, véhicules\n  Faible contre : infanterie, aviation
+	Selectable:
+		Class: sicatient
+	Valued:
+		Cost: 1350
+	Tooltip:
+		Name: « Si ça tient, touche à rien »
+	Health:
+		HP: 70000
+	Mobile:
+		Speed: 56
+	Armament:
+		Weapon: Rub115mm
+	ChangesHealth@FIABLE:
+		RequiresCondition: !isolee
+		Step: 300
+		Delay: 25
+		StartIfBelow: 75
+		DamageCooldown: 200
+
+# Char de contre-attaque : sortir, frapper, rentrer.
+CONTREATTAQUE:
+	Inherits: 1TNK
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: leclerc
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~vehicles.rubenie, ~techlevel.low
+		Description: Char rapide pour les contre-attaques :\nsortir, frapper, se replier. Canon de 90 mm à cadence rapide.\nBlindage léger pour un char.\n  Fort contre : véhicules, blindés\n  Faible contre : infanterie, aviation
+	Selectable:
+		Class: contreattaque
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Char de contre-attaque
+	Health:
+		HP: 34000
+	Mobile:
+		Speed: 128
+	Turreted:
+		TurnSpeed: 32
+	Armament:
+		Weapon: RubContreAttaque90mm
+
+# Char lourd de forteresse : conçu pour tenir un point.
+FORTERESSE:
+	Inherits: 4TNK
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: 4tnk
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: ~vehicles.rubenie, fix, stek, ~techlevel.high
+		Description: Char lourd défensif. Blindage extrême, canon de 140 mm\net missiles antichars/antiaériens. Très lent.\nSe répare seul hors combat (jusqu'à 50 %), sauf s'il est isolé.\n  Fort contre : blindés, infanterie, aviation\n  Faible contre : artillerie
+	Selectable:
+		Class: forteresse
+	Valued:
+		Cost: 2600
+	Tooltip:
+		Name: Char lourd de forteresse
+	Health:
+		HP: 130000
+	Mobile:
+		Speed: 32
+	Armament@PRIMARY:
+		Weapon: RubForteresse140mm
+	ChangesHealth@FIABLE:
+		RequiresCondition: !isolee
+		Step: 400
+		Delay: 25
+		StartIfBelow: 50
+		DamageCooldown: 200
+
+# ---------------------------------------------------------------------
+# VÉHICULES (usine soviétique)
+# ---------------------------------------------------------------------
+RECO.RUB:
+	Inherits: JEEP
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: jeep
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~vehicles.rubenie, ~techlevel.low
+		Description: Véhicule de reconnaissance rapide.\nGrande vision, détecte les unités furtives\net le Tunnelier sous terre, transporte 2 fantassins.\n  Fort contre : infanterie\n  Faible contre : blindés
+	Selectable:
+		Class: reco.rub
+	Valued:
+		Cost: 450
+	Tooltip:
+		Name: Véhicule de reconnaissance
+	Health:
+		HP: 15000
+	Mobile:
+		Speed: 150
+	RevealsShroud:
+		Range: 9c0
+	DetectCloaked:
+		Range: 5c0
+	DetectCloaked@SISMIQUE:
+		DetectionTypes: Seismic
+		Range: 5c0
+	Armament:
+		Weapon: RubRecoMG
+	Cargo:
+		MaxWeight: 2
+
+AA.RUB:
+	Inherits: FTRK
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: ftrk
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: ~vehicles.rubenie, ~techlevel.low
+		Description: Défense antiaérienne mobile. Canons de 30 mm à longue portée.\nProtège convois, chars, artillerie et bases avancées.\n  Fort contre : aviation\n  Faible contre : blindés
+	Selectable:
+		Class: aa.rub
+	Valued:
+		Cost: 700
+	Tooltip:
+		Name: Véhicule antiaérien
+	Health:
+		HP: 18000
+	Mobile:
+		Speed: 100
+	Armament@AA:
+		Weapon: RubFlakAA
+	Armament@AG:
+		Weapon: RubFlakAG
+
+# Lance-missiles mobile : tirer, déménager, tirer.
+LANCEMISSILE:
+	Inherits: V2RL
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: v2rl
+	Buildable:
+		BuildPaletteOrder: 70
+		Prerequisites: ~vehicles.rubenie, stek, ~techlevel.high
+		Description: Missile balistique à très longue portée (13 cases).\nRechargement lent : tirer, changer de position, tirer.\n  Fort contre : bâtiments, infanterie\n  Faible contre : tout au contact, aviation
+	Selectable:
+		Class: lancemissile
+	Valued:
+		Cost: 1300
+	Tooltip:
+		Name: Lance-missiles mobile
+	Health:
+		HP: 18000
+	Armament:
+		Weapon: RubMissileBalistique
+
+# ---------------------------------------------------------------------
+# ARTILLERIE (usine soviétique)
+# ---------------------------------------------------------------------
+CANON.AUTO:
+	Inherits: ARTY
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: pzh
+	Buildable:
+		BuildPaletteOrder: 50
+		Prerequisites: ~vehicles.rubenie, dome, ~techlevel.medium
+		Description: Artillerie automotrice. Obus de 152 mm à 11 cases.\nAssez mobile pour suivre les blindés.\n  Fort contre : infanterie, bâtiments\n  Faible contre : blindés rapides, aviation
+	Selectable:
+		Class: canon.auto
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Canon automoteur
+	Health:
+		HP: 16000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 72
+	Armament:
+		Weapon: RubObus152
+
+ARTILLERIE.LOURDE:
+	Inherits: ARTY
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: m777
+	Buildable:
+		BuildPaletteOrder: 80
+		Prerequisites: ~vehicles.rubenie, stek, ~techlevel.high
+		Description: Artillerie lourde tractée. Portée extrême (18 cases),\ndégâts énormes, cadence très lente.\nPresque immobile et très vulnérable : à protéger.\n  Fort contre : bâtiments, concentrations\n  Faible contre : tout au contact, aviation
+	Selectable:
+		Class: artillerie.lourde
+	Valued:
+		Cost: 1600
+	Tooltip:
+		Name: Artillerie lourde
+	Health:
+		HP: 9000
+	Mobile:
+		Speed: 28
+	RevealsShroud:
+		MinRange: 3c0
+		Range: 4c0
+	RevealsShroud@GAPGEN:
+		Range: 3c0
+	Armament:
+		Weapon: RubObusLourd
+
+LRM:
+	Inherits: ARTY
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: katy
+	Buildable:
+		BuildPaletteOrder: 55
+		Prerequisites: ~vehicles.rubenie, dome, ~techlevel.medium
+		Description: Lance-roquettes multiple. Salve de 12 roquettes\nsur une zone, puis long rechargement.\n  Fort contre : infanterie, concentrations, convois\n  Faible contre : blindés, aviation
+	Selectable:
+		Class: lrm
+	Valued:
+		Cost: 1100
+	Tooltip:
+		Name: Lance-roquettes multiple
+	Health:
+		HP: 12000
+	Mobile:
+		Speed: 85
+	Armament:
+		Weapon: RubRoquettes

@@ -1,0 +1,275 @@
+# =====================================================================
+# ELIELISTAN — projection de force
+# « La Rubénie défend son territoire. L'Elielistan amène le sien avec lui. »
+#
+# Aguila Nuclear (char lourd à réacteur), Aguila Carrier (camion porte-chars),
+# Aeródromo, Harpía (avion embarqué), Pelícano (avion de largage).
+#
+# Chargement : un fantassin occupe 1 place, un char (Carro Aguila,
+# Aguila Nuclear) en occupe 3. Pelícano et porte-avions : 15 places
+# (15 fantassins OU 5 chars) ; Aguila Carrier : 5 chars.
+# =====================================================================
+
+# Char largué en parachute (Pelícano) : 4 secondes de vulnérabilité après
+# l'atterrissage, comme un véhicule largué par le Cóndor.
+^LargageLourd:
+	GrantTimedConditionOnConditionEnd@LARGAGE:
+		RequiresCondition: parachute
+		Condition: largage
+		Duration: 100
+	DamageMultiplier@LARGAGE:
+		RequiresCondition: largage
+		Modifier: 150
+	SpeedMultiplier@LARGAGE:
+		RequiresCondition: largage
+		Modifier: 50
+	WithDecoration@LARGAGE:
+		Image: pips
+		Sequence: pip-yellow
+		Position: TopRight
+		RequiresCondition: largage
+
+CARRO.AGUILA:
+	Inherits@LARGAGE: ^LargageLourd
+	Passenger:
+		CargoType: Char
+		Weight: 3
+	AttackTurreted:
+		PauseOnCondition: largage
+
+# ---------------------------------------------------------------------
+# AGUILA NUCLEAR — le paradoxe elielistanais : un char qui devrait être
+# lent, mais qui ne l'est pas. Arriver, détruire, repartir.
+# ---------------------------------------------------------------------
+AGUILA.NUCLEAR:
+	Inherits: 4TNK
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	Inherits@LARGAGE: ^LargageLourd
+	RenderSprites:
+		Image: aguila.nuclear
+	Buildable:
+		Queue: Vehicle
+		BuildPaletteOrder: 65
+		Prerequisites: ~vehicles.elielistan, fix, atek, ~techlevel.high
+		Description: Char lourd à réacteur nucléaire compact.\nBlindage de char lourd, canon de 125 mm, vitesse de char léger.\nDétruit : petite détonation nucléaire, puis zone contaminée\npendant 10 secondes (touche aussi vos unités !).\nTrop lourd pour le Cóndor.\n  Fort contre : blindés, bâtiments\n  Faible contre : infanterie, aviation
+	Valued:
+		Cost: 2600
+	Tooltip:
+		Name: Aguila Nuclear
+	Health:
+		HP: 70000
+	Mobile:
+		Speed: 110
+		TurnSpeed: 16
+		Locomotor: tracked
+	Turreted:
+		TurnSpeed: 20
+	Armament@PRIMARY:
+		Weapon: AguilaNuclear125
+	-Armament@SECONDARY:
+	-ChangesHealth:
+	AttackTurreted:
+		PauseOnCondition: largage
+	Passenger:
+		CargoType: Char
+		Weight: 3
+	Explodes:
+		Weapon: AguilaReactorBlast
+		EmptyWeapon: AguilaReactorBlast
+	SpawnActorOnDeath@RADIATION:
+		Actor: zone.radioactive.1
+
+# Zone contaminée : chaîne de 5 acteurs invisibles de 2 secondes chacun ;
+# chacun libère une impulsion en disparaissant et laisse place au suivant.
+^ZoneRadioactive:
+	Interactable:
+	AlwaysVisible:
+	BodyOrientation:
+		QuantizedFacings: 1
+	Immobile:
+		OccupiesSpace: false
+	Health:
+		HP: 100
+	HitShape:
+	KillsSelf:
+		Delay: 50
+	Explodes:
+		Weapon: AguilaRadiationPulse
+		EmptyWeapon: AguilaRadiationPulse
+
+ZONE.RADIOACTIVE.1:
+	Inherits: ^ZoneRadioactive
+	SpawnActorOnDeath:
+		Actor: zone.radioactive.2
+
+ZONE.RADIOACTIVE.2:
+	Inherits: ^ZoneRadioactive
+	SpawnActorOnDeath:
+		Actor: zone.radioactive.3
+
+ZONE.RADIOACTIVE.3:
+	Inherits: ^ZoneRadioactive
+	SpawnActorOnDeath:
+		Actor: zone.radioactive.4
+
+ZONE.RADIOACTIVE.4:
+	Inherits: ^ZoneRadioactive
+	SpawnActorOnDeath:
+		Actor: zone.radioactive.5
+
+ZONE.RADIOACTIVE.5:
+	Inherits: ^ZoneRadioactive
+
+# ---------------------------------------------------------------------
+# AGUILA CARRIER — camion blindé porte-chars, sans arme.
+# Détruit avec ses chars à bord : les chars sont perdus.
+# ---------------------------------------------------------------------
+AGUILA.CARRIER:
+	Inherits: ^Vehicle
+	Inherits@selection: ^SelectableSupportUnit
+	Inherits@CARGOPIPS: ^CargoPips
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: aguila.carrier
+	Buildable:
+		Queue: Vehicle
+		BuildPaletteOrder: 67
+		Prerequisites: ~vehicles.elielistan, fix, ~techlevel.medium
+		Description: Transporteur blindé de chars. Aucune arme.\nEmporte 5 chars (Carro Aguila, Aguila Nuclear)\net les débarque presque instantanément.\nS'il est détruit, les chars à bord sont perdus : à escorter.\nCompatible avec l'Aguila Gate.\n  Transporte : 5 chars
+	Valued:
+		Cost: 1800
+	Tooltip:
+		Name: Aguila Carrier
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 60000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 90
+		TurnSpeed: 12
+		PauseOnCondition: notmobile || being-captured
+	RevealsShroud:
+		Range: 5c0
+	Cargo:
+		Types: Char
+		MaxWeight: 15
+		LoadingCondition: notmobile
+		EjectOnDeath: false
+		BeforeUnloadDelay: 2
+		AfterUnloadDelay: 5
+		AfterLoadDelay: 4
+	WithCargoPipsDecoration:
+		PipCount: 5
+	# Pas de camion dans un transport.
+	Passenger:
+		CargoType: CamionPorteChars
+		Weight: 15
+
+# ---------------------------------------------------------------------
+# AERÓDROMO — produit et réarme les avions elielistanais.
+# ---------------------------------------------------------------------
+AERODROMO:
+	Inherits: AFLD
+	RenderSprites:
+		Image: afld
+	Buildable:
+		BuildPaletteOrder: 131
+		Prerequisites: dome, ~structures.elielistan, ~techlevel.medium
+		Description: Produit, répare et réarme les avions :\nHarpía (avion d'attaque) et Pelícano (avion de largage).\nLe Pelícano s'y pose pour embarquer ses troupes.
+	Tooltip:
+		Name: Aeródromo
+	ProvidesPrerequisite@buildingname:
+		Prerequisite: aerodromo
+	-AirstrikePower@spyplane:
+	-ParatroopersPower@paratroopers:
+	-AirstrikePower@parabombs:
+	-InfiltrateForSupportPower:
+
+# ---------------------------------------------------------------------
+# HARPÍA — avion d'attaque à décollage vertical, embarquable sur le
+# porte-avions Aguila (5 places). À court de munitions, il rentre seul
+# au porte-avions ou à l'aérodrome le plus proche.
+# ---------------------------------------------------------------------
+HARPIA:
+	Inherits: MIG
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: harpia
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: ~aerodromo, ~techlevel.medium
+		Description: Avion d'attaque à décollage vertical. Missiles air-sol.\nPeut apponter sur le porte-avions Aguila (clic droit dessus).\nÀ court de munitions, rentre seul se réarmer.\n  Fort contre : véhicules, navires, bâtiments\n  Faible contre : infanterie, aviation
+	Valued:
+		Cost: 1600
+	Tooltip:
+		Name: Harpía
+	Armament:
+		Weapon: HarpiaMissile
+	Rearmable:
+		RearmActors: aerodromo, porta.aguila
+	CarrierAircraft:
+
+# ---------------------------------------------------------------------
+# PELÍCANO — avion de transport stratégique.
+# Se pose à l'aérodrome pour embarquer 15 fantassins OU 5 chars ;
+# clic droit au sol : il va larguer tout son chargement en parachute,
+# puis rentre à l'aérodrome. 60 secondes avant de pouvoir relarguer.
+# ---------------------------------------------------------------------
+PELICANO:
+	Inherits: ^Plane
+	Inherits@CARGOPIPS: ^CargoPips
+	RenderSprites:
+		Image: pelicano
+	Buildable:
+		Queue: Aircraft
+		BuildAtProductionType: Plane
+		BuildPaletteOrder: 70
+		Prerequisites: ~aerodromo, atek, ~techlevel.high
+		Description: Avion de transport stratégique. Aucune arme.\nPosé à l'aérodrome : 15 fantassins OU 5 chars montent à bord.\nClic droit au sol : largage en parachute de tout le chargement\n(Alt + clic : simple déplacement). 60 s avant le largage suivant.\nChars vulnérables 4 s après l'atterrissage. Abattu = chargement perdu.\n  Faible contre : chasseurs, défense antiaérienne
+	Valued:
+		Cost: 2500
+	Tooltip:
+		Name: Pelícano
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 30000
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 7c0
+		Type: GroundPosition
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+		Type: GroundPosition
+	Aircraft:
+		CruiseAltitude: 2560
+		TurnSpeed: 12
+		Speed: 150
+		RepulsionSpeed: 40
+		MaximumPitch: 56
+		IdleBehavior: ReturnToBase
+	Rearmable:
+		RearmActors: aerodromo
+	Cargo:
+		Types: Infantry, Char
+		MaxWeight: 15
+		EjectOnDeath: false
+	WithCargoPipsDecoration:
+		PipCount: 15
+	ParaDropOnOrder:
+		ChuteSound: chute1.aud
+		Cooldown: 1500
+	Selectable:
+		Bounds: 1536, 1194, 0, 85
+		DecorationBounds: 1706, 1237, 0, 42
+	Contrail@1:
+		Offset: -432,560,0
+		StartColorAlpha: 128
+	Contrail@2:
+		Offset: -432,-560,0
+		StartColorAlpha: 128
+	SpawnActorOnDeath:
+		Actor: BADR.Husk

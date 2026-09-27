@@ -1,0 +1,22 @@
+# Drapeaux du salon : ceux de Red Alert + les pays fictifs (tools/drapeaux.py).
+flags:
+	Image: fictifs|uibits/flags.png
+	Image2x: fictifs|uibits/flags-2x.png
+	Image3x: fictifs|uibits/flags-3x.png
+	Regions:
+		england: 0, 0, 30, 15
+		germany: 0, 16, 30, 15
+		france: 0, 32, 30, 15
+		spain: 0, 48, 30, 15
+		turkey: 0, 64, 30, 15
+		greece: 0, 80, 30, 15
+		ukraine: 0, 96, 30, 15
+		russia: 0, 112, 30, 15
+		allies: 0, 128, 30, 15
+		soviet: 0, 144, 30, 15
+		RandomSoviet: 0, 160, 30, 15
+		RandomAllies: 0, 176, 30, 15
+		Random: 0, 192, 30, 15
+		elielistan: 0, 208, 30, 15
+		rubenie: 0, 224, 30, 15
+		spectator: 0, 192, 30, 15

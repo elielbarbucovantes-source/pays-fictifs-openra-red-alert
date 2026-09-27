@@ -1,0 +1,228 @@
+# =====================================================================
+# ELIELISTAN — palais présidentiel et pouvoirs de soutien
+#
+# La chaîne idéale :
+#   Ojo del Aguila (trouver la faiblesse) → Aguila Gate (ouvrir un passage)
+#   → raid → retraite par le même tunnel.
+# =====================================================================
+
+PALACIO:
+	Inherits: ^Building
+	Inherits@IDISABLE: ^DisableOnLowPower
+	Inherits@shape: ^2x2Shape
+	Selectable:
+		Bounds: 2048, 2048
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 145
+		BuildLimit: 1
+		Prerequisites: dome, ~structures.elielistan, ~techlevel.medium
+		Description: Siège du pouvoir elielistanais. 1 exemplaire maximum.\nPouvoirs : Ojo del Aguila, Aguila Bridge, ordres prioritaires,\nAguila Gate (avec le centre technique).
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Palacio Presidencial
+	Building:
+		Footprint: xx xx ==
+		Dimensions: 2,3
+		LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 80000
+	Armor:
+		Type: Wood
+	RevealsShroud:
+		MinRange: 4c0
+		Range: 6c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 4c0
+	WithBuildingBib:
+	Power:
+		Amount: -150
+	SupportPowerChargeBar:
+	ProvidesPrerequisite@buildingname:
+	GrantConditionWhilePriorityOrdersRemain:
+		Condition: ordres-disponibles
+	# Ordre prioritaire : le président impose une priorité absolue sur une zone.
+	# 10 ordres par quinquennat (15 minutes), une fois par minute au plus.
+	PriorityOrderPower@ORDEN:
+		OrderName: ElielistanPriorityOrder
+		RequiresCondition: ordres-disponibles
+		PauseOnCondition: disabled
+		IconImage: elielistan-powers
+		Icon: orden
+		ChargeInterval: 1500
+		Name: Ordre prioritaire
+		Description: Pendant 30 secondes, les unités elielistanaises de la zone\ngagnent +25 % de vitesse, de puissance de feu et de cadence.\n10 ordres par quinquennat (15 minutes de jeu).
+		Condition: ordre-prioritaire
+		Duration: 750
+		Sequence: idle
+		Dimensions: 7, 7
+		Footprint: __xxx__ _xxxxx_ xxxxxxx xxxxxxx xxxxxxx _xxxxx_ __xxx__
+		OnFireSound: ironcur9.aud
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez la zone.
+		EndChargeTextNotification: Ordre prioritaire disponible.
+		OrdersLeftTextNotification: Ordre prioritaire exécuté. Il en reste {0} pour ce quinquennat.
+		NoOrdersLeftTextNotification: Plus aucun ordre prioritaire avant le prochain quinquennat.
+		SupportPowerPaletteOrder: 10
+	# Ojo del Aguila : reconnaissance totale d'une zone pendant 30 secondes.
+	SpawnActorPower@OJO:
+		OrderName: ElielistanOjo
+		PauseOnCondition: disabled
+		IconImage: elielistan-powers
+		Icon: ojo
+		ChargeInterval: 4500
+		Name: Ojo del Aguila
+		Description: Révèle une large zone pendant 30 secondes,\ndétecte les unités furtives et désigne tous les ennemis\nde la zone (+25 % de dégâts reçus).
+		Actor: camera.ojo
+		EffectImage: explosion
+		LifeTime: 750
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez la zone à observer.
+		EndChargeTextNotification: Ojo del Aguila prêt.
+		SupportPowerPaletteOrder: 20
+	# Aguila Bridge : pont temporaire au-dessus de n'importe quel obstacle.
+	AguilaBridgePower@PUENTE:
+		OrderName: ElielistanBridge
+		PauseOnCondition: disabled
+		IconImage: elielistan-powers
+		Icon: bridge
+		ChargeInterval: 6000
+		Name: Aguila Bridge
+		Description: Pose un pont temporaire de 10 cases au plus entre deux points\n(rivière, falaise, bras de mer...). 1er clic : départ, 2e clic : arrivée.\nDure 90 secondes. Destructible. Tout le monde peut l'emprunter !
+		MaxDistance: 10
+		HorizontalSegment: aguila.puente.ew
+		VerticalSegment: aguila.puente.ns
+		SelectionCursor: ability
+		TargetCursor: ability
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez le départ puis l'arrivée du pont.
+		EndChargeTextNotification: Aguila Bridge prêt.
+		SupportPowerPaletteOrder: 30
+	# Aguila Gate : tunnel temporaire entre deux points de la carte.
+	AguilaGatePower@GATE:
+		OrderName: ElielistanGate
+		Prerequisites: atek
+		PauseOnCondition: disabled
+		IconImage: elielistan-powers
+		Icon: gate
+		ChargeInterval: 7500
+		Name: Aguila Gate
+		Description: Ouvre un tunnel entre deux zones explorées (6 cases d'écart au moins).\n1er clic : entrée, 2e clic : sortie. Vos unités terrestres qui s'approchent\nd'une bouche ressortent par l'autre, dans les deux sens.\n12 passages au plus, 60 secondes. Détruire une bouche effondre le tunnel.
+		EntranceActor: aguila.gate
+		ExitActor: aguila.gate
+		MinDistance: 6
+		Capacity: 12
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez l'entrée puis la sortie du tunnel.
+		EndChargeTextNotification: Aguila Gate prêt.
+		SupportPowerPaletteOrder: 40
+
+# Frappe Aguila : trois Rayo surgissent, bombardent et repartent aussitôt.
+HPAD:
+	AirstrikePower@AGUILASTRIKE:
+		OrderName: ElielistanAguilaStrike
+		Prerequisites: aircraft.elielistan, dome
+		IconImage: elielistan-powers
+		Icon: strike
+		ChargeInterval: 6000
+		Name: Frappe Aguila
+		Description: Trois avions d'attaque Rayo traversent la zone à très grande\nvitesse, la bombardent et repartent aussitôt.
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez la cible.
+		EndChargeTextNotification: Frappe Aguila prête.
+		CameraActor: camera
+		CameraRemoveDelay: 100
+		UnitType: rayo.strike
+		SquadSize: 3
+		SquadOffset: -1536, 1536, 0
+		QuantizedFacings: 8
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		SupportPowerPaletteOrder: 50
+
+# ---------------------------------------------------------------------
+# Acteurs créés par les pouvoirs
+# ---------------------------------------------------------------------
+CAMERA.OJO:
+	Inherits: CAMERA
+	-MapEditorData:
+	RevealsShroud:
+		Range: 12c0
+	DetectCloaked:
+		Range: 12c0
+	ProximityExternalCondition@DESIGNATE:
+		Condition: laser-designated
+		Range: 10c0
+		ValidRelationships: Enemy
+
+AGUILA.GATE:
+	HiddenUnderFog:
+		Type: CenterPosition
+	Tooltip:
+		Name: Aguila Gate
+	Selectable:
+		Bounds: 1024, 1024
+	Immobile:
+		OccupiesSpace: false
+	BodyOrientation:
+		QuantizedFacings: 1
+	RenderSprites:
+		Image: aguilagate
+	WithSpriteBody:
+	Health:
+		HP: 25000
+	Armor:
+		Type: Heavy
+	HitShape:
+	Targetable:
+		TargetTypes: GroundActor, Structure
+	RevealsShroud:
+		Range: 4c0
+		Type: CenterPosition
+	AppearsOnRadar:
+	AguilaGate:
+		LifeTime: 1500
+		TransitSound: chrono2.aud
+	Explodes:
+		Weapon: SmallBuildingExplode
+		EmptyWeapon: SmallBuildingExplode
+
+^AguilaBridgeSegment:
+	Interactable:
+	HiddenUnderFog:
+		Type: CenterPosition
+	Tooltip:
+		Name: Aguila Bridge
+	Immobile:
+		OccupiesSpace: false
+	ChangesTerrain:
+		TerrainType: Bridge
+	BodyOrientation:
+		QuantizedFacings: 1
+	RenderSprites:
+		Image: aguilapuente
+	Health:
+		HP: 20000
+	Armor:
+		Type: Concrete
+	HitShape:
+	Targetable:
+		TargetTypes: GroundActor, Structure
+	KillsSelf:
+		Delay: 2250
+		RemoveInstead: true
+	Explodes:
+		Weapon: SmallBuildingExplode
+		EmptyWeapon: SmallBuildingExplode
+
+AGUILA.PUENTE.NS:
+	Inherits: ^AguilaBridgeSegment
+	WithSpriteBody:
+		Sequence: ns
+
+AGUILA.PUENTE.EW:
+	Inherits: ^AguilaBridgeSegment
+	WithSpriteBody:
+		Sequence: ew

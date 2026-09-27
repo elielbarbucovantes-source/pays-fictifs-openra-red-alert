@@ -1,0 +1,139 @@
+# =====================================================================
+# ELIELISTAN — positions légères et mobiles
+# Pas de forteresse : des tranchées pour tenir un terrain conquis, et des
+# antennes de gouvernement provisoire pour « planter un drapeau » loin
+# de la base et y construire.
+# =====================================================================
+
+# Tranchée : abrite 5 fantassins qui tirent à couvert (armes de garnison).
+# Détruite, elle relâche ses occupants. Moins solide qu'une casemate.
+TRANCHEE:
+	Inherits: ^Defense
+	Inherits@AUTOTARGET: ^AutoTargetGround
+	Inherits@CARGOPIPS: ^CargoPips
+	RenderSprites:
+		Image: tranchee
+	Tooltip:
+		Name: Tranchée (est-ouest)
+	Buildable:
+		Queue: Defense
+		BuildPaletteOrder: 5
+		Prerequisites: ~structures.elielistan, ~techlevel.low
+		Description: Tranchée légère. Abrite 5 fantassins qui tirent à couvert.\nDétruite, les soldats en ressortent.\nPas besoin d'électricité.\n  Fort contre : infanterie\n  Faible contre : artillerie, chars
+	Valued:
+		Cost: 200
+	CustomSellValue:
+		Value: 80
+	Building:
+		Footprint: xx
+		Dimensions: 2,1
+	Health:
+		HP: 22000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 5c0
+	Selectable:
+		Bounds: 2048, 1024
+	Turreted:
+		TurnSpeed: 512
+	-QuantizeFacingsFromSequence:
+	BodyOrientation:
+		QuantizedFacings: 8
+	Cargo:
+		Types: Infantry
+		MaxWeight: 5
+		EjectOnDeath: true
+	WithCargoPipsDecoration:
+		PipCount: 5
+	AttackGarrisoned:
+		PauseOnCondition: build-incomplete
+		Armaments: garrisoned
+		PortOffsets: 0,-640,64, 0,-320,64, 0,0,64, 0,320,64, 0,640,64
+		PortYaws: 0, 256, 512, 768, 0
+		PortCones: 512, 512, 512, 512, 512
+	RenderRangeCircle:
+		FallbackRange: 5c0
+	Explodes:
+		Weapon: SmallBuildingExplode
+		EmptyWeapon: SmallBuildingExplode
+
+# Même tranchée, orientée nord-sud.
+TRANCHEEV:
+	Inherits: TRANCHEE
+	RenderSprites:
+		Image: trancheev
+	Tooltip:
+		Name: Tranchée (nord-sud)
+	Buildable:
+		BuildPaletteOrder: 6
+	Building:
+		Footprint: x x
+		Dimensions: 1,2
+	Selectable:
+		Bounds: 1024, 2048
+	AttackGarrisoned:
+		PortOffsets: -640,0,64, -320,0,64, 0,0,64, 320,0,64, 640,0,64
+
+# ---------------------------------------------------------------------
+# ANTENNE DE GOUVERNEMENT PROVISOIRE
+# Se construit n'importe où sur la carte (3 au maximum) et ouvre autour
+# d'elle une petite zone de construction. Fragile, à peine armée, lente à
+# construire et visible de l'ennemi même dans le brouillard : un drapeau
+# planté dans le territoire conquis, pas une forteresse.
+# ---------------------------------------------------------------------
+ANTENA:
+	Inherits: ^Building
+	Inherits@AUTOTARGET: ^AutoTargetGround
+	RenderSprites:
+		Image: antena
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 146
+		BuildLimit: 3
+		BuildDurationModifier: 250
+		Prerequisites: palacio, ~structures.elielistan, ~techlevel.medium
+		Description: Se construit n'importe où sur la carte. 3 au maximum.\nOuvre une petite zone de construction autour d'elle\n(plus petite que celle d'un chantier de construction).\nLente à construire, fragile, visible de l'ennemi.\nDétruite : la zone de construction disparaît.\n  Requiert : palais présidentiel
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Antenne de gouvernement provisoire
+	-RequiresBuildableArea:
+	BaseProvider:
+		PauseOnCondition: being-captured
+		Range: 6c0
+	Selectable:
+		Bounds: 1024, 1024
+		DecorationBounds: 1024, 2048, 0, -512
+	Health:
+		HP: 30000
+	Armor:
+		Type: Wood
+	RevealsShroud:
+		MinRange: 4c0
+		Range: 5c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 4c0
+	# L'ennemi la voit même sans éclaireur.
+	RevealsShroud@REPERABLE:
+		Range: 1c512
+		ValidRelationships: Enemy
+	WithBuildingBib:
+		HasMinibib: true
+	Power:
+		Amount: -30
+	Armament:
+		Weapon: AntenaMG
+		LocalOffset: 0,0,512
+	AttackOmni:
+	MustBeDestroyed:
+		RequiredForShortGame: false
+	-AcceptsDeliveredCash:
+	Explodes:
+		Weapon: SmallBuildingExplode
+		EmptyWeapon: SmallBuildingExplode
+	HitShape:
+		Type: Rectangle
+			TopLeft: -512, -512
+			BottomRight: 512, 512

@@ -1,0 +1,83 @@
+# =====================================================================
+# RUBÉNIE — Tunnelier, unité signature
+#
+#   surface → s'enfonce en roulant → avance sous terre → émerge à l'arrêt
+#   → débarque ses chasseurs antichars (déploiement, F)
+#
+# Il est sous terre dès qu'il roule : invisible et intouchable, sauf pour
+# les détecteurs sismiques (Éclaireur, véhicule de reconnaissance,
+# QG rubénien, dôme radar de n'importe quelle faction), à mi-vitesse.
+# Quand il s'arrête, il émerge : 3 secondes immobile et +50 % de dégâts reçus.
+# =====================================================================
+
+TUNNELIER:
+	Inherits: ^TrackedVehicle
+	Inherits@GAINSEXPERIENCE: ^GainsExperience
+	Inherits@CARGOPIPS: ^CargoPips
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	RenderSprites:
+		Image: qtnk
+	Buildable:
+		Queue: Vehicle
+		BuildPaletteOrder: 90
+		BuildLimit: 2
+		Prerequisites: ~vehicles.rubenie, qg.rub, stek, ~techlevel.high
+		Description: Engin de sape. 2 exemplaires maximum.\nLivré avec 10 chasseurs antichars à bord.\nSe déplace sous terre (mi-vitesse) : invisible et intouchable,\nsauf pour les détecteurs sismiques.\nÉmerge à l'arrêt : 3 s immobile et vulnérable (+50 % de dégâts).\nDéploiement (F) : débarquer les troupes. Aucune arme.\n  Requiert : QG rubénien
+	Selectable:
+		Class: tunnelier
+	Valued:
+		Cost: 5000
+	Tooltip:
+		Name: Tunnelier
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 60000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 90
+		PauseOnCondition: notmobile || being-captured || emergence
+	RevealsShroud:
+		MinRange: 4c0
+		Range: 5c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 4c0
+	Cargo:
+		Types: Infantry
+		LoadingCondition: notmobile
+		MaxWeight: 10
+		InitialUnits: chasseur.at, chasseur.at, chasseur.at, chasseur.at, chasseur.at, chasseur.at, chasseur.at, chasseur.at, chasseur.at, chasseur.at
+		EjectOnDeath: true
+	WithCargoPipsDecoration:
+		PipCount: 10
+	# Sous terre dès qu'il roule.
+	GrantConditionWhileMoving@SOUTERRAIN:
+		Condition: souterrain
+		LingerDelay: 20
+	SpeedMultiplier@SOUTERRAIN:
+		RequiresCondition: souterrain
+		Modifier: 50
+	Cloak@SOUTERRAIN:
+		RequiresCondition: souterrain
+		DetectionTypes: Seismic
+		InitialDelay: 0
+		CloakDelay: 0
+		UncloakOn: Unload
+		CloakSound: subshow1.aud
+		UncloakSound: subshow1.aud
+		IsPlayerPalette: true
+	# Émergence : immobile et vulnérable 3 secondes.
+	GrantTimedConditionOnConditionEnd@EMERGENCE:
+		RequiresCondition: souterrain
+		Condition: emergence
+		Duration: 75
+	DamageMultiplier@EMERGENCE:
+		RequiresCondition: emergence
+		Modifier: 150
+	WithDecoration@EMERGENCE:
+		Image: pips
+		Sequence: pip-yellow
+		Position: TopLeft
+		RequiresCondition: emergence

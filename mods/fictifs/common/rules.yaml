@@ -1,0 +1,245 @@
+# =====================================================================
+# PAYS FICTIFS — règles communes
+# Chaque pays a son dossier (elielistan/, rubenie/, ...). Ce fichier branche les pays
+# sur la base de Red Alert : factions, bâtiments, unités de départ.
+# =====================================================================
+
+^BaseWorld:
+	Faction@elielistan:
+		Name: Elielistan
+		InternalName: elielistan
+		Side: Allies
+		Description: Elielistan : frapper puis disparaître\nUnités rapides, reconnaissance, drones, hélicoptère Cóndor.\nPouvoirs : Ojo del Aguila, Aguila Gate, Aguila Bridge,\nFrappe Aguila, ordres prioritaires du président.
+	Faction@rubenie:
+		Name: Rubénie
+		InternalName: rubenie
+		Side: Soviet
+		Description: Rubénie : si ça tient, touche à rien\nDéfense, contre-attaques, artillerie lourde.\nTranchées, bunkers garnis, casemates antichars.\nUnités solides et lentes, qui gagnent les combats qui durent.
+	Faction@random:
+		RandomFactionMembers: RandomAllies, RandomSoviet, elielistan, rubenie
+
+World:
+	StartingUnits@mcvonly:
+		Factions: allies, england, france, germany, soviet, russia, ukraine, elielistan, rubenie
+	StartingUnits@lightelielistan:
+		Class: light
+		ClassName: options-starting-units.light-support
+		Factions: elielistan
+		BaseActor: mcv
+		SupportActors: aguila,aguila,aguila,cazador,cazador,gavilan,jaguar
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	StartingUnits@heavyelielistan:
+		Class: heavy
+		ClassName: options-starting-units.heavy-support
+		Factions: elielistan
+		BaseActor: mcv
+		SupportActors: aguila,aguila,aguila,cazador,cazador,gavilan,jaguar,jaguar,halcon,carro.aguila
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	StartingUnits@lightrubenie:
+		Class: light
+		ClassName: options-starting-units.light-support
+		Factions: rubenie
+		BaseActor: mcv
+		SupportActors: fusilier,fusilier,fusilier,grenadier,chasseur.at,chasseur.at,reco.rub,contreattaque
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	StartingUnits@heavyrubenie:
+		Class: heavy
+		ClassName: options-starting-units.heavy-support
+		Factions: rubenie
+		BaseActor: mcv
+		SupportActors: fusilier,fusilier,fusilier,grenadier,chasseur.at,chasseur.at,reco.rub,contreattaque,contreattaque,aa.rub,sicatient
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+
+# ---------------------------------------------------------------------
+# Bâtiments : l'Elielistan construit la base alliée (structures, caserne,
+# héliport, chantier naval), mais son usine produit ses propres véhicules.
+# ---------------------------------------------------------------------
+FACT:
+	ProvidesPrerequisite@allies:
+		Factions: allies, england, france, germany, elielistan
+	ProvidesPrerequisite@elielistan:
+		Factions: elielistan
+		Prerequisite: structures.elielistan
+
+TENT:
+	ProvidesPrerequisite@allies:
+		Factions: allies, england, france, germany, elielistan
+	ProvidesPrerequisite@elielistan:
+		Factions: elielistan
+		Prerequisite: infantry.elielistan
+
+HPAD:
+	ProvidesPrerequisite@allies:
+		Factions: allies, england, france, germany, elielistan
+	ProvidesPrerequisite@elielistan:
+		Factions: elielistan
+		Prerequisite: aircraft.elielistan
+
+SYRD:
+	ProvidesPrerequisite@allies:
+		Factions: allies, england, france, germany, elielistan
+
+WEAP:
+	ProvidesPrerequisite@elielistan:
+		Factions: elielistan
+		Prerequisite: vehicles.elielistan
+	ProvidesPrerequisite@rubenie:
+		Factions: rubenie
+		Prerequisite: vehicles.rubenie
+
+# ---------------------------------------------------------------------
+# La Rubénie construit la base soviétique (aérodrome, sous-marinier en
+# attendant son chantier naval), mais sa caserne et son usine produisent
+# ses propres unités, et elle a ses propres défenses.
+# ---------------------------------------------------------------------
+FACT:
+	ProvidesPrerequisite@soviet:
+		Factions: soviet, russia, ukraine, rubenie
+	ProvidesPrerequisite@rubenie:
+		Factions: rubenie
+		Prerequisite: structures.rubenie
+
+BARR:
+	ProvidesPrerequisite@rubenie:
+		Factions: rubenie
+		Prerequisite: infantry.rubenie
+
+# La chronosphère fait doublon avec l'Aguila Gate.
+PDOX:
+	Buildable:
+		Prerequisites: atek, ~structures.allies, ~techlevel.unrestricted, ~!structures.elielistan
+
+# Fusiliers et lance-roquettes génériques remplacés par l'Aguila et le Cazador
+# (Elielistan) et par l'infanterie rubénienne.
+E1:
+	Buildable:
+		Prerequisites: ~barracks, ~techlevel.infonly, ~!infantry.elielistan, ~!infantry.rubenie
+E3:
+	Buildable:
+		Prerequisites: ~barracks, ~techlevel.infonly, ~!infantry.elielistan, ~!infantry.rubenie
+
+# Unités et défenses soviétiques génériques remplacées par celles de la Rubénie.
+E2:
+	Buildable:
+		Prerequisites: ~barr, ~techlevel.infonly, ~!structures.rubenie
+E4:
+	Buildable:
+		Prerequisites: ~barr, ftur, ~techlevel.low, ~!structures.rubenie
+APC:
+	Buildable:
+		Prerequisites: ~vehicles.soviet, ~techlevel.low, ~!structures.rubenie
+FTRK:
+	Buildable:
+		Prerequisites: ~vehicles.soviet, ~techlevel.low, ~!structures.rubenie
+V2RL:
+	Buildable:
+		Prerequisites: dome, ~vehicles.soviet, ~techlevel.medium, ~!structures.rubenie
+3TNK:
+	Buildable:
+		Prerequisites: fix, ~vehicles.soviet, ~techlevel.medium, ~!structures.rubenie
+4TNK:
+	Buildable:
+		Prerequisites: fix, stek, ~vehicles.soviet, ~techlevel.high, ~!structures.rubenie
+QTNK:
+	Buildable:
+		Prerequisites: fix, stek, ~vehicles.soviet, ~techlevel.high, ~!structures.rubenie
+FTUR:
+	Buildable:
+		Prerequisites: barr, ~structures.soviet, ~techlevel.low, ~!structures.rubenie
+TSLA:
+	Buildable:
+		Prerequisites: weap, ~structures.soviet, ~techlevel.medium, ~!structures.rubenie
+SAM:
+	Buildable:
+		Prerequisites: dome, ~structures.soviet, ~techlevel.medium, ~!structures.rubenie
+# Aérodrome et sous-marinier remplacés par la base aérienne et le chantier
+# naval rubéniens (voir rubenie/aviation.yaml et rubenie/marine.yaml).
+AFLD:
+	Buildable:
+		Prerequisites: dome, ~structures.soviet, ~techlevel.medium, ~!structures.ukraine, ~!structures.rubenie
+SPEN:
+	Buildable:
+		Prerequisites: anypower, ~structures.soviet, ~techlevel.low, ~!structures.rubenie
+
+# ---------------------------------------------------------------------
+# Désignation de cible (drone Ojo, Explorador, Ojo del Aguila) :
+# +25 % de dégâts reçus, losange vert visible par l'adversaire.
+# ---------------------------------------------------------------------
+^Designatable:
+	ExternalCondition@DESIGNATED:
+		Condition: laser-designated
+	DamageMultiplier@DESIGNATED:
+		RequiresCondition: laser-designated
+		Modifier: 125
+	WithDecoration@DESIGNATED:
+		Image: lasermark
+		Sequence: idle
+		Palette: chrome
+		Position: Top
+		ValidRelationships: Enemy
+		RequiresCondition: laser-designated
+
+^Vehicle:
+	Inherits@DESIGNATABLE: ^Designatable
+
+^Infantry:
+	Inherits@DESIGNATABLE: ^Designatable
+
+^Ship:
+	Inherits@DESIGNATABLE: ^Designatable
+
+^Building:
+	Inherits@DESIGNATABLE: ^Designatable
+
+# ---------------------------------------------------------------------
+# Joueur : mandat présidentiel (utilisé par le palais de l'Elielistan).
+# 10 ordres prioritaires par quinquennat ; un quinquennat = 15 minutes.
+# ---------------------------------------------------------------------
+Player:
+	PresidentialMandate:
+		OrdersPerTerm: 10
+		TermLength: 22500
+		NewTermTextNotification: Nouveau quinquennat : {0} ordres prioritaires disponibles.
+	# IA : l'IA sait produire les unités de l'Elielistan.
+	UnitBuilderBotModule@rush:
+		UnitsToBuild:
+			aguila: 65
+			cazador: 30
+			gavilan: 25
+			halcon: 25
+			jaguar: 50
+			trueno: 15
+			vigia: 20
+			carro.aguila: 30
+			aguila.nuclear: 10
+	UnitBuilderBotModule@normal:
+		UnitsToBuild:
+			aguila: 65
+			cazador: 30
+			explorador: 5
+			gavilan: 20
+			halcon: 30
+			jaguar: 50
+			trueno: 20
+			vigia: 25
+			carro.aguila: 40
+			aguila.nuclear: 15
+			lanzador: 10
+			pico: 10
+			garra: 10
+	UnitBuilderBotModule@turtle:
+		UnitsToBuild:
+			aguila: 65
+			cazador: 30
+			gavilan: 15
+			halcon: 30
+			jaguar: 40
+			trueno: 25
+			vigia: 25
+			carro.aguila: 40
+			aguila.nuclear: 15
+			lanzador: 15

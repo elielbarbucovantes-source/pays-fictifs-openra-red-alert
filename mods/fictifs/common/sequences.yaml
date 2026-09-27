@@ -1,0 +1,5 @@
+# Sprites communs aux pays fictifs.
+
+lasermark:
+	idle:
+		Filename: fictifs|bits/lasermark.png

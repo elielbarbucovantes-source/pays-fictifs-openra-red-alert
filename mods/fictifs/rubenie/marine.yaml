@@ -1,0 +1,150 @@
+# =====================================================================
+# RUBÉNIE — marine
+# Une grande marine : groupe aéronaval autour du porte-avions, escorté
+# contre l'aviation, frégates pour frapper loin, sous-marins en embuscade.
+# Tout sort du chantier naval rubénien (le sous-marinier soviétique ne
+# lui est pas ouvert).
+# =====================================================================
+
+CHANTIER.RUB:
+	Inherits: SYRD
+	RenderSprites:
+		Image: syrd
+	Buildable:
+		BuildPaletteOrder: 72
+		Prerequisites: anypower, ~structures.rubenie, ~techlevel.low
+		Description: Produit et répare les navires rubéniens :\nescorteurs, frégates, sous-marins, porte-avions.
+	Tooltip:
+		Name: Chantier naval rubénien
+	ProvidesPrerequisite@rubenie:
+		Factions: rubenie
+		Prerequisite: ships.rubenie
+
+# Escorteur : bouclier antiaérien du groupe, antinavire et anti-sous-marin.
+ESCORTEUR:
+	Inherits: DD
+	Inherits@DOCTRINE: ^RubenieDoctrine
+	RenderSprites:
+		Image: escorteur
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~ships.rubenie, ~techlevel.low
+		Description: Escorteur. Protège le groupe naval : missiles antiaériens\nà longue portée (9 cases), missiles antinavires,\ngrenades anti-sous-marines. Détecte les sous-marins.\n  Fort contre : aviation, sous-marins\n  Faible contre : frégates
+	Selectable:
+		Class: escorteur
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Escorteur
+	Health:
+		HP: 42000
+	Mobile:
+		Speed: 88
+	Armament@PRIMARY:
+		Weapon: RubEscorteurSSM
+	Armament@TERTIARY:
+		Weapon: RubEscorteurAA
+
+# Frégate lance-missiles : frappe antinavire à très longue portée.
+FREGATE:
+	Inherits: CA
+	Inherits@DOCTRINE: ^RubenieDoctrine
+	RenderSprites:
+		Image: ca
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~ships.rubenie, dome, ~techlevel.medium
+		Description: Frégate lance-missiles. Missiles antinavires à 13 cases,\nfrappe aussi les cibles côtières. Aucune défense\nantiaérienne : à escorter.\n  Fort contre : navires, cibles côtières\n  Faible contre : aviation, sous-marins
+	Selectable:
+		Class: fregate
+	Valued:
+		Cost: 1700
+	Tooltip:
+		Name: Frégate lance-missiles
+	Health:
+		HP: 60000
+	Mobile:
+		Speed: 64
+	Armament@PRIMARY:
+		Weapon: RubMissileAntiNavire
+	Armament@SECONDARY:
+		Weapon: RubMissileAntiNavire
+
+# Sous-marin : furtif, embuscade, antinavire.
+SOUS.MARIN:
+	Inherits: SS
+	Inherits@DOCTRINE: ^RubenieDoctrine
+	RenderSprites:
+		Image: icbmsub
+	Buildable:
+		BuildAtProductionType: Boat
+		BuildPaletteOrder: 30
+		Prerequisites: ~ships.rubenie, ~techlevel.low
+		Description: Sous-marin d'attaque. Invisible en plongée,\ntorpilles lourdes. Idéal en embuscade.\n  Fort contre : navires\n  Faible contre : escorteurs, aviation anti-sous-marine
+	Selectable:
+		Class: sous.marin
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Sous-marin
+	Health:
+		HP: 30000
+	Mobile:
+		Speed: 72
+	Armament:
+		Weapon: RubTorpille
+
+# ---------------------------------------------------------------------
+# PORTE-AVIONS RUBÉNIEN — base aérienne mobile, 3 chasseurs polyvalents.
+# Touche de déploiement (F) : les avions prêts décollent.
+# Clic droit d'un chasseur polyvalent dessus : il appontera.
+# ---------------------------------------------------------------------
+PORTE.AVIONS.RUB:
+	Inherits: ^Ship
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@DOCTRINE: ^RubenieDoctrine
+	RenderSprites:
+		Image: paru
+	Buildable:
+		Queue: Ship
+		BuildAtProductionType: Boat
+		BuildPaletteOrder: 40
+		Prerequisites: ~ships.rubenie, stek, ~techlevel.high
+		Description: Porte-avions : base aérienne mobile.\n3 chasseurs polyvalents au maximum (livré vide ;\nclic droit d'un chasseur dessus pour l'apponter ; réarmé à bord).\nDéploiement (F) : décollage des avions prêts.\nDéfense antiaérienne rapprochée.\n  Faible contre : sous-marins, frégates (à escorter)
+	Selectable:
+		Class: porte.avions.rub
+		Bounds: 2560, 2560
+		DecorationBounds: 3072, 3072
+	Valued:
+		Cost: 2500
+	Tooltip:
+		Name: Porte-avions rubénien
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 90000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 56
+		TurnSpeed: 8
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 9c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+	Reservable:
+	AircraftCarrier:
+		Types: chasseur.poly
+		MaxAircraft: 3
+		RearmDelay: 250
+	WithCarrierPipsDecoration:
+		Position: BottomRight
+		Margin: 4, 3
+		RequiresSelection: true
+	Armament:
+		Weapon: RubPorteAvionsAA
+		LocalOffset: 0,-300,200, 0,300,200
+	AttackFrontal:
+		FacingTolerance: 512

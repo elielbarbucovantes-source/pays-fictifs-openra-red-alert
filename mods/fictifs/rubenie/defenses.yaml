@@ -1,0 +1,168 @@
+# =====================================================================
+# RUBÉNIE — QG et défenses
+# Préparer le terrain : tranchées et bunkers garnis d'infanterie, casemates
+# antichars, défense aérienne en couches, artillerie côtière.
+# =====================================================================
+
+# QG rubénien : siège du commandement. Débloque le Second Galactique.
+# Il portera les pouvoirs de soutien (lot 3).
+QG.RUB:
+	Inherits: ^Building
+	Inherits@IDISABLE: ^DisableOnLowPower
+	Inherits@shape: ^3x2Shape
+	RenderSprites:
+		Image: qg.rub
+	Selectable:
+		Bounds: 3072, 2048
+	HitShape:
+		UseTargetableCellsOffsets: false
+		TargetableOffsets: 0,0,0, 840,0,0, 840,-1024,0, 420,768,0, -840,0,0, -840,-1024,0, -840,1024,0
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 145
+		BuildLimit: 1
+		Prerequisites: dome, ~structures.rubenie, ~techlevel.medium
+		Description: Quartier général rubénien. 1 exemplaire maximum.\nDébloque le Second Galactique.
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: QG rubénien
+	Building:
+		Footprint: xxx xxx ===
+		Dimensions: 3,3
+		LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 100000
+	Armor:
+		Type: Concrete
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 7c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+	WithBuildingBib:
+	Power:
+		Amount: -100
+	ProvidesPrerequisite@buildingname:
+
+# ---------------------------------------------------------------------
+# Tranchées : mêmes que celles de l'Elielistan, en plus solides.
+# ---------------------------------------------------------------------
+TRANCHEE.RUB:
+	Inherits: TRANCHEE
+	Buildable:
+		Prerequisites: ~structures.rubenie, ~techlevel.low
+		Description: Tranchée. Abrite 5 fantassins qui tirent à couvert.\nDétruite, les soldats en ressortent.\nPas besoin d'électricité.\n  Fort contre : infanterie\n  Faible contre : artillerie, chars
+	Valued:
+		Cost: 250
+	Health:
+		HP: 30000
+
+TRANCHEEV.RUB:
+	Inherits: TRANCHEEV
+	Buildable:
+		Prerequisites: ~structures.rubenie, ~techlevel.low
+		Description: Tranchée. Abrite 5 fantassins qui tirent à couvert.\nDétruite, les soldats en ressortent.\nPas besoin d'électricité.\n  Fort contre : infanterie\n  Faible contre : artillerie, chars
+	Valued:
+		Cost: 250
+	Health:
+		HP: 30000
+
+# ---------------------------------------------------------------------
+# Bunker : casemate d'infanterie très résistante, 5 places.
+# Livré avec un fusilier ; les occupants tirent par les meurtrières.
+# ---------------------------------------------------------------------
+BUNKER.RUB:
+	Inherits: PBOX
+	RenderSprites:
+		Image: pbox
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: barr, ~structures.rubenie, ~techlevel.low
+		Description: Bunker très résistant. Abrite 5 fantassins\nqui tirent par les meurtrières. Livré avec un fusilier.\nDétecte les unités furtives.\n  Fort contre : infanterie, véhicules légers (selon garnison)\n  Faible contre : artillerie
+	Valued:
+		Cost: 700
+	Tooltip:
+		Name: Bunker
+	Health:
+		HP: 65000
+	Cargo:
+		MaxWeight: 5
+		InitialUnits: fusilier
+		EjectOnDeath: true
+	WithCargoPipsDecoration:
+		PipCount: 5
+
+# Casemate antichar : gros canon fixe à longue portée.
+CASEMATE.AT:
+	Inherits: GUN
+	RenderSprites:
+		Image: gun
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: weap, ~structures.rubenie, ~techlevel.medium
+		Description: Canon antichar fixe à longue portée (8 cases).\n  Fort contre : blindés, véhicules\n  Faible contre : infanterie, aviation
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Casemate antichar
+	Health:
+		HP: 60000
+	Armament:
+		Weapon: RubCasemate
+
+TOURELLE.AA:
+	Inherits: AGUN
+	RenderSprites:
+		Image: agun
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: barr, ~structures.rubenie, ~techlevel.low
+		Description: Défense antiaérienne rapprochée.\nCanons rapides contre avions et hélicoptères.\n  Fort contre : aviation\n  Faible contre : cibles au sol
+	Valued:
+		Cost: 700
+	Tooltip:
+		Name: Tourelle AA
+	Armament:
+		Weapon: RubTourelleAA
+
+SAM.RUB:
+	Inherits: SAM
+	RenderSprites:
+		Image: sam
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: dome, ~structures.rubenie, ~techlevel.medium
+		Description: Missiles sol-air à longue portée (11 cases).\nPriorité : avions et hélicoptères.\n  Fort contre : aviation\n  Faible contre : cibles au sol
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: SAM
+	Health:
+		HP: 50000
+	Armament:
+		Weapon: RubSAM
+
+# Artillerie côtière : n'engage que les navires, à 14 cases.
+COTIERE:
+	Inherits: GUN
+	RenderSprites:
+		Image: cotiere
+	Buildable:
+		BuildPaletteOrder: 50
+		Prerequisites: chantier.rub, ~structures.rubenie, ~techlevel.medium
+		Description: Canon lourd de défense côtière (14 cases).\nN'engage que les navires.\n  Fort contre : navires, groupes navals\n  Faible contre : tout le reste
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Artillerie côtière
+	Health:
+		HP: 60000
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 8c0
+	Armament:
+		Weapon: RubCotiere
+	RenderRangeCircle:
+		FallbackRange: 14c0

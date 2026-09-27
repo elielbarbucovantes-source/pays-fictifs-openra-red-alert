@@ -1,0 +1,166 @@
+# =====================================================================
+# RUBÉNIE — pouvoirs de soutien du QG
+#
+# Défendre → contre-attaquer → se replier → réparer → recommencer :
+#   Mobilisation défensive (tenir), Contre-attaque éclair (sortir),
+#   Opération Taupe (contourner), Supériorité aérienne (couvrir),
+#   Frappe de précision (décapiter).
+# =====================================================================
+
+QG.RUB:
+	Inherits@RAVITAILLEMENT: ^SourceRavitaillement
+	DetectCloaked@SISMIQUE:
+		DetectionTypes: Seismic
+		Range: 10c0
+	SupportPowerChargeBar:
+	Buildable:
+		Description: Quartier général rubénien. 1 exemplaire maximum.\nRavitaille les unités proches, détecte le Tunnelier (10 cases).\nDébloque le Second Galactique et le Tunnelier.\nPouvoirs : Contre-attaque éclair, Mobilisation défensive,\nFrappe de précision, Opération Taupe (avec le centre technique),\nSupériorité aérienne (avec la base aérienne).
+	# Pendant la Mobilisation défensive, donne au joueur le prérequis qui
+	# accélère la construction (voir ^Building plus bas).
+	ProvidesPrerequisite@MOBILISATION:
+		Prerequisite: mobilisation.rub
+		RequiresCondition: mobilisation
+	# Contre-attaque éclair : sur une zone de 5 cases de rayon.
+	GrantExternalConditionPower@ECLAIR:
+		OrderName: RubenieEclair
+		PauseOnCondition: disabled
+		IconImage: rubenie-powers
+		Icon: eclair
+		ChargeInterval: 4500
+		Name: Contre-attaque éclair
+		Description: Vos unités terrestres dans la zone (5 cases de rayon)\ngagnent pendant 20 secondes +40 % de vitesse\net −25 % de temps de rechargement.
+		Condition: eclair
+		Duration: 500
+		Dimensions: 11, 11
+		Footprint: ____xxx____ __xxxxxxx__ _xxxxxxxxx_ _xxxxxxxxx_ xxxxxxxxxxx xxxxxxxxxxx xxxxxxxxxxx _xxxxxxxxx_ _xxxxxxxxx_ __xxxxxxx__ ____xxx____
+		Sequence: idle
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez les unités qui contre-attaquent.
+		EndChargeTextNotification: Contre-attaque éclair prête.
+		SupportPowerPaletteOrder: 10
+	# Mobilisation défensive : toute la base, 45 secondes.
+	GrantConditionToOwnedActorsPower@MOBILISATION:
+		OrderName: RubenieMobilisation
+		PauseOnCondition: disabled
+		IconImage: rubenie-powers
+		Icon: mobilisation
+		ChargeInterval: 7500
+		Name: Mobilisation défensive
+		Description: Pendant 45 secondes, sur toute la base :\nconstruction des bâtiments et défenses 2 fois plus rapide,\nbâtiments +25 % de blindage et réparation automatique.\nS'applique aussi aux bunkers et tranchées.
+		Condition: mobilisation
+		Duration: 1125
+		EndChargeTextNotification: Mobilisation défensive prête.
+		SupportPowerPaletteOrder: 20
+	# Frappe de précision : un missile, une cible.
+	NukePower@PRECISION:
+		OrderName: RubeniePrecision
+		PauseOnCondition: disabled
+		Cursor: nuke
+		IconImage: rubenie-powers
+		Icon: precision
+		ChargeInterval: 6000
+		Name: Frappe de précision
+		Description: Un missile de croisière frappe un point précis.\nDétruit presque n'importe quel bâtiment,\nmais n'abîme presque rien autour.
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez la cible.
+		EndChargeTextNotification: Frappe de précision prête.
+		MissileWeapon: RubFrappePrecision
+		MissileImage: atomic
+		MissileDelay: 5
+		SpawnOffset: 0,0,0
+		DisplayTimerRelationships: Ally
+		DisplayBeacon: True
+		DisplayRadarPing: True
+		BeaconPoster: atomicon
+		CameraRange: 3c0
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		SupportPowerPaletteOrder: 30
+	# Opération Taupe : tunnel sur la terre ferme, réservé aux unités rubéniennes.
+	AguilaGatePower@TAUPE:
+		OrderName: RubenieTaupe
+		Prerequisites: stek
+		PauseOnCondition: disabled
+		IconImage: rubenie-powers
+		Icon: taupe
+		ChargeInterval: 9000
+		Name: Opération Taupe
+		Description: Creuse un tunnel entre deux zones explorées de terre ferme\n(6 cases d'écart au moins). 1er clic : entrée, 2e clic : sortie.\nVos unités terrestres qui s'approchent d'une bouche ressortent\npar l'autre, dans les deux sens. Réservé aux unités rubéniennes.\n20 passages au plus, 90 secondes. Détruire une bouche effondre le tunnel.
+		EntranceActor: taupe.gate
+		ExitActor: taupe.gate
+		MinDistance: 6
+		Capacity: 20
+		ValidTerrainTypes: Clear, Road, Rough, Ore, Gems, Beach
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez l'entrée puis la sortie du tunnel.
+		EndChargeTextNotification: Opération Taupe prête.
+		SupportPowerPaletteOrder: 40
+	# Supériorité aérienne : escadrille de 4 chasseurs en patrouille 30 secondes.
+	AirPatrolPower@SUPERIORITE:
+		OrderName: RubenieSuperiorite
+		Prerequisites: base.aerienne
+		PauseOnCondition: disabled
+		IconImage: rubenie-powers
+		Icon: superiorite
+		ChargeInterval: 6000
+		Name: Supériorité aérienne
+		Description: 4 chasseurs arrivent du bord de la carte et patrouillent\n30 secondes au-dessus de la zone : ils abattent\ntout appareil ennemi, puis repartent.
+		UnitType: patrouille.chasseur
+		SquadSize: 4
+		PatrolDuration: 750
+		DisplayRadarPing: True
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez la zone à couvrir.
+		EndChargeTextNotification: Supériorité aérienne prête.
+		SupportPowerPaletteOrder: 50
+
+# ---------------------------------------------------------------------
+# Mobilisation défensive : effets sur les bâtiments (toutes factions,
+# mais seule la Rubénie peut déclencher le pouvoir).
+# ---------------------------------------------------------------------
+^Building:
+	ExternalCondition@MOBILISATION:
+		Condition: mobilisation
+	DamageMultiplier@MOBILISATION:
+		RequiresCondition: mobilisation
+		Modifier: 80
+	ChangesHealth@MOBILISATION:
+		RequiresCondition: mobilisation
+		Step: 500
+		Delay: 25
+		StartIfBelow: 100
+	ProductionTimeMultiplier@MOBILISATION:
+		Multiplier: 50
+		Prerequisites: mobilisation.rub
+
+# ---------------------------------------------------------------------
+# Acteurs créés par les pouvoirs
+# ---------------------------------------------------------------------
+TAUPE.GATE:
+	Inherits: AGUILA.GATE
+	Tooltip:
+		Name: Galerie de l'Opération Taupe
+	RenderSprites:
+		Image: taupegate
+	AguilaGate:
+		LifeTime: 2250
+		ValidFactions: rubenie
+		TransitSound: subshow1.aud
+
+# Chasseur de l'escadrille de Supériorité aérienne : ne se construit pas,
+# ne rentre pas se réarmer, repart seul à la fin de la patrouille.
+PATROUILLE.CHASSEUR:
+	Inherits: INTERCEPTEUR
+	-Buildable:
+	-Rearmable:
+	RenderSprites:
+		Image: suk
+	Tooltip:
+		Name: Chasseur (Supériorité aérienne)
+	AmmoPool:
+		Ammo: 8
+	AutoTarget:
+		InitialStance: AttackAnything
+		InitialStanceAI: AttackAnything
+	AirPatrol:

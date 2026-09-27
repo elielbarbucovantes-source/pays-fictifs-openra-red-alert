@@ -1,0 +1,191 @@
+# =====================================================================
+# RUBÉNIE — aviation
+# Une aviation majeure, produite et réarmée à la base aérienne.
+# Le chasseur polyvalent, « couteau suisse » de la faction, est le seul
+# à pouvoir apponter sur le porte-avions rubénien.
+# =====================================================================
+
+# Base aérienne : aérodrome soviétique, sans les pouvoirs soviétiques
+# (la Rubénie a les siens, au QG).
+BASE.AERIENNE:
+	Inherits: AFLD
+	RenderSprites:
+		Image: afld
+	Buildable:
+		BuildPaletteOrder: 131
+		Prerequisites: dome, ~structures.rubenie, ~techlevel.medium
+		Description: Produit, répare et réarme les avions rubéniens :\nchasseur polyvalent, intercepteur, avion d'attaque,\navion de reconnaissance.
+	Tooltip:
+		Name: Base aérienne
+	ProvidesPrerequisite@buildingname:
+		Prerequisite: base.aerienne
+	-AirstrikePower@spyplane:
+	-ParatroopersPower@paratroopers:
+	-AirstrikePower@parabombs:
+	-InfiltrateForSupportPower:
+
+# Chasseur polyvalent : air-air, air-sol, antinavire, escorte, reconnaissance.
+CHASSEUR.POLY:
+	Inherits: MIG
+	Inherits@DOCTRINE: ^RubenieDoctrine
+	RenderSprites:
+		Image: suk
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~base.aerienne, ~techlevel.medium
+		Description: Chasseur polyvalent, le « couteau suisse » de l'aviation.\nMissiles air-air et air-sol (aussi contre les navires),\ngrande vision. Seul avion à apponter sur le porte-avions\n(clic droit dessus). À court de munitions, rentre se réarmer.\n  Fort contre : aviation, véhicules, navires\n  Faible contre : infanterie
+	Selectable:
+		Class: chasseur.poly
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Chasseur polyvalent
+	Health:
+		HP: 10000
+	RevealsShroud:
+		MinRange: 12c0
+		Range: 14c0
+	RevealsShroud@GAPGEN:
+		Range: 12c0
+	Armament:
+		Name: primary
+		Weapon: RubChasseurAG
+		PauseOnCondition: !ammo-ag
+	Armament@AA:
+		Name: aa
+		Weapon: RubChasseurAA
+		LocalOffset: 0,-640,0, 0,640,0
+		PauseOnCondition: !ammo-aa
+	AttackAircraft:
+		Armaments: primary, aa
+	Aircraft:
+		Speed: 230
+	AmmoPool:
+		Name: ag
+		Armaments: primary
+		Ammo: 4
+		AmmoCondition: ammo-ag
+	AmmoPool@AA:
+		Name: aa
+		Armaments: aa
+		Ammo: 4
+		AmmoCondition: ammo-aa
+	Rearmable:
+		RearmActors: base.aerienne, porte.avions.rub
+		AmmoPools: ag, aa
+	WithAmmoPipsDecoration:
+		AmmoPools: ag, aa
+	CarrierAircraft:
+
+# Intercepteur : vitesse et combat aérien, rien d'autre.
+INTERCEPTEUR:
+	Inherits: MIG
+	Inherits@DOCTRINE: ^RubenieDoctrine
+	RenderSprites:
+		Image: f22
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~base.aerienne, ~techlevel.medium
+		Description: Intercepteur de supériorité aérienne. Très rapide,\nmissiles air-air lourds. Ne peut pas attaquer le sol.\nEn position défensive, engage seul les avions ennemis.\n  Fort contre : aviation\n  Faible contre : tout le reste
+	Selectable:
+		Class: intercepteur
+	Valued:
+		Cost: 1600
+	Tooltip:
+		Name: Intercepteur
+	Health:
+		HP: 8000
+	Armament:
+		Weapon: RubIntercepteurAA
+	Aircraft:
+		Speed: 300
+		TurnSpeed: 20
+	AmmoPool:
+		Ammo: 6
+	AutoTarget:
+		InitialStance: Defend
+		InitialStanceAI: Defend
+	AutoTargetPriority@DEFAULT:
+		ValidTargets: AirborneActor
+	AutoTargetPriority@ATTACKANYTHING:
+		ValidTargets: AirborneActor
+	Rearmable:
+		RearmActors: base.aerienne
+
+# Avion d'attaque au sol : blindé, missiles antichars.
+AVION.ATTAQUE:
+	Inherits: MIG
+	Inherits@DOCTRINE: ^RubenieDoctrine
+	RenderSprites:
+		Image: a10
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~base.aerienne, stek, ~techlevel.high
+		Description: Avion d'attaque au sol, lent mais blindé.\nMissiles antichars lourds (8 tirs).\n  Fort contre : chars, bâtiments, concentrations\n  Faible contre : aviation, défense antiaérienne
+	Selectable:
+		Class: avion.attaque
+	Valued:
+		Cost: 1800
+	Tooltip:
+		Name: Avion d'attaque
+	Health:
+		HP: 16000
+	Armor:
+		Type: Heavy
+	Armament:
+		Weapon: RubAttaqueMissile
+	Aircraft:
+		Speed: 170
+	Rearmable:
+		RearmActors: base.aerienne
+
+# Avion de reconnaissance : très grande vision, rapide, sans arme.
+AVION.RECO:
+	Inherits: ^Plane
+	Inherits@DOCTRINE: ^RubenieDoctrine
+	RenderSprites:
+		Image: avion.reco
+	Buildable:
+		Queue: Aircraft
+		BuildAtProductionType: Plane
+		BuildPaletteOrder: 40
+		Prerequisites: ~base.aerienne, ~techlevel.medium
+		Description: Avion de reconnaissance. Très grande vision (16 cases),\ndétecte les unités furtives, très rapide. Aucune arme.\nTourne au-dessus de la zone demandée.\n  Faible contre : chasseurs, défense antiaérienne
+	Selectable:
+		Class: avion.reco
+		Bounds: 1536, 1194, 0, 85
+		DecorationBounds: 1706, 1237, 0, 42
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: Avion de reconnaissance
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 7000
+	RevealsShroud:
+		MinRange: 14c0
+		Range: 16c0
+		Type: GroundPosition
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 14c0
+		Type: GroundPosition
+	DetectCloaked:
+		Range: 8c0
+	Aircraft:
+		CruiseAltitude: 2560
+		TurnSpeed: 16
+		Speed: 340
+		RepulsionSpeed: 40
+		MaximumPitch: 56
+	Rearmable:
+		RearmActors: base.aerienne
+	Contrail@1:
+		Offset: -432,560,0
+		StartColorAlpha: 128
+	Contrail@2:
+		Offset: -432,-560,0
+		StartColorAlpha: 128
+	SpawnActorOnDeath:
+		Actor: MIG.Husk

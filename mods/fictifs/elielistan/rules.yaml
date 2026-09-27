@@ -1,0 +1,515 @@
+# =====================================================================
+# ELIELISTAN — unités
+# « Tu ne combats pas l'armée elielistanaise.
+#   Tu combats l'endroit où elle était il y a dix secondes. »
+#
+# Doctrine commune (^ElielistanDoctrine) : après avoir tiré, une unité
+# gagne +35 % de vitesse pendant 4 secondes pour décrocher avant la riposte.
+# En contrepartie, les unités sont moins blindées que leurs équivalents.
+# =====================================================================
+
+^ElielistanDoctrine:
+	GrantConditionOnAttack@DECROCHAGE:
+		Condition: decrochage
+		RevokeDelay: 100
+	SpeedMultiplier@DECROCHAGE:
+		RequiresCondition: decrochage
+		Modifier: 135
+	# Ordre prioritaire du président (pouvoir du palais).
+	ExternalCondition@ORDRE:
+		Condition: ordre-prioritaire
+	SpeedMultiplier@ORDRE:
+		RequiresCondition: ordre-prioritaire
+		Modifier: 125
+	FirepowerMultiplier@ORDRE:
+		RequiresCondition: ordre-prioritaire
+		Modifier: 125
+	ReloadDelayMultiplier@ORDRE:
+		RequiresCondition: ordre-prioritaire
+		Modifier: 80
+	WithDecoration@ORDRE:
+		Image: pips
+		Sequence: pip-green
+		Position: TopLeft
+		RequiresCondition: ordre-prioritaire
+
+# Véhicules que le Cóndor peut emporter. Après le largage, le véhicule
+# reste désorienté 4 secondes : il ne tire pas, roule à moitié vitesse
+# et subit +50 % de dégâts.
+^CondorCarryable:
+	Carryable:
+		CarriedCondition: carried
+		LockedCondition: notmobile
+	GrantTimedConditionOnConditionEnd@LARGAGE:
+		RequiresCondition: carried
+		Condition: largage
+		Duration: 100
+	DamageMultiplier@LARGAGE:
+		RequiresCondition: largage
+		Modifier: 150
+	SpeedMultiplier@LARGAGE:
+		RequiresCondition: largage
+		Modifier: 50
+	WithDecoration@LARGAGE:
+		Image: pips
+		Sequence: pip-yellow
+		Position: TopRight
+		RequiresCondition: largage
+
+# ---------------------------------------------------------------------
+# INFANTERIE (caserne alliée)
+# ---------------------------------------------------------------------
+AGUILA:
+	Inherits: E1
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: e1
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~infantry.elielistan, ~techlevel.infonly
+		Description: Infanterie mobile polyvalente. Rapide mais peu résistante.\n  Fort contre : infanterie\n  Faible contre : véhicules, aviation
+	Selectable:
+		Class: aguila
+	Valued:
+		Cost: 120
+	Tooltip:
+		Name: Fusilier Aguila
+	Health:
+		HP: 4200
+	Mobile:
+		Speed: 71
+	Armament@PRIMARY:
+		Weapon: AguilaRifle
+
+CAZADOR:
+	Inherits: E3
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: e3
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~infantry.elielistan, ~techlevel.infonly
+		Description: Chasseur de chars d'embuscade.\nDevient invisible après 5 secondes immobile ;\nse dévoile en tirant ou en bougeant.\n  Fort contre : véhicules, aviation\n  Faible contre : infanterie
+	Selectable:
+		Class: cazador
+	Valued:
+		Cost: 350
+	Tooltip:
+		Name: Cazador
+	Health:
+		HP: 4000
+	Mobile:
+		Speed: 63
+	Armament@SECONDARY:
+		Weapon: CazadorRocket
+	Armament@GARRISONED:
+		Weapon: CazadorRocket
+	Cloak:
+		InitialDelay: 125
+		CloakDelay: 125
+		CloakSound: appear1.aud
+		UncloakSound: appear1.aud
+		IsPlayerPalette: true
+		UncloakOn: Attack, Move, Load, Unload, Dock, Damage
+
+EXPLORADOR:
+	Inherits: E1
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: e1
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: ~infantry.elielistan, dome, ~techlevel.low
+		Description: Éclaireur Aguila. Très grande vision, détecte les unités furtives.\nDésigne ses cibles au laser : +25 % de dégâts reçus.\nInvisible à l'arrêt. Ne combat pas.\n  Faible contre : tout
+	Selectable:
+		Class: explorador
+	Valued:
+		Cost: 250
+	Tooltip:
+		Name: Explorador (Recon Aguila)
+	Health:
+		HP: 3000
+	Mobile:
+		Speed: 71
+	RevealsShroud:
+		Range: 10c0
+	DetectCloaked:
+		Range: 6c0
+	-Armament@GARRISONED:
+	Armament@PRIMARY:
+		Weapon: AguilaDesignator
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: Defend
+	Cloak:
+		InitialDelay: 75
+		CloakDelay: 75
+		CloakSound: appear1.aud
+		UncloakSound: appear1.aud
+		IsPlayerPalette: true
+		UncloakOn: Move, Load, Unload, Dock, Damage
+
+# ---------------------------------------------------------------------
+# VÉHICULES (usine)
+# ---------------------------------------------------------------------
+GAVILAN:
+	Inherits: JEEP
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	Inherits@CONDOR: ^CondorCarryable
+	RenderSprites:
+		Image: jeep
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~vehicles.elielistan, ~techlevel.low
+		Description: Véhicule de reconnaissance très rapide.\nGrande vision, transporte 3 fantassins.\nTransportable par Cóndor.\n  Fort contre : infanterie\n  Faible contre : blindés
+	Valued:
+		Cost: 450
+	Tooltip:
+		Name: Gavilán
+	Health:
+		HP: 13000
+	Mobile:
+		Speed: 190
+		PauseOnCondition: notmobile || being-captured
+	RevealsShroud:
+		Range: 9c0
+	Armament:
+		Weapon: GavilanMG
+	Cargo:
+		MaxWeight: 3
+		LoadingCondition: notmobile
+	AttackTurreted:
+		PauseOnCondition: largage
+
+HALCON:
+	Inherits: STNK
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	Inherits@CONDOR: ^CondorCarryable
+	RenderSprites:
+		Image: stnk
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~vehicles.elielistan, ~techlevel.low
+		Description: Chasseur de blindés. Missile antichar à longue portée.\nInvisible à l'arrêt : idéal pour les embuscades.\nTransportable par Cóndor.\n  Fort contre : blindés\n  Faible contre : infanterie, aviation
+	Valued:
+		Cost: 850
+	Tooltip:
+		Name: Halcón AT
+	Health:
+		HP: 22000
+	Mobile:
+		Speed: 150
+		PauseOnCondition: notmobile || being-captured
+	-Cargo:
+	-WithCargoPipsDecoration:
+	Armament:
+		Weapon: HalconATGM
+	AutoTarget:
+		InitialStance: AttackAnything
+		InitialStanceAI: AttackAnything
+	Cloak:
+		InitialDelay: 100
+		CloakDelay: 100
+		UncloakOn: Attack, Move, Dock, Damage
+	AttackTurreted:
+		PauseOnCondition: largage
+
+JAGUAR:
+	Inherits: 1TNK
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	Inherits@CONDOR: ^CondorCarryable
+	RenderSprites:
+		Image: 1tnk
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~vehicles.elielistan, ~techlevel.low
+		Description: Char moyen rapide. Canon de 90 mm à cadence élevée.\nTransportable par Cóndor.\n  Fort contre : blindés, véhicules\n  Faible contre : infanterie, aviation
+	Valued:
+		Cost: 800
+	Tooltip:
+		Name: Jaguar
+	Health:
+		HP: 30000
+	Mobile:
+		Speed: 142
+		PauseOnCondition: notmobile || being-captured
+	Armament:
+		Weapon: Jaguar90mm
+	AttackTurreted:
+		PauseOnCondition: largage
+
+VIGIA:
+	Inherits: FTRK
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	Inherits@CONDOR: ^CondorCarryable
+	RenderSprites:
+		Image: ftrk
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: ~vehicles.elielistan, ~techlevel.low
+		Description: Défense antiaérienne mobile. Missiles sol-air,\nmitrailleuse contre les cibles au sol.\nTransportable par Cóndor.\n  Fort contre : aviation\n  Faible contre : véhicules, infanterie
+	Valued:
+		Cost: 650
+	Tooltip:
+		Name: Vigía
+	Health:
+		HP: 14000
+	Mobile:
+		Speed: 140
+		PauseOnCondition: notmobile || being-captured
+	Armament@AA:
+		Weapon: VigiaSAM
+	Armament@AG:
+		Weapon: M60mg
+	AttackTurreted:
+		PauseOnCondition: largage
+
+TRUENO:
+	Inherits: ARTY
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	Inherits@CONDOR: ^CondorCarryable
+	RenderSprites:
+		Image: arty
+	Buildable:
+		BuildPaletteOrder: 50
+		Prerequisites: ~vehicles.elielistan, dome, ~techlevel.medium
+		Description: Artillerie « tirer puis déménager ».\nSalve de 3 obus à 14 cases, mais vision très courte :\nil lui faut des éclaireurs ou des drones.\nAprès chaque salve : +60 % de vitesse pendant 4 secondes.\nTransportable par Cóndor.\n  Fort contre : infanterie, bâtiments\n  Faible contre : blindés rapides, aviation
+	Valued:
+		Cost: 950
+	Tooltip:
+		Name: Trueno
+	Health:
+		HP: 11000
+	Mobile:
+		Speed: 100
+		PauseOnCondition: notmobile || being-captured
+	RevealsShroud:
+		MinRange: 3c0
+		Range: 4c0
+	RevealsShroud@GAPGEN:
+		Range: 3c0
+	Armament:
+		Weapon: TruenoShell
+	AttackFrontal:
+		PauseOnCondition: largage
+	SpeedMultiplier@DECROCHAGE:
+		Modifier: 160
+
+CARRO.AGUILA:
+	Inherits: 2TNK
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: 2tnk
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: ~vehicles.elielistan, fix, ~techlevel.medium
+		Description: Char de bataille principal. Canon de 120 mm.\nPlus rapide qu'un char lourd, moins blindé.\nTrop lourd pour le Cóndor.\n  Fort contre : blindés\n  Faible contre : infanterie, aviation
+	Valued:
+		Cost: 1300
+	Tooltip:
+		Name: Carro Aguila
+	Health:
+		HP: 50000
+	Mobile:
+		Speed: 100
+	Armament:
+		Weapon: Aguila120mm
+
+LANZADOR:
+	Inherits: V2RL
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: v2rl
+	Buildable:
+		BuildPaletteOrder: 70
+		Prerequisites: ~vehicles.elielistan, atek, ~techlevel.high
+		Description: Artillerie automotrice (mêmes caractéristiques que le César).\nTire 3 obus en succession rapide avant de recharger.\n  Fort contre : infanterie, bâtiments\n  Faible contre : véhicules, aviation
+	Valued:
+		Cost: 1300
+	Tooltip:
+		Name: Lanzador Aguila
+	Mobile:
+		Speed: 164
+	Armament:
+		Weapon: LanzadorObus
+
+# ---------------------------------------------------------------------
+# AVIATION (héliport allié)
+# ---------------------------------------------------------------------
+CONDOR:
+	Inherits: TRAN
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: tran
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~aircraft.elielistan, ~techlevel.medium
+		Description: Hélicoptère de transport lourd.\nClic droit sur un véhicule allié léger ou moyen pour l'accrocher,\npuis clic droit sur la zone de largage.\nLe véhicule largué reste vulnérable 4 secondes.\nLent quand il est chargé, sans armes : à escorter.\n  Transporte : Gavilán, Halcón, Jaguar, Vigía, Trueno
+	Valued:
+		Cost: 1400
+	Tooltip:
+		Name: Cóndor
+	Health:
+		HP: 20000
+	Aircraft:
+		Speed: 140
+	-Cargo:
+	-WithCargoPipsDecoration:
+	Carryall:
+		BeforeLoadDelay: 25
+		BeforeUnloadDelay: 25
+		LocalOffset: 0, 0, -256
+		CarryCondition: charge
+		AllowDropOff: true
+	SpeedMultiplier@CHARGE:
+		RequiresCondition: charge
+		Modifier: 70
+
+^ElielistanDrone:
+	Inherits: ^Helicopter
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	-EjectOnDeath:
+	-SpawnActorOnDeath:
+	Explodes@AIR:
+		Weapon: UnitExplodeHeli
+		EmptyWeapon: UnitExplodeHeli
+		RequiresCondition: airborne
+	Selectable:
+		Bounds: 1024, 1024
+		DecorationBounds: 1024, 1024
+	RevealsShroud:
+		Type: GroundPosition
+	Aircraft:
+		CruiseAltitude: 2048
+		TurnSpeed: 16
+		Speed: 180
+	AttackAircraft:
+		AttackType: Hover
+		FacingTolerance: 512
+
+# Avispa : drone suicide (FPV). Fonce sur un fantassin et le tue d'un coup,
+# puis disparaît. Presque aucun blindage : la moindre défense antiaérienne l'abat.
+AVISPA:
+	Inherits: ^ElielistanDrone
+	RenderSprites:
+		Image: avispa
+	Buildable:
+		Queue: Aircraft
+		BuildAtProductionType: Helicopter
+		BuildPaletteOrder: 30
+		Prerequisites: ~aircraft.elielistan, ~techlevel.medium
+		Description: Drone suicide. Fonce sur un fantassin et le tue d'un seul coup.\nUsage unique : le drone est détruit dans l'attaque.\nN'attaque que l'infanterie. Très fragile.\n  Fort contre : infanterie\n  Faible contre : défense antiaérienne, aviation
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: Avispa
+	Health:
+		HP: 800
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 6c0
+	Armament:
+		Weapon: AvispaDive
+	AttackAircraft:
+		FacingTolerance: 128
+		PersistentTargeting: false
+		OpportunityFire: False
+	AutoTarget:
+		InitialStance: AttackAnything
+		InitialStanceAI: AttackAnything
+		ScanRadius: 6
+	Aircraft:
+		CruiseAltitude: 1280
+		TurnSpeed: 24
+		Speed: 220
+	# Le drone devient le projectile : il disparaît de l'écran dès qu'il plonge,
+	# mais n'est retiré qu'après l'impact (sinon la charge perd son guidage).
+	GrantConditionOnAttack@PLONGEE:
+		Condition: plongee
+		RevokeDelay: 1000
+	KillsSelf@PLONGEE:
+		RequiresCondition: plongee
+		Delay: 40
+		RemoveInstead: true
+	WithFacingSpriteBody:
+		RequiresCondition: !plongee
+	WithShadow:
+		RequiresCondition: !plongee
+	Targetable@AIRBORNE:
+		RequiresCondition: airborne && !plongee
+
+PICO:
+	Inherits: ^ElielistanDrone
+	Buildable:
+		Queue: Aircraft
+		BuildAtProductionType: Helicopter
+		BuildPaletteOrder: 40
+		Prerequisites: ~aircraft.elielistan, ~techlevel.medium
+		Description: Drone d'attaque légère. Mitrailleuse.\n  Fort contre : infanterie, véhicules légers\n  Faible contre : blindés, aviation, défense antiaérienne
+	Valued:
+		Cost: 550
+	Tooltip:
+		Name: Pico
+	Health:
+		HP: 4000
+	RevealsShroud:
+		Range: 8c0
+	Armament:
+		Weapon: PicoMG
+	AutoTarget:
+		InitialStance: AttackAnything
+		InitialStanceAI: AttackAnything
+
+GARRA:
+	Inherits: ^ElielistanDrone
+	Buildable:
+		Queue: Aircraft
+		BuildAtProductionType: Helicopter
+		BuildPaletteOrder: 50
+		Prerequisites: ~aircraft.elielistan, atek, ~techlevel.high
+		Description: Drone antichar. Deux missiles puissants,\npuis retour à l'héliport pour se réarmer.\n  Fort contre : blindés\n  Faible contre : infanterie, aviation, défense antiaérienne
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: Garra
+	Health:
+		HP: 5000
+	RevealsShroud:
+		Range: 8c0
+	Armament:
+		Weapon: GarraMissile
+		PauseOnCondition: !ammo
+	AmmoPool:
+		Ammo: 2
+		AmmoCondition: ammo
+	Rearmable:
+		RearmActors: hpad
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		RequiresSelection: true
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: ReturnFire
+
+# Rayo : avion d'attaque de la Frappe Aguila (pouvoir de soutien, non constructible).
+RAYO.STRIKE:
+	Inherits: BADR.Bomber
+	RenderSprites:
+		Image: mig
+	Tooltip:
+		Name: Rayo
+	Health:
+		HP: 12000
+	Aircraft:
+		Speed: 320
+	AmmoPool:
+		Ammo: 6
+	Armament:
+		Weapon: RayoBomb
+	SpawnActorOnDeath:
+		Actor: MIG.Husk

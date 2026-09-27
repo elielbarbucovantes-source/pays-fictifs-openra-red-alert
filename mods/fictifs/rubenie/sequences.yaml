@@ -1,0 +1,209 @@
+# RUBÉNIE — sprites propres (tools/sprites.py) et sprites repris du mod ratc.
+
+# QG rubénien : centre de communications de Red Alert.
+qg.rub:
+	Inherits: miss
+	icon:
+		Filename: fictifs|bits/qgicon.png
+
+# Artillerie côtière : socle de la tourelle alliée, obusier tracté sur le dessus.
+cotiere:
+	Inherits: gun
+	turret:
+		Filename: fictifs|bits/howi.shp
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+	recoil:
+		Filename: fictifs|bits/howi.shp
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+	damaged-turret:
+		Filename: fictifs|bits/howi.shp
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+	damaged-recoil:
+		Filename: fictifs|bits/howi.shp
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+	icon:
+		Filename: fictifs|bits/howiticon.shp
+
+# Char de contre-attaque (Leclerc du mod ratc).
+leclerc:
+	Defaults:
+		Filename: fictifs|bits/leclerc.png
+	idle:
+		Facings: 32
+	turret:
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon:
+		Filename: fictifs|bits/leclercicon.png
+
+# Canon automoteur (PzH 2000 du mod ratc).
+pzh:
+	idle:
+		Filename: fictifs|bits/pzh.png
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon:
+		Filename: fictifs|bits/pzhicon.png
+
+# Artillerie lourde (M777 du mod ratc).
+m777:
+	idle:
+		Filename: fictifs|bits/m777.png
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon:
+		Filename: fictifs|bits/m777icon.png
+
+# Lance-roquettes multiple (Katioucha de la carte WW3, via le mod ratc).
+katy:
+	idle:
+		Filename: fictifs|bits/katy.shp
+		Facings: 32
+		UseClassicFacings: True
+	muzzle:
+		Filename: fictifs|bits/smokeygun.shp
+		Length: 12
+		Tick: 30
+	icon:
+		Filename: fictifs|bits/katyicnh.shp
+
+# ---------------------------------------------------------------------
+# Aviation (sprites de la carte WW3, via le mod ratc ; U2 de Red Alert)
+# ---------------------------------------------------------------------
+suk:
+	idle:
+		Filename: fictifs|bits/suk.shp
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/sukicon.shp
+
+f22:
+	idle:
+		Filename: fictifs|bits/f22.shp
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/f22icon.shp
+
+a10:
+	idle:
+		Filename: fictifs|bits/a10.shp
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/a10icon.shp
+
+avion.reco:
+	Inherits: u2
+	icon:
+		Filename: fictifs|bits/avionrecoicon.png
+
+# ---------------------------------------------------------------------
+# Marine
+# ---------------------------------------------------------------------
+# Escorteur : destroyer de la carte WW3 (coque + lanceur de missiles).
+escorteur:
+	idle:
+		Filename: fictifs|bits/dd2.shp
+		Facings: 16
+	turret:
+		Filename: fictifs|bits/ifvtur.shp
+		Start: 256
+		Facings: 32
+		UseClassicFacings: True
+	icon:
+		Filename: fictifs|bits/dd2icnh.shp
+
+icbmsub:
+	idle:
+		Filename: fictifs|bits/icbmsub.shp
+		Facings: 16
+	icon:
+		Filename: fictifs|bits/icbmsubicon.shp
+
+# Porte-avions rubénien (Amiral Kouznetsov du mod ratc).
+paru:
+	idle:
+		Filename: fictifs|bits/paru.shp
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/paruicon.shp
+
+# ---------------------------------------------------------------------
+# Logistique, Tunnelier et pouvoirs du QG
+# ---------------------------------------------------------------------
+# Centre logistique (bâtiment « pionnier » du mod ratc).
+centre.logistique:
+	Defaults:
+		Filename: fictifs|bits/pionier.png
+	idle:
+	damaged-idle:
+		Start: 1
+	make:
+		Start: 2
+		Length: 10
+	bib:
+		Filename: bib3.tem
+		TilesetFilenames:
+			SNOW: bib3.sno
+			DESERT: bib3.des
+		Length: *
+	icon:
+		Filename: fictifs|bits/pioniericon.png
+
+# Opération Taupe : galerie creusée dans la terre (tools/sprites.py).
+taupegate:
+	idle:
+		Filename: fictifs|bits/taupegate.png
+		Length: 8
+		Tick: 120
+		ZOffset: -1024
+
+# Icônes des pouvoirs de soutien du QG (IconImage: rubenie-powers).
+rubenie-powers:
+	eclair:
+		Filename: fictifs|bits/eclairicon.png
+	mobilisation:
+		Filename: fictifs|bits/mobilisationicon.png
+	precision:
+		Filename: fictifs|bits/precisionicon.png
+	taupe:
+		Filename: fictifs|bits/taupeicon.png
+	superiorite:
+		Filename: fictifs|bits/superioriteicon.png
+
+# Bastion roulant (Battle Fortress de la carte WW3, via le mod ratc).
+bastion:
+	idle:
+		Filename: fictifs|bits/batf.shp
+		Facings: 32
+		UseClassicFacings: True
+	muzzle:
+		Filename: fictifs|bits/smokeygun.shp
+		Length: 12
+		Tick: 30
+	turret:
+		Filename: fictifs|bits/batf.shp
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+	turret2:
+		Filename: stnk.shp
+		Start: 38
+		Facings: 32
+		UseClassicFacings: True
+	icon:
+		Filename: fictifs|bits/batficon.shp

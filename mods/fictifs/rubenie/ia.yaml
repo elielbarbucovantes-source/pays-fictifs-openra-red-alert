@@ -1,0 +1,248 @@
+# =====================================================================
+# RUBÉNIE — intelligence artificielle
+# Les listes des modules de l'IA de Red Alert (engine/mods/ra/rules/ai.yaml)
+# sont reprises telles quelles, complétées des bâtiments et unités rubéniens.
+#
+# Volontairement laissés aux joueurs humains :
+#  - le Tunnelier (l'IA ne sait pas débarquer ses troupes) ;
+#  - le porte-avions (l'IA ne sait pas y faire apponter ses avions) ;
+#  - l'avion de reconnaissance (sans arme, inutile dans une escadrille) ;
+#  - l'Opération Taupe (pouvoir à deux clics) ;
+#  - tranchées vides et artillerie côtière (l'IA ne les garnit ni ne les place utilement).
+# =====================================================================
+
+Player:
+	BaseBuilderBotModule@rush:
+		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub
+		BuildingLimits:
+			qg.rub: 1
+			centre.logistique: 2
+		BuildingFractions:
+			qg.rub: 1
+			centre.logistique: 3
+			bunker.rub: 7
+			casemate.at: 7
+			tourelle.aa: 5
+			sam.rub: 3
+	BaseBuilderBotModule@normal:
+		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub
+		ProductionTypes: barr,tent,weap,afld,hpad, base.aerienne
+		NavalProductionTypes: spen, syrd, chantier.rub
+		BuildingLimits:
+			qg.rub: 1
+			centre.logistique: 2
+			base.aerienne: 4
+			chantier.rub: 1
+		BuildingFractions:
+			qg.rub: 1
+			centre.logistique: 3
+			base.aerienne: 4
+			chantier.rub: 1
+			bunker.rub: 7
+			casemate.at: 7
+			tourelle.aa: 5
+			sam.rub: 2
+	BaseBuilderBotModule@turtle:
+		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub
+		ProductionTypes: barr,tent,weap,afld,hpad, base.aerienne
+		NavalProductionTypes: spen, syrd, chantier.rub
+		BuildingLimits:
+			qg.rub: 1
+			centre.logistique: 3
+			base.aerienne: 4
+			chantier.rub: 1
+		BuildingFractions:
+			qg.rub: 1
+			centre.logistique: 4
+			base.aerienne: 2
+			chantier.rub: 1
+			bunker.rub: 12
+			casemate.at: 12
+			tourelle.aa: 6
+			sam.rub: 5
+	BaseBuilderBotModule@naval:
+		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub
+		ProductionTypes: barr,tent,weap,afld,hpad, base.aerienne
+		NavalProductionTypes: spen, syrd, chantier.rub
+		BuildingLimits:
+			qg.rub: 1
+			centre.logistique: 2
+			base.aerienne: 8
+			chantier.rub: 1
+		BuildingFractions:
+			qg.rub: 1
+			centre.logistique: 3
+			base.aerienne: 20
+			chantier.rub: 1
+			bunker.rub: 12
+			casemate.at: 12
+			tourelle.aa: 5
+			sam.rub: 5
+	SquadManagerBotModule@rush:
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, escorteur, fregate, sous.marin
+		AirUnitsTypes: mig, yak, heli, hind, mh60, chasseur.poly, intercepteur, avion.attaque
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
+	SquadManagerBotModule@normal:
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, escorteur, fregate, sous.marin
+		AirUnitsTypes: mig, yak, heli, hind, mh60, chasseur.poly, intercepteur, avion.attaque
+		NavalProductionTypes: spen, syrd, chantier.rub
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
+	SquadManagerBotModule@turtle:
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, escorteur, fregate, sous.marin
+		AirUnitsTypes: mig, yak, heli, hind, mh60, chasseur.poly, intercepteur, avion.attaque
+		NavalProductionTypes: spen, syrd, chantier.rub
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
+	SquadManagerBotModule@naval:
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, escorteur, fregate, sous.marin
+		AirUnitsTypes: mig, yak, heli, hind, mh60, chasseur.poly, intercepteur, avion.attaque
+		NavalProductionTypes: spen, syrd, chantier.rub
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
+	UnitBuilderBotModule@rush:
+		UnitsToBuild:
+			bastion: 8
+			fusilier: 65
+			grenadier: 20
+			chasseur.at: 30
+			eclaireur: 5
+			second.galactique: 5
+			reco.rub: 15
+			vehicule.logistique: 10
+			contreattaque: 45
+			sicatient: 50
+			forteresse: 20
+			aa.rub: 25
+			canon.auto: 20
+			lrm: 15
+			artillerie.lourde: 10
+			lancemissile: 10
+		UnitLimits:
+			eclaireur: 2
+			vehicule.logistique: 2
+			reco.rub: 4
+			aa.rub: 6
+			artillerie.lourde: 3
+	UnitBuilderBotModule@normal:
+		UnitsToBuild:
+			bastion: 10
+			fusilier: 65
+			grenadier: 20
+			chasseur.at: 30
+			eclaireur: 5
+			second.galactique: 5
+			reco.rub: 15
+			vehicule.logistique: 10
+			contreattaque: 45
+			sicatient: 50
+			forteresse: 20
+			aa.rub: 25
+			canon.auto: 20
+			lrm: 15
+			artillerie.lourde: 10
+			lancemissile: 10
+			chasseur.poly: 30
+			intercepteur: 20
+			avion.attaque: 25
+			escorteur: 10
+			fregate: 10
+			sous.marin: 10
+		UnitLimits:
+			eclaireur: 2
+			vehicule.logistique: 2
+			reco.rub: 4
+			aa.rub: 6
+			artillerie.lourde: 3
+	UnitBuilderBotModule@turtle:
+		UnitsToBuild:
+			bastion: 15
+			fusilier: 65
+			grenadier: 20
+			chasseur.at: 30
+			eclaireur: 5
+			second.galactique: 5
+			reco.rub: 15
+			vehicule.logistique: 10
+			contreattaque: 45
+			sicatient: 50
+			forteresse: 20
+			aa.rub: 25
+			canon.auto: 20
+			lrm: 15
+			artillerie.lourde: 10
+			lancemissile: 10
+			chasseur.poly: 30
+			intercepteur: 20
+			avion.attaque: 25
+			escorteur: 10
+			fregate: 10
+			sous.marin: 10
+		UnitLimits:
+			eclaireur: 2
+			vehicule.logistique: 2
+			reco.rub: 4
+			aa.rub: 6
+			artillerie.lourde: 3
+	UnitBuilderBotModule@naval:
+		UnitsToBuild:
+			chasseur.poly: 30
+			intercepteur: 20
+			avion.attaque: 25
+			escorteur: 30
+			fregate: 20
+			sous.marin: 20
+	# Pouvoirs du QG que l'IA sait utiliser.
+	SupportPowerBotModule:
+		Decisions:
+			rubenieeclair:
+				OrderName: RubenieEclair
+				MinimumAttractiveness: 8
+				Consideration@1:
+					Against: Ally
+					Types: GroundActor
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 5c0
+				Consideration@2:
+					Against: Enemy
+					Types: GroundActor, Structure
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 8c0
+			rubeniemobilisation:
+				OrderName: RubenieMobilisation
+				MinimumAttractiveness: 8
+				Consideration@1:
+					Against: Ally
+					Types: Structure
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 8c0
+				Consideration@2:
+					Against: Enemy
+					Types: GroundActor
+					Attractiveness: 2
+					TargetMetric: None
+					CheckRadius: 8c0
+			rubenieprecision:
+				OrderName: RubeniePrecision
+				MinimumAttractiveness: 1500
+				Consideration@1:
+					Against: Enemy
+					Types: Structure
+					Attractiveness: 1
+					TargetMetric: Value
+					CheckRadius: 1c0
+				Consideration@2:
+					Against: Ally
+					Types: GroundActor, WaterActor, Structure
+					Attractiveness: -10
+					TargetMetric: Value
+					CheckRadius: 2c0
+			rubeniesuperiorite:
+				OrderName: RubenieSuperiorite
+				MinimumAttractiveness: 2
+				Consideration@1:
+					Against: Enemy
+					Types: AirborneActor
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 10c0

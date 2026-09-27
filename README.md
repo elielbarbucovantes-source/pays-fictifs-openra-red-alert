@@ -1,0 +1,75 @@
+# Pays fictifs — mod pour OpenRA Red Alert
+
+Un mod pour [OpenRA](https://www.openra.net) (Red Alert) qui ajoute des pays fictifs jouables, chacun avec sa doctrine, ses unités et ses pouvoirs.
+
+## Pays
+
+### 🇪🇱 Elielistan : « Tu combats l'endroit où elle était il y a dix secondes »
+
+Faction européenne très rapide, fondée sur le hit-and-run : repérer, frapper, disparaître, recommencer ailleurs. Son emblème est l'Aguila, un aigle aux pointes d'ailes rouge vif.
+
+- **Doctrine du décrochage** : après avoir tiré, chaque unité gagne de la vitesse pendant 4 secondes. En contrepartie, elle est moins blindée que les unités équivalentes.
+- **Infanterie** : Fusilier Aguila, Cazador (antichar invisible à l'arrêt), Explorador (éclaireur, désignation laser).
+- **Véhicules** : Gavilán (reconnaissance), Halcón AT (chasseur de chars furtif), Jaguar (char moyen rapide), Vigía (DCA), Trueno (artillerie « tirer puis déménager »), Carro Aguila (char de bataille principal), Lanzador (missile longue portée).
+- **Aviation** : Cóndor (hélicoptère qui accroche et largue des véhicules, vulnérables 4 s après le largage), drones Ojo (reconnaissance), Pico (attaque légère) et Garra (antichar).
+- **Palacio Presidencial** et pouvoirs de soutien :
+  - **Ordre prioritaire** : bonus de vitesse, de feu et de cadence sur une zone. 10 ordres par quinquennat (15 minutes).
+  - **Ojo del Aguila** : révèle une zone, détecte le camouflage et désigne tous les ennemis.
+  - **Aguila Bridge** : pont temporaire au-dessus de n'importe quel obstacle, utilisable par tout le monde.
+  - **Aguila Gate** : tunnel temporaire entre deux points de la carte.
+  - **Frappe Aguila** (héliport) : trois avions Rayo bombardent puis repartent.
+
+L'Elielistan construit la base alliée de Red Alert (sans la chronosphère).
+
+### Rubénie : « Si ça tient, touche à rien »
+
+Faction défensive au drapeau blanc et vert frappé d'une montagne. Ses unités sont plus solides et plus lentes que celles de l'Elielistan, un peu plus chères, et gagnent les combats qui durent : défendre, contre-attaquer, se replier, réparer, recommencer.
+
+- **Infanterie** : Fusilier rubénien, Grenadier (zone d'effet), Chasseur antichar (longue portée), Éclaireur (camouflé, grande vision, détection), Second Galactique (officier d'élite unique : aura de +15 % de dégâts et −15 % de dégâts reçus, Tesla, charges de démolition).
+- **Chars** : « Si ça tient, touche à rien » (char de bataille qui se répare seul hors combat), Char de contre-attaque (rapide, léger), Char lourd de forteresse (blindage extrême, très lent).
+- **Véhicules et artillerie** : véhicule de reconnaissance, véhicule antiaérien, lance-missiles mobile, canon automoteur, artillerie lourde (18 cases), lance-roquettes multiple.
+- **Défenses** : tranchées, bunker à 5 places, casemate antichar, tourelle AA, SAM, artillerie côtière.
+- **Aviation** (base aérienne) : chasseur polyvalent (air-air, air-sol, antinavire ; seul à apponter sur le porte-avions), intercepteur, avion d'attaque au sol, avion de reconnaissance.
+- **Marine** (chantier naval rubénien) : escorteur (bouclier antiaérien du groupe), frégate lance-missiles, sous-marin, porte-avions (3 chasseurs polyvalents).
+- **Logistique** : le centre logistique, le QG, le chantier de construction et le véhicule logistique ravitaillent les unités terrestres proches (réparation lente hors combat). Une unité hors de tout rayon depuis 30 secondes est isolée : −25 % de dégâts et de cadence, plus de réparation. Le véhicule logistique répare aussi vite, même au combat, les unités qui l'entourent.
+- **Bastion roulant** : la Battle Fortress à la rubénienne. Deux canons de 130 mm et des missiles qui ne tirent que si des fantassins sont à bord, ravitaillement embarqué (jamais isolé, ravitaille les unités autour), réparation autonome.
+- **Tunnelier** : livré avec 10 chasseurs antichars, il roule sous terre à mi-vitesse, invisible sauf pour les détecteurs sismiques (Éclaireur, véhicule de reconnaissance, QG, dômes radar). À l'arrêt, il émerge : 3 secondes immobile et vulnérable.
+- **QG rubénien** et pouvoirs de soutien :
+  - **Contre-attaque éclair** : +40 % de vitesse et −25 % de temps de rechargement pendant 20 secondes, sur une zone.
+  - **Mobilisation défensive** : pendant 45 secondes, construction deux fois plus rapide, bâtiments plus blindés qui se réparent seuls.
+  - **Frappe de précision** : un missile qui détruit presque n'importe quel bâtiment, sans raser les alentours.
+  - **Opération Taupe** : tunnel temporaire sur la terre ferme, réservé aux unités rubéniennes.
+  - **Supériorité aérienne** : quatre chasseurs patrouillent 30 secondes au-dessus d'une zone.
+
+La Rubénie construit la base soviétique, avec sa propre base aérienne et son propre chantier naval.
+
+L'IA sait jouer la Rubénie : elle construit ses bâtiments et défenses, produit ses unités terrestres, aériennes et navales, et utilise quatre pouvoirs du QG. Le Tunnelier, le porte-avions, l'avion de reconnaissance et l'Opération Taupe restent réservés aux joueurs humains.
+
+## Installation
+
+Prérequis (Linux) : `git`, `make`, `curl`, `unzip` et le [SDK .NET 6](https://dotnet.microsoft.com/download/dotnet/6.0). Avec seulement .NET 8, exporter `DOTNET_ROLL_FORWARD=LatestMajor`.
+
+```sh
+make              # compile le moteur OpenRA (release-20231010) et le mod
+./launch-game.sh
+```
+
+## Organisation
+
+| Chemin | Rôle |
+| --- | --- |
+| `mods/fictifs/common/` | Règles partagées : factions, désignation laser, mandat présidentiel, IA |
+| `mods/fictifs/elielistan/` | Unités, armes, pouvoirs et sprites de l'Elielistan |
+| `mods/fictifs/rubenie/` | Unités, armes, défenses et sprites de la Rubénie |
+| `OpenRA.Mods.Fictifs/` | Code C# : Aguila Gate et Opération Taupe, Aguila Bridge, ordres prioritaires, vulnérabilité après largage, isolement logistique, Tunnelier, Mobilisation défensive, Supériorité aérienne |
+| `tools/` | Scripts Python qui génèrent drapeaux, icônes et sprites |
+
+## Crédits
+
+- Mod : Leile.
+- Sprites des drones, du pont et de plusieurs véhicules (Leclerc, PzH, M777, Katioucha, obusier, Kouznetsov, dépôt « pionnier » ; Su-33, F-22, A-10, Battle Fortress, destroyer et sous-marin de la carte WW3) repris du mod « Mod moderne » (ratc) de Leile.
+- Basé sur l'[OpenRA Mod SDK](https://github.com/OpenRA/OpenRAModSDK).
+
+## Licence
+
+Le moteur OpenRA, les scripts du SDK et le code C# du mod sont sous licence [GPLv3](COPYING).

@@ -1,0 +1,278 @@
+# =====================================================================
+# ELIELISTAN — Nathan et bombardiers
+# =====================================================================
+
+# ---------------------------------------------------------------------
+# NATHAN — infiltré d'élite. Invisible tant qu'il reste immobile ;
+# désigne un bâtiment à 8 cases au plus et appelle une frappe aérienne
+# qui le rase d'un coup. Tirer (ou bouger) le fait apparaître.
+# ---------------------------------------------------------------------
+NATHAN:
+	Inherits: E1
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: nathan
+	Buildable:
+		BuildPaletteOrder: 60
+		BuildLimit: 2
+		Prerequisites: ~infantry.elielistan, dome, ~techlevel.medium
+		Description: Infiltré d'élite. Invisible à l'arrêt (après 3 secondes).\nFrappe aérienne : désigne un bâtiment à 8 cases au plus,\nun avion le rase d'un seul coup. Recharge : 90 secondes.\nBouger ou tirer le rend visible. 2 au maximum.\n  Fort contre : bâtiments\n  Faible contre : infanterie, véhicules, chiens
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Nathan
+	Health:
+		HP: 9000
+	Mobile:
+		Speed: 50
+	RevealsShroud:
+		Range: 9c0
+	Armament@PRIMARY:
+		Weapon: AguilaRifle
+	Armament@FRAPPE:
+		Name: frappe
+		Weapon: NathanAirstrike
+	AttackFrontal:
+		Armaments: primary, frappe
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: ReturnFire
+	Cloak:
+		InitialDelay: 0
+		CloakDelay: 75
+		IsPlayerPalette: true
+		DetectionTypes: Cloak
+		UncloakOn: Move, Unload, Infiltrate, Demolish, Dock, Attack
+	FlybyOnAttack:
+		Armaments: frappe
+		UnitType: rayo.flyby
+		Distance: 10c0
+
+# Avion de la frappe du Nathan : simple passage, la bombe est l'arme du Nathan.
+RAYO.FLYBY:
+	Inherits: RAYO.STRIKE
+	-Armament:
+	-AttackBomber:
+	-AmmoPool:
+	Aircraft:
+		IdleBehavior: LeaveMap
+
+# ---------------------------------------------------------------------
+# BOMBARDIERS (repris de la carte WW3). Construits à l'aérodrome,
+# sauf le Kirov (dirigeable, héliport).
+# ---------------------------------------------------------------------
+
+# Bombardier tactique : bombes incendiaires contre l'infanterie et le léger.
+BOMBARDIER.TACTIQUE:
+	Inherits: YAK
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: ant40
+	Buildable:
+		BuildPaletteOrder: 80
+		Prerequisites: ~aerodromo, dome, ~techlevel.medium
+		Description: Bombardier tactique. Tapis de bombes incendiaires.\n  Fort contre : infanterie, véhicules légers, bâtiments légers\n  Faible contre : chars, aviation
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Bombardier tactique
+	Health:
+		HP: 17500
+	Armament@PRIMARY:
+		Weapon: TactiqueFireBombs
+		LocalOffset: 350,-213,-100
+		-MuzzleSequence:
+	Armament@SECONDARY:
+		Weapon: TactiqueFireBombs
+		LocalOffset: 350,213,-100
+		-MuzzleSequence:
+	-WithMuzzleOverlay:
+	AmmoPool:
+		Ammo: 16
+	WithAmmoPipsDecoration:
+		PipCount: 8
+	Aircraft:
+		CruiseAltitude: 4c0
+		Speed: 130
+	Contrail:
+		Offset: 0,-553,0
+	Contrail@2:
+		Offset: 0,553,0
+		StartColorAlpha: 128
+	Rearmable:
+		RearmActors: aerodromo
+	Selectable:
+		DecorationBounds: 2133, 2133, 0, 0
+	SpawnActorOnDeath:
+		Actor: BOMBARDIER.TACTIQUE.Husk
+
+BOMBARDIER.TACTIQUE.Husk:
+	Inherits: YAK.Husk
+	Tooltip:
+		Name: Bombardier tactique
+	RenderSprites:
+		Image: ant40
+
+# B-2 Spirit : bombardier furtif lourd, invisible au radar.
+B2.SPIRIT:
+	Inherits: YAK
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: b2b
+	Buildable:
+		BuildPaletteOrder: 90
+		BuildLimit: 2
+		Prerequisites: ~aerodromo, atek, ~techlevel.high
+		Description: Bombardier furtif lourd. Invisible au radar ennemi.\n2 passages de 6 bombes incendiaires lourdes.\n2 au maximum.\n  Fort contre : bâtiments, infanterie, véhicules légers\n  Faible contre : chasseurs, défense antiaérienne
+	Valued:
+		Cost: 2800
+	Tooltip:
+		Name: B-2 Spirit
+	Health:
+		HP: 30000
+	Armament@PRIMARY:
+		Weapon: B2FireBombs
+		LocalOffset: 0,0,-100
+		-MuzzleSequence:
+	-Armament@SECONDARY:
+	-WithMuzzleOverlay:
+	AttackAircraft:
+		FacingTolerance: 16
+	AmmoPool:
+		Ammo: 2
+		-ReloadDelay:
+	WithAmmoPipsDecoration:
+		PipCount: 2
+	Aircraft:
+		CruiseAltitude: 2560
+		TurnSpeed: 16
+		Speed: 200
+	-AppearsOnRadar:
+	-GpsDot:
+	Contrail:
+		Offset: -432,560,0
+		StartColorAlpha: 128
+	Contrail@2:
+		Offset: -432,-560,0
+		StartColorAlpha: 128
+	Rearmable:
+		RearmActors: aerodromo
+	Selectable:
+		Bounds: 2048, 2048
+		DecorationBounds: 2560, 2560
+	SpawnActorOnDeath:
+		Actor: B2.SPIRIT.Husk
+
+B2.SPIRIT.Husk:
+	Inherits: BADR.Husk
+	Tooltip:
+		Name: B-2 Spirit
+	RenderSprites:
+		Image: b2b
+
+# Kirov : dirigeable blindé, lent, bombes très lourdes. Se réarme seul.
+KIROV:
+	Inherits: ^Helicopter
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Buildable:
+		Queue: Aircraft
+		BuildAtProductionType: Helicopter
+		BuildPaletteOrder: 95
+		BuildLimit: 3
+		Prerequisites: ~aircraft.elielistan, atek, ~techlevel.high
+		Description: Dirigeable blindé, très lent, bombes très lourdes.\nRecharge ses bombes en vol. 3 au maximum.\n  Fort contre : bâtiments, infanterie\n  Faible contre : aviation, défense antiaérienne
+	Valued:
+		Cost: 2500
+	Tooltip:
+		Name: Kirov
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 130000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 10c0
+		MinRange: 8c0
+		Type: GroundPosition
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 8c0
+		Type: GroundPosition
+	Armament@PRIMARY:
+		Weapon: KirovBomb
+		LocalOffset: -20,0,0
+		PauseOnCondition: !ammo
+	AmmoPool:
+		Ammo: 8
+		AmmoCondition: ammo
+	ReloadAmmoPool:
+		Delay: 60
+	AttackAircraft:
+		FacingTolerance: 128
+		AttackType: Default
+	Aircraft:
+		CruiseAltitude: 2c0
+		Repulsable: False
+		InitialFacing: 192
+		TurnSpeed: 3
+		Speed: 50
+		AltitudeVelocity: 0c50
+		CanForceLand: False
+	AutoTarget:
+		InitialStanceAI: AttackAnything
+		ScanRadius: 10
+	SpawnActorOnDeath:
+		Actor: KIROV.Husk
+	WithIdleOverlay@ROTOR1AIR:
+		Offset: -180,597,250
+		Sequence: rotor
+		RequiresCondition: airborne
+	WithIdleOverlay@ROTOR1GROUND:
+		Offset: -180,597,250
+		Sequence: slow-rotor
+		RequiresCondition: !airborne
+	WithIdleOverlay@ROTOR2AIR:
+		Offset: -180,-597,250
+		Sequence: rotor
+		RequiresCondition: airborne
+	WithIdleOverlay@ROTOR2GROUND:
+		Offset: -180,-597,250
+		Sequence: slow-rotor
+		RequiresCondition: !airborne
+	Rearmable:
+		RearmActors: hpad
+	Selectable:
+		Bounds: 1536, 1194, 0, 85
+		DecorationBounds: 1706, 1706, 0, 42
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		RequiresSelection: true
+	GrantConditionOnDamageState@SmokeTrail:
+		Condition: enable-smoke
+	LeavesTrails@1:
+		Offsets: -100,500,100
+		Image: smokey
+		MovingInterval: 3
+		StationaryInterval: 3
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
+		RequiresCondition: enable-smoke
+
+KIROV.Husk:
+	Inherits: ^HelicopterHusk
+	Tooltip:
+		Name: Kirov (épave)
+	RenderSprites:
+		Image: kirov
+	Aircraft:
+		TurnSpeed: 2
+		Speed: 30
+	FallsToEarth:
+		MaximumSpinSpeed: 0
+		Explosion: KirovCrash
+	RevealsShroud:
+		Range: 10c0
+		Type: CenterPosition

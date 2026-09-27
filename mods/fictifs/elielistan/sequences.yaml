@@ -1,0 +1,346 @@
+# ELIELISTAN — sprites propres (tools/sprites.py) et sprites repris du mod ratc.
+
+# Palais présidentiel : bâtiment « poste de commandement avancé » de Red Alert.
+palacio:
+	Defaults:
+		Filename: fcom.shp
+	idle:
+	damaged-idle:
+		Start: 1
+	make:
+		Filename: fcommake.shp
+		Length: *
+	bib:
+		Filename: bib3.tem
+		TilesetFilenames:
+			SNOW: bib3.sno
+			DESERT: bib3.des
+		Length: *
+	icon:
+		Filename: fictifs|bits/palacioicon.png
+
+# Icônes des pouvoirs de soutien (IconImage: elielistan-powers).
+elielistan-powers:
+	ojo:
+		Filename: fictifs|bits/ojoicon.png
+	gate:
+		Filename: fictifs|bits/gateicon.png
+	bridge:
+		Filename: fictifs|bits/bridgeicon.png
+	orden:
+		Filename: fictifs|bits/ordenicon.png
+	strike:
+		Filename: fictifs|bits/strikeicon.png
+
+# Aguila Gate : bouche de tunnel animée.
+aguilagate:
+	idle:
+		Filename: fictifs|bits/aguilagate.png
+		Length: 8
+		Tick: 100
+		ZOffset: -1024
+
+# Aguila Bridge : travées (reprises du pont tactique de ratc).
+aguilapuente:
+	Defaults:
+		Filename: fictifs|bits/tacbridge.png
+		ZOffset: -1024
+	ns:
+		Start: 0
+	ew:
+		Start: 1
+
+# Drones (sprites du mod ratc, générés par ses outils).
+avispa:
+	idle:
+		Filename: fictifs|bits/fpvquad.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/fpvquadicon.png
+
+pico:
+	idle:
+		Filename: fictifs|bits/patroller.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/patrollericon.png
+
+garra:
+	idle:
+		Filename: fictifs|bits/protector.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/protectoricon.png
+
+# ---------------------------------------------------------------------
+# Projection, marine et défenses (sprites repris du mod ratc,
+# icônes générées par tools/sprites.py).
+# ---------------------------------------------------------------------
+aguila.nuclear:
+	Inherits: 4tnk
+	icon:
+		Filename: fictifs|bits/nuclearicon.png
+
+aguila.carrier:
+	idle:
+		Filename: fictifs|bits/ravit.shp
+		Facings: 32
+		UseClassicFacings: True
+	icon:
+		Filename: fictifs|bits/ravitic.shp
+
+pelicano:
+	idle:
+		Filename: badr.shp
+		Facings: 16
+		InterpolatedFacings: 64
+	icon:
+		Filename: fictifs|bits/pelicanoicon.png
+
+harpia:
+	idle:
+		Filename: fictifs|bits/harrier.shp
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/harriericon.shp
+
+porta.aguila:
+	idle:
+		Filename: fictifs|bits/pauk.shp
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/paukicon.shp
+
+tiburon:
+	idle:
+		Filename: fictifs|bits/snle.shp
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/snleicon.shp
+
+tranchee:
+	Defaults:
+		Filename: fictifs|bits/tranchee.shp
+	idle:
+	damaged-idle:
+		Start: 1
+	make:
+		Start: 2
+		Length: 4
+		Tick: 200
+	icon:
+		Filename: fictifs|bits/trancheeicon.shp
+
+trancheev:
+	Defaults:
+		Filename: fictifs|bits/trancheev.shp
+	idle:
+	damaged-idle:
+		Start: 1
+	make:
+		Start: 2
+		Length: 4
+		Tick: 200
+	icon:
+		Filename: fictifs|bits/trancheevicon.shp
+
+antena:
+	Inherits: gap
+	icon:
+		Filename: fictifs|bits/antenaicon.png
+
+# Nathan et bombardiers (sprites de la carte WW3, via le mod ratc).
+nathan:
+	Defaults:
+		Filename: fictifs|bits/sniper.shp
+		Scale: 1.4
+	stand:
+		Facings: 8
+	stand2:
+		Start: 8
+		Facings: 8
+	stand3:
+		Start: 128
+		Length: 16
+	run:
+		Start: 16
+		Length: 6
+		Facings: 8
+		Tick: 100
+	shoot:
+		Start: 64
+		Length: 8
+		Facings: 8
+	aim:
+		Start: 65
+		Length: 1
+		Facings: 8
+		Stride: 8
+	prone-aim:
+		Start: 193
+		Length: 1
+		Facings: 8
+		Stride: 8
+	prone-stand:
+		Start: 144
+		Stride: 4
+		Facings: 8
+	prone-stand2:
+		Start: 144
+		Stride: 4
+		Facings: 8
+	prone-run:
+		Start: 144
+		Length: 4
+		Facings: 8
+		Tick: 100
+	standup-0:
+		Start: 176
+		Length: 2
+		Facings: 8
+	prone-shoot:
+		Start: 192
+		Length: 8
+		Facings: 8
+	parachute:
+		Start: 400
+	idle1:
+		Start: 256
+		Length: 16
+		Tick: 120
+	idle2:
+		Start: 272
+		Length: 16
+		Tick: 120
+	die1:
+		Start: 288
+		Length: 8
+	die2:
+		Start: 296
+		Length: 8
+	die3:
+		Start: 304
+		Length: 8
+	die4:
+		Start: 312
+		Length: 12
+	die5:
+		Start: 324
+		Length: 18
+	die7:
+		Start: 288
+		Length: 8
+	icon: 
+		Filename: fictifs|bits/snipericon.shp
+	die6:
+		Filename: electro.tem
+		TilesetFilenames:
+			SNOW: electro.sno
+		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
+		Length: *
+		Tick: 80
+		Scale: 1
+	die-crushed:
+		Filename: corpse1.tem
+		TilesetFilenames:
+			SNOW: corpse1.sno
+		Length: *
+		Tick: 1600
+		ZOffset: -511
+		Scale: 1
+	garrison-muzzle: minigun
+		Filename:
+		Scale: 1
+		Length: 12
+		Facings: 8
+		Combine:
+			0:
+				Filename: minigun.shp
+				Length: 12
+				Frames: 0,1,2,3,4,5,0,1,2,3,4,5
+			1:
+				Filename: minigun.shp
+				Length: 12
+				Frames: 6,7,8,9,10,11,6,7,8,9,10,11
+			2:
+				Filename: minigun.shp
+				Length: 12
+				Frames: 12,13,14,15,16,17,12,13,14,15,16,17
+			3:
+				Filename: minigun.shp
+				Length: 12
+				Frames: 18,19,20,21,22,23,18,19,20,21,22,23
+			4:
+				Filename: minigun.shp
+				Length: 12
+				Frames: 24,25,26,27,28,29,24,25,26,27,28,29
+			5:
+				Filename: minigun.shp
+				Length: 12
+				Frames: 30,31,32,33,34,35,30,31,32,33,34,35
+			6:
+				Filename: minigun.shp
+				Length: 12
+				Frames: 36,37,38,39,40,41,36,37,38,39,40,41
+			7:
+				Filename: minigun.shp
+				Length: 12
+				Frames: 42,43,44,45,46,47,42,43,44,45,46,47
+
+b2b:
+	idle:
+		Filename: fictifs|bits/b2b.shp
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/b2bicon.shp
+
+ant40:
+	idle:
+		Filename: fictifs|bits/ant40.shp
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/ant40icon.shp
+
+kirov:
+	idle:
+		Filename: fictifs|bits/kirov.shp
+		Facings: 32
+		UseClassicFacingFudge: True
+	rotor:
+		Filename: fictifs|bits/krotor.shp
+		Length: 4
+	slow-rotor:
+		Filename: fictifs|bits/krotor.shp
+		Start: 4
+		Length: 8
+	icon:
+		Filename: fictifs|bits/kirovicon.shp
+
+dropbombs:
+	idle:
+		Filename: fictifs|bits/dropbombs.shp
+		Length: 4
+		ZOffset: 1023
+		Tick: 130
+	open:
+		Filename: fictifs|bits/dropbombs.shp
+		Length: 4
+		ZOffset: 1023
+		Tick: 130
+
+tbomb:
+	open:
+		Filename: fictifs|bits/tbomb.shp
+		Length: 8
+		ZOffset: 1023
+	idle:
+		Filename: fictifs|bits/tbomb.shp
+		Start: 8
+		Length: 5
+		ZOffset: 1023
+
+explosion:
+	nuke3:
+		Filename: fictifs|bits/atomsfx-small.shp
+		Length: *
+		ZOffset: 2047

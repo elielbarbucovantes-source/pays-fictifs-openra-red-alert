@@ -1,0 +1,153 @@
+# =====================================================================
+# ELIELISTAN — marine : mobile, offensive, tournée vers la projection.
+# Le chantier naval allié produit pour l'Elielistan ses propres navires
+# à la place des navires alliés : escorteur, frégate, sous-marin,
+# porte-avions.
+# =====================================================================
+
+SYRD:
+	ProvidesPrerequisite@elielistan:
+		Factions: elielistan
+		Prerequisite: ships.elielistan
+
+PT:
+	Buildable:
+		Prerequisites: ~syrd, ~techlevel.low, ~!ships.elielistan
+DD:
+	Buildable:
+		Prerequisites: ~syrd, dome, ~techlevel.medium, ~!ships.elielistan
+CA:
+	Buildable:
+		Prerequisites: ~syrd, atek, ~techlevel.high, ~!ships.elielistan
+LST:
+	Buildable:
+		Prerequisites: ~techlevel.low, ~!ships.elielistan, ~!ships.rubenie
+
+# Escorteur : rapide, antiaérien, grenades anti-sous-marines, détecte les sous-marins.
+CENTINELA:
+	Inherits: PT
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: pt
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~ships.elielistan, ~techlevel.low
+		Description: Escorteur rapide. Protège le groupe naval :\nmissiles antiaériens, canon léger, grenades anti-sous-marines.\nDétecte les sous-marins.\n  Fort contre : aviation, sous-marins\n  Faible contre : gros navires
+	Valued:
+		Cost: 700
+	Tooltip:
+		Name: Centinela
+	Health:
+		HP: 26000
+	Mobile:
+		Speed: 132
+	Armament@AA:
+		Weapon: CentinelaAA
+		LocalOffset: 0,0,128
+
+# Frégate lance-missiles : frappe antinavire à longue portée.
+TORMENTA:
+	Inherits: DD
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: dd
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~ships.elielistan, dome, ~techlevel.medium
+		Description: Frégate lance-missiles. Missiles antinavires à très longue portée,\nfrappe aussi les cibles côtières. Pas de défense antiaérienne :\nà escorter par une Centinela.\n  Fort contre : navires, cibles côtières\n  Faible contre : aviation, sous-marins
+	Valued:
+		Cost: 1300
+	Tooltip:
+		Name: Tormenta
+	Health:
+		HP: 36000
+	Mobile:
+		Speed: 100
+	Armament@PRIMARY:
+		Weapon: TormentaMissile
+	-Armament@SECONDARY:
+	-Armament@TERTIARY:
+
+# Sous-marin : furtif, embuscade, chasse aux gros navires.
+TIBURON:
+	Inherits: SS
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: tiburon
+	Buildable:
+		BuildAtProductionType: Boat
+		BuildPaletteOrder: 30
+		Prerequisites: ~ships.elielistan, dome, ~techlevel.medium
+		Description: Sous-marin d'attaque. Invisible en plongée,\ntorpilles lourdes contre les gros navires (porte-avions, croiseurs).\n  Fort contre : navires\n  Faible contre : escorteurs, destroyers, aviation anti-sous-marine
+	Valued:
+		Cost: 1100
+	Tooltip:
+		Name: Tiburón
+	Mobile:
+		Speed: 96
+	Armament:
+		Weapon: TiburonTorpedo
+
+# ---------------------------------------------------------------------
+# PORTE-AVIONS AGUILA — porte-avions + transporteur amphibie.
+# 5 Harpía à bord, et 15 fantassins OU 5 chars à débarquer sur la côte.
+# Touche de déploiement (F) : les avions prêts décollent ; collé à la
+# côte, les troupes débarquent en même temps.
+# ---------------------------------------------------------------------
+PORTA.AGUILA:
+	Inherits: ^Ship
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@CARGOPIPS: ^CargoPips
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: porta.aguila
+	Buildable:
+		Queue: Ship
+		BuildPaletteOrder: 40
+		Prerequisites: ~ships.elielistan, atek, ~techlevel.high
+		Description: Porte-avions amphibie. 5 Harpía à bord\n(clic droit d'un Harpía dessus pour l'apponter ; réarmé à bord).\nTransporte 15 fantassins OU 5 chars à débarquer sur une côte.\nDéploiement (F) : décollage des avions prêts,\net débarquement des troupes s'il touche la côte.\nDéfense antiaérienne légère.\n  Faible contre : sous-marins, frégates (à escorter)
+	Valued:
+		Cost: 3000
+	Tooltip:
+		Name: Porte-avions Aguila
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 80000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 64
+		TurnSpeed: 8
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 9c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+	Reservable:
+	AircraftCarrier:
+		Types: harpia
+		MaxAircraft: 5
+		RearmDelay: 250
+	WithCarrierPipsDecoration:
+		Position: BottomRight
+		Margin: 4, 3
+		RequiresSelection: true
+	Cargo:
+		Types: Infantry, Char
+		MaxWeight: 15
+		EjectOnDeath: false
+		BeforeUnloadDelay: 4
+		AfterUnloadDelay: 8
+	WithCargoPipsDecoration:
+		PipCount: 15
+	Armament:
+		Weapon: PortaAguilaAA
+		LocalOffset: 0,-300,200, 0,300,200
+	AttackFrontal:
+		FacingTolerance: 512
+	Selectable:
+		Bounds: 2560, 2560
+		DecorationBounds: 3072, 3072

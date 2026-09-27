@@ -1,0 +1,254 @@
+# =====================================================================
+# RUBÉNIE — armes
+# Principe : l'inverse de l'Elielistan. Moins de dégâts par coup, mais
+# des cadences soutenues et de la portée : la Rubénie gagne les combats
+# qui durent, surtout depuis une position préparée.
+# =====================================================================
+
+# Fusilier rubénien : fusil standard, cadence un peu plus soutenue.
+RubFusil:
+	Inherits: M1Carbine
+	ReloadDelay: 18
+
+# Grenadier : grenades à zone d'effet élargie, idéales contre les groupes
+# et dans les tranchées.
+RubGrenade:
+	Inherits: Grenade
+	Range: 4c512
+	Warhead@1Dam: SpreadDamage
+		Spread: 384
+		Damage: 5000
+
+# Chasseur antichar : missile à longue portée, lent à recharger.
+RubMissileAT:
+	Inherits: Dragon
+	Range: 6c512
+	ReloadDelay: 60
+	Projectile: Missile
+		RangeLimit: 8c0
+	Warhead@1Dam: SpreadDamage
+		Damage: 5500
+
+# Éclaireur : pistole silencieux, pour se défendre seulement.
+RubPistolet:
+	Inherits: SilencedPPK
+	Range: 4c0
+
+# Second Galactique : décharge Tesla affaiblie (il est aussi officier).
+SecondGalactiqueTesla:
+	Inherits: PortaTesla
+	ReloadDelay: 60
+	Warhead@1Dam: SpreadDamage
+		Damage: 3500
+
+# « Si ça tient, touche à rien » : canon de 115 mm, salve de 2.
+Rub115mm:
+	Inherits: 105mm
+	ReloadDelay: 65
+	Range: 5c512
+
+# Char de contre-attaque : canon de 90 mm à cadence rapide.
+RubContreAttaque90mm:
+	Inherits: 90mm
+	ReloadDelay: 40
+
+# Char lourd de forteresse : canon de 140 mm à longue portée.
+RubForteresse140mm:
+	Inherits: 120mm
+	Range: 6c512
+	ReloadDelay: 90
+	Warhead@1Dam: SpreadDamage
+		Damage: 7000
+
+# Véhicule de reconnaissance : mitrailleuse légère.
+RubRecoMG:
+	Inherits: M60mg
+	Range: 5c0
+
+# Véhicule antiaérien : canons de 30 mm, plus de portée que le Flak.
+RubFlakAA:
+	Inherits: FLAK-23-AA
+	Range: 7c0
+
+RubFlakAG:
+	Inherits: FLAK-23-AG
+
+# Lance-missiles mobile : missile balistique à très longue portée.
+RubMissileBalistique:
+	Inherits: SCUD
+	Range: 13c0
+	ReloadDelay: 300
+	Warhead@1Dam: SpreadDamage
+		Damage: 6000
+
+# Canon automoteur : obus de 152 mm, portée importante.
+RubObus152:
+	Inherits: 155mm
+	Range: 11c0
+	ReloadDelay: 100
+
+# Artillerie lourde : portée et dégâts extrêmes, cadence très lente.
+RubObusLourd:
+	Inherits: 155mm
+	Range: 18c0
+	MinRange: 5c0
+	ReloadDelay: 220
+	Warhead@1Dam: SpreadDamage
+		Spread: 512
+		Damage: 16000
+
+# Lance-roquettes multiple : salve de 12 roquettes sur une zone.
+RubRoquettes:
+	Inherits: 155mm
+	Range: 10c0
+	ReloadDelay: 350
+	Burst: 12
+	BurstDelays: 4
+	Warhead@1Dam: SpreadDamage
+		Spread: 426
+		Damage: 2200
+
+# Casemate antichar : gros canon fixe à longue portée.
+RubCasemate:
+	Inherits: TurretGun
+	Range: 8c0
+	ReloadDelay: 60
+	Warhead@1Dam: SpreadDamage
+		Damage: 12000
+
+# Tourelle AA : canon antiaérien rapide.
+RubTourelleAA:
+	Inherits: ZSU-23
+	Range: 8c0
+
+# SAM rubénien : missile sol-air à longue portée.
+RubSAM:
+	Inherits: Nike
+	Range: 11c0
+	Projectile: Missile
+		RangeLimit: 13c0
+
+# Artillerie côtière : obus lourds, uniquement contre les navires.
+RubCotiere:
+	Inherits: 155mm
+	Range: 14c0
+	MinRange: 3c0
+	ReloadDelay: 120
+	ValidTargets: Water, WaterActor
+	Warhead@1Dam: SpreadDamage
+		Spread: 256
+		Damage: 14000
+		ValidTargets: WaterActor
+
+# ---------------------------------------------------------------------
+# Aviation
+# ---------------------------------------------------------------------
+# Chasseur polyvalent : missiles air-sol (aussi antinavires) et air-air.
+RubChasseurAG:
+	Inherits: Maverick
+	Range: 8c0
+
+RubChasseurAA:
+	Inherits: HellfireAA
+	Range: 6c0
+	Projectile: Missile
+		RangeLimit: 9c0
+	Warhead@1Dam: SpreadDamage
+		Damage: 4000
+
+# Intercepteur : missiles air-air plus lourds et plus rapides à recharger.
+RubIntercepteurAA:
+	Inherits: HellfireAA
+	Range: 7c0
+	ReloadDelay: 20
+	Projectile: Missile
+		RangeLimit: 10c0
+	Warhead@1Dam: SpreadDamage
+		Damage: 5000
+
+# Avion d'attaque : missiles antichars, salve de 2.
+RubAttaqueMissile:
+	Inherits: Maverick
+	Range: 7c0
+	Warhead@1Dam: SpreadDamage
+		Damage: 9000
+
+# ---------------------------------------------------------------------
+# Marine
+# ---------------------------------------------------------------------
+# Escorteur : missiles antinavires légers, grenades anti-sous-marines,
+# et surtout défense antiaérienne du groupe naval.
+RubEscorteurSSM:
+	Inherits: Stinger
+	Range: 7c0
+
+RubEscorteurAA:
+	Inherits: StingerAA
+	Range: 9c0
+	Projectile: Missile
+		RangeLimit: 11c0
+
+# Frégate lance-missiles : missiles antinavires à très longue portée.
+RubMissileAntiNavire:
+	Inherits: Stinger
+	Range: 13c0
+	ReloadDelay: 150
+	Burst: 2
+	BurstDelays: 12
+	ValidTargets: Water, WaterActor, Ground, GroundActor
+	Projectile: Missile
+		RangeLimit: 15c0
+	Warhead@1Dam: SpreadDamage
+		Damage: 9000
+
+# Sous-marin : torpilles lourdes.
+RubTorpille:
+	Inherits: TorpTube
+	Range: 8c0
+
+# Porte-avions : défense antiaérienne rapprochée.
+RubPorteAvionsAA:
+	Inherits: StingerAA
+	Range: 6c0
+
+# ---------------------------------------------------------------------
+# Pouvoirs du QG
+# ---------------------------------------------------------------------
+# Frappe de précision : énorme dégât sur une case, presque rien autour.
+RubFrappePrecision:
+	ValidTargets: Ground, Water, GroundActor, WaterActor, Trees
+	Warhead@1Dam: SpreadDamage
+		Spread: 256
+		Damage: 90000
+		Falloff: 100, 20, 5, 0
+		ValidTargets: GroundActor, WaterActor, Trees
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Crater
+		ValidTargets: Ground
+	Warhead@3Eff: CreateEffect
+		Explosions: large_explosion
+		ImpactSounds: kaboom25.aud
+
+# ---------------------------------------------------------------------
+# Bastion roulant (Battle Fortress rubénisée)
+# ---------------------------------------------------------------------
+# Canons de 130 mm antichars, un par tourelle.
+RubBastion130mm:
+	Inherits: 120mm
+	Range: 6c0
+	ReloadDelay: 70
+	Burst: 1
+	Warhead@1Dam: SpreadDamage
+		Damage: 7500
+
+# Lanceur de missiles arrière : aviation et infanterie.
+RubBastionMissiles:
+	Inherits: MammothTusk
+	ValidTargets: AirborneActor, Infantry
+	Burst: 4
+	BurstDelays: 10
+	Range: 8c0
+	Projectile: Missile
+		RangeLimit: 10c512
+	Warhead@1Dam: SpreadDamage
+		Damage: 4000
