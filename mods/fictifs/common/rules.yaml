@@ -144,6 +144,10 @@ V2RL:
 4TNK:
 	Buildable:
 		Prerequisites: fix, stek, ~vehicles.soviet, ~techlevel.high, ~!structures.rubenie
+# Voleur : la Rubénie a sa propre version (RUBENLA.DEN, rubenie/rules.yaml).
+THF:
+	Buildable:
+		Prerequisites: ~barr, dome, ~techlevel.medium, ~!structures.rubenie
 QTNK:
 	Buildable:
 		Prerequisites: fix, stek, ~vehicles.soviet, ~techlevel.high, ~!structures.rubenie

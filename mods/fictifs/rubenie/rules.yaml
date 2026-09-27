@@ -145,6 +145,16 @@ ECLAIREUR:
 		IsPlayerPalette: true
 		UncloakOn: Attack, Move, Load, Unload, Dock, Damage
 
+# Rubenla-DEN : le voleur soviétique, sous son nom rubénien.
+RUBENLA.DEN:
+	Inherits: THF
+	RenderSprites:
+		Image: thf
+	Buildable:
+		Prerequisites: ~infantry.rubenie, dome, ~techlevel.medium
+	Tooltip:
+		Name: Rubenla-DEN
+
 # Second Galactique : à la fois officier (aura sur les unités rubéniennes
 # proches) et combattant d'élite (Tesla, charges de démolition), chaque
 # rôle étant moins fort que celui d'une unité spécialisée.
