@@ -15,12 +15,17 @@
 		InternalName: rubenie
 		Side: Soviet
 		Description: Rubénie : si ça tient, touche à rien\nDéfense, contre-attaques, artillerie lourde.\nTranchées, bunkers garnis, casemates antichars.\nUnités solides et lentes, qui gagnent les combats qui durent.
+	Faction@australouis:
+		Name: Australouis
+		InternalName: australouis
+		Side: Allies
+		Description: Australouis : le peuple des îles\nPuissance aérienne et navale.\nChasseur Albatros, Warthog, bombardier Manta,\ndrones kamikazes Moustique, hydravion Cormoran.
 	Faction@random:
-		RandomFactionMembers: RandomAllies, RandomSoviet, elielistan, rubenie
+		RandomFactionMembers: RandomAllies, RandomSoviet, elielistan, rubenie, australouis
 
 World:
 	StartingUnits@mcvonly:
-		Factions: allies, england, france, germany, soviet, russia, ukraine, elielistan, rubenie
+		Factions: allies, england, france, germany, soviet, russia, ukraine, elielistan, rubenie, australouis
 	StartingUnits@lightelielistan:
 		Class: light
 		ClassName: options-starting-units.light-support
@@ -51,6 +56,23 @@ World:
 		Factions: rubenie
 		BaseActor: mcv
 		SupportActors: fusilier,fusilier,fusilier,grenadier,chasseur.at,chasseur.at,reco.rub,contreattaque,contreattaque,aa.rub,sicatient
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	# Australouis : unités alliées en attendant ses forces terrestres.
+	StartingUnits@lightaustralouis:
+		Class: light
+		ClassName: options-starting-units.light-support
+		Factions: australouis
+		BaseActor: mcv
+		SupportActors: e1,e1,e1,e3,e3,jeep,1tnk
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	StartingUnits@heavyaustralouis:
+		Class: heavy
+		ClassName: options-starting-units.heavy-support
+		Factions: australouis
+		BaseActor: mcv
+		SupportActors: e1,e1,e1,e3,e3,jeep,1tnk,1tnk,2tnk,2tnk
 		InnerSupportRadius: 3
 		OuterSupportRadius: 5
 
@@ -208,3 +230,74 @@ Player:
 		OrdersPerTerm: 10
 		TermLength: 22500
 		NewTermTextNotification: Nouveau quinquennat : {0} ordres prioritaires disponibles.
+
+# ---------------------------------------------------------------------
+# L'Australouis construit la base alliée (avec ses unités terrestres, en
+# attendant les siennes), plus sa base aéronavale. Son héliport produit
+# la Baleine (à la place du Chinook) et le drone Moustique.
+# ---------------------------------------------------------------------
+FACT:
+	ProvidesPrerequisite@allies:
+		Factions: allies, england, france, germany, elielistan, australouis
+	ProvidesPrerequisite@australouis:
+		Factions: australouis
+		Prerequisite: structures.australouis
+
+TENT:
+	ProvidesPrerequisite@allies:
+		Factions: allies, england, france, germany, elielistan, australouis
+
+WEAP:
+	ProvidesPrerequisite@allies:
+		Factions: allies, england, france, germany, australouis
+
+HPAD:
+	ProvidesPrerequisite@allies:
+		Factions: allies, england, france, germany, elielistan, australouis
+	ProvidesPrerequisite@australouis:
+		Factions: australouis
+		Prerequisite: aircraft.australouis
+
+SYRD:
+	ProvidesPrerequisite@allies:
+		Factions: allies, england, france, germany, elielistan, australouis
+
+TRAN:
+	Buildable:
+		Prerequisites: ~hpad, ~techlevel.medium, ~!aircraft.australouis
+
+# Caserne alliée de l'Australouis : jeu d'infanterie soviétique (elle
+# fournit « barr », et « ftur » pour le lance-flammes) plus le
+# Révolutionnaire ; plus d'infanterie spéciale alliée.
+TENT:
+	ProvidesPrerequisite@australouis:
+		Factions: australouis
+		Prerequisite: infantry.australouis
+	ProvidesPrerequisite@australouisbarr:
+		Factions: australouis
+		Prerequisite: barr
+	ProvidesPrerequisite@australouisftur:
+		Factions: australouis
+		Prerequisite: ftur
+SPY:
+	Buildable:
+		Prerequisites: ~!infantry.england, dome, ~tent, ~techlevel.medium, ~!infantry.australouis
+E7:
+	Buildable:
+		Prerequisites: ~tent, atek, ~techlevel.high, ~!infantry.australouis
+MEDI:
+	Buildable:
+		Prerequisites: ~tent, ~techlevel.infonly, ~!infantry.australouis
+MECH:
+	Buildable:
+		Prerequisites: ~tent, fix, ~techlevel.medium, ~!infantry.australouis
+
+# Usine : chars de base alliés + Cheaper. Chantier naval : L-0U15.
+WEAP:
+	ProvidesPrerequisite@australouis:
+		Factions: australouis
+		Prerequisite: vehicles.australouis
+SYRD:
+	ProvidesPrerequisite@australouis:
+		Factions: australouis
+		Prerequisite: ships.australouis

@@ -15,7 +15,7 @@ RA_FLAGS = ["england", "germany", "france", "spain", "turkey", "greece", "ukrain
             "russia", "allies", "soviet", "RandomSoviet", "RandomAllies", "Random"]
 
 # Pays fictifs, dans l'ordre où ils suivent les drapeaux d'origine.
-FICTIFS = ["elielistan", "rubenie"]
+FICTIFS = ["elielistan", "rubenie", "australouis"]
 
 NAVY = (22, 40, 92)
 WHITE = (240, 240, 236)
@@ -23,6 +23,8 @@ RED = (214, 24, 30)
 GOLD = (222, 176, 52)
 GREEN = (30, 110, 60)
 DARK_GREEN = (18, 70, 38)
+OCEAN = (18, 86, 160)
+ISLAND = (46, 150, 70)
 
 
 def aguila(draw, cx, cy, s, body=WHITE, tips=RED):
@@ -78,8 +80,35 @@ def rubenie(w, h):
     return img
 
 
+def etoile(draw, cx, cy, r, fill):
+    """Étoile à cinq branches."""
+    import math
+    pts = []
+    for k in range(10):
+        a = -math.pi / 2 + k * math.pi / 5
+        rr = r if k % 2 == 0 else r * 0.42
+        pts.append((cx + rr * math.cos(a), cy + rr * math.sin(a)))
+    draw.polygon(pts, fill=fill)
+
+
+def australouis(w, h):
+    """Bleu océan, bande de vagues blanches, archipel de trois îles vertes, étoile."""
+    import math
+    img = Image.new("RGBA", (w, h), OCEAN + (255,))
+    d = ImageDraw.Draw(img)
+    top, band = h * 0.62, h * 0.14                        # bande de vagues
+    amp, waves = h * 0.035, 3
+    upper = [(x, top + amp * math.sin(2 * math.pi * waves * x / w)) for x in range(0, w + 1, max(1, w // 120))]
+    lower = [(x, y + band) for x, y in reversed(upper)]
+    d.polygon(upper + lower, fill=WHITE + (255,))
+    for cx, rw, rh in ((0.36, 0.075, 0.15), (0.57, 0.11, 0.25), (0.79, 0.065, 0.11)):   # îles posées sur les vagues
+        d.pieslice([w * (cx - rw), top - h * rh, w * (cx + rw), top + h * rh], 180, 360, fill=ISLAND + (255,))
+    etoile(d, w * 0.16, h * 0.28, h * 0.17, WHITE + (255,))
+    return img
+
+
 def flag(name, w, h):
-    big = {"elielistan": elielistan, "rubenie": rubenie}[name](w * 8, h * 8)
+    big = {"elielistan": elielistan, "rubenie": rubenie, "australouis": australouis}[name](w * 8, h * 8)
     return big.resize((w, h), Image.LANCZOS)
 
 

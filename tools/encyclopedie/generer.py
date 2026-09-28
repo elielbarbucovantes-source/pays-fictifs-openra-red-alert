@@ -17,12 +17,13 @@ import regles  # noqa: E402
 import stats  # noqa: E402
 from textes_elielistan import TEXTES as T_ELI  # noqa: E402
 from textes_rubenie import TEXTES as T_RUB  # noqa: E402
+from textes_australouis import TEXTES as T_AUS  # noqa: E402
 from textes_pouvoirs import TEXTES as T_POW  # noqa: E402
 
 SORTIE = os.path.join(regles.ROOT, "Encyclopédie ultime du mod.txt")
 LARGEUR = 92
-TEXTES = {**T_ELI, **T_RUB}
-ORDRE_PAYS = ["Elielistan", "Rubénie"]
+TEXTES = {**T_ELI, **T_RUB, **T_AUS}
+ORDRE_PAYS = ["Elielistan", "Rubénie", "Australouis"]
 
 SECTIONS = [
     ("BÂTIMENTS", lambda s: s["queue"] == "Building"),
@@ -55,6 +56,18 @@ La Rubénie est une forteresse : tranchées, bunkers, casemates, défense aérie
 "Isolement : une unité hors de tout rayon de ravitaillement depuis 30 secondes est isolée : −25 % de dégâts, −25 % de cadence, plus de réparation.",
 "Détection sismique : l'Éclaireur, le véhicule de reconnaissance et le QG repèrent le Tunnelier ennemi sous terre.",
 "Aura du Second Galactique : +15 % de dégâts et −15 % de dégâts reçus pour les unités rubéniennes à 5 cases.",
+]),
+"Australouis": ("Le peuple des îles", """
+Camp : Alliés (base alliée, base aéronavale propre).
+Doctrine : tenir le ciel et la mer. L'Australouis est un archipel ; sa puissance tient à son aviation et à sa marine.
+Il construit la base alliée, plus un chantier naval avancé et une centrale d'enrichissement. Sa caserne forme l'infanterie soviétique et le Révolutionnaire ; son usine produit les chars de base alliés et le Cheaper.
+""", [
+"Écopage : le Cormoran se remplit en survolant l'eau (2 secondes au total) ; un plein = un brouillard.",
+"Brouillard : les ennemis perdent tout ce qu'ils avaient découvert dans un rayon de 6 cases, sauf ce que leurs unités voient encore.",
+"Essaim : 3 drones Moustique suffisent à détruire un char léger ; 2 ne suffisent pas.",
+"Îles : le Mothership fait sortir de l'océan des îles de 8×8 cases (plage autour, terrain constructible au centre) où un chantier de construction peut s'installer.",
+"Révolution : le Révolutionnaire fait passer dans votre camp tout ce qui est ennemi à 5 cases (recharge 5 minutes).",
+"Enrichissement : +5 % de revenus du minerai avec la centrale d'enrichissement, +20 % de plus pendant le Raffinerie boost.",
 ]),
 }
 

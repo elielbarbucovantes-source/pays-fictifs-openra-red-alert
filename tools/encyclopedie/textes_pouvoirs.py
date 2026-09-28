@@ -40,4 +40,12 @@ Contourner la ligne ennemie plutôt que la percer.""",
 Ils patrouillent 30 secondes au-dessus de la zone et abattent tout appareil ennemi.
 Puis ils repartent.""",
 "Couvrez une opération ou contrez une vague de bombardiers, de Pelícano ou de drones elielistanais."),
+"Raffinerie boost": ("Raffinerie boost", """Toutes les raffineries tournent à plein régime.
+Pendant 40 secondes, le minerai livré rapporte 20 % de plus (en plus des 5 % de la centrale).
+Nécessite la centrale d'enrichissement et un silo.""",
+"Lancez-le quand plusieurs collecteurs sont sur le point de décharger."),
+"Radar blink": ("Radar blink", """Le réseau d'écoute australouisien capte les sonars de toutes les mers.
+Pendant 1 minute, vous voyez ce que voit chaque sous-marin de la carte, et les sous-marins ennemis sont révélés.
+Porté par le chantier naval avancé.""",
+"Lancez-le avant une opération navale pour chasser les sous-marins ennemis, ou pour espionner la côte adverse grâce à eux."),
 }

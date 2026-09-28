@@ -1,0 +1,238 @@
+# =====================================================================
+# AUSTRALOUIS — marine
+# Les navires alliés classiques (chantier naval allié), plus :
+#   - L-0U15 : destroyer faible, mais sonar à très grande portée ;
+#   - au chantier naval avancé : sous-marin ICBM (carte WW3) et
+#     Mothership, qui fait sortir des îles de l'océan.
+# =====================================================================
+
+# ---------------------------------------------------------------------
+# Chantier naval avancé : centre technique requis, 3 au maximum.
+# Seul à produire le sous-marin ICBM et le Mothership ; porte le
+# pouvoir « Radar blink ».
+# ---------------------------------------------------------------------
+CHANTIER.AVANCE:
+	Inherits: SYRD
+	RenderSprites:
+		Image: chantier.avance
+	Buildable:
+		BuildPaletteOrder: 135
+		BuildLimit: 3
+		Prerequisites: atek, ~structures.australouis, ~techlevel.high
+		Description: Chantier naval avancé. 3 au maximum.\nProduit et répare tous les navires, dont le sous-marin ICBM\net le Mothership.\nPouvoir : Radar blink.
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Chantier naval avancé
+	Production:
+		Produces: Ship, Boat, NavalAvance
+	ProvidesPrerequisite@buildingname:
+		Prerequisite: chantier.avance
+	SupportPowerChargeBar:
+	# Radar blink : 1 minute de vision autour de tous les sous-marins de
+	# la carte ; les sous-marins ennemis sont révélés.
+	SubmarineVisionPower@RADARBLINK:
+		OrderName: AustralouisRadarBlink
+		IconImage: australouis-powers
+		Icon: radarblink
+		ChargeInterval: 7500
+		Name: Radar blink
+		Description: Pendant 1 minute, vous voyez ce que voit chaque\nsous-marin de la carte (8 cases autour de lui), y compris\nceux de l'ennemi, et les sous-marins ennemis sont révélés\n(visibles et attaquables).
+		Duration: 1500
+		Range: 8c0
+		RevealCondition: sonar
+		LaunchSound: sonpulse.aud
+		EndChargeTextNotification: Radar blink prêt.
+		SupportPowerPaletteOrder: 20
+
+# ---------------------------------------------------------------------
+# L-0U15 : destroyer faible, sonar à très grande portée (18 cases).
+# ---------------------------------------------------------------------
+L0U15:
+	Inherits: DD
+	RenderSprites:
+		Image: escorteur
+	Buildable:
+		BuildPaletteOrder: 15
+		Prerequisites: ~ships.australouis, dome, ~techlevel.medium
+		Description: Destroyer léger au sonar à très longue portée :\ndétecte tous les sous-marins à 18 cases autour de lui.\nArmement et blindage faibles : à protéger.\n  Fort contre : sous-marins (en les révélant à la flotte)\n  Faible contre : navires, aviation
+	Selectable:
+		Class: l0u15
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: L-0U15
+	Health:
+		HP: 25000
+	Armament@PRIMARY:
+		Weapon: L0U15Canon
+	-Armament@SECONDARY:
+	DetectCloaked:
+		DetectionTypes: Underwater
+		Range: 18c0
+	RevealsShroud:
+		MinRange: 7c0
+		Range: 9c0
+
+# ---------------------------------------------------------------------
+# Sous-marin ICBM (carte WW3, Ukraine) : missiles V3 à très longue
+# portée contre les cibles terrestres. Plonge et devient invisible.
+# ---------------------------------------------------------------------
+SOUSMARIN.ICBM:
+	Inherits: ^Submarine
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	RenderSprites:
+		Image: icbmsub
+	Buildable:
+		Queue: Ship
+		BuildAtProductionType: NavalAvance
+		BuildPaletteOrder: 60
+		Prerequisites: ~chantier.avance, ~techlevel.high
+		Description: Sous-marin lance-missiles. Missiles V3 à 24 cases\ncontre les cibles terrestres (portée minimale 6 cases).\nInvisible en plongée. Vétéran d'élite : 2 missiles par salve.\n  Fort contre : infanterie, bâtiments\n  Faible contre : navires, aviation anti-sous-marine
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Sous-marin ICBM
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 45000
+	Armor:
+		Type: Light
+	Mobile:
+		TurnSpeed: 10
+		Speed: 42
+	RevealsShroud:
+		Range: 8c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+	Cloak:
+		CloakDelay: 120
+	Armament@PRIMARY:
+		Weapon: SousMarinV3
+		LocalOffset: 450,151,0
+		FireDelay: 5
+	Armament@SECONDARY:
+		Weapon: SousMarinV3
+		LocalOffset: -150,151,0
+		FireDelay: 30
+		RequiresCondition: rank-elite
+	AttackFrontal:
+		TargetFrozenActors: True
+		ForceFireIgnoresActors: True
+		FacingTolerance: 0
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: ReturnFire
+	DetectCloaked:
+		DetectionTypes: Underwater
+		Range: 4c0
+	RenderDetectionCircle:
+	Selectable:
+		DecorationBounds: 1877, 1877
+	Explodes:
+		Weapon: UnitExplodeSubmarine
+		EmptyWeapon: UnitExplodeSubmarine
+
+# ---------------------------------------------------------------------
+# MOTHERSHIP : immense, presque sans armes, très blindé. Touche de
+# déploiement (F) : fait sortir une île de 8×8 cases à côté de lui en
+# 2 min 50. Il doit rester immobile jusqu'au bout.
+# ---------------------------------------------------------------------
+MOTHERSHIP:
+	Inherits: ^Ship
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	RenderSprites:
+		Image: mothership
+	Buildable:
+		Queue: Ship
+		BuildAtProductionType: NavalAvance
+		BuildPaletteOrder: 70
+		BuildLimit: 2
+		Prerequisites: ~chantier.avance, ~techlevel.high
+		Description: Navire-mère géant, très blindé, presque sans armes.\nDéploiement (F) : fait sortir de l'océan une île de 8×8 cases\nà côté de lui (2 min 50, sans bouger). Un chantier de\nconstruction (MCV), débarqué par un transport, peut\nensuite y bâtir une base. 2 au maximum.\n  Faible contre : sous-marins, navires, aviation
+	Selectable:
+		Class: mothership
+		Bounds: 3072, 3072
+		DecorationBounds: 3072, 3072
+	Valued:
+		Cost: 3500
+	Tooltip:
+		Name: Mothership
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 200000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		MinRange: 6c0
+		Range: 9c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 6c0
+	Armament:
+		Weapon: MothershipAA
+		LocalOffset: 0,0,300
+	AttackTurreted:
+	Turreted:
+		TurnSpeed: 40
+	WithFacingSpriteBody:
+	RaisesIsland:
+		Size: 8
+		Duration: 4250
+		IslandActor: ile
+		MarkerActor: ile.emergence
+		FinishedTextNotification: Une nouvelle île est sortie de l'océan.
+		NoRoomTextNotification: Pas assez de place : il faut 8×8 cases d'eau libre à côté du Mothership.
+		CancelledTextNotification: Le Mothership a bougé : l'île retourne sous les flots.
+	Mobile:
+		TurnSpeed: 8
+		Speed: 36
+
+# Île : décor posé sur les cases rendues à la terre (plage autour,
+# terrain dégagé au centre). Appartient au joueur neutre.
+ILE:
+	RenderSprites:
+		Image: ile
+	WithSpriteBody:
+	BodyOrientation:
+		QuantizedFacings: 1
+	Immobile:
+		OccupiesSpace: false
+	HiddenUnderShroud:
+		Type: CenterPosition
+	MapEditorData:
+		Categories: Decoration
+
+# Remous pendant l'émergence de l'île.
+ILE.EMERGENCE:
+	RenderSprites:
+		Image: ile.emergence
+	WithSpriteBody:
+	BodyOrientation:
+		QuantizedFacings: 1
+	Immobile:
+		OccupiesSpace: false
+	HiddenUnderShroud:
+		Type: CenterPosition
+	MapEditorData:
+		Categories: Decoration
+
+# ---------------------------------------------------------------------
+# Tous les sous-marins peuvent être révélés par le Radar blink.
+# ---------------------------------------------------------------------
+^Submarine:
+	ExternalCondition@SONAR:
+		Condition: sonar
+	Cloak:
+		PauseOnCondition: cloak-force-disabled || sonar
+
+MSUB:
+	Cloak:
+		PauseOnCondition: cloak-force-disabled || sonar
+
+SS:
+	Cloak:
+		PauseOnCondition: cloak-force-disabled || sonar

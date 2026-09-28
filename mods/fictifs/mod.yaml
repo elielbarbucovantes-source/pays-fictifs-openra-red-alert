@@ -77,6 +77,10 @@ Rules:
 	fictifs|rubenie/bastion.yaml
 	fictifs|rubenie/pouvoirs.yaml
 	fictifs|rubenie/ia.yaml
+	fictifs|australouis/aviation.yaml
+	fictifs|australouis/marine.yaml
+	fictifs|australouis/sol.yaml
+	fictifs|australouis/batiments.yaml
 
 Sequences:
 	ra|sequences/ships.yaml
@@ -89,6 +93,7 @@ Sequences:
 	fictifs|common/sequences.yaml
 	fictifs|elielistan/sequences.yaml
 	fictifs|rubenie/sequences.yaml
+	fictifs|australouis/sequences.yaml
 TileSets:
 	ra|tilesets/snow.yaml
 	ra|tilesets/interior.yaml
@@ -176,6 +181,7 @@ Weapons:
 	ra|weapons/superweapons.yaml
 	fictifs|elielistan/weapons.yaml
 	fictifs|rubenie/weapons.yaml
+	fictifs|australouis/weapons.yaml
 
 Voices:
 	ra|audio/voices.yaml

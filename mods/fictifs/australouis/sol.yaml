@@ -1,0 +1,75 @@
+# =====================================================================
+# AUSTRALOUIS — forces terrestres
+# Infanterie : le jeu soviétique (fusilier, grenadier, lance-roquettes,
+# lance-flammes, ingénieur, voleur) sorti de la caserne alliée, plus le
+# Révolutionnaire. Chars : char léger, char moyen et Cheaper.
+# =====================================================================
+
+# ---------------------------------------------------------------------
+# RÉVOLUTIONNAIRE — unité spéciale. Quand sa révolution est prête
+# (5 minutes), touche de déploiement (F) : toutes les unités et tous les
+# bâtiments ennemis à 5 cases passent sous votre contrôle.
+# ---------------------------------------------------------------------
+REVOLUTIONNAIRE:
+	Inherits: E1
+	RenderSprites:
+		Image: revolutionnaire
+	Buildable:
+		BuildPaletteOrder: 90
+		BuildLimit: 1
+		Prerequisites: ~infantry.australouis, atek, ~techlevel.high
+		Description: Meneur révolutionnaire. 1 au maximum.\nQuand la révolution est prête (barre violette, 5 minutes),\ntouche de déploiement (F) : unités et bâtiments ennemis\nà 5 cases passent sous votre contrôle.\nPistolet, fragile : à protéger jusqu'au bon moment.
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Révolutionnaire
+	Selectable:
+		Class: revolutionnaire
+	Health:
+		HP: 8000
+	Armament@PRIMARY:
+		Weapon: Pistol
+	-Armament@GARRISONED:
+	RevolutionOnDeploy:
+		Range: 5c0
+		ChargeDelay: 7500
+		EffectImage: explosion
+		EffectSequence: small_napalm
+		ConvertedImage: explosion
+		ConvertedSequence: small_explosion_air
+		Sound: chrono2.aud
+		ReadyTextNotification: La révolution est prête.
+	WithRangeCircle@REVOLUTION:
+		Type: revolution
+		Range: 5c0
+		Color: C020C080
+	ProducibleWithLevel:
+		-Prerequisites:
+
+# ---------------------------------------------------------------------
+# CHEAPER — char produit en masse : pas cher, vite construit, faible.
+# La quantité plutôt que la qualité.
+# ---------------------------------------------------------------------
+CHEAPER:
+	Inherits: 1TNK
+	RenderSprites:
+		Image: cheaper
+	Buildable:
+		BuildPaletteOrder: 5
+		BuildDurationModifier: 50
+		Prerequisites: ~vehicles.australouis, ~techlevel.low
+		Description: Char produit en masse. Pas cher et construit\ndeux fois plus vite, mais faible : blindage léger,\npetit canon. À envoyer en nombre.\n  Fort contre : infanterie, véhicules légers\n  Faible contre : chars, défenses
+	Valued:
+		Cost: 350
+	Tooltip:
+		Name: Cheaper
+	Selectable:
+		Class: cheaper
+	Health:
+		HP: 14000
+	Armor:
+		Type: Light
+	Mobile:
+		Speed: 104
+	Armament:
+		Weapon: CheaperCanon

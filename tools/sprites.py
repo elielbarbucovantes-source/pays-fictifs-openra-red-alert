@@ -316,6 +316,206 @@ def icon_precision():
     return icon_rub_done(im, d)
 
 
+# ---------------------------------------------------------------------------
+# Australouis : Cormoran, hydravion bombardier d'eau (48x48, 32 orientations)
+# ---------------------------------------------------------------------------
+JAUNE, ROUGE_H, GRIS_H, SOMBRE_H = (236, 196, 40), (196, 30, 30), (150, 150, 150), (60, 60, 60)
+
+
+def cormoran_top(w=48):
+    """Vu de dessus, nez vers le haut."""
+    s = SS
+    im, d = canvas(w, w)
+    c = w / 2
+    def r(x0, y0, x1, y1, fill):
+        d.rectangle([(c + x0) * s, (c + y0) * s, (c + x1) * s, (c + y1) * s], fill=fill + (255,))
+    d.ellipse([(c - 3) * s, (c - 19) * s, (c + 3) * s, (c - 12) * s], fill=JAUNE + (255,))   # nez
+    r(-3, -16, 3, 14, JAUNE)                                                                 # coque
+    r(-3, -2, 3, 2, ROUGE_H)                                                                 # bande rouge
+    d.polygon([((c - 3) * s, (c + 14) * s), ((c + 3) * s, (c + 14) * s), ((c + 1) * s, (c + 20) * s),
+               ((c - 1) * s, (c + 20) * s)], fill=JAUNE + (255,))                              # queue
+    r(-8, 16, 8, 19, JAUNE)                                                                  # empennage
+    r(-8, 16, -6, 19, ROUGE_H); r(6, 16, 8, 19, ROUGE_H)
+    r(-22, -7, 22, -2, JAUNE)                                                                # aile haute
+    r(-22, -7, -19, -2, ROUGE_H); r(19, -7, 22, -2, ROUGE_H)                                 # saumons rouges
+    for x in (-11, 11):                                                                      # moteurs + hélices
+        r(x - 2, -11, x + 2, 1, GRIS_H)
+        r(x - 5, -12, x + 5, -11, SOMBRE_H)
+    for x in (-19, 19):                                                                      # flotteurs
+        r(x - 1, -5, x + 1, 1, GRIS_H)
+    d.rectangle([(c - 2) * s, (c - 15) * s, (c + 2) * s, (c - 13) * s], fill=(70, 110, 150, 255))  # verrière
+    return im
+
+
+def cormoran_frames(w=48):
+    top = cormoran_top(w)
+    return [shrink(top.rotate(f * 360 / 32, resample=Image.BICUBIC), w, w) for f in range(32)]
+
+
+def icon_cormoran():
+    im, d = canvas(64, 48, (40, 90, 150, 255))
+    s = SS
+    d.rectangle([0, 34 * s, 64 * s, 48 * s], fill=(28, 70, 130, 255))                       # mer
+    for i in range(14):                                                                      # brume pulvérisée
+        x, y = 8 + (i * 7) % 40, 22 + (i * 5) % 12
+        d.ellipse([x * s, y * s, (x + 9) * s, (y + 6) * s], fill=(225, 230, 235, 255))
+    top = cormoran_top(48).resize((40 * s, 40 * s), Image.LANCZOS).rotate(90 + 10, resample=Image.BICUBIC)
+    im.alpha_composite(top, (22 * s, 0))
+    return shrink(im, 64, 48)
+
+
+# ---------------------------------------------------------------------------
+# Australouis : Mothership (96x96, 32 orientations), île 8x8 (192x192),
+# émergence de l'île (4 images) et icônes.
+# ---------------------------------------------------------------------------
+COQUE, COQUE_SOMBRE, PONT, VERRE = (120, 128, 136), (70, 76, 84), (150, 156, 160), (90, 150, 190)
+SABLE, SABLE_SOMBRE, HERBE, HERBE_SOMBRE = (216, 196, 140), (180, 160, 110), (80, 140, 60), (50, 105, 45)
+
+
+def mothership_top(w=96):
+    """Vu de dessus, proue vers le haut : immense coque, dôme vert (la « graine » d'île), grues."""
+    s = SS
+    im, d = canvas(w, w)
+    c = w / 2
+    def P(x, y):
+        return ((c + x) * s, (c + y) * s)
+    hull = [P(0, -44), P(9, -34), P(12, -18), P(12, 36), P(9, 42), P(-9, 42), P(-12, 36), P(-12, -18), P(-9, -34)]
+    d.polygon(hull, fill=COQUE_SOMBRE + (255,))
+    inner = [P(0, -40), P(7, -32), P(10, -17), P(10, 35), P(8, 40), P(-8, 40), P(-10, 35), P(-10, -17), P(-7, -32)]
+    d.polygon(inner, fill=COQUE + (255,))
+    d.rectangle([*P(-8, -14), *P(8, 22)], fill=PONT + (255,))                         # pont central
+    d.ellipse([*P(-7, -8), *P(7, 6)], fill=HERBE_SOMBRE + (255,))                    # dôme de la graine d'île
+    d.ellipse([*P(-5, -6), *P(5, 4)], fill=HERBE + (255,))
+    d.rectangle([*P(-6, 26), *P(6, 36)], fill=COQUE_SOMBRE + (255,))                 # château arrière
+    d.rectangle([*P(-4, 28), *P(4, 31)], fill=VERRE + (255,))
+    for y in (-22, 14):                                                              # grues
+        d.rectangle([*P(-11, y), *P(11, y + 2)], fill=(200, 170, 40, 255))
+    d.rectangle([*P(-2, -30), *P(2, -20)], fill=COQUE_SOMBRE + (255,))               # petite tourelle
+    return im
+
+
+def mothership_frames(w=96):
+    top = mothership_top(w)
+    return [shrink(top.rotate(f * 360 / 32, resample=Image.BICUBIC), w, w) for f in range(32)]
+
+
+def ile_frame(size=192, seed=7):
+    """Île carrée aux bords irréguliers : plage tout autour, herbe au centre."""
+    import random
+    rnd = random.Random(seed)
+    s = SS
+    im, d = canvas(size, size)
+    n = size * s
+    def blob(margin, fill, jitter):
+        pts = []
+        steps = 48
+        for k in range(steps):
+            a = 2 * math.pi * k / steps
+            # carré arrondi (superellipse), bord irrégulier
+            ca, sa = math.cos(a), math.sin(a)
+            r = 1 / max(abs(ca), abs(sa)) ** 0.85 if max(abs(ca), abs(sa)) > 0 else 1
+            rad = (n / 2 - margin * s) * min(r, 1.25) - rnd.uniform(0, jitter) * s
+            pts.append((n / 2 + rad * ca, n / 2 + rad * sa))
+        d.polygon(pts, fill=fill + (255,))
+    blob(2, SABLE_SOMBRE, 5)
+    blob(5, SABLE, 5)
+    blob(22, HERBE_SOMBRE, 6)
+    blob(26, HERBE, 6)
+    for _ in range(90):                                                              # touffes d'herbe
+        x, y = rnd.uniform(0.25, 0.75) * n, rnd.uniform(0.25, 0.75) * n
+        d.ellipse([x, y, x + 3 * s, y + 2 * s], fill=HERBE_SOMBRE + (255,))
+    for _ in range(40):                                                              # grains de sable
+        x, y = rnd.uniform(0.05, 0.95) * n, rnd.uniform(0.05, 0.95) * n
+        if abs(x - n / 2) > 0.36 * n or abs(y - n / 2) > 0.36 * n:
+            d.ellipse([x, y, x + 2 * s, y + 2 * s], fill=SABLE_SOMBRE + (255,))
+    return shrink(im, size, size)
+
+
+def ile_emergence_frame(t, size=192):
+    """Remous, écume et hauts-fonds là où l'île va sortir de l'eau."""
+    import random
+    rnd = random.Random(100 + t)
+    s = SS
+    im, d = canvas(size, size)
+    n = size * s
+    d.ellipse([0.18 * n, 0.18 * n, 0.82 * n, 0.82 * n], fill=(60, 110, 120, 255))    # haut-fond
+    for k in range(3):                                                               # cercles d'écume
+        r = (0.18 + 0.1 * ((k + t / 4) % 3)) * n
+        d.ellipse([n / 2 - r, n / 2 - r, n / 2 + r, n / 2 + r], outline=(225, 235, 240, 255), width=2 * s)
+    for _ in range(60):
+        a, r = rnd.uniform(0, 2 * math.pi), rnd.uniform(0.05, 0.45) * n
+        x, y = n / 2 + r * math.cos(a), n / 2 + r * math.sin(a)
+        d.ellipse([x, y, x + 3 * s, y + 3 * s], fill=(235, 240, 245, 255))
+    return shrink(im, size, size)
+
+
+def icon_aus(bg=(18, 86, 160)):
+    return canvas(64, 48, bg + (255,))
+
+
+def icon_aus_done(im):
+    return shrink(im, 64, 48)
+
+
+def icon_mothership():
+    im, d = icon_aus()
+    s = SS
+    d.rectangle([0, 34 * s, 64 * s, 48 * s], fill=(12, 60, 120, 255))
+    top = mothership_top(96).rotate(90, resample=Image.BICUBIC).resize((64 * s, 64 * s), Image.LANCZOS)
+    im.alpha_composite(top, (0, -8 * s))
+    return icon_aus_done(im)
+
+
+def icon_revolutionnaire():
+    im, d = icon_aus((150, 30, 30))
+    s = SS
+    d.polygon([(30 * s, 4 * s), (58 * s, 10 * s), (30 * s, 18 * s)], fill=(240, 240, 236, 255))   # drapeau
+    d.rectangle([28 * s, 4 * s, 30 * s, 44 * s], fill=(60, 40, 20, 255))                           # hampe
+    d.ellipse([10 * s, 14 * s, 24 * s, 26 * s], fill=(230, 190, 150, 255))                          # tête
+    d.polygon([(8 * s, 44 * s), (10 * s, 28 * s), (24 * s, 28 * s), (26 * s, 44 * s)], fill=(40, 40, 40, 255))
+    d.rectangle([22 * s, 20 * s, 28 * s, 26 * s], fill=(230, 190, 150, 255))                        # poing levé
+    etoile_pts = []
+    for k in range(10):
+        a = -math.pi / 2 + k * math.pi / 5
+        r = 5 if k % 2 == 0 else 2
+        etoile_pts.append(((44 + r * math.cos(a)) * s, (30 + r * math.sin(a)) * s))
+    d.polygon(etoile_pts, fill=(236, 196, 40, 255))
+    return icon_aus_done(im)
+
+
+def icon_chantier_avance():
+    im, d = icon_aus()
+    s = SS
+    d.rectangle([0, 30 * s, 64 * s, 48 * s], fill=(12, 60, 120, 255))
+    d.rectangle([6 * s, 18 * s, 58 * s, 34 * s], fill=(110, 116, 122, 255))                       # quai
+    d.rectangle([10 * s, 6 * s, 14 * s, 20 * s], fill=(200, 170, 40, 255))                        # grue
+    d.rectangle([10 * s, 6 * s, 34 * s, 9 * s], fill=(200, 170, 40, 255))
+    d.polygon([(20 * s, 38 * s), (52 * s, 38 * s), (48 * s, 44 * s), (24 * s, 44 * s)], fill=(70, 76, 84, 255))  # coque
+    d.ellipse([46 * s, 4 * s, 58 * s, 16 * s], fill=(236, 196, 40, 255))                          # étoile de rang
+    return icon_aus_done(im)
+
+
+def icon_raffinerie_boost():
+    im, d = icon_aus((40, 60, 40))
+    s = SS
+    for i, x in enumerate((8, 20, 32)):                                                           # pépites de minerai
+        d.ellipse([x * s, (26 + 4 * (i % 2)) * s, (x + 12) * s, (38 + 4 * (i % 2)) * s], fill=(222, 176, 52, 255))
+    d.polygon([(48 * s, 4 * s), (60 * s, 20 * s), (52 * s, 20 * s), (52 * s, 40 * s), (44 * s, 40 * s),
+               (44 * s, 20 * s), (36 * s, 20 * s)], fill=(120, 220, 90, 255))                     # flèche de hausse
+    return icon_aus_done(im)
+
+
+def icon_radar_blink():
+    im, d = icon_aus((10, 30, 50))
+    s = SS
+    for r in (20, 14, 8):                                                                         # sonar
+        d.ellipse([(32 - r) * s, (24 - r) * s, (32 + r) * s, (24 + r) * s], outline=(80, 220, 120, 255), width=s)
+    d.pieslice([12 * s, 4 * s, 52 * s, 44 * s], 300, 340, fill=(80, 220, 120, 255))
+    for x, y in ((18, 14), (44, 30), (24, 34)):                                                   # sous-marins repérés
+        d.ellipse([x * s, y * s, (x + 8) * s, (y + 3) * s], fill=(240, 240, 236, 255))
+    return icon_aus_done(im)
+
+
 if __name__ == "__main__":
     save(to_indexed([gate_frame(t) for t in range(8)], 48, 48), "aguilagate", 48, 48, 8)
     save(to_indexed([taupe_frame(t) for t in range(8)], 48, 48), "taupegate", 48, 48, 8)
@@ -326,4 +526,13 @@ if __name__ == "__main__":
                      ("taupeicon", icon_taupe), ("eclairicon", icon_eclair),
                      ("mobilisationicon", icon_mobilisation), ("superioriteicon", icon_superiorite),
                      ("precisionicon", icon_precision)):
+        save(to_indexed([fn()], 64, 48), name, 64, 48, 1)
+    save(to_indexed(cormoran_frames(), 48, 48), "cormoran", 48, 48, 32)
+    save(to_indexed([icon_cormoran()], 64, 48), "cormoranicon", 64, 48, 1)
+    save(to_indexed(mothership_frames(), 96, 96), "mothership", 96, 96, 32)
+    save(to_indexed([ile_frame()], 192, 192), "ile", 192, 192, 1)
+    save(to_indexed([ile_emergence_frame(t) for t in range(4)], 192, 192), "ileemergence", 192, 192, 4)
+    for name, fn in (("mothershipicon", icon_mothership), ("revolutionnaireicon", icon_revolutionnaire),
+                     ("chantieravanceicon", icon_chantier_avance), ("raffinerieboosticon", icon_raffinerie_boost),
+                     ("radarblinkicon", icon_radar_blink)):
         save(to_indexed([fn()], 64, 48), name, 64, 48, 1)

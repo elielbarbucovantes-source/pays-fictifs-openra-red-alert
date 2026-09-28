@@ -10,3 +10,7 @@ repris du mod « Mod moderne » (ratc).
 Sprites du tireur d'élite (Nathan), du B-2, du bombardier tactique, du Kirov et des bombes
 repris de la carte « Europe: WW3 Final Edition [BI-4.8] » (Trump, H, Therapist et autres),
 via son import dans le mod ratc.
+Sprites du Rafale (Albatros) et du drone Lancet (Moustique) repris du mod « Mod moderne » (ratc) ;
+A-10 (Warthog) et B-2 (Manta) de la carte « Europe: WW3 », via le mod ratc.
+Sprites du Sherman (Cheaper), de l'usine industrielle (centrale d'enrichissement) et du sous-marin ICBM
+de la carte « Europe: WW3 ».

@@ -1,0 +1,127 @@
+# =====================================================================
+# AUSTRALOUIS — séquences de l'aviation
+# (Albatros = rafale, Warthog = a10, Manta = b2b : déjà définies par
+# les autres pays)
+# =====================================================================
+
+rafale:
+	idle:
+		Filename: fictifs|bits/rafale.shp
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/rafaleicon.shp
+
+# Moustique : drone Lancet du mod ratc.
+moustique:
+	idle:
+		Filename: fictifs|bits/lancet.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/lanceticon.png
+
+# Cormoran : sprite généré par tools/sprites.py.
+cormoran:
+	idle:
+		Filename: fictifs|bits/cormoran.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/cormoranicon.png
+
+# ---------------------------------------------------------------------
+# Marine, forces terrestres, bâtiments
+# ---------------------------------------------------------------------
+
+# Mothership, île et remous : générés par tools/sprites.py.
+mothership:
+	idle:
+		Filename: fictifs|bits/mothership.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/mothershipicon.png
+
+ile:
+	idle:
+		Filename: fictifs|bits/ile.png
+		ZOffset: -12288
+
+ile.emergence:
+	idle:
+		Filename: fictifs|bits/ileemergence.png
+		Length: 4
+		Tick: 300
+		ZOffset: -12288
+
+chantier.avance:
+	Inherits: syrd
+	icon:
+		Filename: fictifs|bits/chantieravanceicon.png
+
+# Centrale d'enrichissement : usine industrielle de la carte WW3.
+centrale.enrichissement:
+	Defaults:
+		Filename: fictifs|bits/indp.shp
+	idle:
+		Length: 4
+		Tick: 200
+		Offset: 0, -8
+	damaged-idle:
+		Start: 4
+		Length: 4
+		Tick: 200
+		Offset: 0, -8
+	make:
+		Filename: fictifs|bits/indpmake.shp
+		Length: *
+		Offset: 0, -8
+	dead:
+		Start: 4
+		Tick: 800
+		Offset: 0, -8
+	bib:
+		Filename: bib2.tem
+		TilesetFilenames:
+			SNOW: bib2.sno
+			DESERT: bib2.des
+		Length: *
+	icon:
+		Filename: fictifs|bits/indpicon.shp
+
+# Cheaper : Sherman de la carte WW3.
+cheaper:
+	idle:
+		Filename: fictifs|bits/sherman.shp
+		Facings: 32
+		UseClassicFacings: True
+	turret:
+		Filename: fictifs|bits/sherman.shp
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+	icon:
+		Filename: fictifs|bits/shermanicon.shp
+
+# Révolutionnaire : le général de Red Alert, parachute du fusilier.
+revolutionnaire:
+	Inherits: gnrl
+	stand2:
+		Filename: gnrl.shp
+		Facings: 8
+	idle2:
+		Filename: gnrl.shp
+		Start: 184
+		Length: 26
+		Tick: 120
+	parachute:
+		Filename: e1.shp
+		Start: 377
+	icon:
+		Filename: fictifs|bits/revolutionnaireicon.png
+
+australouis-powers:
+	raffinerieboost:
+		Filename: fictifs|bits/raffinerieboosticon.png
+	radarblink:
+		Filename: fictifs|bits/radarblinkicon.png

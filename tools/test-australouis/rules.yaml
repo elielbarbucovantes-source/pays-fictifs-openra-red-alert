@@ -1,0 +1,28 @@
+World:
+	LuaScript:
+		Scripts: test.lua
+	-SpawnStartingUnits:
+	-CrateSpawner:
+Player:
+	-ConquestVictoryConditions:
+	Shroud:
+		FogCheckboxEnabled: true
+		ExploredMapCheckboxEnabled: false
+		ExploredMapCheckboxLocked: true
+		FogCheckboxLocked: true
+
+# Délais raccourcis pour le test.
+REVOLUTIONNAIRE:
+	RevolutionOnDeploy:
+		ChargeDelay: 50
+MOTHERSHIP:
+	RaisesIsland:
+		Duration: 125
+CHANTIER.AVANCE:
+	SubmarineVisionPower@RADARBLINK:
+		ChargeInterval: 25
+		StartFullyCharged: true
+CENTRALE.ENRICHISSEMENT:
+	GrantConditionToOwnedActorsPower@BOOST:
+		ChargeInterval: 25
+		StartFullyCharged: true

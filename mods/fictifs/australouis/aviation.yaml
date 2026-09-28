@@ -1,0 +1,415 @@
+# =====================================================================
+# AUSTRALOUIS — aviation
+# Le peuple des îles tient le ciel et la mer. Avions à la base
+# aéronavale, hélicoptères et drones à l'héliport.
+# =====================================================================
+
+# Base aéronavale : aérodrome, sans les pouvoirs soviétiques.
+BASE.AERONAVALE:
+	Inherits: AFLD
+	RenderSprites:
+		Image: afld
+	Buildable:
+		BuildPaletteOrder: 131
+		Prerequisites: dome, ~structures.australouis, ~techlevel.medium
+		Description: Produit, répare et réarme les avions australouisiens :\nAlbatros, Warthog, Manta, Cormoran.
+	Tooltip:
+		Name: Base aéronavale
+	ProvidesPrerequisite@buildingname:
+		Prerequisite: base.aeronavale
+	-AirstrikePower@spyplane:
+	-ParatroopersPower@paratroopers:
+	-AirstrikePower@parabombs:
+	-InfiltrateForSupportPower:
+
+# ---------------------------------------------------------------------
+# ALBATROS — chasseur multirôle (un Rafale à l'australouisienne).
+# ---------------------------------------------------------------------
+ALBATROS:
+	Inherits: MIG
+	RenderSprites:
+		Image: rafale
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~base.aeronavale, ~techlevel.medium
+		Description: Chasseur multirôle, fierté de l'aéronavale.\nMissiles air-air et air-sol (aussi contre les navires).\nÀ court de munitions, rentre se réarmer.\n  Fort contre : aviation, véhicules, navires\n  Faible contre : infanterie
+	Selectable:
+		Class: albatros
+	Valued:
+		Cost: 2100
+	Tooltip:
+		Name: Albatros
+	Health:
+		HP: 9000
+	Armament:
+		Name: primary
+		Weapon: AlbatrosAG
+		PauseOnCondition: !ammo-ag
+	Armament@AA:
+		Name: aa
+		Weapon: AlbatrosAA
+		LocalOffset: 0,-640,0, 0,640,0
+		PauseOnCondition: !ammo-aa
+	AttackAircraft:
+		Armaments: primary, aa
+	Aircraft:
+		Speed: 240
+	AmmoPool:
+		Name: ag
+		Armaments: primary
+		Ammo: 6
+		AmmoCondition: ammo-ag
+	AmmoPool@AA:
+		Name: aa
+		Armaments: aa
+		Ammo: 4
+		AmmoCondition: ammo-aa
+	Rearmable:
+		RearmActors: base.aeronavale
+		AmmoPools: ag, aa
+	WithAmmoPipsDecoration:
+		AmmoPools: ag, aa
+	SpawnActorOnDeath:
+		Actor: ALBATROS.Husk
+
+ALBATROS.Husk:
+	Inherits: MIG.Husk
+	Tooltip:
+		Name: Albatros
+	RenderSprites:
+		Image: rafale
+
+# ---------------------------------------------------------------------
+# WARTHOG — l'A-10 de la carte WW3 : canon de 30 mm et missiles.
+# ---------------------------------------------------------------------
+WARTHOG:
+	Inherits: MIG
+	RenderSprites:
+		Image: a10
+	Buildable:
+		BuildPaletteOrder: 20
+		BuildLimit: 5
+		Prerequisites: ~base.aeronavale, atek, ~techlevel.high
+		Description: Chasseur de chars blindé, canon de 30 mm\n(gris) et missiles antichars (verts). 5 au maximum.\n  Fort contre : chars, véhicules, navires\n  Faible contre : infanterie, aviation
+	Selectable:
+		Class: warthog
+		Bounds: 1536, 1194, 0, 85
+		DecorationBounds: 1706, 1237, 0, 42
+	Valued:
+		Cost: 2500
+	Tooltip:
+		Name: Warthog
+	Health:
+		HP: 35000
+	RevealsShroud:
+		Range: 11c0
+		MinRange: 9c0
+	RevealsShroud@GAPGEN:
+		Range: 9c0
+	Armament:
+		Name: primary
+		Weapon: WarthogCanon
+		LocalOffset: 100,0,-85
+		-LocalYaw:
+		PauseOnCondition: !ammo
+	Armament@SECONDARY:
+		Name: secondary
+		Weapon: WarthogMissile
+		LocalOffset: 0,-640,0, 0,640,0
+		PauseOnCondition: !aammo
+	AttackAircraft:
+		Armaments: primary, secondary
+		OpportunityFire: true
+	Aircraft:
+		Speed: 180
+	AutoTarget:
+		InitialStance: Defend
+	AmmoPool:
+		Name: primary
+		Armaments: primary
+		Ammo: 12
+		AmmoCondition: ammo
+	AmmoPool@SECONDARY:
+		Name: secondary
+		Armaments: secondary
+		Ammo: 4
+		AmmoCondition: aammo
+	WithAmmoPipsDecoration:
+		AmmoPools: primary
+		PipCount: 4
+		FullSequence: pip-gray
+	WithAmmoPipsDecoration@SECONDARY:
+		AmmoPools: secondary
+		PipCount: 4
+		Position: BottomRight
+		Margin: 4, 3
+		RequiresSelection: true
+	Rearmable:
+		RearmActors: base.aeronavale
+		AmmoPools: primary, secondary
+	Contrail@1:
+		Offset: -258,-823,0
+	Contrail@2:
+		Offset: -258,823,0
+	SpawnActorOnDeath:
+		Actor: WARTHOG.Husk
+
+WARTHOG.Husk:
+	Inherits: MIG.Husk
+	Tooltip:
+		Name: Warthog
+	RenderSprites:
+		Image: a10
+
+# ---------------------------------------------------------------------
+# MANTA — bombardier lourd, sur le modèle du B-2 de la carte WW3,
+# en moins bien : visible au radar, moins de bombes, moins solide.
+# ---------------------------------------------------------------------
+MANTA:
+	Inherits: YAK
+	RenderSprites:
+		Image: b2b
+	Buildable:
+		BuildPaletteOrder: 30
+		BuildLimit: 2
+		Prerequisites: ~base.aeronavale, atek, ~techlevel.high
+		Description: Bombardier lourd. Un passage de 6 bombes\nincendiaires. Visible au radar. 2 au maximum.\n  Fort contre : bâtiments, infanterie, véhicules légers\n  Faible contre : chasseurs, défense antiaérienne
+	Valued:
+		Cost: 2200
+	Tooltip:
+		Name: Manta
+	Health:
+		HP: 22000
+	Armament@PRIMARY:
+		Weapon: MantaBombs
+		LocalOffset: 0,0,-100
+		-MuzzleSequence:
+	-Armament@SECONDARY:
+	-WithMuzzleOverlay:
+	AttackAircraft:
+		FacingTolerance: 16
+	AmmoPool:
+		Ammo: 1
+		-ReloadDelay:
+	WithAmmoPipsDecoration:
+		PipCount: 1
+	Aircraft:
+		CruiseAltitude: 2560
+		TurnSpeed: 16
+		Speed: 180
+	Contrail:
+		Offset: -432,560,0
+		StartColorAlpha: 128
+	Contrail@2:
+		Offset: -432,-560,0
+		StartColorAlpha: 128
+	Rearmable:
+		RearmActors: base.aeronavale
+	Selectable:
+		Bounds: 2048, 2048
+		DecorationBounds: 2560, 2560
+	SpawnActorOnDeath:
+		Actor: MANTA.Husk
+
+MANTA.Husk:
+	Inherits: BADR.Husk
+	Tooltip:
+		Name: Manta
+	RenderSprites:
+		Image: b2b
+
+# ---------------------------------------------------------------------
+# CORMORAN — hydravion bombardier d'eau. Il écope en survolant l'eau,
+# puis pulvérise sa cargaison au-dessus d'une zone : les ennemis perdent
+# tout ce qu'ils y avaient découvert (retour au noir), sauf ce que leurs
+# unités voient encore.
+# ---------------------------------------------------------------------
+CORMORAN:
+	Inherits: ^Plane
+	RenderSprites:
+		Image: cormoran
+	Buildable:
+		Queue: Aircraft
+		BuildAtProductionType: Plane
+		BuildPaletteOrder: 40
+		BuildLimit: 2
+		Prerequisites: ~base.aeronavale, ~techlevel.medium
+		Description: Hydravion bombardier d'eau. Sort vide :\nle faire survoler l'eau 2 secondes pour écoper.\nCtrl + clic sur une zone : il la survole et y pulvérise\nun brouillard. Les ennemis y perdent tout ce qu'ils avaient\ndécouvert (retour au noir, rayon 6 cases), sauf ce que\nleurs unités voient encore. Aucune arme. 2 au maximum.\n  Faible contre : chasseurs, défense antiaérienne
+	Selectable:
+		Class: cormoran
+		Bounds: 1536, 1194, 0, 85
+		DecorationBounds: 1706, 1237, 0, 42
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Cormoran
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 12000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		MinRange: 8c0
+		Range: 10c0
+		Type: GroundPosition
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 8c0
+		Type: GroundPosition
+	Armament:
+		Weapon: CormoranBrume
+		PauseOnCondition: !reservoir
+	AttackAircraft:
+		FacingTolerance: 80
+		PersistentTargeting: false
+		OpportunityFire: False
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: HoldFire
+	AmmoPool:
+		Ammo: 1
+		InitialAmmo: 0
+		AmmoCondition: reservoir
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		RequiresSelection: true
+		PipCount: 1
+	ScoopsWater:
+		AmmoPool: primary
+		Delay: 50
+		ScoopingCondition: ecope
+	# Gerbe d'eau en écopant, traînée de brume en pulvérisant.
+	LeavesTrails@ECOPE:
+		Offsets: -300,0,0
+		MovingInterval: 3
+		Image: explosion
+		Sequences: small_splash
+		Palette: effect
+		Type: CenterPosition
+		SpawnAtLastPosition: False
+		RequiresCondition: ecope
+	GrantConditionOnAttack@PULVERISE:
+		Condition: pulverise
+		RevokeDelay: 50
+	LeavesTrails@PULVERISE:
+		Offsets: -400,0,0
+		MovingInterval: 1
+		Image: smoke_m
+		Sequences: idle
+		Type: CenterPosition
+		SpawnAtLastPosition: False
+		RequiresCondition: pulverise
+	# Se pose à la base aéronavale, mais n'y fait jamais le plein d'eau.
+	Rearmable:
+		RearmActors: base.aeronavale
+		AmmoPools: aucun
+	Aircraft:
+		CruiseAltitude: 1792
+		TurnSpeed: 16
+		Speed: 170
+		RepulsionSpeed: 40
+		MaximumPitch: 56
+	SpawnActorOnDeath:
+		Actor: CORMORAN.Husk
+
+CORMORAN.Husk:
+	Inherits: ^PlaneHusk
+	Tooltip:
+		Name: Cormoran
+	RenderSprites:
+		Image: cormoran
+	Aircraft:
+		TurnSpeed: 16
+		Speed: 170
+
+# ---------------------------------------------------------------------
+# Héliport : Baleine (hélicoptère de transport) et drone Moustique.
+# ---------------------------------------------------------------------
+
+# BALEINE — le Chinook australouisien : plus grand, plus solide.
+BALEINE:
+	Inherits: TRAN
+	RenderSprites:
+		Image: tran
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~aircraft.australouis, ~techlevel.medium
+		Description: Hélicoptère de transport lourd. 10 fantassins.\nPlus solide et plus rapide que le Chinook. Aucune arme.
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Baleine
+	Health:
+		HP: 17000
+	Aircraft:
+		Speed: 140
+	Cargo:
+		MaxWeight: 10
+
+# MOUSTIQUE — drone kamikaze antichar. Trois suffisent à détruire un
+# char léger ; très fragile, la moindre défense antiaérienne l'abat.
+MOUSTIQUE:
+	Inherits: ^Helicopter
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	RenderSprites:
+		Image: moustique
+	Buildable:
+		Queue: Aircraft
+		BuildAtProductionType: Helicopter
+		BuildPaletteOrder: 20
+		Prerequisites: ~aircraft.australouis, ~techlevel.medium
+		Description: Drone kamikaze. Plonge sur un véhicule ou un navire.\nUsage unique : détruit dans l'attaque.\nTrois suffisent à détruire un char léger.\nTrès fragile.\n  Fort contre : véhicules, navires\n  Faible contre : infanterie, défense antiaérienne, aviation
+	Valued:
+		Cost: 250
+	Tooltip:
+		Name: Moustique
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	-EjectOnDeath:
+	-SpawnActorOnDeath:
+	Explodes@AIR:
+		Weapon: UnitExplodeHeli
+		EmptyWeapon: UnitExplodeHeli
+		RequiresCondition: airborne
+	Selectable:
+		Bounds: 1024, 1024
+		DecorationBounds: 1024, 1024
+	Health:
+		HP: 600
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 6c0
+		Type: GroundPosition
+	Armament:
+		Weapon: MoustiqueDive
+	AttackAircraft:
+		AttackType: Hover
+		FacingTolerance: 128
+		PersistentTargeting: false
+		OpportunityFire: False
+	AutoTarget:
+		InitialStance: AttackAnything
+		InitialStanceAI: AttackAnything
+		ScanRadius: 6
+	Aircraft:
+		CruiseAltitude: 1280
+		TurnSpeed: 24
+		Speed: 200
+	# Le drone devient le projectile : il disparaît dès qu'il plonge, mais
+	# n'est retiré qu'après l'impact (sinon la charge perd son guidage).
+	GrantConditionOnAttack@PLONGEE:
+		Condition: plongee
+		RevokeDelay: 1000
+	KillsSelf@PLONGEE:
+		RequiresCondition: plongee
+		Delay: 40
+		RemoveInstead: true
+	WithFacingSpriteBody:
+		RequiresCondition: !plongee
+	WithShadow:
+		RequiresCondition: !plongee
+	Targetable@AIRBORNE:
+		RequiresCondition: airborne && !plongee

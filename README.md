@@ -45,6 +45,27 @@ La Rubénie construit la base soviétique, avec sa propre base aérienne et son 
 
 L'IA sait jouer la Rubénie : elle construit ses bâtiments et défenses, produit ses unités terrestres, aériennes et navales, et utilise quatre pouvoirs du QG. Le Tunnelier, le porte-avions, l'avion de reconnaissance et l'Opération Taupe restent réservés aux joueurs humains.
 
+### Australouis : le peuple des îles
+
+Faction alliée d'un archipel, dont la puissance tient à l'aviation et à la marine. Son drapeau bleu océan porte une bande de vagues blanches, trois îles vertes et une étoile.
+
+- **Base aéronavale** : produit, répare et réarme les avions australouisiens.
+- **Albatros** : chasseur multirôle (un Rafale à l'australouisienne), missiles air-air et air-sol.
+- **Warthog** : l'A-10 de la carte WW3, canon de 30 mm et missiles antichars.
+- **Manta** : bombardier lourd sur le modèle du B-2 de la carte WW3, en moins bien (visible au radar, un seul passage de bombes).
+- **Baleine** : hélicoptère de transport lourd (10 fantassins), à la place du Chinook.
+- **Moustique** : drone kamikaze antichar, très fragile ; il en faut trois pour détruire un char léger.
+- **Cormoran** : hydravion bombardier d'eau. Il écope en survolant l'eau, puis pulvérise un brouillard (Ctrl + clic) : les ennemis perdent tout ce qu'ils avaient découvert dans la zone, qui redevient noire.
+
+- **Marine** : les navires alliés, plus le **L-0U15** (destroyer faible dont le sonar détecte les sous-marins à 18 cases), le **sous-marin ICBM** de la carte WW3 (missiles V3 à 24 cases) et le **Mothership**, navire-mère géant presque sans armes qui fait sortir de l'océan des îles de 8×8 cases (2 min 50, sans bouger). Un chantier de construction débarqué sur l'île peut y bâtir une base.
+- **Chantier naval avancé** (centre technique, 2 000 $, 3 au maximum) : seul à produire le sous-marin ICBM et le Mothership.
+- **Centrale d'enrichissement** (centre technique, 2 500 $, 1 au maximum) : +5 % de revenus du minerai tant qu'elle est debout.
+- **Infanterie** : le jeu soviétique (fusilier, grenadier, lance-roquettes, lance-flammes, ingénieur, voleur), plus le **Révolutionnaire** : quand sa révolution est prête (5 minutes), toutes les unités et tous les bâtiments ennemis à 5 cases passent dans son camp.
+- **Chars** : char léger et char moyen alliés, plus le **Cheaper**, char produit en masse, pas cher et faible.
+- **Pouvoirs** : **Raffinerie boost** (centrale d'enrichissement + silo : +20 % de revenus du minerai pendant 40 secondes) et **Radar blink** (chantier naval avancé : pendant 1 minute, vision de tous les sous-marins de la carte, sous-marins ennemis révélés).
+
+L'IA ne sait pas encore utiliser les unités et pouvoirs propres à l'Australouis.
+
 ## Installation
 
 Prérequis (Linux) : `git`, `make`, `curl`, `unzip` et le [SDK .NET 6](https://dotnet.microsoft.com/download/dotnet/6.0). Avec seulement .NET 8, exporter `DOTNET_ROLL_FORWARD=LatestMajor`.
@@ -71,7 +92,8 @@ Au premier lancement, le jeu propose de télécharger les fichiers d'origine de 
 | `mods/fictifs/common/` | Règles partagées : factions, désignation laser, mandat présidentiel, IA |
 | `mods/fictifs/elielistan/` | Unités, armes, pouvoirs et sprites de l'Elielistan |
 | `mods/fictifs/rubenie/` | Unités, armes, défenses et sprites de la Rubénie |
-| `OpenRA.Mods.Fictifs/` | Code C# : Aguila Gate et Opération Taupe, Aguila Bridge, ordres prioritaires, vulnérabilité après largage, Tunnelier, Mobilisation défensive, Supériorité aérienne |
+| `mods/fictifs/australouis/` | Aviation, marine, forces terrestres, bâtiments et pouvoirs de l'Australouis |
+| `OpenRA.Mods.Fictifs/` | Code C# : Aguila Gate et Opération Taupe, Aguila Bridge, ordres prioritaires, vulnérabilité après largage, Tunnelier, Mobilisation défensive, Supériorité aérienne, écopage et brouillard du Cormoran, îles du Mothership, révolution, Radar blink |
 | `tools/` | Scripts Python qui génèrent drapeaux, icônes et sprites |
 
 ## Crédits
