@@ -50,9 +50,19 @@ L'IA sait jouer la Rubénie : elle construit ses bâtiments et défenses, produi
 Prérequis (Linux) : `git`, `make`, `curl`, `unzip` et le [SDK .NET 6](https://dotnet.microsoft.com/download/dotnet/6.0). Avec seulement .NET 8, exporter `DOTNET_ROLL_FORWARD=LatestMajor`.
 
 ```sh
-make              # compile le moteur OpenRA (release-20231010) et le mod
+git clone https://github.com/elielbarbucovantes-source/pays-fictifs-openra-red-alert.git
+cd pays-fictifs-openra-red-alert
+make              # télécharge le moteur OpenRA (release-20231010) et compile le mod
 ./launch-game.sh
 ```
+
+Sous Windows : `make.cmd` puis `launch-game.cmd`.
+
+Sous macOS : installer le [SDK .NET 6](https://dotnet.microsoft.com/download/dotnet/6.0), puis les mêmes commandes que sous Linux dans le Terminal. Si seul un .NET plus récent est installé, lancer avec `DOTNET_ROLL_FORWARD=LatestMajor ./launch-game.sh`.
+
+Sans git : bouton vert « Code » → « Download ZIP » sur la page GitHub, décompresser, puis `make` et `./launch-game.sh` dans le dossier.
+
+Au premier lancement, le jeu propose de télécharger les fichiers d'origine de Red Alert (version gratuite de 2008) : choisir « Quick Install ».
 
 ## Organisation
 
@@ -68,6 +78,7 @@ make              # compile le moteur OpenRA (release-20231010) et le mod
 
 - Mod : Leile.
 - Sprites des drones, du pont et de plusieurs véhicules (Leclerc, PzH, M777, Katioucha, obusier, Kouznetsov, dépôt « pionnier » ; Su-33, F-22, A-10, Battle Fortress, destroyer et sous-marin de la carte WW3) repris du mod « Mod moderne » (ratc) de Leile.
+- Sprites du tireur d'élite, du B-2, du bombardier tactique, du Kirov et des bombes : carte « Europe: WW3 » de Trump, H, Therapist, Leile, Ruben et d'autres ; merci à Frenzy, Widow, Pinkthoth, SirCake, MedalMonkey, Inq8, Zypres et bien d'autres pour les graphismes, le code et l'aide.
 - Basé sur l'[OpenRA Mod SDK](https://github.com/OpenRA/OpenRAModSDK).
 
 ## Licence
