@@ -6,7 +6,7 @@
 # Aeródromo, Harpía (avion embarqué), Pelícano (avion de largage).
 #
 # Chargement : un fantassin occupe 1 place, un char (Carro Aguila,
-# Aguila Nuclear) en occupe 3. Pelícano et porte-avions : 15 places
+# Aguila Nuclear) ou une pièce d'artillerie (Trueno, Lanzador) en occupe 3. Pelícano et porte-avions : 15 places
 # (15 fantassins OU 5 chars) ; Aguila Carrier : 5 chars.
 # =====================================================================
 
@@ -35,6 +35,26 @@ CARRO.AGUILA:
 		CargoType: Char
 		Weight: 3
 	AttackTurreted:
+		PauseOnCondition: largage
+
+# Artillerie : embarque comme un char (3 places) dans l'Aguila Carrier,
+# le Pelícano et le porte-avions. Le Trueno garde sa vulnérabilité après
+# un largage du Cóndor, et gagne la même après un parachutage.
+TRUENO:
+	Passenger:
+		CargoType: Char
+		Weight: 3
+	GrantTimedConditionOnConditionEnd@PARACHUTE:
+		RequiresCondition: parachute
+		Condition: largage
+		Duration: 100
+
+LANZADOR:
+	Inherits@LARGAGE: ^LargageLourd
+	Passenger:
+		CargoType: Char
+		Weight: 3
+	AttackFrontal:
 		PauseOnCondition: largage
 
 # ---------------------------------------------------------------------
@@ -135,7 +155,7 @@ AGUILA.CARRIER:
 		Queue: Vehicle
 		BuildPaletteOrder: 67
 		Prerequisites: ~vehicles.elielistan, fix, ~techlevel.medium
-		Description: Transporteur blindé de chars. Aucune arme.\nEmporte 5 chars (Carro Aguila, Aguila Nuclear)\net les débarque presque instantanément.\nS'il est détruit, les chars à bord sont perdus : à escorter.\nCompatible avec l'Aguila Gate.\n  Transporte : 5 chars
+		Description: Transporteur blindé de chars. Aucune arme.\nEmporte 5 chars ou pièces d'artillerie\n(Carro Aguila, Aguila Nuclear, Trueno, Lanzador)\net les débarque presque instantanément.\nS'il est détruit, les véhicules à bord sont perdus : à escorter.\nCompatible avec l'Aguila Gate.\n  Transporte : 5 chars ou pièces d'artillerie
 	Valued:
 		Cost: 1800
 	Tooltip:
@@ -227,7 +247,7 @@ PELICANO:
 		BuildAtProductionType: Plane
 		BuildPaletteOrder: 70
 		Prerequisites: ~aerodromo, atek, ~techlevel.high
-		Description: Avion de transport stratégique. Aucune arme.\nPosé à l'aérodrome : 15 fantassins OU 5 chars montent à bord.\nClic droit au sol : largage en parachute de tout le chargement\n(Alt + clic : simple déplacement). 60 s avant le largage suivant.\nChars vulnérables 4 s après l'atterrissage. Abattu = chargement perdu.\n  Faible contre : chasseurs, défense antiaérienne
+		Description: Avion de transport stratégique. Aucune arme.\nPosé à l'aérodrome : 15 fantassins OU 5 chars / pièces d'artillerie montent à bord.\nClic droit au sol : largage en parachute de tout le chargement\n(Alt + clic : simple déplacement). 60 s avant le largage suivant.\nVéhicules vulnérables 4 s après l'atterrissage. Abattu = chargement perdu.\n  Faible contre : chasseurs, défense antiaérienne
 	Valued:
 		Cost: 2500
 	Tooltip:

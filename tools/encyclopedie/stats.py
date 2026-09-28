@@ -158,7 +158,9 @@ def weapon_line(ws):
     if ws.get("cluster"):
         n, sub = ws["cluster"]
         return f"{ws['name']} : salve de {n} projectiles de {fmt_int(sub['damage'])} dégâts chacun"
-    if ws["damage"]:
+    if ws["damage"] >= 1000000:
+        parts.append("détruit la cible d'un seul coup")
+    elif ws["damage"]:
         parts.append(("soigne " if ws["heal"] else "") + f"{fmt_int(abs(ws['damage']))} " + ("PV" if ws["heal"] else "dégâts"))
     if ws["burst"] and ws["burst"] not in ("1",):
         parts.append(f"rafale de {ws['burst']}")
@@ -199,6 +201,9 @@ def actor_stats(R, W, key):
                 seen.add(w.lower())
                 ws = weapon_stats(W, w)
                 if ws:
+                    # Arme utilisée seulement depuis une tranchée ou un bunker.
+                    if val(c, "Name") == "garrisoned":
+                        ws = dict(ws, name=ws["name"] + " (en garnison)")
                     weapons.append(ws)
     s["weapons"] = weapons
     s["powers"] = support_powers(n)
