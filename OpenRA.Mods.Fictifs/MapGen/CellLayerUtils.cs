@@ -352,7 +352,7 @@ namespace OpenRA.Mods.MapGen
 			var sorted = Entries(cellLayer);
 			Array.Sort(sorted);
 			var adjustment = target - sorted[(long)(sorted.Length - 1) * count / outOf];
-			foreach (var mpos in cellLayer.CellRegion.MapCoords)
+			foreach (var mpos in cellLayer.CellRegion().MapCoords)
 				cellLayer[mpos] += adjustment;
 		}
 
@@ -376,7 +376,7 @@ namespace OpenRA.Mods.MapGen
 			var sorted = Entries(input);
 			Array.Sort(sorted);
 			var threshold = sorted[(long)sorted.Length * (outOf - count) / outOf];
-			foreach (var mpos in input.CellRegion.MapCoords)
+			foreach (var mpos in input.CellRegion().MapCoords)
 				output[mpos] = input[mpos] >= threshold;
 
 			return output;
@@ -424,7 +424,7 @@ namespace OpenRA.Mods.MapGen
 		/// </summary>
 		public static Rectangle CellBounds(Map map)
 		{
-			return CellBounds(map.MapSize, map.Grid.Type);
+			return CellBounds(map.MapSizeAsSize(), map.Grid.Type);
 		}
 
 		/// <summary>
@@ -448,7 +448,7 @@ namespace OpenRA.Mods.MapGen
 				throw new ArgumentException("destination and source have incompatible sizes");
 			}
 
-			foreach (var cpos in cellLayer.CellRegion)
+			foreach (var cpos in cellLayer.CellRegion())
 				cellLayer[cpos] = matrix[cpos.X - cellBounds.Left, cpos.Y - cellBounds.Top];
 		}
 
@@ -460,7 +460,7 @@ namespace OpenRA.Mods.MapGen
 		{
 			var cellBounds = CellBounds(cellLayer);
 			var matrix = new Matrix<T>(cellBounds.Size.ToInt2()).Fill(defaultValue);
-			foreach (var cpos in cellLayer.CellRegion)
+			foreach (var cpos in cellLayer.CellRegion())
 				matrix[cpos.X - cellBounds.Left, cpos.Y - cellBounds.Top] = cellLayer[cpos];
 			return matrix;
 		}
@@ -525,7 +525,7 @@ namespace OpenRA.Mods.MapGen
 		{
 			var candidates = new List<MPos>();
 			var best = cellLayer[new MPos(0, 0)];
-			foreach (var mpos in cellLayer.CellRegion.MapCoords)
+			foreach (var mpos in cellLayer.CellRegion().MapCoords)
 			{
 				var rank = comparison(cellLayer[mpos], best);
 				if (rank > 0)
@@ -643,7 +643,7 @@ namespace OpenRA.Mods.MapGen
 
 			FloodFill(
 				available,
-				seeds.CellRegion
+				seeds.CellRegion()
 					.Where(cpos => seeds[cpos] && mask[cpos])
 					.Select(cpos => (cpos, true)),
 				Filler,
@@ -679,7 +679,7 @@ namespace OpenRA.Mods.MapGen
 			{
 				if (!AreSameShape(accumulator, layer))
 					throw new ArgumentException("Layers are not the same shape");
-				foreach (var mpos in accumulator.CellRegion.MapCoords)
+				foreach (var mpos in accumulator.CellRegion().MapCoords)
 					accumulator[mpos] = aggregator(accumulator[mpos], layer[mpos]);
 			}
 
@@ -697,7 +697,7 @@ namespace OpenRA.Mods.MapGen
 		public static CellLayer<R> Map<T, R>(CellLayer<T> input, Func<T, R> func)
 		{
 			var output = new CellLayer<R>(input.GridType, input.Size);
-			foreach (var mpos in input.CellRegion.MapCoords)
+			foreach (var mpos in input.CellRegion().MapCoords)
 				output[mpos] = func(input[mpos]);
 			return output;
 		}

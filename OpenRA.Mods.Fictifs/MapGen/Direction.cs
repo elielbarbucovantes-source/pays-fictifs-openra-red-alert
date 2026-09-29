@@ -84,12 +84,13 @@ namespace OpenRA.Mods.MapGen
 	{
 		/// <summary>Adjacent offsets with directions, excluding diagonals.</summary>
 		public static readonly ImmutableArray<(int2, Direction)> Spread4D =
-		[
+		ImmutableArray.Create(new[]
+		{
 			(new int2(1, 0), Direction.R),
 			(new int2(0, 1), Direction.D),
 			(new int2(-1, 0), Direction.L),
 			(new int2(0, -1), Direction.U)
-		];
+		});
 
 		/// <summary>Adjacent offsets, excluding diagonals.</summary>
 		public static readonly ImmutableArray<int2> Spread4 =
@@ -104,7 +105,8 @@ namespace OpenRA.Mods.MapGen
 
 		/// <summary>Adjacent offsets with directions, including diagonals.</summary>
 		public static readonly ImmutableArray<(int2, Direction)> Spread8D =
-		[
+		ImmutableArray.Create(new[]
+		{
 			(new int2(1, 0), Direction.R),
 			(new int2(1, 1), Direction.RD),
 			(new int2(0, 1), Direction.D),
@@ -113,7 +115,7 @@ namespace OpenRA.Mods.MapGen
 			(new int2(-1, -1), Direction.LU),
 			(new int2(0, -1), Direction.U),
 			(new int2(1, -1), Direction.RU)
-		];
+		});
 
 		/// <summary>Adjacent offsets, including diagonals.</summary>
 		public static readonly ImmutableArray<int2> Spread8 =
@@ -293,13 +295,13 @@ namespace OpenRA.Mods.MapGen
 		/// <summary>Count the number of set bits (directions) in a direction mask.</summary>
 		public static int Count(this DirectionMask mask)
 		{
-			return int.PopCount((int)mask);
+			return System.Numerics.BitOperations.PopCount((uint)(int)mask);
 		}
 
 		/// <summary>Finds the only direction set in a direction mask or returns None.</summary>
 		public static Direction ToDirection(this DirectionMask mask)
 		{
-			var d = int.Log2((int)mask);
+			var d = System.Numerics.BitOperations.Log2((uint)(int)mask);
 			if (1 << d == (int)mask)
 				return (Direction)d;
 			else

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenRA.FileFormats;
 using OpenRA.Graphics;
+using OpenRA.Mods.Common.Widgets;
 using OpenRA.Primitives;
 using OpenRA.Widgets;
 
@@ -65,9 +66,9 @@ namespace OpenRA.Mods.MapGen
 		{
 			var spawnPoints = map.ActorDefinitions
 				.Where(d => d.Value.Value == "mpspawn")
-				.Select(kv => new ActorReference(kv.Value.Value, kv.Value).Get<LocationInit>().Value);
+				.Select(kv => new ActorReference(kv.Value.Value, kv.Value.ToDictionary()).Get<LocationInit>().Value);
 
-			Update(spawnPoints, map.Bounds, map.Grid.Type, new Png(map.Package.GetStream("map.png")));
+			Update(spawnPoints, map.Bounds, map.Grid.Type, new Png(new System.IO.MemoryStream(map.SavePreview())));
 		}
 
 		void Update(IEnumerable<CPos> spawnPoints, Rectangle bounds, MapGridType gridType, Png preview)

@@ -961,7 +961,7 @@ namespace OpenRA.Mods.MapGen
 				start.SegmentType,
 				"(Tiled Path)",
 				end.SegmentType,
-				[.. resultPoints]);
+				resultPoints.ToImmutableArray());
 
 			compositeBrush.ReplaceSegment(compositeSegment);
 

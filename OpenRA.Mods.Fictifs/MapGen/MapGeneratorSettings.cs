@@ -10,7 +10,6 @@
 #endregion
 
 using System;
-using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -86,8 +85,9 @@ namespace OpenRA.Mods.MapGen
 		public class MapGeneratorDropdownChoice
 		{
 			public readonly string Label = null;
-			public readonly ImmutableArray<string> Tileset = default;
-			public readonly ImmutableArray<int> Players = default;
+			public readonly string[] Tileset = null;
+			public readonly int[] Players = null;
+			public readonly string Description = null;
 
 			[FieldLoader.LoadUsing(nameof(LoadSettings))]
 			[FieldLoader.Require]
@@ -115,7 +115,7 @@ namespace OpenRA.Mods.MapGen
 			return ret;
 		}
 
-		public readonly ImmutableArray<string> Default = default;
+		public readonly string[] Default = null;
 		string value = null;
 
 		public MapGeneratorMultiChoiceOption(string id, MiniYaml yaml)
@@ -132,7 +132,7 @@ namespace OpenRA.Mods.MapGen
 				fallback = Default.FirstOrDefault(validChoices.Contains);
 			fallback ??= validChoices.FirstOrDefault();
 
-			return fallback != null ? Choices[fallback].Settings : [];
+			return fallback != null ? Choices[fallback].Settings : ImmutableArray<MiniYamlNode>.Empty;
 		}
 
 		public string Value
@@ -170,7 +170,7 @@ namespace OpenRA.Mods.MapGen
 				yield return c.Label + ".label";
 
 				// Descriptions are optional
-				if (FluentProvider.TryGetMessage(c.Label + ".description", out _))
+				if (TranslationProvider.TryGetString(c.Label + ".description", out _))
 					yield return c.Label + ".description";
 			}
 		}
@@ -182,7 +182,7 @@ namespace OpenRA.Mods.MapGen
 		public readonly string Parameter = null;
 
 		[FieldLoader.Require]
-		public readonly ImmutableArray<int> Choices = default;
+		public readonly int[] Choices = null;
 
 		public readonly int? Default = null;
 		int value;
@@ -215,7 +215,7 @@ namespace OpenRA.Mods.MapGen
 	{
 		sealed class MapGenerationArgsWithOptions : MapGenerationArgs
 		{
-			public FrozenDictionary<string, string> Options = FrozenDictionary<string, string>.Empty;
+			public IReadOnlyDictionary<string, string> Options = new Dictionary<string, string>();
 		}
 
 		readonly IMapGeneratorInfo generatorInfo;
@@ -244,7 +244,7 @@ namespace OpenRA.Mods.MapGen
 			Options = options.ToImmutableArray();
 		}
 
-		public ImmutableArray<MapGeneratorOption> Options { get; } = [];
+		public ImmutableArray<MapGeneratorOption> Options { get; } = ImmutableArray<MapGeneratorOption>.Empty;
 
 		public void Randomize(MersenneTwister random)
 		{
@@ -312,10 +312,10 @@ namespace OpenRA.Mods.MapGen
 				Generator = generatorInfo.Type,
 				Tileset = terrainInfo.Id,
 				Size = size,
-				Title = FluentProvider.GetMessage(generatorInfo.MapTitle),
-				Author = FluentProvider.GetMessage(generatorInfo.Name),
-				Settings = new MiniYaml(null, MiniYaml.Merge(layers)),
-				Options = options.ToFrozenDictionary()
+				Title = MapGenCompat.Tr(generatorInfo.MapTitle),
+				Author = MapGenCompat.Tr(generatorInfo.Name),
+				Settings = new MiniYaml(null, MiniYaml.Merge(layers.Select(l => l.ToList()))),
+				Options = options.ToDictionary(kv => kv.Key, kv => kv.Value)
 			};
 		}
 	}

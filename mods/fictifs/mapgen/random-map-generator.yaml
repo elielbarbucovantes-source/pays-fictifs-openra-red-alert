@@ -1,0 +1,130 @@
+# Panneau du générateur de cartes aléatoires (logique : MapGeneratorLogic,
+# rétroportée d'OpenRA playtest-20260222).
+Background@RANDOM_MAP_GENERATOR_PANEL:
+	X: (WINDOW_RIGHT - WIDTH) / 2
+	Y: (WINDOW_BOTTOM - HEIGHT) / 2
+	Logic: MapGeneratorLogic
+	Width: 900
+	Height: 600
+	Children:
+		Label@PANEL_TITLE:
+			Y: 17
+			Width: PARENT_RIGHT
+			Height: 20
+			Text: Générer une carte aléatoire
+			Align: Center
+			Font: Bold
+		ScrollPanel@SETTINGS_PANEL:
+			X: 20
+			Y: 50
+			TopBottomSpacing: 5
+			Width: 485
+			Height: 465
+			Children:
+				Container@CHECKBOX_TEMPLATE:
+					Width: 230
+					Height: 30
+					Children:
+						Checkbox@CHECKBOX:
+							X: 10
+							Y: 5
+							Width: PARENT_RIGHT - 20
+							Height: 20
+				Container@TEXT_TEMPLATE:
+					Width: 230
+					Height: 50
+					Children:
+						LabelForInput@LABEL:
+							X: 10
+							Width: PARENT_RIGHT - 20
+							Height: 20
+							For: INPUT
+						TextField@INPUT:
+							X: 10
+							Y: 20
+							Width: PARENT_RIGHT - 20
+							Height: 25
+				Container@DROPDOWN_TEMPLATE:
+					Width: 230
+					Height: 50
+					Children:
+						LabelForInput@LABEL:
+							X: 10
+							Width: PARENT_RIGHT - 20
+							Height: 20
+							For: DROPDOWN
+						DropDownButton@DROPDOWN:
+							X: 10
+							Y: 20
+							Width: PARENT_RIGHT - 20
+							Height: 25
+		Background@MAP_BG:
+			X: PARENT_RIGHT - WIDTH - 20
+			Y: 50
+			Width: 370
+			Height: 370
+			Background: dialog3
+			Children:
+				GeneratedMapPreview@PREVIEW:
+					X: 1
+					Y: 1
+					Width: PARENT_RIGHT - 2
+					Height: PARENT_BOTTOM - 2
+		Label@TITLE:
+			X: PARENT_RIGHT - WIDTH - 20
+			Y: 425
+			Width: 370
+			Height: 24
+			Align: Center
+			Font: Bold
+		Label@ERROR:
+			X: PARENT_RIGHT - WIDTH - 20
+			Y: 450
+			Width: 370
+			Height: 24
+			Align: Center
+			Text: Ces réglages ne donnent pas de carte valide : essayez-en d'autres.
+		Label@DETAILS:
+			X: PARENT_RIGHT - WIDTH - 20
+			Y: 450
+			Width: 370
+			Height: 24
+			Align: Center
+		Label@SIZE:
+			X: PARENT_RIGHT - WIDTH - 20
+			Y: 470
+			Width: 370
+			Height: 24
+			Align: Center
+		Label@SAVE_HINT:
+			X: PARENT_RIGHT - WIDTH - 20
+			Y: 490
+			Width: 370
+			Height: 24
+			Align: Center
+			Font: Small
+			Text: La carte retenue est ajoutée aux cartes personnalisées.
+		Button@BUTTON_GENERATE:
+			X: 20
+			Y: PARENT_BOTTOM - 45
+			Width: 180
+			Height: 25
+			Text: Nouvelle carte
+			Font: Bold
+		Button@BUTTON_USE:
+			X: PARENT_RIGHT - 350
+			Y: PARENT_BOTTOM - 45
+			Width: 200
+			Height: 25
+			Text: Jouer cette carte
+			Font: Bold
+			Key: return
+		Button@BUTTON_BACK:
+			X: PARENT_RIGHT - 140
+			Y: PARENT_BOTTOM - 45
+			Width: 120
+			Height: 25
+			Text: Retour
+			Font: Bold
+			Key: escape
+		TooltipContainer@TOOLTIP_CONTAINER:

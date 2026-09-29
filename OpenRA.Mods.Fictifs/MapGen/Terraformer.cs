@@ -94,7 +94,7 @@ namespace OpenRA.Mods.MapGen
 		{
 			var types = typeWeights
 				.Select(kv => kv.Key)
-				.Order()
+				.OrderBy(x => x)
 				.ToArray();
 			var weights = types
 				.Select(type => typeWeights[type])
@@ -176,7 +176,7 @@ namespace OpenRA.Mods.MapGen
 		{
 			var maxTerrainHeight = Map.Grid.MaximumTerrainHeight;
 			var tl = new PPos(1, 1 + maxTerrainHeight);
-			var br = new PPos(Map.MapSize.Width - 2, Map.MapSize.Height - maxTerrainHeight - 2);
+			var br = new PPos(Map.MapSizeAsSize().Width - 2, Map.MapSizeAsSize().Height - maxTerrainHeight - 2);
 			Map.SetBounds(tl, br);
 			Map.Title = MapGenerationArgs.Title;
 			Map.Author = MapGenerationArgs.Author;
@@ -206,7 +206,7 @@ namespace OpenRA.Mods.MapGen
 			Map.ActorDefinitions = ActorPlans
 				.Where(HasProjectedFootprintInMap)
 				.Select((plan, i) => new MiniYamlNode($"Actor{i}", plan.Reference.Save()))
-				.ToImmutableArray();
+				.ToList();
 		}
 
 		/// <summary>
@@ -578,7 +578,7 @@ namespace OpenRA.Mods.MapGen
 		/// </param>
 		public CellLayer<int> SpawnBias(int centralReservationFraction)
 		{
-			var minSpan = Math.Min(Map.MapSize.Width, Map.MapSize.Height);
+			var minSpan = Math.Min(Map.MapSizeAsSize().Width, Map.MapSizeAsSize().Height);
 			var projectionSpacing = lazyProjectionSpacing.Value;
 			var spawnBias = new CellLayer<int>(Map);
 			var spawnBiasRadius = Math.Max(1, minSpan * centralReservationFraction / FractionMax);
@@ -1823,8 +1823,8 @@ namespace OpenRA.Mods.MapGen
 			// with IsometricRectangular grids, where a non-multiple of 4 would change how the
 			// center aligns with the grid.
 			var enlargedSize = new Size(
-				Map.MapSize.Width + (Map.MapSize.Width & ~3) + 4,
-				Map.MapSize.Height + (Map.MapSize.Height & ~3) + 4);
+				Map.MapSizeAsSize().Width + (Map.MapSizeAsSize().Width & ~3) + 4,
+				Map.MapSizeAsSize().Height + (Map.MapSizeAsSize().Height & ~3) + 4);
 
 			var space = new CellLayer<bool>(gridType, enlargedSize);
 			space.Clear(true);
@@ -1967,7 +1967,7 @@ namespace OpenRA.Mods.MapGen
 					continue;
 
 				IEnumerable<ResourceTypeInfo> types = bias.ResourceType != null
-					? [bias.ResourceType]
+					? new[] { bias.ResourceType }
 					: resourceTypes;
 				foreach (var resourceType in types)
 				{
@@ -2008,7 +2008,7 @@ namespace OpenRA.Mods.MapGen
 			}
 
 			foreach (var mpos in Map.AllCells.MapCoords)
-				if (!mask[mpos] || !allowedTerrainResourceCombos.Contains((bestResource[mpos], Map.GetTerrainIndex(mpos))))
+				if (!mask[mpos] || !allowedTerrainResourceCombos.Contains((bestResource[mpos], Map.GetTerrainIndex(mpos.ToCPos(Map)))))
 					plan[mpos] = -int.MaxValue;
 
 			foreach (var bias in resourceBiases)
@@ -2028,7 +2028,7 @@ namespace OpenRA.Mods.MapGen
 				}
 			}
 
-			plan = ImproveSymmetry(plan, -int.MaxValue, int.Min);
+			plan = ImproveSymmetry(plan, -int.MaxValue, Math.Min);
 
 			return (plan, bestResource);
 		}
@@ -2130,7 +2130,7 @@ namespace OpenRA.Mods.MapGen
 				var oldValue = CheckValue3By3(cpos);
 				Map.Resources[mpos] = new ResourceTile(
 					resourceType.ResourceIndex,
-					resourceType.MaxDensity);
+					(byte)resourceType.MaxDensity);
 				var newValue = CheckValue3By3(cpos);
 				return newValue - oldValue;
 			}
@@ -2217,7 +2217,7 @@ namespace OpenRA.Mods.MapGen
 					decorationNoise[mpos] = -1024 * 1024;
 			}
 
-			var mapArea = Map.MapSize.Width * Map.MapSize.Height;
+			var mapArea = Map.MapSizeAsSize().Width * Map.MapSizeAsSize().Height;
 			var decorationMask = CellLayerUtils.CalibratedBooleanThreshold(
 				decorationNoise, totalDecorable * coverage / FractionMax, mapArea);
 			foreach (var mpos in Map.AllCells.MapCoords)
@@ -2296,7 +2296,7 @@ namespace OpenRA.Mods.MapGen
 				.Index;
 
 			// Rotate the spawns so that our "A" spawn is first.
-			mpspawns = [.. mpspawns[bestIndex..], .. mpspawns[..bestIndex]];
+			mpspawns = mpspawns.Skip(bestIndex).Concat(mpspawns.Take(bestIndex)).ToList();
 
 			// Put them back into the ActorPlans list.
 			ActorPlans.AddRange(mpspawns);

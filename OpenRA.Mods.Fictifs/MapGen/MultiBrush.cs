@@ -15,7 +15,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
 using OpenRA.Graphics;
-using OpenRA.Mods.Common.EditorBrushes;
 using OpenRA.Mods.Common.Terrain;
 using OpenRA.Mods.Common.Traits;
 using OpenRA.Support;
@@ -65,7 +64,7 @@ namespace OpenRA.Mods.MapGen
 				if (string.IsNullOrEmpty(my.Value))
 					throw new YamlException("Missing template type");
 
-				if (!Exts.TryParseUshortInvariant(my.Value, out Type))
+				if (!MapGenCompat.TryParseUshortInvariant(my.Value, out Type))
 					throw new YamlException($"Invalid MultiBrush Template `${my.Value}`");
 
 				FieldLoader.Load(this, my);
@@ -83,7 +82,7 @@ namespace OpenRA.Mods.MapGen
 				if (string.IsNullOrEmpty(my.Value))
 					throw new YamlException("Missing tile type");
 
-				if (!TerrainTile.TryParse(my.Value, out Type))
+				if (!MapGenCompat.TryParseTerrainTile(my.Value, out Type))
 					throw new YamlException($"Invalid MultiBrush Tile `${my.Value}`");
 
 				FieldLoader.Load(this, my);
@@ -124,7 +123,7 @@ namespace OpenRA.Mods.MapGen
 						actorsAcc.Add(new ActorInfo(node.Value));
 						break;
 					case "BackingTile":
-						if (TerrainTile.TryParse(node.Value.Value, out var bt))
+						if (MapGenCompat.TryParseTerrainTile(node.Value.Value, out var bt))
 							BackingTile = bt;
 						else
 							throw new YamlException($"Invalid MultiBrush BackingTile `{node.Value.Value}`");
@@ -144,9 +143,9 @@ namespace OpenRA.Mods.MapGen
 						throw new YamlException($"Unrecognized MultiBrush key {node.Key.Split('@')[0]}");
 				}
 
-			Actors = [.. actorsAcc];
-			Templates = [.. templatesAcc];
-			Tiles = [.. tilesAcc];
+			Actors = actorsAcc.ToImmutableArray();
+			Templates = templatesAcc.ToImmutableArray();
+			Tiles = tilesAcc.ToImmutableArray();
 		}
 
 		public static ImmutableArray<MultiBrushInfo> ParseCollection(MiniYaml my)
@@ -233,7 +232,7 @@ namespace OpenRA.Mods.MapGen
 				var points = new CVec[parts.Length / 2];
 				for (var i = 0; i < points.Length; i++)
 				{
-					points[i] = new CVec(Exts.ParseInt32Invariant(parts[2 * i]), Exts.ParseInt32Invariant(parts[2 * i + 1]));
+					points[i] = new CVec(MapGenCompat.ParseInt32Invariant(parts[2 * i]), MapGenCompat.ParseInt32Invariant(parts[2 * i + 1]));
 					if (i > 0)
 					{
 						var step = points[i] - points[i - 1];
@@ -242,7 +241,7 @@ namespace OpenRA.Mods.MapGen
 					}
 				}
 
-				Points = [.. points];
+				Points = points.ToImmutableArray();
 			}
 		}
 
@@ -435,7 +434,7 @@ namespace OpenRA.Mods.MapGen
 		public static ImmutableArray<MultiBrush> LoadCollection(Map map, string name)
 		{
 			var templatedTerrainInfo = (ITemplatedTerrainInfo)map.Rules.TerrainInfo;
-			return templatedTerrainInfo.MultiBrushCollections[name]
+			return MultiBrushCollections.Get(map.Rules.TerrainInfo, name)
 				.Select(info => new MultiBrush(map, info))
 				.ToImmutableArray();
 		}
@@ -711,7 +710,7 @@ namespace OpenRA.Mods.MapGen
 				new KeyValuePair<int, List<MultiBrush>>(
 					1,
 					availableBrushes.Where(o => o.HasActors && o.Area == 1).ToList()));
-			var size = map.MapSize;
+			var size = map.MapSizeAsSize();
 			var replaceMposes = new List<MPos>();
 			var remaining = new CellLayer<bool>(map);
 			for (var v = 0; v < size.Height; v++)
@@ -809,76 +808,6 @@ namespace OpenRA.Mods.MapGen
 						break;
 				}
 			}
-		}
-
-		/// <summary>
-		/// Create a sparse EditorBlitSource from this MultiBrush. The EditorBlitSource will have
-		/// the minimum bounding CellRegion fully containing all content. An optional
-		/// MersenneTwister can be provided to vary randomizable elements. For actors without a
-		/// preconfigured owner, a default owner can be specified or derived automatically.
-		/// </summary>
-		public EditorBlitSource ToEditorBlitSource(
-			WorldRenderer worldRenderer,
-			MersenneTwister random,
-			PlayerReference defaultActorOwner = null,
-			short heightOffset = 0)
-		{
-			var world = worldRenderer.World;
-			var map = world.Map;
-
-			if (defaultActorOwner == null)
-			{
-				var editorActorLayer = world.WorldActor.Trait<EditorActorLayer>();
-				if (editorActorLayer != null)
-					defaultActorOwner = editorActorLayer.Players.Players.Values.First();
-			}
-
-			var players = world.Players.ToDictionary(
-				player => player.InternalName,
-				player => player.PlayerReference);
-
-			var topLeft = new CPos(
-				Shape.Min(cvec => cvec.X),
-				Shape.Min(cvec => cvec.Y));
-			var bottomRight = new CPos(
-				Shape.Max(cvec => cvec.X),
-				Shape.Max(cvec => cvec.Y));
-			var cellRegion = new CellCoordsRegion(topLeft, bottomRight);
-
-			var actorPreviews = new Dictionary<string, EditorActorPreview>();
-			for (var i = 0; i < actorPlans.Count; i++)
-			{
-				// A (non-revert) EditorBlitSource's actors' names are generally unimportant beyond
-				// needing to be distinct. They will get renamed when blitting.
-				var name = $"Actor{i}";
-				var actorReference = actorPlans[i].Reference.Clone();
-				var ownerInit = actorReference.Get<OwnerInit>();
-				if (!players.TryGetValue(ownerInit.InternalName, out var owner))
-					owner = defaultActorOwner;
-
-				if (owner == null)
-					throw new InvalidOperationException("MultiBrush actor has invalid (or no) owner and no default available.");
-
-				actorPreviews[name] = new EditorActorPreview(
-					worldRenderer,
-					name,
-					actorReference,
-					owner);
-			}
-
-			var blitTiles =
-				tiles
-					.Where(t => map.Tiles.Contains(CPos.Zero + t.XY))
-					.DistinctBy(t => t.XY)
-					.Select(t => (t.XY, Tile: t.TileRange.Pick(random), t.TileRange.HeightOffset))
-					.ToDictionary(
-						t => CPos.Zero + t.XY,
-						t => new BlitTile(t.Tile, default, null, (byte)Math.Clamp(heightOffset + t.HeightOffset, byte.MinValue, byte.MaxValue)));
-
-			return new EditorBlitSource(
-				cellRegion,
-				actorPreviews,
-				blitTiles);
 		}
 
 		/// <summary>All possible tiles that may be painted by this MultiBrush.</summary>

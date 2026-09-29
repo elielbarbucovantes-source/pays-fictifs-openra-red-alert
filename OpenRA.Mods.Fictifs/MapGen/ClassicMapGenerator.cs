@@ -10,13 +10,14 @@
 #endregion
 
 using System;
-using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using OpenRA.Mods.MapGen;
+
 using OpenRA.Mods.Common.Terrain;
 using OpenRA.Support;
+using OpenRA.Mods.Common;
+using OpenRA.Mods.Common.Traits;
 using OpenRA.Traits;
 using static OpenRA.Mods.Common.Traits.ResourceLayerInfo;
 
@@ -29,24 +30,21 @@ namespace OpenRA.Mods.MapGen
 		public readonly string Type = null;
 
 		[FieldLoader.Require]
-		[FluentReference]
 		public readonly string Name = null;
 
 		[FieldLoader.Require]
 		[Desc("Tilesets that are compatible with this map generator.")]
-		public readonly ImmutableArray<string> Tilesets = default;
+		public readonly string[] Tilesets = null;
 
-		[FluentReference]
 		[Desc("The title to use for generated maps.")]
 		public readonly string MapTitle = "label-random-map";
 
 		[Desc("The widget tree to open when the tool is selected.")]
 		public readonly string PanelWidget = "MAP_GENERATOR_TOOL_PANEL";
 
-		// This is purely of interest to the linter.
-		[FieldLoader.LoadUsing(nameof(FluentReferencesLoader))]
-		[FluentReference]
-		public readonly ImmutableArray<string> FluentReferences = default;
+		[FieldLoader.Require]
+		[Desc("Fichiers contenant la section MultiBrushCollections de chaque tileset (clé = identifiant du tileset).")]
+		public readonly Dictionary<string, string> MultiBrushFiles = null;
 
 		[FieldLoader.LoadUsing(nameof(SettingsLoader))]
 		public readonly MiniYaml Settings;
@@ -54,17 +52,11 @@ namespace OpenRA.Mods.MapGen
 		string IMapGeneratorInfo.Type => Type;
 		string IMapGeneratorInfo.Name => Name;
 		string IMapGeneratorInfo.MapTitle => MapTitle;
-		ImmutableArray<string> IEditorMapGeneratorInfo.Tilesets => Tilesets;
+		string[] IEditorMapGeneratorInfo.Tilesets => Tilesets;
 
 		static MiniYaml SettingsLoader(MiniYaml my)
 		{
 			return my.NodeWithKey("Settings").Value;
-		}
-
-		static object FluentReferencesLoader(MiniYaml my)
-		{
-			return new MapGeneratorSettings(null, my.NodeWithKey("Settings").Value)
-				.Options.SelectMany(o => o.GetFluentReferences()).ToImmutableArray();
 		}
 
 		const int FractionMax = Terraformer.FractionMax;
@@ -242,7 +234,7 @@ namespace OpenRA.Mods.MapGen
 				RepaintTiles = my.NodeWithKeyOrDefault("RepaintTiles")?.Value.ToDictionary(
 					k =>
 					{
-						if (Exts.TryParseUshortInvariant(k, out var tile))
+						if (MapGenCompat.TryParseUshortInvariant(k, out var tile))
 							return tile;
 						else
 							throw new YamlException($"RepaintTile {k} is not a ushort");
@@ -281,7 +273,7 @@ namespace OpenRA.Mods.MapGen
 					return my.NodeWithKey(key).Value.Value
 						.Split(',', StringSplitOptions.RemoveEmptyEntries)
 						.Select(terrainInfo.GetTerrainIndex)
-						.ToFrozenSet();
+						.ToHashSet();
 				}
 
 				IReadOnlyList<string> ParseSegmentTypes(string key)
@@ -478,8 +470,9 @@ namespace OpenRA.Mods.MapGen
 		{
 			var terrainInfo = modData.DefaultTerrainInfo[args.Tileset];
 			var size = args.Size;
+			MultiBrushCollections.Register(modData, MultiBrushFiles);
 
-			var map = new Map(modData, terrainInfo, size);
+			var map = new Map(modData, terrainInfo, size.Width, size.Height);
 			var actorPlans = new List<ActorPlan>();
 
 			var param = new Parameters(map, args.Settings);
@@ -979,19 +972,8 @@ namespace OpenRA.Mods.MapGen
 		}
 	}
 
-	public class ClassicMapGenerator : IEditorTool
+	public class ClassicMapGenerator
 	{
-		public string Label { get; }
-		public string PanelWidget { get; }
-		public TraitInfo TraitInfo { get; }
-		public bool IsEnabled { get; }
-
-		public ClassicMapGenerator(ActorInitializer init, ClassicMapGeneratorInfo info)
-		{
-			Label = info.Name;
-			PanelWidget = info.PanelWidget;
-			TraitInfo = info;
-			IsEnabled = info.Tilesets.Contains(init.Self.World.Map.Tileset);
-		}
+		public ClassicMapGenerator(ActorInitializer init, ClassicMapGeneratorInfo info) { }
 	}
 }

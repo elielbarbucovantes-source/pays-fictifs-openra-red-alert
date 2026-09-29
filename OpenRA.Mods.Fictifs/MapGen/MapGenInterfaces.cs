@@ -38,7 +38,7 @@ namespace OpenRA.Mods.MapGen
 
 	public interface IEditorMapGeneratorInfo : IMapGeneratorInfo
 	{
-		ImmutableArray<string> Tilesets { get; }
+		string[] Tilesets { get; }
 		IMapGeneratorSettings GetSettings();
 	}
 
