@@ -52,3 +52,8 @@ __pycache__/
 # Sauvegardes locales
 *.bak
 *.save
+
+# Mise à jour depuis le menu
+update.log
+update-result.txt
+.version-commit
