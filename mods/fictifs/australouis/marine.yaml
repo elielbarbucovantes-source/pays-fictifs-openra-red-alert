@@ -26,6 +26,16 @@ CHANTIER.AVANCE:
 		Name: Chantier naval avancé
 	Production:
 		Produces: Ship, Boat, NavalAvance
+	# Les sorties héritées de SYRD n'acceptent que Ship et Boat : sans
+	# NavalAvance, l'ICBM et le Mothership restaient bloqués sur « Ready ».
+	Exit@1:
+		ProductionTypes: Ship, Boat, NavalAvance
+	Exit@2:
+		ProductionTypes: Ship, Boat, NavalAvance
+	Exit@3:
+		ProductionTypes: Ship, Boat, NavalAvance
+	Exit@4:
+		ProductionTypes: Ship, Boat, NavalAvance
 	ProvidesPrerequisite@buildingname:
 		Prerequisite: chantier.avance
 	SupportPowerChargeBar:
