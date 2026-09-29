@@ -38,5 +38,11 @@ namespace OpenRA.Mods.Fictifs.Scripting
 		{
 			carrier.LaunchAll();
 		}
+
+		[Desc("Same as the deploy key: launch every ready aircraft and, if the carrier touches a coast, unload its troops.")]
+		public void DeployCarrier()
+		{
+			carrier.Deploy(false);
+		}
 	}
 }

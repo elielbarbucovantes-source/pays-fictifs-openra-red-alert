@@ -83,6 +83,27 @@ namespace OpenRA.Mods.Fictifs.Traits
 		int launchesPending;
 		int launchCooldown;
 
+		// Porte-avions qui transporte aussi des troupes (Porta Aguila) : le
+		// déploiement fait décoller les avions ET débarquer les troupes.
+		Cargo cargo;
+		bool cargoResolved;
+
+		Cargo CarriedTroops
+		{
+			get
+			{
+				if (!cargoResolved)
+				{
+					cargo = self.TraitOrDefault<Cargo>();
+					cargoResolved = true;
+				}
+
+				return cargo;
+			}
+		}
+
+		bool CanUnloadTroops => CarriedTroops != null && !CarriedTroops.IsEmpty() && CarriedTroops.CanUnload();
+
 		public AircraftCarrier(ActorInitializer init, AircraftCarrierInfo info)
 		{
 			self = init.Self;
@@ -114,6 +135,18 @@ namespace OpenRA.Mods.Fictifs.Traits
 		public void LaunchAll()
 		{
 			launchesPending = stowed.Count;
+		}
+
+		/// <summary>
+		/// Déploiement (touche F ou clic sur le navire) : fait décoller les avions prêts
+		/// et, si le navire touche la côte, débarque ses troupes.
+		/// </summary>
+		public void Deploy(bool queued)
+		{
+			LaunchAll();
+
+			if (CanUnloadTroops)
+				self.QueueActivity(queued, new UnloadCargo(self, CarriedTroops.Info.LoadRange));
 		}
 
 		void ITick.Tick(Actor self)
@@ -222,8 +255,10 @@ namespace OpenRA.Mods.Fictifs.Traits
 		{
 			get
 			{
-				yield return new DeployOrderTargeter("LaunchAircraft", 10,
-					() => HasReadyAircraft ? Info.LaunchCursor : Info.LaunchBlockedCursor);
+				// Priorité supérieure à l'ordre « Unload » de Cargo (10), qui sinon
+				// serait ignoré ou choisi au hasard : Deploy() gère les deux.
+				yield return new DeployOrderTargeter("LaunchAircraft", 11,
+					() => HasReadyAircraft || CanUnloadTroops ? Info.LaunchCursor : Info.LaunchBlockedCursor);
 			}
 		}
 
@@ -245,7 +280,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 		void IResolveOrder.ResolveOrder(Actor self, Order order)
 		{
 			if (order.OrderString == "LaunchAircraft")
-				LaunchAll();
+				Deploy(order.Queued);
 		}
 
 		string IOrderVoice.VoicePhraseForOrder(Actor self, Order order)
