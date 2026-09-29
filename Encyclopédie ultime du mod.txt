@@ -711,11 +711,11 @@ SOMMAIRE
   Pays : Rubénie
   Lore :
     Artillerie tractée à la portée extrême (18 cases) et aux dégâts énormes.
-    Ses obus perforants rasent les défenses ennemies en un ou deux coups.
+    Ses obus perforants détruisent n'importe quelle défense ennemie en trois coups.
     Sa cadence est très lente et elle se déplace à peine.
   Statistiques :
     Coût 1 600 $ · PV 8 000 · Blindage léger · Vitesse 28 · Vision 4 cases
-    Arme : RubObusLourd : 16 000 dégâts (+45 000 contre les défenses), portée 18 cases,
+    Arme : RubObusLourd : 16 000 dégâts (40 % des PV max contre les défenses), portée 18 cases,
     recharge 8,8 s
     Prérequis : Centre technique soviétique · Niveau technologique : élevé
   Stratégie :

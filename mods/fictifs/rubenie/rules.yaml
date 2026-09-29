@@ -395,7 +395,7 @@ ARTILLERIE.LOURDE:
 	Buildable:
 		BuildPaletteOrder: 80
 		Prerequisites: ~vehicles.rubenie, stek, ~techlevel.high
-		Description: Artillerie lourde tractée. Portée extrême (18 cases), dégâts énormes,\nobus perforants qui rasent les défenses en 1 ou 2 coups. Cadence très lente.\nPresque immobile et très vulnérable : à protéger.\n  Fort contre : défenses, bâtiments, concentrations\n  Faible contre : tout au contact, aviation
+		Description: Artillerie lourde tractée. Portée extrême (18 cases), dégâts énormes,\nobus perforants qui détruisent une défense en 3 coups. Cadence très lente.\nPresque immobile et très vulnérable : à protéger.\n  Fort contre : défenses, bâtiments, concentrations\n  Faible contre : tout au contact, aviation
 	Selectable:
 		Class: artillerie.lourde
 	Valued:

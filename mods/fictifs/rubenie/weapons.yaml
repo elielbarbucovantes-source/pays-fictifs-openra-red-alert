@@ -92,7 +92,8 @@ RubObus152:
 	ReloadDelay: 100
 
 # Artillerie lourde : portée et dégâts extrêmes, cadence très lente.
-# Obus perforants : dégâts énormes contre les défenses (1 à 2 coups).
+# Obus perforants : chaque obus retire 40 % des PV max d'une défense,
+# quelle qu'elle soit (3 coups pour la détruire, même hors ravitaillement).
 RubObusLourd:
 	Inherits: 155mm
 	Range: 18c0
@@ -103,17 +104,11 @@ RubObusLourd:
 	Warhead@1Dam: SpreadDamage
 		Spread: 512
 		Damage: 16000
-	Warhead@2AntiDef: SpreadDamage
+		InvalidTargets: Defense
+	Warhead@2AntiDef: HealthPercentageDamage
 		Spread: 512
-		Damage: 45000
-		Falloff: 100, 50, 0
+		Damage: 40
 		ValidTargets: Defense
-		Versus:
-			None: 100
-			Wood: 100
-			Light: 100
-			Heavy: 100
-			Concrete: 100
 
 # Lance-roquettes multiple : Katioucha du mod WW3 (mêmes valeurs).
 # Deux rampes de 3 roquettes, la seconde plus dispersée.
