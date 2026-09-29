@@ -386,9 +386,8 @@ BLACKHAWK:
 
 ^ElielistanDrone:
 	Inherits: ^Helicopter
-	# Cible des systèmes anti-drone (aviation australouisienne et rubénienne).
+	# Cible des systèmes anti-drone (avions australouisiens et rubéniens).
 	Drone:
-	-DestroysNearbyDrones:
 	Inherits@DOCTRINE: ^ElielistanDoctrine
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	UpdatesPlayerStatistics:

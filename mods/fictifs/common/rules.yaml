@@ -303,18 +303,11 @@ SYRD:
 		Prerequisite: ships.australouis
 
 # ---------------------------------------------------------------------
-# Système anti-drone : tout aéronef (avion ou hélicoptère) de
+# Système anti-drone : tout avion (pas les hélicoptères) de
 # l'Australouis ou de la Rubénie détruit automatiquement les drones
-# ennemis à 1 case ou moins autour de lui. Les drones eux-mêmes n'en
-# ont pas (voir Drone: sur ^ElielistanDrone et MOUSTIQUE).
+# ennemis à 1 case ou moins autour de lui.
 # ---------------------------------------------------------------------
 ^Plane:
-	DestroysNearbyDrones:
-		Range: 1c0
-		Factions: australouis, rubenie
-		Sound: gun13.aud
-
-^Helicopter:
 	DestroysNearbyDrones:
 		Range: 1c0
 		Factions: australouis, rubenie
@@ -337,3 +330,7 @@ YAK:
 	Rearmable:
 		RearmActors: afld, afld.ukraine, porta.aguila, porte.avions.rub
 	CarrierAircraft:
+
+# ^Helicopter hérite de ^Plane : les hélicoptères n'ont pas l'anti-drone.
+^Helicopter:
+	-DestroysNearbyDrones:

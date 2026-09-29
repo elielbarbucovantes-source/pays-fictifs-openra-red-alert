@@ -306,7 +306,7 @@ CORMORAN:
 		RequiresCondition: pulverise
 	# Se pose à la base aéronavale, mais n'y fait jamais le plein d'eau.
 	Rearmable:
-		RearmActors: base.aeronavale, porta.aguila, porte.avions.rub
+		RearmActors: base.aeronavale
 		AmmoPools: aucun
 	Aircraft:
 		CruiseAltitude: 1792
@@ -316,7 +316,6 @@ CORMORAN:
 		MaximumPitch: 56
 	SpawnActorOnDeath:
 		Actor: CORMORAN.Husk
-	CarrierAircraft:
 
 CORMORAN.Husk:
 	Inherits: ^PlaneHusk
@@ -356,9 +355,8 @@ BALEINE:
 # char léger ; très fragile, la moindre défense antiaérienne l'abat.
 MOUSTIQUE:
 	Inherits: ^Helicopter
-	# Cible des systèmes anti-drone ennemis ; n'en porte pas lui-même.
+	# Cible des systèmes anti-drone ennemis.
 	Drone:
-	-DestroysNearbyDrones:
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	RenderSprites:
 		Image: moustique
