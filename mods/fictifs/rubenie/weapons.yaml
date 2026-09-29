@@ -92,25 +92,65 @@ RubObus152:
 	ReloadDelay: 100
 
 # Artillerie lourde : portée et dégâts extrêmes, cadence très lente.
+# Obus perforants : dégâts énormes contre les défenses (1 à 2 coups).
 RubObusLourd:
 	Inherits: 155mm
 	Range: 18c0
 	MinRange: 5c0
 	ReloadDelay: 220
+	Projectile: Bullet
+		Inaccuracy: 512
 	Warhead@1Dam: SpreadDamage
 		Spread: 512
 		Damage: 16000
+	Warhead@2AntiDef: SpreadDamage
+		Spread: 512
+		Damage: 45000
+		Falloff: 100, 50, 0
+		ValidTargets: Defense
+		Versus:
+			None: 100
+			Wood: 100
+			Light: 100
+			Heavy: 100
+			Concrete: 100
 
-# Lance-roquettes multiple : salve de 12 roquettes sur une zone.
+# Lance-roquettes multiple : Katioucha du mod WW3 (mêmes valeurs).
+# Deux rampes de 3 roquettes, la seconde plus dispersée.
 RubRoquettes:
 	Inherits: 155mm
-	Range: 10c0
-	ReloadDelay: 350
-	Burst: 12
-	BurstDelays: 4
+	ReloadDelay: 240
+	Range: 8c768
+	MinRange: 3c0
+	Report: missile6.aud
+	TargetActorCenter: false
+	Burst: 3
+	BurstDelays: 12
+	ValidTargets: GroundActor, Trees, WaterActor
+	Projectile: Bullet
+		Inaccuracy: 1c512
+		Image: dragon
+		Speed: 200
+		LaunchAngle: 70
+		TrailImage: smokey
+		Shadow: true
+		Blockable: false
+		ContrailLength: 0
 	Warhead@1Dam: SpreadDamage
-		Spread: 426
-		Damage: 2200
+		Damage: 5000
+		Spread: 512
+		Falloff: 100, 37, 14, 5, 0
+		Versus:
+			None: 100
+			Wood: 80
+			Concrete: 65
+			Light: 80
+			Heavy: 45
+
+RubRoquettesLarge:
+	Inherits: RubRoquettes
+	Projectile: Bullet
+		Inaccuracy: 2c512
 
 # Casemate antichar : gros canon fixe à longue portée.
 RubCasemate:

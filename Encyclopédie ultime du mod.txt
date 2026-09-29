@@ -711,15 +711,16 @@ SOMMAIRE
   Pays : Rubénie
   Lore :
     Artillerie tractée à la portée extrême (18 cases) et aux dégâts énormes.
+    Ses obus perforants rasent les défenses ennemies en un ou deux coups.
     Sa cadence est très lente et elle se déplace à peine.
-    Installée, elle interdit toute une région.
   Statistiques :
     Coût 1 600 $ · PV 8 000 · Blindage léger · Vitesse 28 · Vision 4 cases
-    Arme : RubObusLourd : 16 000 dégâts, portée 18 cases, recharge 8,8 s
+    Arme : RubObusLourd : 16 000 dégâts (+45 000 contre les défenses), portée 18 cases,
+    recharge 8,8 s
     Prérequis : Centre technique soviétique · Niveau technologique : élevé
   Stratégie :
-    Placez-la derrière une ligne défensive solide avec un Éclaireur en avant. Elle est sans
-    défense au contact.
+    L'outil pour percer une ligne fortifiée : tourelles, bunkers, tranchées et SAM tombent
+    hors de leur portée. Guidez-la avec un Éclaireur ; elle est sans défense au contact.
 --------------------------------------------------------------------------------------------
 ■ BASTION ROULANT
   Pays : Rubénie
@@ -796,15 +797,16 @@ SOMMAIRE
 ■ LANCE-ROQUETTES MULTIPLE
   Pays : Rubénie
   Lore :
-    Salve de 12 roquettes sur une zone, puis long rechargement.
-    Il écrase l'infanterie, les convois et les concentrations.
-    Le vacarme de sa salve s'entend à des kilomètres.
+    La Katioucha, reprise du mod WW3 : deux rampes de 3 roquettes, la seconde plus dispersée.
+    Bon marché et solide, elle frappe bâtiments, défenses, infanterie et blindés légers.
+    Peu précise contre les cibles qui bougent.
   Statistiques :
-    Coût 1 100 $ · PV 10 500 · Blindage léger · Vitesse 85 · Vision 5 cases
-    Arme : RubRoquettes : 2 200 dégâts, rafale de 12, portée 10 cases, recharge 14 s
+    Coût 700 $ · PV 15 000 · Blindage léger · Vitesse 49 · Vision 5 cases
+    Arme : RubRoquettes + RubRoquettesLarge : 5 000 dégâts, 2 × rafale de 3,
+    portée 8,75 cases (min. 3), recharge 9,6 s
     Prérequis : Radar Dome · Niveau technologique : moyen
   Stratégie :
-    Visez les groupes et les convois. Repliez-le pendant le rechargement.
+    Produisez-les en batterie et visez les cibles fixes : bases, défenses, groupes à l'arrêt.
 --------------------------------------------------------------------------------------------
 ■ TUNNELIER
   Pays : Rubénie

@@ -395,7 +395,7 @@ ARTILLERIE.LOURDE:
 	Buildable:
 		BuildPaletteOrder: 80
 		Prerequisites: ~vehicles.rubenie, stek, ~techlevel.high
-		Description: Artillerie lourde tractée. Portée extrême (18 cases),\ndégâts énormes, cadence très lente.\nPresque immobile et très vulnérable : à protéger.\n  Fort contre : bâtiments, concentrations\n  Faible contre : tout au contact, aviation
+		Description: Artillerie lourde tractée. Portée extrême (18 cases), dégâts énormes,\nobus perforants qui rasent les défenses en 1 ou 2 coups. Cadence très lente.\nPresque immobile et très vulnérable : à protéger.\n  Fort contre : défenses, bâtiments, concentrations\n  Faible contre : tout au contact, aviation
 	Selectable:
 		Class: artillerie.lourde
 	Valued:
@@ -422,16 +422,28 @@ LRM:
 	Buildable:
 		BuildPaletteOrder: 55
 		Prerequisites: ~vehicles.rubenie, dome, ~techlevel.medium
-		Description: Lance-roquettes multiple. Salve de 12 roquettes\nsur une zone, puis long rechargement.\n  Fort contre : infanterie, concentrations, convois\n  Faible contre : blindés, aviation
+		Description: Katioucha. Deux salves de 3 roquettes à longue portée.\nPeu précise contre les cibles mobiles.\n  Fort contre : bâtiments, défenses, infanterie, blindés légers\n  Faible contre : aviation, cibles mobiles
 	Selectable:
 		Class: lrm
 	Valued:
-		Cost: 1100
+		Cost: 700
 	Tooltip:
 		Name: Lance-roquettes multiple
 	Health:
-		HP: 10500
+		HP: 15000
+	Armor:
+		Type: Light
 	Mobile:
-		Speed: 85
-	Armament:
+		Speed: 49
+		TurnSpeed: 14
+	RevealsShroud:
+		MinRange: 0c0
+		Range: 5c0
+	-Armament:
+	Armament@PRIMARY:
 		Weapon: RubRoquettes
+		LocalOffset: 268,-100,440
+	Armament@SECONDARY:
+		Weapon: RubRoquettesLarge
+		LocalOffset: 268,100,440
+		FireDelay: 6

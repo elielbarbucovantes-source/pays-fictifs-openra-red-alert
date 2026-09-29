@@ -6,6 +6,11 @@
 
 	<Import Project="$(EngineRootPath)/Directory.Build.props" />
 
+	<PropertyGroup>
+		<!-- Le générateur de cartes (MapGen) est rétroporté d'un moteur plus récent écrit en C# 12. -->
+		<LangVersion>12</LangVersion>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="$(EngineRootPath)/OpenRA.Game/OpenRA.Game.csproj">
 			<Private>False</Private>
