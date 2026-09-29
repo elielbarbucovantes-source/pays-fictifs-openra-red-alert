@@ -106,7 +106,7 @@ PORTA.AGUILA:
 		Queue: Ship
 		BuildPaletteOrder: 40
 		Prerequisites: ~ships.elielistan, atek, ~techlevel.high
-		Description: Porte-avions amphibie. 5 Harpía à bord\n(clic droit d'un Harpía dessus pour l'apponter ; réarmé à bord).\nTransporte 15 fantassins OU 5 chars / pièces d'artillerie\nà débarquer sur une côte.\nDéploiement (F) : décollage des avions prêts,\net débarquement des troupes s'il touche la côte.\nDéfense antiaérienne légère.\n  Faible contre : sous-marins, frégates (à escorter)
+		Description: Porte-avions amphibie. 5 avions à bord, tous types sauf bombardiers\n(clic droit d'un avion dessus pour l'apponter ; réarmé à bord).\nTransporte 15 fantassins OU 5 chars / pièces d'artillerie\nà débarquer sur une côte.\nDéploiement (F) : décollage des avions prêts,\net débarquement des troupes s'il touche la côte.\nDéfense antiaérienne légère.\n  Faible contre : sous-marins, frégates (à escorter)
 	Valued:
 		Cost: 3000
 	Tooltip:
@@ -128,7 +128,8 @@ PORTA.AGUILA:
 		Range: 5c0
 	Reservable:
 	AircraftCarrier:
-		Types: harpia
+		# Tous les avions sauf les bombardiers (B-2, Manta, bombardier tactique, Kirov).
+		Types: harpia, pelicano, chasseur.poly, intercepteur, avion.attaque, avion.reco, albatros, warthog, cormoran, mig, yak
 		MaxAircraft: 5
 		RearmDelay: 250
 	WithCarrierPipsDecoration:

@@ -264,28 +264,33 @@ TactiqueFireBombs:
 		ValidTargets: Ground, Water, GroundActor
 
 # B-2 : 6 bombes incendiaires lourdes par passage (bombes du B-2 de la carte WW3).
+# Bombes guidées : chacune file vers la position de la cible au moment du
+# largage (léger éparpillement), au lieu de tomber à la verticale le long de
+# la trajectoire de l'avion, ce qui les faisait presque toutes rater.
 B2FireBombs:
 	ReloadDelay: 50
 	Burst: 6
-	BurstDelays: 6
+	BurstDelays: 5
 	Range: 3c0
 	TargetActorCenter: true
 	ValidTargets: GroundActor, WaterActor, Ground, Water
-	Projectile: GravityBomb
+	Projectile: Bullet
 		Image: dropbombs
-		Velocity: 40, 0, -74
-		Acceleration: 0, 0, 0
+		Speed: 170
+		Blockable: false
+		Inaccuracy: 0c384
+		InaccuracyType: Absolute
 		Shadow: true
 	Warhead@1Dam: SpreadDamage
-		Spread: 2c5
-		Damage: 9000
+		Spread: 1c256
+		Damage: 16000
 		ValidTargets: GroundActor, WaterActor
 		Versus:
-			None: 90
-			Wood: 80
-			Light: 30
-			Heavy: 20
-			Concrete: 30
+			None: 100
+			Wood: 100
+			Light: 80
+			Heavy: 60
+			Concrete: 80
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath, Incendiary
 	Warhead@15Dam: SpreadDamage
 		Spread: 1c0

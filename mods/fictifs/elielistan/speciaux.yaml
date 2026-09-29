@@ -138,8 +138,9 @@ B2.SPIRIT:
 	-WithMuzzleOverlay:
 	AttackAircraft:
 		FacingTolerance: 16
+	# 1 munition = 1 bombe (le moteur en consomme une par bombe larguée).
 	AmmoPool:
-		Ammo: 2
+		Ammo: 12
 		-ReloadDelay:
 	WithAmmoPipsDecoration:
 		PipCount: 2

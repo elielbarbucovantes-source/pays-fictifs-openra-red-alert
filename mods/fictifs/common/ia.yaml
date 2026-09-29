@@ -24,20 +24,20 @@ Player:
 		NavalProductionTypes: spen, syrd, chantier.rub
 	SquadManagerBotModule@rush:
 		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin
-		AirUnitsTypes: mig, yak, heli, hind, mh60, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque
+		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque
 		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
 	SquadManagerBotModule@normal:
 		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin
-		AirUnitsTypes: mig, yak, heli, hind, mh60, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque
+		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque
 		NavalProductionTypes: spen, syrd, chantier.rub
 		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
 	SquadManagerBotModule@turtle:
 		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin
-		AirUnitsTypes: mig, yak, heli, hind, mh60, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque
+		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque
 		NavalProductionTypes: spen, syrd, chantier.rub
 		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub
 	SquadManagerBotModule@naval:
 		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin
-		AirUnitsTypes: mig, yak, heli, hind, mh60, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque
+		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque
 		NavalProductionTypes: spen, syrd, chantier.rub
 		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub

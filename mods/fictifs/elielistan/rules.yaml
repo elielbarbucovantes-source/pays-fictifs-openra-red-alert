@@ -365,8 +365,30 @@ CONDOR:
 		RequiresCondition: charge
 		Modifier: 70
 
+# Black Hawk elielistanais : le MH60 allié (mitrailleuses), qui peut en
+# plus transporter 1 char OU 3 fantassins (convention du mod : fantassin
+# = 1 place, char = CargoType Char, 3 places).
+BLACKHAWK:
+	Inherits: MH60
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	Inherits@CARGOPIPS: ^CargoPips
+	RenderSprites:
+		Image: mh60
+	Buildable:
+		Prerequisites: ~aircraft.elielistan, ~techlevel.medium
+		Description: Hélicoptère de combat armé de deux mitrailleuses.\nTransporte 1 char OU 3 fantassins (se poser pour embarquer).\n  Fort contre : infanterie, blindés légers\n  Faible contre : chars, aviation
+	Cargo:
+		Types: Infantry, Char
+		MaxWeight: 3
+		AfterUnloadDelay: 40
+	SpawnActorOnDeath:
+		Actor: MH60.Husk
+
 ^ElielistanDrone:
 	Inherits: ^Helicopter
+	# Cible des systèmes anti-drone (aviation australouisienne et rubénienne).
+	Drone:
+	-DestroysNearbyDrones:
 	Inherits@DOCTRINE: ^ElielistanDoctrine
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	UpdatesPlayerStatistics:

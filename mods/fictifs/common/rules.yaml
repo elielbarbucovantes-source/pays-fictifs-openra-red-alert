@@ -301,3 +301,39 @@ SYRD:
 	ProvidesPrerequisite@australouis:
 		Factions: australouis
 		Prerequisite: ships.australouis
+
+# ---------------------------------------------------------------------
+# Système anti-drone : tout aéronef (avion ou hélicoptère) de
+# l'Australouis ou de la Rubénie détruit automatiquement les drones
+# ennemis à 1 case ou moins autour de lui. Les drones eux-mêmes n'en
+# ont pas (voir Drone: sur ^ElielistanDrone et MOUSTIQUE).
+# ---------------------------------------------------------------------
+^Plane:
+	DestroysNearbyDrones:
+		Range: 1c0
+		Factions: australouis, rubenie
+		Sound: gun13.aud
+
+^Helicopter:
+	DestroysNearbyDrones:
+		Range: 1c0
+		Factions: australouis, rubenie
+		Sound: gun13.aud
+
+# Le MH60 allié est remplacé chez l'Elielistan par son Black Hawk
+# transporteur (BLACKHAWK, elielistan/rules.yaml).
+MH60:
+	Buildable:
+		Prerequisites: ~hpad, ~techlevel.medium, ~!aircraft.elielistan
+
+# Avions alliés et soviétiques de base : peuvent aussi apponter sur les
+# porte-avions (Porta Aguila, porte-avions rubénien).
+MIG:
+	Rearmable:
+		RearmActors: afld, afld.ukraine, porta.aguila, porte.avions.rub
+	CarrierAircraft:
+
+YAK:
+	Rearmable:
+		RearmActors: afld, afld.ukraine, porta.aguila, porte.avions.rub
+	CarrierAircraft:

@@ -51,7 +51,7 @@ WarthogMissile:
 MantaBombs:
 	Inherits: B2FireBombs
 	Warhead@1Dam: SpreadDamage
-		Damage: 7500
+		Damage: 13000
 
 # Moustique : le drone plonge sur sa cible. 10 000 dégâts contre le
 # blindage lourd : 3 drones détruisent un char léger (26 000 PV), pas 2.

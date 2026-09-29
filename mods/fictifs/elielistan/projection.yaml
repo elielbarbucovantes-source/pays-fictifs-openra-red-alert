@@ -29,6 +29,18 @@
 		Position: TopRight
 		RequiresCondition: largage
 
+# Chars légers : comptent aussi comme des chars (3 places), pour le
+# Black Hawk et les autres transports elielistanais.
+JAGUAR:
+	Passenger:
+		CargoType: Char
+		Weight: 3
+
+HALCON:
+	Passenger:
+		CargoType: Char
+		Weight: 3
+
 CARRO.AGUILA:
 	Inherits@LARGAGE: ^LargageLourd
 	Passenger:
@@ -220,7 +232,7 @@ HARPIA:
 	Buildable:
 		BuildPaletteOrder: 60
 		Prerequisites: ~aerodromo, ~techlevel.medium
-		Description: Avion d'attaque à décollage vertical. Missiles air-sol.\nPeut apponter sur le porte-avions Aguila (clic droit dessus).\nÀ court de munitions, rentre seul se réarmer.\n  Fort contre : véhicules, navires, bâtiments\n  Faible contre : infanterie, aviation
+		Description: Avion d'attaque à décollage vertical. Missiles air-sol.\nPeut apponter sur un porte-avions (clic droit dessus).\nÀ court de munitions, rentre seul se réarmer.\n  Fort contre : véhicules, navires, bâtiments\n  Faible contre : infanterie, aviation
 	Valued:
 		Cost: 1600
 	Tooltip:
@@ -228,7 +240,7 @@ HARPIA:
 	Armament:
 		Weapon: HarpiaMissile
 	Rearmable:
-		RearmActors: aerodromo, porta.aguila
+		RearmActors: aerodromo, porta.aguila, porte.avions.rub
 	CarrierAircraft:
 
 # ---------------------------------------------------------------------
@@ -272,7 +284,7 @@ PELICANO:
 		MaximumPitch: 56
 		IdleBehavior: ReturnToBase
 	Rearmable:
-		RearmActors: aerodromo
+		RearmActors: aerodromo, porta.aguila, porte.avions.rub
 	Cargo:
 		Types: Infantry, Char
 		MaxWeight: 15
@@ -293,3 +305,4 @@ PELICANO:
 		StartColorAlpha: 128
 	SpawnActorOnDeath:
 		Actor: BADR.Husk
+	CarrierAircraft:

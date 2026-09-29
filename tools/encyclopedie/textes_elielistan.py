@@ -56,6 +56,10 @@ S'il est détruit en route, les véhicules à bord sont perdus.""",
 Il dépose Gavilán, Halcón, Jaguar, Vigía ou Trueno n'importe où.
 Le véhicule largué reste sonné quelques secondes.""",
 "Utilisez-le pour repositionner l'artillerie et les chasseurs de chars, ou pour déposer des Jaguar derrière les lignes. Évitez les zones couvertes par la DCA."),
+"BLACKHAWK": ("Black Hawk", """Hélicoptère de combat à deux mitrailleuses, version elielistanaise du Black Hawk.
+Sa soute accueille un char (Jaguar, Halcón, Carro Aguila, Aguila Nuclear, Trueno, Lanzador) ou trois fantassins.
+Il se pose pour embarquer et débarquer.""",
+"Déposez un char ou une équipe de trois fantassins derrière les lignes, puis couvrez le débarquement avec ses mitrailleuses. Il reste fragile face à la DCA et aux chasseurs."),
 "AVISPA": ("Avispa", """Drone suicide piloté en vue subjective, le cauchemar des fantassins.
 Il fonce sur un soldat et le tue d'un seul coup, en se détruisant.
 Minuscule et fragile : un seul tir antiaérien suffit à l'abattre.""",

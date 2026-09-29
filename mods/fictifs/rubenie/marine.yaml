@@ -110,7 +110,7 @@ PORTE.AVIONS.RUB:
 		BuildAtProductionType: Boat
 		BuildPaletteOrder: 40
 		Prerequisites: ~ships.rubenie, stek, ~techlevel.high
-		Description: Porte-avions : base aérienne mobile.\n3 chasseurs polyvalents au maximum (livré vide ;\nclic droit d'un chasseur dessus pour l'apponter ; réarmé à bord).\nDéploiement (F) : décollage des avions prêts.\nDéfense antiaérienne rapprochée.\n  Faible contre : sous-marins, frégates (à escorter)
+		Description: Porte-avions : base aérienne mobile.\n3 avions au maximum, tous types sauf bombardiers (livré vide ;\nclic droit d'un avion dessus pour l'apponter ; réarmé à bord).\nDéploiement (F) : décollage des avions prêts.\nDéfense antiaérienne rapprochée.\n  Faible contre : sous-marins, frégates (à escorter)
 	Selectable:
 		Class: porte.avions.rub
 		Bounds: 2560, 2560
@@ -136,7 +136,8 @@ PORTE.AVIONS.RUB:
 		Range: 5c0
 	Reservable:
 	AircraftCarrier:
-		Types: chasseur.poly
+		# Tous les avions sauf les bombardiers (B-2, Manta, bombardier tactique, Kirov).
+		Types: harpia, pelicano, chasseur.poly, intercepteur, avion.attaque, avion.reco, albatros, warthog, cormoran, mig, yak
 		MaxAircraft: 3
 		RearmDelay: 250
 	WithCarrierPipsDecoration:

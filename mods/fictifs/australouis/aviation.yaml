@@ -65,12 +65,13 @@ ALBATROS:
 		Ammo: 4
 		AmmoCondition: ammo-aa
 	Rearmable:
-		RearmActors: base.aeronavale
+		RearmActors: base.aeronavale, porta.aguila, porte.avions.rub
 		AmmoPools: ag, aa
 	WithAmmoPipsDecoration:
 		AmmoPools: ag, aa
 	SpawnActorOnDeath:
 		Actor: ALBATROS.Husk
+	CarrierAircraft:
 
 ALBATROS.Husk:
 	Inherits: MIG.Husk
@@ -145,7 +146,7 @@ WARTHOG:
 		Margin: 4, 3
 		RequiresSelection: true
 	Rearmable:
-		RearmActors: base.aeronavale
+		RearmActors: base.aeronavale, porta.aguila, porte.avions.rub
 		AmmoPools: primary, secondary
 	Contrail@1:
 		Offset: -258,-823,0
@@ -153,6 +154,7 @@ WARTHOG:
 		Offset: -258,823,0
 	SpawnActorOnDeath:
 		Actor: WARTHOG.Husk
+	CarrierAircraft:
 
 WARTHOG.Husk:
 	Inherits: MIG.Husk
@@ -188,8 +190,9 @@ MANTA:
 	-WithMuzzleOverlay:
 	AttackAircraft:
 		FacingTolerance: 16
+	# 1 munition = 1 bombe (le moteur en consomme une par bombe larguée).
 	AmmoPool:
-		Ammo: 1
+		Ammo: 6
 		-ReloadDelay:
 	WithAmmoPipsDecoration:
 		PipCount: 1
@@ -303,7 +306,7 @@ CORMORAN:
 		RequiresCondition: pulverise
 	# Se pose à la base aéronavale, mais n'y fait jamais le plein d'eau.
 	Rearmable:
-		RearmActors: base.aeronavale
+		RearmActors: base.aeronavale, porta.aguila, porte.avions.rub
 		AmmoPools: aucun
 	Aircraft:
 		CruiseAltitude: 1792
@@ -313,6 +316,7 @@ CORMORAN:
 		MaximumPitch: 56
 	SpawnActorOnDeath:
 		Actor: CORMORAN.Husk
+	CarrierAircraft:
 
 CORMORAN.Husk:
 	Inherits: ^PlaneHusk
@@ -352,6 +356,9 @@ BALEINE:
 # char léger ; très fragile, la moindre défense antiaérienne l'abat.
 MOUSTIQUE:
 	Inherits: ^Helicopter
+	# Cible des systèmes anti-drone ennemis ; n'en porte pas lui-même.
+	Drone:
+	-DestroysNearbyDrones:
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	RenderSprites:
 		Image: moustique

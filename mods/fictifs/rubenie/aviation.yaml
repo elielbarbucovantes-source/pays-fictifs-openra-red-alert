@@ -33,7 +33,7 @@ CHASSEUR.POLY:
 	Buildable:
 		BuildPaletteOrder: 10
 		Prerequisites: ~base.aerienne, ~techlevel.medium
-		Description: Chasseur polyvalent, le « couteau suisse » de l'aviation.\nMissiles air-air et air-sol (aussi contre les navires),\ngrande vision. Seul avion à apponter sur le porte-avions\n(clic droit dessus). À court de munitions, rentre se réarmer.\n  Fort contre : aviation, véhicules, navires\n  Faible contre : infanterie
+		Description: Chasseur polyvalent, le « couteau suisse » de l'aviation.\nMissiles air-air et air-sol (aussi contre les navires),\ngrande vision. Peut apponter sur un porte-avions\n(clic droit dessus). À court de munitions, rentre se réarmer.\n  Fort contre : aviation, véhicules, navires\n  Faible contre : infanterie
 	Selectable:
 		Class: chasseur.poly
 	Valued:
@@ -71,7 +71,7 @@ CHASSEUR.POLY:
 		Ammo: 4
 		AmmoCondition: ammo-aa
 	Rearmable:
-		RearmActors: base.aerienne, porte.avions.rub
+		RearmActors: base.aerienne, porta.aguila, porte.avions.rub
 		AmmoPools: ag, aa
 	WithAmmoPipsDecoration:
 		AmmoPools: ag, aa
@@ -110,9 +110,11 @@ INTERCEPTEUR:
 	AutoTargetPriority@ATTACKANYTHING:
 		ValidTargets: AirborneActor
 	Rearmable:
-		RearmActors: base.aerienne
+		RearmActors: base.aerienne, porta.aguila, porte.avions.rub
+	CarrierAircraft:
 
 # Avion d'attaque au sol : blindé, missiles antichars.
+
 AVION.ATTAQUE:
 	Inherits: MIG
 	Inherits@DOCTRINE: ^RubenieDoctrine
@@ -137,9 +139,11 @@ AVION.ATTAQUE:
 	Aircraft:
 		Speed: 170
 	Rearmable:
-		RearmActors: base.aerienne
+		RearmActors: base.aerienne, porta.aguila, porte.avions.rub
+	CarrierAircraft:
 
 # Avion de reconnaissance : très grande vision, rapide, sans arme.
+
 AVION.RECO:
 	Inherits: ^Plane
 	Inherits@DOCTRINE: ^RubenieDoctrine
@@ -180,7 +184,7 @@ AVION.RECO:
 		RepulsionSpeed: 40
 		MaximumPitch: 56
 	Rearmable:
-		RearmActors: base.aerienne
+		RearmActors: base.aerienne, porta.aguila, porte.avions.rub
 	Contrail@1:
 		Offset: -432,560,0
 		StartColorAlpha: 128
@@ -189,3 +193,4 @@ AVION.RECO:
 		StartColorAlpha: 128
 	SpawnActorOnDeath:
 		Actor: MIG.Husk
+	CarrierAircraft:

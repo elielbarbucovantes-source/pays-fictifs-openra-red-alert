@@ -23,7 +23,7 @@ SOMMAIRE
   2. DÉFENSES (9)
   3. INFANTERIE (11)
   4. VÉHICULES (22)
-  5. AVIATION (19)
+  5. AVIATION (20)
   6. MARINE (11)
   7. POUVOIRS DE SOUTIEN (12)
 
@@ -711,16 +711,15 @@ SOMMAIRE
   Pays : Rubénie
   Lore :
     Artillerie tractée à la portée extrême (18 cases) et aux dégâts énormes.
-    Ses obus perforants détruisent n'importe quelle défense ennemie en trois coups.
     Sa cadence est très lente et elle se déplace à peine.
+    Installée, elle interdit toute une région.
   Statistiques :
     Coût 1 600 $ · PV 8 000 · Blindage léger · Vitesse 28 · Vision 4 cases
-    Arme : RubObusLourd : 16 000 dégâts (40 % des PV max contre les défenses), portée 18 cases,
-    recharge 8,8 s
+    Arme : RubObusLourd : 16 000 dégâts, portée 18 cases, recharge 8,8 s
     Prérequis : Centre technique soviétique · Niveau technologique : élevé
   Stratégie :
-    L'outil pour percer une ligne fortifiée : tourelles, bunkers, tranchées et SAM tombent
-    hors de leur portée. Guidez-la avec un Éclaireur ; elle est sans défense au contact.
+    Placez-la derrière une ligne défensive solide avec un Éclaireur en avant. Elle est sans
+    défense au contact.
 --------------------------------------------------------------------------------------------
 ■ BASTION ROULANT
   Pays : Rubénie
@@ -797,16 +796,16 @@ SOMMAIRE
 ■ LANCE-ROQUETTES MULTIPLE
   Pays : Rubénie
   Lore :
-    La Katioucha, reprise du mod WW3 : deux rampes de 3 roquettes, la seconde plus dispersée.
-    Bon marché et solide, elle frappe bâtiments, défenses, infanterie et blindés légers.
-    Peu précise contre les cibles qui bougent.
+    Salve de 12 roquettes sur une zone, puis long rechargement.
+    Il écrase l'infanterie, les convois et les concentrations.
+    Le vacarme de sa salve s'entend à des kilomètres.
   Statistiques :
     Coût 700 $ · PV 15 000 · Blindage léger · Vitesse 49 · Vision 5 cases
-    Arme : RubRoquettes + RubRoquettesLarge : 5 000 dégâts, 2 × rafale de 3,
-    portée 8,75 cases (min. 3), recharge 9,6 s
+    Arme : RubRoquettes : 5 000 dégâts, rafale de 3, portée 8,75 cases, recharge 9,6 s
+    Arme : RubRoquettesLarge : 5 000 dégâts, rafale de 3, portée 8,75 cases, recharge 9,6 s
     Prérequis : Radar Dome · Niveau technologique : moyen
   Stratégie :
-    Produisez-les en batterie et visez les cibles fixes : bases, défenses, groupes à l'arrêt.
+    Visez les groupes et les convois. Repliez-le pendant le rechargement.
 --------------------------------------------------------------------------------------------
 ■ TUNNELIER
   Pays : Rubénie
@@ -927,12 +926,27 @@ SOMMAIRE
     Deux appareils au maximum : chaque perte coûte très cher.
   Statistiques :
     Coût 2 800 $ · PV 30 000 · Blindage léger · Vitesse 200 · Vision 11 cases
-    Arme : B2FireBombs : 9 000 dégâts, rafale de 6, portée 3 cases, recharge 2 s
+    Arme : B2FireBombs : 16 000 dégâts, rafale de 6, portée 3 cases, recharge 2 s
     Limite 2 exemplaires
     Prérequis : Aeródromo, Centre technique allié · Niveau technologique : élevé
   Stratégie :
     Frappez les bâtiments clés loin derrière les lignes. Il est invisible au radar, pas aux
     yeux : évitez les zones couvertes par la DCA.
+--------------------------------------------------------------------------------------------
+■ BLACK HAWK
+  Pays : Elielistan
+  Lore :
+    Hélicoptère de combat à deux mitrailleuses, version elielistanaise du Black Hawk.
+    Sa soute accueille un char (Jaguar, Halcón, Carro Aguila, Aguila Nuclear, Trueno, Lanzador) ou trois fantassins.
+    Il se pose pour embarquer et débarquer.
+  Statistiques :
+    Coût 1 500 $ · PV 10 000 · Blindage léger · Vitesse 112 · Vision 10 cases
+    Arme : ChainGun : 2 500 dégâts, portée 5 cases, recharge 0,4 s
+    Transport 3 places
+    Prérequis : aucun · Niveau technologique : moyen
+  Stratégie :
+    Déposez un char ou une équipe de trois fantassins derrière les lignes, puis couvrez le
+    débarquement avec ses mitrailleuses. Il reste fragile face à la DCA et aux chasseurs.
 --------------------------------------------------------------------------------------------
 ■ BOMBARDIER TACTIQUE
   Pays : Elielistan
@@ -1151,7 +1165,7 @@ SOMMAIRE
     Il glisse au-dessus de l'ennemi comme une raie dans l'eau.
   Statistiques :
     Coût 2 200 $ · PV 22 000 · Blindage léger · Vitesse 180 · Vision 11 cases
-    Arme : MantaBombs : 7 500 dégâts, rafale de 6, portée 3 cases, recharge 2 s
+    Arme : MantaBombs : 13 000 dégâts, rafale de 6, portée 3 cases, recharge 2 s
     Limite 2 exemplaires
     Prérequis : Base aéronavale, Centre technique allié · Niveau technologique : élevé
   Stratégie :
