@@ -76,6 +76,8 @@ CHASSEUR.POLY:
 	WithAmmoPipsDecoration:
 		AmmoPools: ag, aa
 	CarrierAircraft:
+	SpawnActorOnDeath:
+		Actor: CHASSEUR.POLY.Husk
 
 # Intercepteur : vitesse et combat aérien, rien d'autre.
 INTERCEPTEUR:
@@ -112,6 +114,8 @@ INTERCEPTEUR:
 	Rearmable:
 		RearmActors: base.aerienne, porta.aguila, porte.avions.rub
 	CarrierAircraft:
+	SpawnActorOnDeath:
+		Actor: INTERCEPTEUR.Husk
 
 # Avion d'attaque au sol : blindé, missiles antichars.
 
@@ -141,6 +145,8 @@ AVION.ATTAQUE:
 	Rearmable:
 		RearmActors: base.aerienne, porta.aguila, porte.avions.rub
 	CarrierAircraft:
+	SpawnActorOnDeath:
+		Actor: AVION.ATTAQUE.Husk
 
 # Avion de reconnaissance : très grande vision, rapide, sans arme.
 
@@ -192,5 +198,34 @@ AVION.RECO:
 		Offset: -432,-560,0
 		StartColorAlpha: 128
 	SpawnActorOnDeath:
-		Actor: MIG.Husk
+		Actor: AVION.RECO.Husk
 	CarrierAircraft:
+
+# Épaves en chute : même sprite que l'avion (rendu 3D, tools/sprites_hd.py).
+CHASSEUR.POLY.Husk:
+	Inherits: MIG.Husk
+	Tooltip:
+		Name: Chasseur polyvalent
+	RenderSprites:
+		Image: suk
+
+INTERCEPTEUR.Husk:
+	Inherits: MIG.Husk
+	Tooltip:
+		Name: Intercepteur
+	RenderSprites:
+		Image: f22
+
+AVION.ATTAQUE.Husk:
+	Inherits: MIG.Husk
+	Tooltip:
+		Name: Avion d'attaque
+	RenderSprites:
+		Image: a10
+
+AVION.RECO.Husk:
+	Inherits: MIG.Husk
+	Tooltip:
+		Name: Avion de reconnaissance
+	RenderSprites:
+		Image: avion.reco

@@ -157,7 +157,7 @@ GAVILAN:
 	Inherits@DOCTRINE: ^ElielistanDoctrine
 	Inherits@CONDOR: ^CondorCarryable
 	RenderSprites:
-		Image: jeep
+		Image: gavilan
 	Buildable:
 		BuildPaletteOrder: 10
 		Prerequisites: ~vehicles.elielistan, ~techlevel.low
@@ -175,18 +175,22 @@ GAVILAN:
 		Range: 9c0
 	Armament:
 		Weapon: GavilanMG
+		LocalOffset: 322,0,115
 	Cargo:
 		MaxWeight: 3
 		LoadingCondition: notmobile
 	AttackTurreted:
 		PauseOnCondition: largage
+	# pivot et bouches à feu des modèles 3D (tools/modeles/elielistan.py)
+	Turreted:
+		Offset: 0,0,414
 
 HALCON:
 	Inherits: STNK
 	Inherits@DOCTRINE: ^ElielistanDoctrine
 	Inherits@CONDOR: ^CondorCarryable
 	RenderSprites:
-		Image: stnk
+		Image: halcon
 	Buildable:
 		BuildPaletteOrder: 20
 		Prerequisites: ~vehicles.elielistan, ~techlevel.low
@@ -204,6 +208,7 @@ HALCON:
 	-WithCargoPipsDecoration:
 	Armament:
 		Weapon: HalconATGM
+		LocalOffset: 301,0,139
 	AutoTarget:
 		InitialStance: AttackAnything
 		InitialStanceAI: AttackAnything
@@ -213,13 +218,15 @@ HALCON:
 		UncloakOn: Attack, Move, Dock, Damage
 	AttackTurreted:
 		PauseOnCondition: largage
+	Turreted:
+		Offset: -72,0,292
 
 JAGUAR:
 	Inherits: 1TNK
 	Inherits@DOCTRINE: ^ElielistanDoctrine
 	Inherits@CONDOR: ^CondorCarryable
 	RenderSprites:
-		Image: 1tnk
+		Image: jaguar
 	Buildable:
 		BuildPaletteOrder: 30
 		Prerequisites: ~vehicles.elielistan, ~techlevel.low
@@ -235,15 +242,18 @@ JAGUAR:
 		PauseOnCondition: notmobile || being-captured
 	Armament:
 		Weapon: Jaguar90mm
+		LocalOffset: 875,0,153
 	AttackTurreted:
 		PauseOnCondition: largage
+	Turreted:
+		Offset: -36,0,306
 
 VIGIA:
 	Inherits: FTRK
 	Inherits@DOCTRINE: ^ElielistanDoctrine
 	Inherits@CONDOR: ^CondorCarryable
 	RenderSprites:
-		Image: ftrk
+		Image: vigia
 	Buildable:
 		BuildPaletteOrder: 40
 		Prerequisites: ~vehicles.elielistan, ~techlevel.low
@@ -259,17 +269,22 @@ VIGIA:
 		PauseOnCondition: notmobile || being-captured
 	Armament@AA:
 		Weapon: VigiaSAM
+		LocalOffset: 203,0,115
 	Armament@AG:
 		Weapon: M60mg
+		LocalOffset: 203,0,115
 	AttackTurreted:
 		PauseOnCondition: largage
+	# tourelle du modèle agrandi (tools/sprites_hd.py, ECHELLE)
+	Turreted:
+		Offset: -536,0,536
 
 TRUENO:
 	Inherits: ARTY
 	Inherits@DOCTRINE: ^ElielistanDoctrine
 	Inherits@CONDOR: ^CondorCarryable
 	RenderSprites:
-		Image: arty
+		Image: trueno
 	Buildable:
 		BuildPaletteOrder: 50
 		Prerequisites: ~vehicles.elielistan, dome, ~techlevel.medium
@@ -290,6 +305,7 @@ TRUENO:
 		Range: 3c0
 	Armament:
 		Weapon: TruenoShell
+		LocalOffset: 1008,0,668
 	AttackFrontal:
 		PauseOnCondition: largage
 	SpeedMultiplier@DECROCHAGE:
@@ -299,7 +315,7 @@ CARRO.AGUILA:
 	Inherits: 2TNK
 	Inherits@DOCTRINE: ^ElielistanDoctrine
 	RenderSprites:
-		Image: 2tnk
+		Image: carro.aguila
 	Buildable:
 		BuildPaletteOrder: 60
 		Prerequisites: ~vehicles.elielistan, fix, ~techlevel.medium
@@ -314,12 +330,17 @@ CARRO.AGUILA:
 		Speed: 100
 	Armament:
 		Weapon: Aguila120mm
+		LocalOffset: 641,0,68
+	Turreted:
+		Offset: -20,0,188
+	SpawnActorOnDeath:
+		Actor: CARRO.AGUILA.Husk
 
 LANZADOR:
 	Inherits: V2RL
 	Inherits@DOCTRINE: ^ElielistanDoctrine
 	RenderSprites:
-		Image: v2rl
+		Image: lanzador
 	Buildable:
 		BuildPaletteOrder: 70
 		Prerequisites: ~vehicles.elielistan, atek, ~techlevel.high
@@ -332,6 +353,7 @@ LANZADOR:
 		Speed: 164
 	Armament:
 		Weapon: LanzadorObus
+		LocalOffset: 461,0,661
 
 # ---------------------------------------------------------------------
 # AVIATION (héliport allié)
@@ -340,7 +362,7 @@ CONDOR:
 	Inherits: TRAN
 	Inherits@DOCTRINE: ^ElielistanDoctrine
 	RenderSprites:
-		Image: tran
+		Image: condor
 	Buildable:
 		BuildPaletteOrder: 20
 		Prerequisites: ~aircraft.elielistan, ~techlevel.medium
@@ -364,6 +386,38 @@ CONDOR:
 	SpeedMultiplier@CHARGE:
 		RequiresCondition: charge
 		Modifier: 70
+	# Un seul rotor principal, au-dessus du mât.
+	WithIdleOverlay@ROTOR1AIR:
+		Offset: 0,0,540
+	WithIdleOverlay@ROTOR1GROUND:
+		Offset: 0,0,540
+	-WithIdleOverlay@ROTOR2AIR:
+	-WithIdleOverlay@ROTOR2GROUND:
+	SpawnActorOnDeath:
+		Actor: CONDOR.Husk
+
+# Carcasse du Cóndor : tombe en vrille avec son rotor unique.
+CONDOR.Husk:
+	Inherits: TRAN.Husk
+	Tooltip:
+		Name: Cóndor
+	RenderSprites:
+		Image: condor
+	WithIdleOverlay@PRIMARY:
+		Offset: 0,0,540
+	-WithIdleOverlay@SECONDARY:
+
+# Carcasse du Carro Aguila : capturable, redevient un Carro Aguila.
+CARRO.AGUILA.Husk:
+	Inherits: 2TNK.Husk
+	Tooltip:
+		Name: Carcasse (Carro Aguila)
+	TransformOnCapture:
+		IntoActor: carro.aguila
+	InfiltrateForTransform:
+		IntoActor: carro.aguila
+	RenderSprites:
+		Image: carro.aguila.destroyed
 
 # Black Hawk elielistanais : le MH60 allié (mitrailleuses), qui peut en
 # plus transporter 1 char OU 3 fantassins (convention du mod : fantassin

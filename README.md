@@ -104,12 +104,13 @@ Pour tester sans lancer le jeu : `./utility.sh --generate-random-maps 20 /tmp/ca
 | `OpenRA.Mods.Fictifs/` | Code C# : Aguila Gate et Opération Taupe, Aguila Bridge, ordres prioritaires, vulnérabilité après largage, Tunnelier, Mobilisation défensive, Supériorité aérienne, écopage et brouillard du Cormoran, îles du Mothership, révolution, Radar blink |
 | `mods/fictifs/mapgen/` | Réglages du générateur de cartes aléatoires, pinceaux de tuiles des tilesets, sélecteur de cartes et panneau du générateur |
 | `OpenRA.Mods.Fictifs/MapGen/` | Générateur de cartes aléatoires rétroporté d'OpenRA (playtest-20260222) |
-| `tools/` | Scripts Python qui génèrent drapeaux, icônes et sprites |
+| `tools/` | Scripts Python qui génèrent drapeaux, icônes et sprites (`sprites_hd.py` : sprites « HD » rendus en 3D à partir des modèles de `tools/modeles/`, avec le moteur `rendu3d.py`) |
 
 ## Crédits
 
 - Mod : Leile.
-- Sprites des drones, du pont et de plusieurs véhicules (Leclerc, PzH, M777, Katioucha, obusier, Kouznetsov, dépôt « pionnier » ; Su-33, F-22, A-10, Battle Fortress, destroyer et sous-marin de la carte WW3) repris du mod « Mod moderne » (ratc) de Leile.
+- Les unités, fantassins, défenses et bâtiments propres aux trois pays sont modélisés en 3D et rendus en sprites au format Red Alert par `tools/sprites_hd.py` (Python et Pillow uniquement) : `python3 tools/sprites_hd.py [nom …]`.
+- Sprites repris pour les unités qui n'ont pas encore leur modèle 3D : drones, pont et plusieurs véhicules (Leclerc, PzH, M777, Katioucha, obusier, Kouznetsov, dépôt « pionnier » ; Su-33, F-22, A-10, Battle Fortress, destroyer et sous-marin de la carte WW3) repris du mod « Mod moderne » (ratc) de Leile.
 - Sprites du tireur d'élite, du B-2, du bombardier tactique, du Kirov et des bombes : carte « Europe: WW3 » de Trump, H, Therapist, Leile, Ruben et d'autres ; merci à Frenzy, Widow, Pinkthoth, SirCake, MedalMonkey, Inq8, Zypres et bien d'autres pour les graphismes, le code et l'aide.
 - Générateur de cartes aléatoires : code et données d'[OpenRA](https://github.com/OpenRA/OpenRA) (playtest-20260222, licence GPL v3) par les développeurs et contributeurs d'OpenRA, adaptés au moteur release-20231010.
 - Régions du monde réel du générateur (`mods/fictifs/mapgen/monde/`, produites par `tools/monde.py`) : côtes et lacs de [Natural Earth](https://www.naturalearthdata.com/) (domaine public) ; relief des [Terrain Tiles](https://registry.opendata.aws/terrain-tiles/) d'AWS (SRTM, GMTED2010, ETOPO1 et autres sources publiques, voir leur page d'attribution).

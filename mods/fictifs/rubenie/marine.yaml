@@ -50,7 +50,7 @@ FREGATE:
 	Inherits: CA
 	Inherits@DOCTRINE: ^RubenieDoctrine
 	RenderSprites:
-		Image: ca
+		Image: fregate
 	Buildable:
 		BuildPaletteOrder: 20
 		Prerequisites: ~ships.rubenie, dome, ~techlevel.medium

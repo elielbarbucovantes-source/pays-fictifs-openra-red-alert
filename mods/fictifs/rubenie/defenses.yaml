@@ -76,7 +76,7 @@ TRANCHEEV.RUB:
 BUNKER.RUB:
 	Inherits: PBOX
 	RenderSprites:
-		Image: pbox
+		Image: bunker.rub
 	Buildable:
 		BuildPaletteOrder: 10
 		Prerequisites: barr, ~structures.rubenie, ~techlevel.low
@@ -98,7 +98,7 @@ BUNKER.RUB:
 CASEMATE.AT:
 	Inherits: GUN
 	RenderSprites:
-		Image: gun
+		Image: casemate.at
 	Buildable:
 		BuildPaletteOrder: 20
 		Prerequisites: weap, ~structures.rubenie, ~techlevel.medium
@@ -115,7 +115,7 @@ CASEMATE.AT:
 TOURELLE.AA:
 	Inherits: AGUN
 	RenderSprites:
-		Image: agun
+		Image: tourelle.aa
 	Buildable:
 		BuildPaletteOrder: 30
 		Prerequisites: barr, ~structures.rubenie, ~techlevel.low
@@ -130,7 +130,7 @@ TOURELLE.AA:
 SAM.RUB:
 	Inherits: SAM
 	RenderSprites:
-		Image: sam
+		Image: sam.rub
 	Buildable:
 		BuildPaletteOrder: 40
 		Prerequisites: dome, ~structures.rubenie, ~techlevel.medium

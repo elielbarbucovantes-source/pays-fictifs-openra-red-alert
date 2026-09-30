@@ -24,6 +24,7 @@
 		RandomFactionMembers: RandomAllies, RandomSoviet, elielistan, rubenie, australouis
 
 World:
+	UnitInfoPanel:
 	StartingUnits@mcvonly:
 		Factions: allies, england, france, germany, soviet, russia, ukraine, elielistan, rubenie, australouis
 	StartingUnits@lightelielistan:
@@ -261,9 +262,13 @@ SPEN:
 
 ^Vehicle:
 	Inherits@DESIGNATABLE: ^Designatable
+	# Clic sur une bouche de tunnel (Aguila Gate, Opération Taupe) : l'unité s'y rend.
+	UsesAguilaGate:
 
 ^Infantry:
 	Inherits@DESIGNATABLE: ^Designatable
+	# Clic sur une bouche de tunnel (Aguila Gate, Opération Taupe) : l'unité s'y rend.
+	UsesAguilaGate:
 
 ^Ship:
 	Inherits@DESIGNATABLE: ^Designatable

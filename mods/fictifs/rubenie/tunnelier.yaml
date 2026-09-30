@@ -16,7 +16,7 @@ TUNNELIER:
 	Inherits@CARGOPIPS: ^CargoPips
 	Inherits@DOCTRINE: ^RubenieTerrestre
 	RenderSprites:
-		Image: qtnk
+		Image: tunnelier
 	Buildable:
 		Queue: Vehicle
 		BuildPaletteOrder: 90

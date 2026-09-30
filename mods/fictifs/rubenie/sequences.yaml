@@ -2,114 +2,136 @@
 
 # QG rubénien : centre de communications de Red Alert.
 qg.rub:
-	Inherits: miss
+	Defaults:
+		Filename: fictifs|bits/qg.rub.png
+	idle:
+		Length: 8
+		Tick: 120
+	damaged-idle:
+		Start: 8
+		Length: 8
+		Tick: 120
+	make:
+		Start: 16
+		Length: 12
+		Tick: 60
+	dead:
+		Start: 8
+		Tick: 800
+	bib:
+		Filename: bib2.tem
+		TilesetFilenames:
+			SNOW: bib2.sno
+			DESERT: bib2.des
+		Length: *
 	icon:
-		Filename: fictifs|bits/qgicon.png
+		Filename: fictifs|bits/qg.rubicon.png
 
 # Artillerie côtière : socle de la tourelle alliée, obusier tracté sur le dessus.
 cotiere:
 	Inherits: gun
 	turret:
-		Filename: fictifs|bits/howi.shp
-		Start: 32
+		Filename: fictifs|bits/cotiere.png
 		Facings: 32
-		UseClassicFacings: True
 	recoil:
-		Filename: fictifs|bits/howi.shp
+		Filename: fictifs|bits/cotiere.png
 		Start: 32
 		Facings: 32
-		UseClassicFacings: True
 	damaged-turret:
-		Filename: fictifs|bits/howi.shp
-		Start: 32
+		Filename: fictifs|bits/cotiere.png
+		Start: 64
 		Facings: 32
-		UseClassicFacings: True
 	damaged-recoil:
-		Filename: fictifs|bits/howi.shp
-		Start: 32
+		Filename: fictifs|bits/cotiere.png
+		Start: 96
 		Facings: 32
-		UseClassicFacings: True
+	make:
+		Filename: fictifs|bits/cotiere.png
+		Start: 128
+		Length: 12
+		Tick: 60
 	icon:
-		Filename: fictifs|bits/howiticon.shp
+		Filename: fictifs|bits/cotiereicon.png
 
 # Char de contre-attaque (Leclerc du mod ratc).
 leclerc:
-	Defaults:
-		Filename: fictifs|bits/leclerc.png
 	idle:
+		Filename: fictifs|bits/contreattaque.png
 		Facings: 32
 	turret:
+		Filename: fictifs|bits/contreattaque.png
 		Start: 32
 		Facings: 32
 	muzzle:
 		Filename: gunfire2.shp
 		Length: 5
 	icon:
-		Filename: fictifs|bits/leclercicon.png
+		Filename: fictifs|bits/contreattaqueicon.png
 
 # Canon automoteur (PzH 2000 du mod ratc).
 pzh:
 	idle:
-		Filename: fictifs|bits/pzh.png
+		Filename: fictifs|bits/canon.auto.png
 		Facings: 32
 	muzzle:
 		Filename: gunfire2.shp
 		Length: 5
 	icon:
-		Filename: fictifs|bits/pzhicon.png
+		Filename: fictifs|bits/canon.autoicon.png
 
 # Artillerie lourde (M777 du mod ratc).
 m777:
 	idle:
-		Filename: fictifs|bits/m777.png
+		Filename: fictifs|bits/artillerie.lourde.png
 		Facings: 32
 	muzzle:
 		Filename: gunfire2.shp
 		Length: 5
 	icon:
-		Filename: fictifs|bits/m777icon.png
+		Filename: fictifs|bits/artillerie.lourdeicon.png
 
 # Lance-roquettes multiple (Katioucha de la carte WW3, via le mod ratc).
 katy:
 	idle:
-		Filename: fictifs|bits/katy.shp
+		Filename: fictifs|bits/lrm.png
 		Facings: 32
-		UseClassicFacings: True
 	muzzle:
 		Filename: fictifs|bits/smokeygun.shp
 		Length: 12
 		Tick: 30
 	icon:
-		Filename: fictifs|bits/katyicnh.shp
+		Filename: fictifs|bits/lrmicon.png
 
 # ---------------------------------------------------------------------
 # Aviation (sprites de la carte WW3, via le mod ratc ; U2 de Red Alert)
 # ---------------------------------------------------------------------
 suk:
 	idle:
-		Filename: fictifs|bits/suk.shp
+		Filename: fictifs|bits/chasseur.poly.png
 		Facings: 32
 	icon:
-		Filename: fictifs|bits/sukicon.shp
+		Filename: fictifs|bits/chasseur.polyicon.png
 
 f22:
 	idle:
-		Filename: fictifs|bits/f22.shp
+		Filename: fictifs|bits/intercepteur.png
 		Facings: 32
 	icon:
-		Filename: fictifs|bits/f22icon.shp
+		Filename: fictifs|bits/intercepteuricon.png
 
 a10:
 	idle:
-		Filename: fictifs|bits/a10.shp
+		Filename: fictifs|bits/avion.attaque.png
 		Facings: 32
 	icon:
-		Filename: fictifs|bits/a10icon.shp
+		Filename: fictifs|bits/avion.attaqueicon.png
 
 avion.reco:
-	Inherits: u2
+	idle:
+		Filename: fictifs|bits/avion.reco.png
+		Facings: 32
 	icon:
-		Filename: fictifs|bits/avionrecoicon.png
+		Filename: fictifs|bits/avion.recoicon.png
 
 # ---------------------------------------------------------------------
 # Marine
@@ -117,30 +139,29 @@ avion.reco:
 # Escorteur : destroyer de la carte WW3 (coque + lanceur de missiles).
 escorteur:
 	idle:
-		Filename: fictifs|bits/dd2.shp
-		Facings: 16
-	turret:
-		Filename: fictifs|bits/ifvtur.shp
-		Start: 256
+		Filename: fictifs|bits/escorteur.rub.png
 		Facings: 32
-		UseClassicFacings: True
+	turret:
+		Filename: fictifs|bits/escorteur.rub.png
+		Start: 32
+		Facings: 32
 	icon:
-		Filename: fictifs|bits/dd2icnh.shp
+		Filename: fictifs|bits/escorteur.rubicon.png
 
 icbmsub:
 	idle:
-		Filename: fictifs|bits/icbmsub.shp
-		Facings: 16
+		Filename: fictifs|bits/sous.marin.png
+		Facings: 32
 	icon:
-		Filename: fictifs|bits/icbmsubicon.shp
+		Filename: fictifs|bits/sous.marinicon.png
 
 # Porte-avions rubénien (Amiral Kouznetsov du mod ratc).
 paru:
 	idle:
-		Filename: fictifs|bits/paru.shp
+		Filename: fictifs|bits/porte.avions.rub.png
 		Facings: 32
 	icon:
-		Filename: fictifs|bits/paruicon.shp
+		Filename: fictifs|bits/porte.avions.rubicon.png
 
 # ---------------------------------------------------------------------
 # Logistique, Tunnelier et pouvoirs du QG
@@ -148,13 +169,18 @@ paru:
 # Centre logistique (bâtiment « pionnier » du mod ratc).
 centre.logistique:
 	Defaults:
-		Filename: fictifs|bits/pionier.png
+		Filename: fictifs|bits/centre.logistique.png
 	idle:
+		Length: 1
+		Tick: 160
 	damaged-idle:
 		Start: 1
+		Length: 1
+		Tick: 160
 	make:
 		Start: 2
-		Length: 10
+		Length: 12
+		Tick: 60
 	bib:
 		Filename: bib3.tem
 		TilesetFilenames:
@@ -162,7 +188,7 @@ centre.logistique:
 			DESERT: bib3.des
 		Length: *
 	icon:
-		Filename: fictifs|bits/pioniericon.png
+		Filename: fictifs|bits/centre.logistiqueicon.png
 
 # Opération Taupe : galerie creusée dans la terre (tools/sprites.py).
 taupegate:
@@ -188,22 +214,253 @@ rubenie-powers:
 # Bastion roulant (Battle Fortress de la carte WW3, via le mod ratc).
 bastion:
 	idle:
-		Filename: fictifs|bits/batf.shp
+		Filename: fictifs|bits/bastion.png
 		Facings: 32
-		UseClassicFacings: True
+	turret:
+		Filename: fictifs|bits/bastion.png
+		Start: 32
+		Facings: 32
+	turret2:
+		Filename: fictifs|bits/bastion.png
+		Start: 64
+		Facings: 32
 	muzzle:
 		Filename: fictifs|bits/smokeygun.shp
 		Length: 12
 		Tick: 30
+	icon:
+		Filename: fictifs|bits/bastionicon.png
+
+# ---------------------------------------------------------------------
+# Sprites « HD » rendus en 3D par tools/sprites_hd.py (modèles :
+# tools/modeles/rubenie.py), sous leurs propres noms quand l'image de
+# Red Alert d'origine sert encore aux unités de base.
+# ---------------------------------------------------------------------
+sicatient:
+	idle:
+		Filename: fictifs|bits/sicatient.png
+		Facings: 32
 	turret:
-		Filename: fictifs|bits/batf.shp
+		Filename: fictifs|bits/sicatient.png
 		Start: 32
 		Facings: 32
-		UseClassicFacings: True
-	turret2:
-		Filename: stnk.shp
-		Start: 38
-		Facings: 32
-		UseClassicFacings: True
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
 	icon:
-		Filename: fictifs|bits/batficon.shp
+		Filename: fictifs|bits/sicatienticon.png
+
+sicatient.destroyed:
+	idle:
+		Filename: fictifs|bits/sicatient.png
+		Facings: 32
+		ZOffset: -512
+	turret:
+		Filename: fictifs|bits/sicatient.png
+		Start: 32
+		Facings: 32
+		ZOffset: -512
+
+forteresse:
+	idle:
+		Filename: fictifs|bits/forteresse.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/forteresse.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon:
+		Filename: fictifs|bits/forteresseicon.png
+
+forteresse.destroyed:
+	idle:
+		Filename: fictifs|bits/forteresse.png
+		Facings: 32
+		ZOffset: -512
+	turret:
+		Filename: fictifs|bits/forteresse.png
+		Start: 32
+		Facings: 32
+		ZOffset: -512
+
+reco.rub:
+	idle:
+		Filename: fictifs|bits/reco.rub.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/reco.rub.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: minigun.shp
+		Length: 6
+		Facings: 8
+	icon:
+		Filename: fictifs|bits/reco.rubicon.png
+
+aa.rub:
+	idle:
+		Filename: fictifs|bits/aa.rub.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/aa.rub.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+	icon:
+		Filename: fictifs|bits/aa.rubicon.png
+
+lancemissile:
+	idle:
+		Filename: fictifs|bits/lancemissile.png
+		Facings: 32
+	empty-idle:
+		Filename: fictifs|bits/lancemissile.vide.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/lancemissileicon.png
+
+vehicule.logistique:
+	idle:
+		Filename: fictifs|bits/vehicule.logistique.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/vehicule.logistiqueicon.png
+
+tunnelier:
+	idle:
+		Filename: fictifs|bits/tunnelier.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/tunneliericon.png
+
+fregate:
+	idle:
+		Filename: fictifs|bits/fregate.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/fregate.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon:
+		Filename: fictifs|bits/fregateicon.png
+
+# Rendu 3D par tools/sprites_hd.py (modèles : tools/modeles/batiments.py).
+casemate.at:
+	Inherits: gun
+	turret:
+		Filename: fictifs|bits/casemate.at.png
+		Facings: 32
+	recoil:
+		Filename: fictifs|bits/casemate.at.png
+		Start: 32
+		Facings: 32
+	damaged-turret:
+		Filename: fictifs|bits/casemate.at.png
+		Start: 64
+		Facings: 32
+	damaged-recoil:
+		Filename: fictifs|bits/casemate.at.png
+		Start: 96
+		Facings: 32
+	make:
+		Filename: fictifs|bits/casemate.at.png
+		Start: 128
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/casemate.aticon.png
+
+tourelle.aa:
+	Inherits: agun
+	turret:
+		Filename: fictifs|bits/tourelle.aa.png
+		Facings: 32
+	recoil:
+		Filename: fictifs|bits/tourelle.aa.png
+		Start: 32
+		Facings: 32
+	damaged-turret:
+		Filename: fictifs|bits/tourelle.aa.png
+		Start: 64
+		Facings: 32
+	damaged-recoil:
+		Filename: fictifs|bits/tourelle.aa.png
+		Start: 96
+		Facings: 32
+	make:
+		Filename: fictifs|bits/tourelle.aa.png
+		Start: 128
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/tourelle.aaicon.png
+
+sam.rub:
+	Inherits: sam
+	turret:
+		Filename: fictifs|bits/sam.rub.png
+		Facings: 32
+	damaged-turret:
+		Filename: fictifs|bits/sam.rub.png
+		Start: 32
+		Facings: 32
+	make:
+		Filename: fictifs|bits/sam.rub.png
+		Start: 64
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/sam.rubicon.png
+
+bunker.rub:
+	Inherits: pbox
+	idle:
+		Filename: fictifs|bits/bunker.rub.png
+	damaged-idle:
+		Filename: fictifs|bits/bunker.rub.png
+		Start: 1
+	make:
+		Filename: fictifs|bits/bunker.rub.png
+		Start: 2
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/bunker.rubicon.png
+
+# Chantier de construction rubénien (image propre à la faction, voir FACT
+# dans rubenie/rules.yaml) : grue qui pivote pendant la construction.
+fact.rub:
+	Inherits: fact
+	idle:
+		Filename: fictifs|bits/fact.rub.png
+	damaged-idle:
+		Filename: fictifs|bits/fact.rub.png
+		Start: 1
+	build:
+		Filename: fictifs|bits/fact.rub.png
+		Start: 2
+		Length: 25
+	damaged-build:
+		Filename: fictifs|bits/fact.rub.png
+		Start: 27
+		Length: 25
+	make:
+		Filename: fictifs|bits/fact.rub.png
+		Start: 52
+		Length: 16
+		Tick: 60
+	dead:
+		Filename: fictifs|bits/fact.rub.png
+		Start: 68
+		Tick: 800
+	icon:
+		Filename: fictifs|bits/fact.rubicon.png

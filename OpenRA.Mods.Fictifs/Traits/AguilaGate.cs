@@ -12,6 +12,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenRA.Mods.Cnc.Activities;
+using OpenRA.Mods.Common.Orders;
 using OpenRA.Mods.Common.Traits;
 using OpenRA.Primitives;
 using OpenRA.Traits;
@@ -138,15 +139,10 @@ namespace OpenRA.Mods.Fictifs.Traits
 				if (a == self || a.IsDead || !a.IsInWorld || arrivals.ContainsKey(a) || departing.Contains(a))
 					continue;
 
-				if (!info.ValidRelationships.HasRelationship(self.Owner.RelationshipWith(a.Owner)))
+				if (!CanTransit(self, a))
 					continue;
 
-				var mobile = a.TraitOrDefault<Mobile>();
-				if (mobile == null)
-					continue;
-
-				if (info.ValidFactions.Count > 0 && !info.ValidFactions.Contains(a.Owner.Faction.InternalName))
-					continue;
+				var mobile = a.Trait<Mobile>();
 
 				if (!link.Unlimited && link.Remaining <= 0)
 					break;
@@ -164,6 +160,19 @@ namespace OpenRA.Mods.Fictifs.Traits
 				if (clearCell != null)
 					a.QueueActivity(true, mobile.MoveTo(clearCell.Value, 0, null, true));
 			}
+		}
+
+		public bool IsOpen => !closing && partner != null;
+
+		public bool CanTransit(Actor self, Actor a)
+		{
+			if (!info.ValidRelationships.HasRelationship(self.Owner.RelationshipWith(a.Owner)))
+				return false;
+
+			if (!a.Info.HasTraitInfo<MobileInfo>())
+				return false;
+
+			return info.ValidFactions.Count == 0 || info.ValidFactions.Contains(a.Owner.Faction.InternalName);
 		}
 
 		/// <summary>
@@ -235,5 +244,77 @@ namespace OpenRA.Mods.Fictifs.Traits
 		Color ISelectionBar.GetColor() { return info.TimeBarColor; }
 
 		bool ISelectionBar.DisplayWhenEmpty => false;
+	}
+
+	[Desc("Lets the unit be ordered onto an " + nameof(AguilaGate) + " by clicking the tunnel mouth.")]
+	public class UsesAguilaGateInfo : TraitInfo, Requires<MobileInfo>
+	{
+		[Desc("Cursor shown over a usable tunnel mouth.")]
+		public readonly string EnterCursor = "enter";
+
+		[Desc("Cursor shown over a tunnel mouth this unit cannot use.")]
+		public readonly string EnterBlockedCursor = "enter-blocked";
+
+		public readonly string Voice = "Action";
+
+		public readonly Color TargetLineColor = Color.Green;
+
+		public override object Create(ActorInitializer init) { return new UsesAguilaGate(init.Self, this); }
+	}
+
+	public class UsesAguilaGate : IIssueOrder, IResolveOrder, IOrderVoice
+	{
+		const string OrderName = "EnterAguilaGate";
+
+		readonly Actor self;
+		readonly UsesAguilaGateInfo info;
+		readonly Mobile mobile;
+
+		public UsesAguilaGate(Actor self, UsesAguilaGateInfo info)
+		{
+			this.self = self;
+			this.info = info;
+			mobile = self.Trait<Mobile>();
+		}
+
+		IEnumerable<IOrderTargeter> IIssueOrder.Orders
+		{
+			get
+			{
+				yield return new EnterAlliedActorTargeter<AguilaGateInfo>(OrderName, 6, info.EnterCursor, info.EnterBlockedCursor,
+					(target, modifiers) => !modifiers.HasModifier(TargetModifiers.ForceMove),
+					target => CanUse(target));
+			}
+		}
+
+		bool CanUse(Actor gate)
+		{
+			var trait = gate.TraitOrDefault<AguilaGate>();
+			return trait != null && trait.IsOpen && trait.CanTransit(gate, self);
+		}
+
+		Order IIssueOrder.IssueOrder(Actor self, IOrderTargeter order, in Target target, bool queued)
+		{
+			return order.OrderID == OrderName ? new Order(order.OrderID, self, target, queued) : null;
+		}
+
+		void IResolveOrder.ResolveOrder(Actor self, Order order)
+		{
+			if (order.OrderString != OrderName || order.Target.Type != TargetType.Actor)
+				return;
+
+			var gate = order.Target.Actor;
+			if (gate.IsDead || !gate.IsInWorld || !CanUse(gate))
+				return;
+
+			// Il suffit d'atteindre la bouche : le tunnel prend l'unité en charge.
+			self.QueueActivity(order.Queued, mobile.MoveTo(gate.Location, 0, gate, true, info.TargetLineColor));
+			self.ShowTargetLines();
+		}
+
+		string IOrderVoice.VoicePhraseForOrder(Actor self, Order order)
+		{
+			return order.OrderString == OrderName ? info.Voice : null;
+		}
 	}
 }

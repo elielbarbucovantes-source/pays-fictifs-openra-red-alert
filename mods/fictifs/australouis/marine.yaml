@@ -85,7 +85,7 @@ CHANTIER.AVANCE:
 L0U15:
 	Inherits: DD
 	RenderSprites:
-		Image: escorteur
+		Image: l0u15
 	Buildable:
 		BuildPaletteOrder: 15
 		Prerequisites: ~ships.australouis, dome, ~techlevel.medium
@@ -98,8 +98,12 @@ L0U15:
 		Name: L-0U15
 	Health:
 		HP: 25000
+	# pivot et bout du canon de la tourelle du modèle 3D (tools/modeles/australouis.py)
+	Turreted:
+		Offset: 408,0,102
 	Armament@PRIMARY:
 		Weapon: L0U15Canon
+		LocalOffset: 230,0,40
 	-Armament@SECONDARY:
 	DetectCloaked:
 		DetectionTypes: Underwater
@@ -116,7 +120,7 @@ SOUSMARIN.ICBM:
 	Inherits: ^Submarine
 	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
 	RenderSprites:
-		Image: icbmsub
+		Image: sousmarin.icbm
 	Buildable:
 		Queue: Ship
 		BuildAtProductionType: NavalAvance

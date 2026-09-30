@@ -1,25 +1,60 @@
 # =====================================================================
 # AUSTRALOUIS — séquences de l'aviation
-# (Albatros = rafale, Warthog = a10, Manta = b2b : déjà définies par
-# les autres pays)
+# Sprites « HD » rendus en 3D par tools/sprites_hd.py (modèles dans
+# tools/modeles/australouis.py) : 32 orientations, icône 64 × 48.
 # =====================================================================
 
-rafale:
+albatros:
 	idle:
-		Filename: fictifs|bits/rafale.shp
+		Filename: fictifs|bits/albatros.png
 		Facings: 32
 	icon:
-		Filename: fictifs|bits/rafaleicon.shp
+		Filename: fictifs|bits/albatrosicon.png
 
-# Moustique : drone Lancet du mod ratc.
+# Warthog : A-10 de la carte WW3 (sprite d'origine, à la demande).
+warthog:
+	idle:
+		Filename: fictifs|bits/a10.shp
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/a10icon.shp
+
+manta:
+	idle:
+		Filename: fictifs|bits/manta.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/mantaicon.png
+
+# Baleine : corps rendu en 3D, rotors animés de Red Alert (hélicoptère Chinook).
+baleine:
+	idle:
+		Filename: fictifs|bits/baleine.png
+		Facings: 32
+	rotor:
+		Filename: lrotor.shp
+		Length: 4
+	rotor2:
+		Filename: rrotor.shp
+		Length: 4
+	slow-rotor:
+		Filename: lrotor.shp
+		Start: 4
+		Length: 8
+	slow-rotor2:
+		Filename: rrotor.shp
+		Start: 4
+		Length: 8
+	icon:
+		Filename: fictifs|bits/baleineicon.png
+
 moustique:
 	idle:
-		Filename: fictifs|bits/lancet.png
+		Filename: fictifs|bits/moustique.png
 		Facings: 32
 	icon:
-		Filename: fictifs|bits/lanceticon.png
+		Filename: fictifs|bits/moustiqueicon.png
 
-# Cormoran : sprite généré par tools/sprites.py.
 cormoran:
 	idle:
 		Filename: fictifs|bits/cormoran.png
@@ -31,7 +66,26 @@ cormoran:
 # Marine, forces terrestres, bâtiments
 # ---------------------------------------------------------------------
 
-# Mothership, île et remous : générés par tools/sprites.py.
+# Mothership, L-0U15, sous-marin ICBM, Porte-Drone : rendus en 3D par
+# tools/sprites_hd.py. Île et remous : tools/sprites.py.
+l0u15:
+	idle:
+		Filename: fictifs|bits/l0u15.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/l0u15.png
+		Start: 32
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/l0u15icon.png
+
+sousmarin.icbm:
+	idle:
+		Filename: fictifs|bits/sousmarin.icbm.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/sousmarin.icbmicon.png
+
 mothership:
 	idle:
 		Filename: fictifs|bits/mothership.png
@@ -53,30 +107,43 @@ ile.emergence:
 
 chantier.avance:
 	Inherits: syrd
+	Defaults:
+		Filename: fictifs|bits/chantier.avance.png
+	idle:
+		Filename: fictifs|bits/chantier.avance.png
+		Length: 8
+		Tick: 120
+	damaged-idle:
+		Filename: fictifs|bits/chantier.avance.png
+		Start: 8
+		Length: 8
+		Tick: 120
+	make:
+		Filename: fictifs|bits/chantier.avance.png
+		Start: 16
+		Length: 12
+		Tick: 60
 	icon:
-		Filename: fictifs|bits/chantieravanceicon.png
+		Filename: fictifs|bits/chantier.avanceicon.png
 
 # Centrale d'enrichissement : usine industrielle de la carte WW3.
 centrale.enrichissement:
 	Defaults:
-		Filename: fictifs|bits/indp.shp
+		Filename: fictifs|bits/centrale.enrichissement.png
 	idle:
 		Length: 4
 		Tick: 200
-		Offset: 0, -8
 	damaged-idle:
 		Start: 4
 		Length: 4
 		Tick: 200
-		Offset: 0, -8
 	make:
-		Filename: fictifs|bits/indpmake.shp
-		Length: *
-		Offset: 0, -8
+		Start: 8
+		Length: 12
+		Tick: 60
 	dead:
 		Start: 4
 		Tick: 800
-		Offset: 0, -8
 	bib:
 		Filename: bib2.tem
 		TilesetFilenames:
@@ -84,24 +151,22 @@ centrale.enrichissement:
 			DESERT: bib2.des
 		Length: *
 	icon:
-		Filename: fictifs|bits/indpicon.shp
+		Filename: fictifs|bits/centrale.enrichissementicon.png
 
-# Cheaper : Sherman de la carte WW3.
+# Cheaper : rendu en 3D par tools/sprites_hd.py (caisse puis tourelle).
 cheaper:
 	idle:
-		Filename: fictifs|bits/sherman.shp
+		Filename: fictifs|bits/cheaper.png
 		Facings: 32
-		UseClassicFacings: True
 	turret:
-		Filename: fictifs|bits/sherman.shp
+		Filename: fictifs|bits/cheaper.png
 		Start: 32
 		Facings: 32
-		UseClassicFacings: True
 	muzzle:
 		Filename: gunfire2.shp
 		Length: 2
 	icon:
-		Filename: fictifs|bits/shermanicon.shp
+		Filename: fictifs|bits/cheapericon.png
 
 # Révolutionnaire : le général de Red Alert, parachute du fusilier.
 revolutionnaire:
@@ -128,18 +193,53 @@ australouis-powers:
 	tsunami:
 		Filename: fictifs|bits/tsunamiicon.png
 
-# Engineered Tsunami : crête d'écume, répétée le long du front de la vague.
+# Engineered Tsunami : crêtes (4 formes × 4 images) le long du front de la
+# vague, puis écume (même découpage) qui traîne derrière. Générés par tools/sprites.py.
 tsunami:
 	crest:
 		Filename: fictifs|bits/tsunami.png
-		Length: 4
-		Tick: 120
+		Length: 16
 		ZOffset: 1023
+	foam:
+		Filename: fictifs|bits/tsunamiecume.png
+		Length: 16
+		ZOffset: 1000
 
-# Porte-Drone : généré par tools/sprites.py.
+# Porte-Drone : rendu en 3D par tools/sprites_hd.py.
 portedrone:
 	idle:
 		Filename: fictifs|bits/portedrone.png
 		Facings: 32
 	icon:
 		Filename: fictifs|bits/portedroneicon.png
+
+# Rendu 3D par tools/sprites_hd.py (modèles : tools/modeles/batiments.py).
+base.aeronavale:
+	Inherits: afld
+	Defaults:
+		Filename: fictifs|bits/base.aeronavale.png
+	idle:
+		Filename: fictifs|bits/base.aeronavale.png
+		Length: 8
+		Tick: 120
+	damaged-idle:
+		Filename: fictifs|bits/base.aeronavale.png
+		Start: 8
+		Length: 8
+		Tick: 120
+	active:
+		Filename: fictifs|bits/base.aeronavale.png
+		Length: 8
+		Tick: 60
+	damaged-active:
+		Filename: fictifs|bits/base.aeronavale.png
+		Start: 8
+		Length: 8
+		Tick: 60
+	make:
+		Filename: fictifs|bits/base.aeronavale.png
+		Start: 16
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/base.aeronavaleicon.png

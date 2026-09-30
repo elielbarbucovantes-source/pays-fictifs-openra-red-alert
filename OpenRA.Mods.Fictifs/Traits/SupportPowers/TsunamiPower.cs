@@ -92,7 +92,16 @@ namespace OpenRA.Mods.Fictifs.Traits
 		public readonly string WaveImage = "tsunami";
 
 		[SequenceReference(nameof(WaveImage))]
+		[Desc("Crest sequence: WaveShapes shapes of WaveFrames frames each.")]
 		public readonly string WaveSequence = "crest";
+
+		[SequenceReference(nameof(WaveImage))]
+		[Desc("Foam left behind the crest, same layout as the crest.")]
+		public readonly string FoamSequence = "foam";
+
+		public readonly int WaveShapes = 4;
+
+		public readonly int WaveFrames = 4;
 
 		[PaletteReference]
 		public readonly string WavePalette = "effect";
@@ -275,7 +284,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 		readonly Player owner;
 		readonly TsunamiBand band;
 		readonly TsunamiPowerInfo info;
-		readonly Animation crest;
+		readonly List<WaveSlot> slots = new();
 		readonly HashSet<Actor> hit = new();
 		readonly IResourceLayer resources;
 		readonly int spawnTick;
@@ -292,8 +301,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 			resources = source.World.WorldActor.TraitOrDefault<IResourceLayer>();
 			spawnTick = Math.Max(0, info.ImpactDelay - info.Offshore * 1024 / info.Speed.Length);
 			front = -band.SeaDepth;
-			crest = new Animation(source.World, info.WaveImage);
-			crest.PlayRepeating(info.WaveSequence);
+			CreateSlots(source.World);
 		}
 
 		void IEffect.Tick(World world)
@@ -301,7 +309,6 @@ namespace OpenRA.Mods.Fictifs.Traits
 			if (++tick < spawnTick)
 				return;
 
-			crest.Tick();
 			var previous = front;
 			front += info.Speed.Length;
 			if (front > band.LandDepth)
@@ -411,27 +418,67 @@ namespace OpenRA.Mods.Fictifs.Traits
 			return armor != null && info.UnitDamage.TryGetValue(armor, out var u) ? u : info.DefaultUnitDamage;
 		}
 
+		// Aspect de la vague (affichage seulement, aucun effet sur la partie) : deux rangs de
+		// crêtes décalés puis deux rangs d'écume clairsemée. Chaque morceau a sa forme, sa
+		// cadence, sa phase et un léger balancement, pour éviter un mur uniforme.
+		sealed class WaveSlot
+		{
+			public Animation Anim;
+			public int Behind;
+			public int Across;
+			public int Phase;
+			public int Sway;
+		}
+
+		void CreateSlots(World world)
+		{
+			var rows = new[] { (0, info.WaveSequence, 100), (320, info.WaveSequence, 85), (900, info.FoamSequence, 60), (1500, info.FoamSequence, 35) };
+			var r = new Random(band.Origin.X * 31 + band.Origin.Y);
+			for (var row = 0; row < rows.Length; row++)
+			{
+				var (behind, sequence, density) = rows[row];
+				var stagger = row % 2 == 1 ? 256 : 0;
+				for (var across = -band.HalfWidth + stagger; across <= band.HalfWidth; across += 512)
+				{
+					if (r.Next(100) >= density)
+						continue;
+
+					var shape = r.Next(info.WaveShapes);
+					var speed = 3 + r.Next(3);
+					var phase = r.Next(64);
+					var anim = new Animation(world, info.WaveImage);
+					anim.PlayFetchIndex(sequence, () => shape * info.WaveFrames + (tick / speed + phase) % info.WaveFrames);
+					slots.Add(new WaveSlot
+					{
+						Anim = anim,
+						Behind = behind + r.Next(-96, 97),
+						Across = across + r.Next(-128, 129),
+						Phase = phase,
+						Sway = 40 + r.Next(80)
+					});
+				}
+			}
+		}
+
 		IEnumerable<IRenderable> IEffect.Render(WorldRenderer wr)
 		{
 			if (tick < spawnTick)
 				yield break;
 
 			var world = wr.World;
-			for (var row = 0; row < 2; row++)
+			var palette = wr.Palette(info.WavePalette);
+			foreach (var slot in slots)
 			{
-				var along = front - row * 512;
-				if (row > 0 && along < -band.SeaDepth)
+				var along = front - slot.Behind + (int)(slot.Sway * Math.Sin((tick + slot.Phase) / 5.0));
+				if (along < -band.SeaDepth)
 					continue;
 
-				for (var across = -band.HalfWidth; across <= band.HalfWidth; across += 512)
-				{
-					var pos = band.At(along, across + (row * 256));
-					if (!world.Map.Contains(world.Map.CellContaining(pos)) || world.FogObscures(pos))
-						continue;
+				var pos = band.At(along, slot.Across);
+				if (!world.Map.Contains(world.Map.CellContaining(pos)) || world.FogObscures(pos))
+					continue;
 
-					foreach (var r in crest.Render(pos, wr.Palette(info.WavePalette)))
-						yield return r;
-				}
+				foreach (var r in slot.Anim.Render(pos, palette))
+					yield return r;
 			}
 		}
 	}

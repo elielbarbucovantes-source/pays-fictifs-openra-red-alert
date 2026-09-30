@@ -205,7 +205,7 @@ SICATIENT:
 	Inherits: 3TNK
 	Inherits@DOCTRINE: ^RubenieTerrestre
 	RenderSprites:
-		Image: 3tnk
+		Image: sicatient
 	Buildable:
 		BuildPaletteOrder: 30
 		Prerequisites: ~vehicles.rubenie, fix, ~techlevel.medium
@@ -222,11 +222,17 @@ SICATIENT:
 		Speed: 56
 	Armament:
 		Weapon: Rub115mm
+		LocalOffset: 583,43,77, 583,-43,77
 	ChangesHealth@FIABLE:
 		Step: 300
 		Delay: 25
 		StartIfBelow: 75
 		DamageCooldown: 200
+	# pivots et bouches à feu des modèles 3D (tools/modeles/rubenie.py)
+	Turreted:
+		Offset: -20,0,196
+	SpawnActorOnDeath:
+		Actor: SICATIENT.Husk
 
 # Char de contre-attaque : sortir, frapper, rentrer.
 CONTREATTAQUE:
@@ -250,15 +256,17 @@ CONTREATTAQUE:
 		Speed: 128
 	Turreted:
 		TurnSpeed: 32
+		Offset: -20,0,162
 	Armament:
 		Weapon: RubContreAttaque90mm
+		LocalOffset: 544,0,60
 
 # Char lourd de forteresse : conçu pour tenir un point.
 FORTERESSE:
 	Inherits: 4TNK
 	Inherits@DOCTRINE: ^RubenieTerrestre
 	RenderSprites:
-		Image: 4tnk
+		Image: forteresse
 	Buildable:
 		BuildPaletteOrder: 60
 		Prerequisites: ~vehicles.rubenie, fix, stek, ~techlevel.high
@@ -275,11 +283,18 @@ FORTERESSE:
 		Speed: 32
 	Armament@PRIMARY:
 		Weapon: RubForteresse140mm
+		LocalOffset: 816,68,85, 816,-68,85
 	ChangesHealth@FIABLE:
 		Step: 400
 		Delay: 25
 		StartIfBelow: 50
 		DamageCooldown: 200
+	Turreted:
+		Offset: -39,0,230
+	Armament@SECONDARY:
+		LocalOffset: 120,367,111, 120,-367,111
+	SpawnActorOnDeath:
+		Actor: FORTERESSE.Husk
 
 # ---------------------------------------------------------------------
 # VÉHICULES (usine soviétique)
@@ -288,7 +303,7 @@ RECO.RUB:
 	Inherits: JEEP
 	Inherits@DOCTRINE: ^RubenieTerrestre
 	RenderSprites:
-		Image: jeep
+		Image: reco.rub
 	Buildable:
 		BuildPaletteOrder: 10
 		Prerequisites: ~vehicles.rubenie, ~techlevel.low
@@ -312,14 +327,17 @@ RECO.RUB:
 		Range: 5c0
 	Armament:
 		Weapon: RubRecoMG
+		LocalOffset: 349,0,77
 	Cargo:
 		MaxWeight: 2
+	Turreted:
+		Offset: -70,0,306
 
 AA.RUB:
 	Inherits: FTRK
 	Inherits@DOCTRINE: ^RubenieTerrestre
 	RenderSprites:
-		Image: ftrk
+		Image: aa.rub
 	Buildable:
 		BuildPaletteOrder: 40
 		Prerequisites: ~vehicles.rubenie, ~techlevel.low
@@ -336,15 +354,17 @@ AA.RUB:
 		Speed: 100
 	Armament@AA:
 		Weapon: RubFlakAA
+		LocalOffset: 264,0,68
 	Armament@AG:
 		Weapon: RubFlakAG
+		LocalOffset: 264,0,68
 
 # Lance-missiles mobile : tirer, déménager, tirer.
 LANCEMISSILE:
 	Inherits: V2RL
 	Inherits@DOCTRINE: ^RubenieTerrestre
 	RenderSprites:
-		Image: v2rl
+		Image: lancemissile
 	Buildable:
 		BuildPaletteOrder: 70
 		Prerequisites: ~vehicles.rubenie, stek, ~techlevel.high
@@ -359,6 +379,7 @@ LANCEMISSILE:
 		HP: 16000
 	Armament:
 		Weapon: RubMissileBalistique
+		LocalOffset: 391,0,383
 
 # ---------------------------------------------------------------------
 # ARTILLERIE (usine soviétique)
@@ -386,6 +407,7 @@ CANON.AUTO:
 		Speed: 72
 	Armament:
 		Weapon: RubObus152
+		LocalOffset: 746,0,354
 
 ARTILLERIE.LOURDE:
 	Inherits: ARTY
@@ -413,6 +435,7 @@ ARTILLERIE.LOURDE:
 		Range: 3c0
 	Armament:
 		Weapon: RubObusLourd
+		LocalOffset: 854,0,469
 
 LRM:
 	Inherits: ARTY
@@ -442,8 +465,37 @@ LRM:
 	-Armament:
 	Armament@PRIMARY:
 		Weapon: RubRoquettes
-		LocalOffset: 268,-100,440
+		LocalOffset: 90,-180,614
 	Armament@SECONDARY:
 		Weapon: RubRoquettesLarge
-		LocalOffset: 268,100,440
+		LocalOffset: 90,180,614
 		FireDelay: 6
+
+# Carcasses des chars lourds rubéniens : capturables, redeviennent le même char.
+SICATIENT.Husk:
+	Inherits: 3TNK.Husk
+	Tooltip:
+		Name: Carcasse (« Si ça tient, touche à rien »)
+	TransformOnCapture:
+		IntoActor: sicatient
+	InfiltrateForTransform:
+		IntoActor: sicatient
+	RenderSprites:
+		Image: sicatient.destroyed
+
+FORTERESSE.Husk:
+	Inherits: 4TNK.Husk
+	Tooltip:
+		Name: Carcasse (char lourd de forteresse)
+	TransformOnCapture:
+		IntoActor: forteresse
+	InfiltrateForTransform:
+		IntoActor: forteresse
+	RenderSprites:
+		Image: forteresse.destroyed
+
+# Chantier de construction : apparence rubénienne pour les joueurs de la Rubénie.
+FACT:
+	RenderSprites:
+		FactionImages:
+			rubenie: fact.rub

@@ -1,5 +1,133 @@
 # ELIELISTAN — sprites propres (tools/sprites.py) et sprites repris du mod ratc.
 
+# ---------------------------------------------------------------------
+# Forces terrestres et hélicoptère de transport : sprites « HD » rendus
+# en 3D par tools/sprites_hd.py (modèles : tools/modeles/elielistan.py).
+# ---------------------------------------------------------------------
+gavilan:
+	idle:
+		Filename: fictifs|bits/gavilan.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/gavilan.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: minigun.shp
+		Length: 6
+		Facings: 8
+	icon:
+		Filename: fictifs|bits/gavilanicon.png
+
+halcon:
+	idle:
+		Filename: fictifs|bits/halcon.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/halcon.png
+		Start: 32
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/halconicon.png
+
+jaguar:
+	idle:
+		Filename: fictifs|bits/jaguar.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/jaguar.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+	icon:
+		Filename: fictifs|bits/jaguaricon.png
+
+vigia:
+	idle:
+		Filename: fictifs|bits/vigia.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/vigia.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+	icon:
+		Filename: fictifs|bits/vigiaicon.png
+
+trueno:
+	idle:
+		Filename: fictifs|bits/trueno.png
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon:
+		Filename: fictifs|bits/truenoicon.png
+
+carro.aguila:
+	idle:
+		Filename: fictifs|bits/carro.aguila.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/carro.aguila.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+	icon:
+		Filename: fictifs|bits/carro.aguilaicon.png
+
+# Carcasse du Carro Aguila (sous les unités vivantes).
+carro.aguila.destroyed:
+	idle:
+		Filename: fictifs|bits/carro.aguila.png
+		Facings: 32
+		ZOffset: -512
+	turret:
+		Filename: fictifs|bits/carro.aguila.png
+		Start: 32
+		Facings: 32
+		ZOffset: -512
+
+# Lanzador : canon en batterie (prêt) ou abaissé pendant le rechargement.
+lanzador:
+	idle:
+		Filename: fictifs|bits/lanzador.png
+		Facings: 32
+	empty-idle:
+		Filename: fictifs|bits/lanzador.route.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/lanzadoricon.png
+
+# Cóndor : un seul rotor principal (surcouche animée de Red Alert).
+condor:
+	idle:
+		Filename: fictifs|bits/condor.png
+		Facings: 32
+	rotor:
+		Filename: lrotor.shp
+		Length: 4
+	slow-rotor:
+		Filename: lrotor.shp
+		Start: 4
+		Length: 8
+	icon:
+		Filename: fictifs|bits/condoricon.png
+
+# Ojo del Aguila : drone de reconnaissance en orbite au-dessus de la zone révélée.
+ojo.orbite:
+	idle:
+		Filename: fictifs|bits/ojo.orbite.png
+		Length: 32
+		Tick: 90
+		ZOffset: 2047
+
 # Palais présidentiel : bâtiment « poste de commandement avancé » de Red Alert.
 palacio:
 	Defaults:
@@ -60,17 +188,17 @@ avispa:
 
 pico:
 	idle:
-		Filename: fictifs|bits/patroller.png
+		Filename: fictifs|bits/pico.png
 		Facings: 32
 	icon:
-		Filename: fictifs|bits/patrollericon.png
+		Filename: fictifs|bits/picoicon.png
 
 garra:
 	idle:
-		Filename: fictifs|bits/protector.png
+		Filename: fictifs|bits/garra.png
 		Facings: 32
 	icon:
-		Filename: fictifs|bits/protectoricon.png
+		Filename: fictifs|bits/garraicon.png
 
 # ---------------------------------------------------------------------
 # Projection, marine et défenses (sprites repris du mod ratc,
@@ -104,12 +232,13 @@ harpia:
 	icon:
 		Filename: fictifs|bits/harriericon.shp
 
+# Porte-aéronefs amphibie (rendu 3D, tools/sprites_hd.py).
 porta.aguila:
 	idle:
-		Filename: fictifs|bits/pauk.shp
+		Filename: fictifs|bits/porta.aguila.png
 		Facings: 32
 	icon:
-		Filename: fictifs|bits/paukicon.shp
+		Filename: fictifs|bits/porta.aguilaicon.png
 
 tiburon:
 	idle:
@@ -120,7 +249,7 @@ tiburon:
 
 tranchee:
 	Defaults:
-		Filename: fictifs|bits/tranchee.shp
+		Filename: fictifs|bits/tranchee.png
 	idle:
 	damaged-idle:
 		Start: 1
@@ -129,11 +258,11 @@ tranchee:
 		Length: 4
 		Tick: 200
 	icon:
-		Filename: fictifs|bits/trancheeicon.shp
+		Filename: fictifs|bits/trancheeicon.png
 
 trancheev:
 	Defaults:
-		Filename: fictifs|bits/trancheev.shp
+		Filename: fictifs|bits/trancheev.png
 	idle:
 	damaged-idle:
 		Start: 1
@@ -142,7 +271,7 @@ trancheev:
 		Length: 4
 		Tick: 200
 	icon:
-		Filename: fictifs|bits/trancheevicon.shp
+		Filename: fictifs|bits/trancheevicon.png
 
 antena:
 	Inherits: gap

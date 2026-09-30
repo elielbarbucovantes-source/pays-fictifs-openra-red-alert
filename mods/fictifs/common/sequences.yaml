@@ -18,7 +18,7 @@ pipeline:
 
 raffinerie.petrole:
 	Defaults:
-		Filename: fictifs|bits/raffinerie.png
+		Filename: fictifs|bits/raffinerie.petrole.png
 	idle:
 		Length: 4
 		Tick: 160
@@ -29,13 +29,13 @@ raffinerie.petrole:
 	make:
 		Start: 8
 		Length: 8
-		Tick: 80
+		Tick: 60
 	icon:
-		Filename: fictifs|bits/raffinerieicon.png
+		Filename: fictifs|bits/raffinerie.petroleicon.png
 
 # Zone industrielle (common/zones.yaml).
 zone.industrielle:
 	idle:
-		Filename: fictifs|bits/zoneindustrielle.png
+		Filename: fictifs|bits/zone.industrielle.png
 		Length: 4
 		Tick: 200

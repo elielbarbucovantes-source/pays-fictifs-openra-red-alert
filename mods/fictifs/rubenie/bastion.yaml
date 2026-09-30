@@ -71,7 +71,7 @@ BASTION:
 		Name: primary
 		Turret: primary
 		Weapon: RubBastion130mm
-		LocalOffset: 200,0,300
+		LocalOffset: 467,0,269
 		MuzzleSequence: muzzle
 		RequiresCondition: equipage
 	Armament@SECONDARY:
@@ -79,14 +79,14 @@ BASTION:
 		Turret: secondary
 		Weapon: RubBastion130mm
 		FireDelay: 8
-		LocalOffset: 200,0,300
+		LocalOffset: 467,0,269
 		MuzzleSequence: muzzle
 		RequiresCondition: equipage
 	Armament@TERTIARY:
 		Name: tertiary
 		Turret: tertiary
 		Weapon: RubBastionMissiles
-		LocalOffset: -200,0,300
+		LocalOffset: 105,0,452
 		RequiresCondition: equipage
 	AttackTurreted:
 		Turrets: primary, secondary, tertiary

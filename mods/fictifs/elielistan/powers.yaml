@@ -148,6 +148,10 @@ HPAD:
 CAMERA.OJO:
 	Inherits: CAMERA
 	-MapEditorData:
+	# Drone de reconnaissance visible, en orbite au-dessus de la zone.
+	-RenderSpritesEditorOnly:
+	RenderSprites:
+		Image: ojo.orbite
 	RevealsShroud:
 		Range: 12c0
 	DetectCloaked:

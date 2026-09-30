@@ -8,7 +8,7 @@
 BASE.AERONAVALE:
 	Inherits: AFLD
 	RenderSprites:
-		Image: afld
+		Image: base.aeronavale
 	Buildable:
 		BuildPaletteOrder: 131
 		Prerequisites: dome, ~structures.australouis, ~techlevel.medium
@@ -28,7 +28,7 @@ BASE.AERONAVALE:
 ALBATROS:
 	Inherits: MIG
 	RenderSprites:
-		Image: rafale
+		Image: albatros
 	Buildable:
 		BuildPaletteOrder: 10
 		Prerequisites: ~base.aeronavale, ~techlevel.medium
@@ -78,7 +78,7 @@ ALBATROS.Husk:
 	Tooltip:
 		Name: Albatros
 	RenderSprites:
-		Image: rafale
+		Image: albatros
 
 # ---------------------------------------------------------------------
 # WARTHOG — l'A-10 de la carte WW3 : canon de 30 mm et missiles.
@@ -86,7 +86,7 @@ ALBATROS.Husk:
 WARTHOG:
 	Inherits: MIG
 	RenderSprites:
-		Image: a10
+		Image: warthog
 	Buildable:
 		BuildPaletteOrder: 20
 		BuildLimit: 5
@@ -161,7 +161,7 @@ WARTHOG.Husk:
 	Tooltip:
 		Name: Warthog
 	RenderSprites:
-		Image: a10
+		Image: warthog
 
 # ---------------------------------------------------------------------
 # MANTA — bombardier lourd, sur le modèle du B-2 de la carte WW3,
@@ -170,7 +170,7 @@ WARTHOG.Husk:
 MANTA:
 	Inherits: YAK
 	RenderSprites:
-		Image: b2b
+		Image: manta
 	Buildable:
 		BuildPaletteOrder: 30
 		BuildLimit: 2
@@ -219,7 +219,7 @@ MANTA.Husk:
 	Tooltip:
 		Name: Manta
 	RenderSprites:
-		Image: b2b
+		Image: manta
 
 # ---------------------------------------------------------------------
 # CORMORAN — hydravion bombardier d'eau. Il écope en survolant l'eau,
@@ -335,7 +335,7 @@ CORMORAN.Husk:
 BALEINE:
 	Inherits: TRAN
 	RenderSprites:
-		Image: tran
+		Image: baleine
 	Buildable:
 		BuildPaletteOrder: 10
 		Prerequisites: ~aircraft.australouis, ~techlevel.medium
@@ -350,6 +350,29 @@ BALEINE:
 		Speed: 140
 	Cargo:
 		MaxWeight: 10
+	SpawnActorOnDeath:
+		Actor: BALEINE.Husk
+	# rotors du modèle agrandi
+	WithIdleOverlay@ROTOR1AIR:
+		Offset: 1075,0,383
+	WithIdleOverlay@ROTOR1GROUND:
+		Offset: 1075,0,383
+	WithIdleOverlay@ROTOR2AIR:
+		Offset: -1075,0,614
+	WithIdleOverlay@ROTOR2GROUND:
+		Offset: -1075,0,614
+
+# Carcasse qui tombe en vrille : même image que la Baleine.
+BALEINE.Husk:
+	Inherits: TRAN.Husk
+	Tooltip:
+		Name: Baleine
+	RenderSprites:
+		Image: baleine
+	WithIdleOverlay@PRIMARY:
+		Offset: -1075,0,614
+	WithIdleOverlay@SECONDARY:
+		Offset: 1075,0,383
 
 # MOUSTIQUE — drone kamikaze antichar. Trois suffisent à détruire un
 # char léger ; très fragile, la moindre défense antiaérienne l'abat.

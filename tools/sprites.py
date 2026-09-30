@@ -700,25 +700,53 @@ def zone_industrielle_frame(t, w=72, h=48):
 # ---------------------------------------------------------------------------
 # Engineered Tsunami : crête de vague (32x32, 4 images) et icône du pouvoir
 # ---------------------------------------------------------------------------
-def tsunami_crest_frame(t, size=32):
+def tsunami_crest_frame(shape, t, size=32):
+    """Crête d'écume : 4 formes (hauteur, bosses) × 4 images de bouillonnement."""
     import random
-    rnd = random.Random(40 + t)
+    rnd = random.Random(40 + 17 * shape + t)
     im, d = canvas(size, size)
     s = SS
     n = size * s
-    d.ellipse([0.08 * n, 0.30 * n, 0.92 * n, 0.95 * n], fill=(20, 70, 140, 255))          # masse d'eau
-    d.ellipse([0.14 * n, 0.22 * n, 0.86 * n, 0.80 * n], fill=(40, 120, 190, 255))
-    d.ellipse([0.20 * n, 0.14 * n, 0.80 * n, 0.52 * n], fill=(120, 190, 230, 255))        # sommet clair
-    for _ in range(26):                                                                   # écume qui bouillonne
-        a = rnd.uniform(math.pi, 2 * math.pi)
-        r = rnd.uniform(0.18, 0.34) * n
-        x = n / 2 + r * math.cos(a) * 1.2
-        y = 0.40 * n + r * math.sin(a) * (0.7 + 0.1 * (t % 2))
-        k = rnd.uniform(2, 4.5) * s
-        d.ellipse([x - k, y - k, x + k, y + k], fill=(236, 242, 246, 255))
-    for _ in range(6):                                                                    # embruns
-        x, y = rnd.uniform(0.15, 0.85) * n, rnd.uniform(0.02, 0.18) * n
-        d.ellipse([x, y, x + 2 * s, y + 2 * s], fill=(220, 232, 240, 255))
+    top = (0.10, 0.22, 0.16, 0.30)[shape] * n                                           # hauteur de la lèvre
+    lean = (0.0, 0.08, -0.06, 0.04)[shape] * n                                           # penchée ou droite
+    d.ellipse([0.06 * n, top + 0.22 * n, 0.94 * n, 0.98 * n], fill=(14, 52, 110, 255))     # pied sombre
+    d.ellipse([0.12 * n + lean, top + 0.10 * n, 0.88 * n + lean, 0.84 * n], fill=(30, 96, 170, 255))
+    d.ellipse([0.22 * n + lean, top + 0.04 * n, 0.78 * n + lean, top + 0.40 * n], fill=(96, 170, 220, 255))
+    humps = 2 + shape % 3
+    for h in range(humps):                                                              # rouleaux d'écume
+        cx = n * (0.2 + 0.6 * (h + 0.5) / humps) + lean + rnd.uniform(-2, 2) * s
+        cy = top + 0.14 * n + ((h + t) % 2) * 1.5 * s
+        for _ in range(9):
+            x = cx + rnd.uniform(-0.13, 0.13) * n
+            y = cy + rnd.uniform(-0.07, 0.07) * n
+            k = rnd.uniform(1.8, 4.2) * s
+            g = rnd.choice(((236, 242, 246), (214, 228, 238), (250, 250, 250)))
+            d.ellipse([x - k, y - k, x + k, y + k], fill=g + (255,))
+    for _ in range(3 + (t + shape) % 4):                                                # embruns
+        x, y = rnd.uniform(0.15, 0.85) * n + lean, top - rnd.uniform(0.0, 0.10) * n
+        k = rnd.uniform(0.8, 1.6) * s
+        d.ellipse([x - k, y - k, x + k, y + k], fill=(220, 232, 240, 255))
+    for _ in range(4):                                                                  # stries dans l'eau
+        x, y = rnd.uniform(0.2, 0.8) * n, rnd.uniform(0.55, 0.85) * n
+        d.line([x, y, x + rnd.uniform(3, 6) * s, y - 1 * s], fill=(120, 180, 220, 255), width=s)
+    return shrink(im, size, size)
+
+
+def tsunami_foam_frame(shape, t, size=32):
+    """Traînée derrière la crête : taches d'écume éparses sur l'eau qui reflue."""
+    import random
+    rnd = random.Random(900 + 31 * shape + t)
+    im, d = canvas(size, size)
+    s = SS
+    n = size * s
+    for _ in range(3 + shape):
+        x, y = rnd.uniform(0.15, 0.85) * n, rnd.uniform(0.25, 0.8) * n
+        w, h = rnd.uniform(0.10, 0.22) * n, rnd.uniform(0.05, 0.10) * n
+        d.ellipse([x - w, y - h, x + w, y + h], fill=(40, 110, 180, 255))
+        for _ in range(5):
+            fx, fy = x + rnd.uniform(-w, w) * 0.8, y + rnd.uniform(-h, h) * 0.8
+            k = rnd.uniform(1.0, 2.6) * s
+            d.ellipse([fx - k, fy - k, fx + k, fy + k], fill=(226, 236, 244, 255))
     return shrink(im, size, size)
 
 
@@ -749,23 +777,14 @@ if __name__ == "__main__":
                      ("mobilisationicon", icon_mobilisation), ("superioriteicon", icon_superiorite),
                      ("precisionicon", icon_precision)):
         save(to_indexed([fn()], 64, 48), name, 64, 48, 1)
-    save(to_indexed(cormoran_frames(), 48, 48), "cormoran", 48, 48, 32)
-    save(to_indexed([icon_cormoran()], 64, 48), "cormoranicon", 64, 48, 1)
-    save(to_indexed(mothership_frames(), 96, 96), "mothership", 96, 96, 32)
     save(to_indexed([ile_frame()], 192, 192), "ile", 192, 192, 1)
     save(to_indexed([ile_emergence_frame(t) for t in range(4)], 192, 192), "ileemergence", 192, 192, 4)
-    for name, fn in (("mothershipicon", icon_mothership), ("revolutionnaireicon", icon_revolutionnaire),
-                     ("chantieravanceicon", icon_chantier_avance), ("raffinerieboosticon", icon_raffinerie_boost),
+    # Cormoran, Mothership, Porte-Drone, raffinerie, pipeline, zone industrielle et leurs icônes :
+    # désormais rendus en 3D par tools/sprites_hd.py.
+    for name, fn in (("raffinerieboosticon", icon_raffinerie_boost),
                      ("radarblinkicon", icon_radar_blink)):
         save(to_indexed([fn()], 64, 48), name, 64, 48, 1)
-    save(to_indexed([pipeline_frame(m) for m in range(16)] + [pipeline_frame(m, True) for m in range(16)], 24, 24),
-         "pipeline", 24, 24, 32)
-    save(to_indexed([raffinerie_frame(t) for t in range(4)] + [raffinerie_frame(t, True) for t in range(4)]
-                    + [raffinerie_frame(0, build=(k + 1) / 8) for k in range(8)], 48, 48), "raffinerie", 48, 48, 16)
-    for name, fn in (("raffinerieicon", icon_raffinerie_petrole), ("pipelineicon", icon_pipeline)):
-        save(to_indexed([fn()], 64, 48), name, 64, 48, 1)
-    save(to_indexed(porte_drone_frames(), 64, 64), "portedrone", 64, 64, 32)
-    save(to_indexed([icon_porte_drone()], 64, 48), "portedroneicon", 64, 48, 1)
-    save(to_indexed([zone_industrielle_frame(t) for t in range(4)], 72, 48), "zoneindustrielle", 72, 48, 4)
-    save(to_indexed([tsunami_crest_frame(t) for t in range(4)], 32, 32), "tsunami", 32, 32, 4)
+    save(to_indexed([icon_pipeline()], 64, 48), "pipelineicon", 64, 48, 1)
+    save(to_indexed([tsunami_crest_frame(k, t) for k in range(4) for t in range(4)], 32, 32), "tsunami", 32, 32, 16)
+    save(to_indexed([tsunami_foam_frame(k, t) for k in range(4) for t in range(4)], 32, 32), "tsunamiecume", 32, 32, 16)
     save(to_indexed([icon_tsunami()], 64, 48), "tsunamiicon", 64, 48, 1)
