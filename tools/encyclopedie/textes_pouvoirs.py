@@ -48,4 +48,13 @@ Nécessite la centrale d'enrichissement et un silo.""",
 Pendant 1 minute, vous voyez ce que voit chaque sous-marin de la carte, et les sous-marins ennemis sont révélés.
 Porté par le chantier naval avancé.""",
 "Lancez-le avant une opération navale pour chasser les sous-marins ennemis, ou pour espionner la côte adverse grâce à eux."),
+"Engineered Tsunami": ("Engineered Tsunami", """Les ingénieurs australouisiens savent lever la mer contre une côte choisie.
+Une vague géante naît au large et balaie une bande de 10 cases de large sur 8 cases dans les terres, dans le sens choisi.
+Tous les joueurs sont prévenus 10 secondes avant l'impact, sans savoir quelle côte est visée.
+Pleine puissance sur les 2 premières cases, puis la vague s'affaiblit : l'infanterie du rivage est balayée,
+les véhicules et les bâtiments lourds sont très abîmés mais ne sont pas détruits d'office.
+Arrache les arbres, renverse les murs et emporte le minerai. Aviation en vol et navires presque épargnés ;
+les îles du Mothership résistent. Frappe aussi vos propres troupes. Porté par le chantier naval avancé.""",
+"Visez les raffineries, centrales et chantiers navals construits au bord de l'eau, puis débarquez juste après la vague. "
+"Contre lui : ne concentrez pas toute votre base sur le rivage et éloignez vos troupes de la côte dès l'alerte."),
 }

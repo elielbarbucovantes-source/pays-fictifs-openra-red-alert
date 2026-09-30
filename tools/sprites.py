@@ -697,6 +697,47 @@ def zone_industrielle_frame(t, w=72, h=48):
     return shrink(im, w, h)
 
 
+# ---------------------------------------------------------------------------
+# Engineered Tsunami : crête de vague (32x32, 4 images) et icône du pouvoir
+# ---------------------------------------------------------------------------
+def tsunami_crest_frame(t, size=32):
+    import random
+    rnd = random.Random(40 + t)
+    im, d = canvas(size, size)
+    s = SS
+    n = size * s
+    d.ellipse([0.08 * n, 0.30 * n, 0.92 * n, 0.95 * n], fill=(20, 70, 140, 255))          # masse d'eau
+    d.ellipse([0.14 * n, 0.22 * n, 0.86 * n, 0.80 * n], fill=(40, 120, 190, 255))
+    d.ellipse([0.20 * n, 0.14 * n, 0.80 * n, 0.52 * n], fill=(120, 190, 230, 255))        # sommet clair
+    for _ in range(26):                                                                   # écume qui bouillonne
+        a = rnd.uniform(math.pi, 2 * math.pi)
+        r = rnd.uniform(0.18, 0.34) * n
+        x = n / 2 + r * math.cos(a) * 1.2
+        y = 0.40 * n + r * math.sin(a) * (0.7 + 0.1 * (t % 2))
+        k = rnd.uniform(2, 4.5) * s
+        d.ellipse([x - k, y - k, x + k, y + k], fill=(236, 242, 246, 255))
+    for _ in range(6):                                                                    # embruns
+        x, y = rnd.uniform(0.15, 0.85) * n, rnd.uniform(0.02, 0.18) * n
+        d.ellipse([x, y, x + 2 * s, y + 2 * s], fill=(220, 232, 240, 255))
+    return shrink(im, size, size)
+
+
+def icon_tsunami():
+    im, d = icon_aus((150, 200, 230))
+    s = SS
+    d.rectangle([0, 34 * s, 64 * s, 48 * s], fill=(200, 180, 120, 255))                   # plage
+    d.rectangle([40 * s, 22 * s, 50 * s, 36 * s], fill=(110, 110, 116, 255))              # usine côtière
+    d.rectangle([52 * s, 26 * s, 60 * s, 36 * s], fill=(140, 90, 60, 255))
+    d.rectangle([44 * s, 12 * s, 47 * s, 22 * s], fill=(90, 90, 96, 255))
+    d.pieslice([-30 * s, 2 * s, 42 * s, 74 * s], 270, 360, fill=(20, 80, 160, 255))      # grande vague
+    d.pieslice([-18 * s, 10 * s, 34 * s, 62 * s], 270, 360, fill=(40, 120, 200, 255))
+    d.rectangle([0, 38 * s, 36 * s, 48 * s], fill=(20, 80, 160, 255))
+    for k in range(8):                                                                    # rouleau d'écume
+        x, y = (6 + 4 * k) * s, (2 + abs(4 - k) * 1.5 + 3) * s
+        d.ellipse([x - 3 * s, y - 3 * s, x + 3 * s, y + 3 * s], fill=(240, 244, 248, 255))
+    return icon_aus_done(im)
+
+
 if __name__ == "__main__":
     save(to_indexed([gate_frame(t) for t in range(8)], 48, 48), "aguilagate", 48, 48, 8)
     save(to_indexed([taupe_frame(t) for t in range(8)], 48, 48), "taupegate", 48, 48, 8)
@@ -726,3 +767,5 @@ if __name__ == "__main__":
     save(to_indexed(porte_drone_frames(), 64, 64), "portedrone", 64, 64, 32)
     save(to_indexed([icon_porte_drone()], 64, 48), "portedroneicon", 64, 48, 1)
     save(to_indexed([zone_industrielle_frame(t) for t in range(4)], 72, 48), "zoneindustrielle", 72, 48, 4)
+    save(to_indexed([tsunami_crest_frame(t) for t in range(4)], 32, 32), "tsunami", 32, 32, 4)
+    save(to_indexed([icon_tsunami()], 64, 48), "tsunamiicon", 64, 48, 1)

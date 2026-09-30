@@ -63,6 +63,34 @@ namespace OpenRA.Mods.Fictifs.Scripting
 			return true;
 		}
 
+		[Desc("Activate a charged targeted support power on a cell, by its OrderName. " +
+			"Facing (0-255, -1 = automatic) is used by directional powers such as the tsunami. Returns false if none was ready.")]
+		public bool ActivatePowerAt(string orderName, CPos cell, int facing = -1)
+		{
+			var manager = Player.PlayerActor.Trait<SupportPowerManager>();
+			var power = manager.Powers.Values.FirstOrDefault(p => p.Info != null && p.Info.OrderName == orderName && p.Ready);
+			if (power == null)
+				return false;
+
+			power.Activate(new Order(power.Key, manager.Self, Target.FromCell(Player.World, cell), false)
+			{
+				ExtraData = facing < 0 ? uint.MaxValue : (uint)facing
+			});
+
+			return true;
+		}
+
+		[Desc("Is this cell a valid tsunami target for the given facing (0-255, -1 = best direction)?")]
+		public bool TsunamiTargetValid(CPos cell, int facing = -1)
+		{
+			var power = Player.World.ActorsWithTrait<TsunamiPower>().FirstOrDefault(p => p.Actor.Owner == Player).Trait;
+			if (power == null)
+				return false;
+
+			var f = facing < 0 ? power.BestFacing(Player.World, cell) : WAngle.FromFacing(facing);
+			return f.HasValue && new TsunamiBand(Player.World.Map, cell, f.Value, power.TsunamiInfo).IsValid(out _, out _);
+		}
+
 		[Desc("Describe the state of a support power by its OrderName (for tests and missions).")]
 		public string SupportPowerState(string orderName)
 		{

@@ -19,7 +19,7 @@ CHANTIER.AVANCE:
 		BuildPaletteOrder: 135
 		BuildLimit: 3
 		Prerequisites: atek, ~structures.australouis, ~techlevel.high
-		Description: Chantier naval avancé. 3 au maximum.\nProduit et répare tous les navires, dont le sous-marin ICBM\net le Mothership.\nPouvoir : Radar blink.
+		Description: Chantier naval avancé. 3 au maximum.\nProduit et répare tous les navires, dont le sous-marin ICBM\net le Mothership.\nPouvoirs : Radar blink, Engineered Tsunami.
 	Valued:
 		Cost: 2000
 	Tooltip:
@@ -54,6 +54,30 @@ CHANTIER.AVANCE:
 		LaunchSound: sonpulse.aud
 		EndChargeTextNotification: Radar blink prêt.
 		SupportPowerPaletteOrder: 20
+	# Engineered Tsunami : une vague venue du large balaie 10 × 8 cases de
+	# côte dans le sens choisi (clic sur la côte, glisser pour la direction).
+	# Impact 10 s après le lancement ; tous les joueurs sont prévenus, sans
+	# savoir où. Frappe tout le monde, y compris le lanceur.
+	TsunamiPower@TSUNAMI:
+		OrderName: AustralouisTsunami
+		IconImage: australouis-powers
+		Icon: tsunami
+		ChargeInterval: 7500
+		Name: Engineered Tsunami
+		Description: Une vague géante venue du large balaie la côte visée\n(10 cases de large, 8 dans les terres), 10 secondes après\nle lancement. Cliquez sur une côte puis glissez pour choisir\nle sens de la vague (de la mer vers la terre).\nTrès gros dégâts à l'infanterie et aux bâtiments légers,\ngros dégâts aux véhicules et bâtiments lourds, surtout près\ndu rivage. Arrache les arbres, détruit les murs, emporte\nle minerai. Sans effet sur l'aviation en vol ; presque rien\naux navires. Frappe aussi vos propres unités !
+		Cursor: nuke
+		Width: 10
+		Depth: 8
+		Offshore: 12
+		ImpactDelay: 250
+		ImpactSound: splash9.aud
+		LaunchSound: buzzy1.aud
+		IncomingSound: buzzy1.aud
+		LaunchTextNotification: Tsunami lancé : impact dans 10 secondes.
+		IncomingTextNotification: Alerte : tsunami détecté ! Impact sur une côte dans 10 secondes.
+		NotCoastTextNotification: Le tsunami doit venir de la mer : visez une côte et tirez la flèche vers la terre.
+		EndChargeTextNotification: Engineered Tsunami prêt.
+		SupportPowerPaletteOrder: 21
 
 # ---------------------------------------------------------------------
 # L-0U15 : destroyer faible, sonar à très grande portée (18 cases).

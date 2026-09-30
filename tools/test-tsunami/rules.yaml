@@ -1,0 +1,16 @@
+World:
+	LuaScript:
+		Scripts: test.lua
+	-SpawnStartingUnits:
+	-CrateSpawner:
+	-IndustrialZoneSpawner:
+Player:
+	-ConquestVictoryConditions:
+	Shroud:
+		FogCheckboxEnabled: false
+		FogCheckboxLocked: true
+		ExploredMapCheckboxEnabled: true
+		ExploredMapCheckboxLocked: true
+CHANTIER.AVANCE:
+	TsunamiPower@TSUNAMI:
+		StartFullyCharged: true

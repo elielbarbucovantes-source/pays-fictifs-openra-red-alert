@@ -125,6 +125,16 @@ australouis-powers:
 		Filename: fictifs|bits/raffinerieboosticon.png
 	radarblink:
 		Filename: fictifs|bits/radarblinkicon.png
+	tsunami:
+		Filename: fictifs|bits/tsunamiicon.png
+
+# Engineered Tsunami : crête d'écume, répétée le long du front de la vague.
+tsunami:
+	crest:
+		Filename: fictifs|bits/tsunami.png
+		Length: 4
+		Tick: 120
+		ZOffset: 1023
 
 # Porte-Drone : généré par tools/sprites.py.
 portedrone:

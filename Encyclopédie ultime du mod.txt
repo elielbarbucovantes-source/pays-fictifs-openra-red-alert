@@ -25,7 +25,7 @@ SOMMAIRE
   4. VÉHICULES (22)
   5. AVIATION (20)
   6. MARINE (12)
-  7. POUVOIRS DE SOUTIEN (12)
+  7. POUVOIRS DE SOUTIEN (13)
 
 ============================================================================================
                                         0. LES PAYS                                         
@@ -244,12 +244,13 @@ SOMMAIRE
   Lore :
     Chantier naval de haute technologie, 3 au maximum.
     Seul capable de construire le sous-marin ICBM et le Mothership.
-    Il abrite aussi le centre d'écoute du Radar blink.
+    Il abrite aussi le centre d'écoute du Radar blink et les générateurs de houle de l'Engineered Tsunami.
   Statistiques :
     Coût 2 000 $ · PV 100 000 · Blindage léger de bâtiment (bois) · Vision 5 cases
     Énergie -30 · Détecte les furtifs (10 cases) · Limite 3 exemplaires
     Prérequis : Centre technique allié · Niveau technologique : élevé
     Pouvoir de soutien : Radar blink (recharge 5 min)
+    Pouvoir de soutien : Engineered Tsunami (recharge 5 min)
   Stratégie :
     Construisez-en au moins un dès que le centre technique est prêt, dans une baie bien
     défendue.
@@ -1510,6 +1511,22 @@ SOMMAIRE
 
   ▶ PAYS : AUSTRALOUIS
 
+--------------------------------------------------------------------------------------------
+■ ENGINEERED TSUNAMI
+  Lore :
+    Les ingénieurs australouisiens savent lever la mer contre une côte choisie.
+    Une vague géante naît au large et balaie une bande de 10 cases de large sur 8 cases dans les terres, dans le sens choisi.
+    Tous les joueurs sont prévenus 10 secondes avant l'impact, sans savoir quelle côte est visée.
+    Pleine puissance sur les 2 premières cases, puis la vague s'affaiblit : l'infanterie du rivage est balayée,
+    les véhicules et les bâtiments lourds sont très abîmés mais ne sont pas détruits d'office.
+    Arrache les arbres, renverse les murs et emporte le minerai. Aviation en vol et navires presque épargnés ;
+    les îles du Mothership résistent. Frappe aussi vos propres troupes. Porté par le chantier naval avancé.
+  Statistiques :
+    Porté par : Chantier naval avancé, recharge 5 min
+  Stratégie :
+    Visez les raffineries, centrales et chantiers navals construits au bord de l'eau, puis
+    débarquez juste après la vague. Contre lui : ne concentrez pas toute votre base sur le
+    rivage et éloignez vos troupes de la côte dès l'alerte.
 --------------------------------------------------------------------------------------------
 ■ RADAR BLINK
   Lore :

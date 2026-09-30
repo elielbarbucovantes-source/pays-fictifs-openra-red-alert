@@ -46,7 +46,7 @@ En plongée, il reste invisible sauf pour les sonars.""",
 "Approchez-vous des côtes ennemies en plongée et pilonnez la base de loin. Fuyez les destroyers et le L-0U15 adverse."),
 "CHANTIER.AVANCE": ("Chantier naval avancé", """Chantier naval de haute technologie, 3 au maximum.
 Seul capable de construire le sous-marin ICBM et le Mothership.
-Il abrite aussi le centre d'écoute du Radar blink.""",
+Il abrite aussi le centre d'écoute du Radar blink et les générateurs de houle de l'Engineered Tsunami.""",
 "Construisez-en au moins un dès que le centre technique est prêt, dans une baie bien défendue."),
 "CENTRALE.ENRICHISSEMENT": ("Centrale d'enrichissement", """Usine qui enrichit le minerai avant sa vente.
 Tant qu'elle est debout, chaque chargement rapporte 5 % de plus.
