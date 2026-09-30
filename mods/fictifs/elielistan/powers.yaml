@@ -109,7 +109,7 @@ PALACIO:
 		Icon: gate
 		ChargeInterval: 7500
 		Name: Aguila Gate
-		Description: Ouvre un tunnel entre deux zones explorées (6 cases d'écart au moins).\n1er clic : entrée, 2e clic : sortie. Vos unités terrestres qui s'approchent\nd'une bouche ressortent par l'autre, dans les deux sens.\n12 passages au plus, 60 secondes. Détruire une bouche effondre le tunnel.
+		Description: Ouvre un tunnel entre deux zones explorées (6 cases d'écart au moins).\n1er clic : entrée, 2e clic : sortie. Vos unités terrestres qui s'approchent\nd'une bouche ressortent par l'autre et s'en écartent, dans les deux sens.\n12 passages au plus, 60 secondes. Détruire une bouche effondre le tunnel.
 		EntranceActor: aguila.gate
 		ExitActor: aguila.gate
 		MinDistance: 6

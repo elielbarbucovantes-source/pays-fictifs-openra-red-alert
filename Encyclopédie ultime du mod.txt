@@ -1416,7 +1416,7 @@ SOMMAIRE
 ■ AGUILA GATE
   Lore :
     Tunnel temporaire entre deux zones explorées de la carte.
-    Vos unités terrestres entrent par une bouche et ressortent par l'autre, dans les deux sens.
+    Vos unités terrestres entrent par une bouche et ressortent par l'autre, dans les deux sens ; en sortant, elles s'écartent d'elles-mêmes de la bouche pour ne pas repartir aussitôt.
     Douze passages, 60 secondes : l'aller, puis la retraite.
   Statistiques :
     Porté par : Palacio Presidencial, recharge 5 min

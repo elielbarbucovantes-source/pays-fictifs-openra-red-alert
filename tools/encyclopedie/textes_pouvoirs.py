@@ -13,7 +13,7 @@ Il dure 90 secondes et peut être détruit.
 Attention : tout le monde peut l'emprunter, ennemis compris.""",
 "Franchissez une rivière ou un bras de mer là où l'ennemi ne vous attend pas, puis laissez le pont expirer derrière vous."),
 "Aguila Gate": ("Aguila Gate", """Tunnel temporaire entre deux zones explorées de la carte.
-Vos unités terrestres entrent par une bouche et ressortent par l'autre, dans les deux sens.
+Vos unités terrestres entrent par une bouche et ressortent par l'autre, dans les deux sens ; en sortant, elles s'écartent d'elles-mêmes de la bouche pour ne pas repartir aussitôt.
 Douze passages, 60 secondes : l'aller, puis la retraite.""",
 "Ouvrez-le avec un Aguila Carrier chargé de chars : cinq chars passent en un seul passage."),
 "Frappe Aguila": ("Frappe Aguila", """Trois avions d'attaque Rayo traversent la zone à très grande vitesse.

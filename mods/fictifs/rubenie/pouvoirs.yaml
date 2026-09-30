@@ -86,7 +86,7 @@ QG.RUB:
 		Icon: taupe
 		ChargeInterval: 9000
 		Name: Opération Taupe
-		Description: Creuse un tunnel entre deux zones explorées de terre ferme\n(6 cases d'écart au moins). 1er clic : entrée, 2e clic : sortie.\nVos unités terrestres qui s'approchent d'une bouche ressortent\npar l'autre, dans les deux sens. Réservé aux unités rubéniennes.\n20 passages au plus, 90 secondes. Détruire une bouche effondre le tunnel.
+		Description: Creuse un tunnel entre deux zones explorées de terre ferme\n(6 cases d'écart au moins). 1er clic : entrée, 2e clic : sortie.\nVos unités terrestres qui s'approchent d'une bouche ressortent\npar l'autre et s'en écartent, dans les deux sens. Réservé aux unités rubéniennes.\n20 passages au plus, 90 secondes. Détruire une bouche effondre le tunnel.
 		EntranceActor: taupe.gate
 		ExitActor: taupe.gate
 		MinDistance: 6

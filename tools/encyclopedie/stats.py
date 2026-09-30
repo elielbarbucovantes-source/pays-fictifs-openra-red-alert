@@ -214,7 +214,7 @@ POWER_TRAITS = ("NukePower", "GrantExternalConditionPower", "ChronoshiftPower", 
                 "ParatroopersPower", "SpawnActorPower", "IonCannonPower", "ProduceActorPower", "AttackOrderPower",
                 # Pouvoirs propres aux pays fictifs (OpenRA.Mods.Fictifs)
                 "PriorityOrderPower", "AguilaBridgePower", "AguilaGatePower", "AirPatrolPower",
-                "GrantConditionToOwnedActorsPower", "SubmarineVisionPower", "TsunamiPower")
+                "GrantConditionToOwnedActorsPower", "SubmarineVisionPower", "TsunamiPower", "HostileChronoshiftPower")
 
 
 def support_powers(n):

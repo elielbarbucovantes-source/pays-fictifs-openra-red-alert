@@ -134,6 +134,56 @@ BARR:
 PDOX:
 	Buildable:
 		Prerequisites: atek, ~structures.allies, ~techlevel.unrestricted, ~!structures.elielistan
+	# Chronoshift capable d'envoyer les unités ennemies en terrain interdit, où elles sont détruites.
+	# Les pouvoirs d'origine restent (des cartes RA les modifient par leur nom) mais sont désactivés.
+	ChronoshiftPower@chronoshift:
+		Prerequisites: ~disabled
+	ChronoshiftPower@advancedchronoshift:
+		Prerequisites: ~disabled
+	HostileChronoshiftPower@chronoshift:
+		OrderName: HostileChronoshift
+		PauseOnCondition: disabled
+		Prerequisites: !pdox.germany
+		Icon: chrono
+		ChargeInterval: 3000
+		Name: Chronoshift
+		Description: Teleports a group of units across\nthe map for 20 seconds.\nLes véhicules ennemis envoyés dans l'eau (ou les\nnavires ennemis envoyés à terre) sont détruits.
+		SelectTargetSpeechNotification: SelectTarget
+		InsufficientPowerSpeechNotification: InsufficientPower
+		BeginChargeSpeechNotification: ChronosphereCharging
+		EndChargeSpeechNotification: ChronosphereReady
+		SelectTargetTextNotification: Select target.
+		InsufficientPowerTextNotification: Insufficient power.
+		BeginChargeTextNotification: Chronosphere charging.
+		EndChargeTextNotification: Chronosphere ready.
+		Duration: 400
+		KillCargo: true
+		DisplayRadarPing: True
+		SupportPowerPaletteOrder: 20
+		Dimensions: 3, 3
+		Footprint: _x_ xxx _x_
+	HostileChronoshiftPower@advancedchronoshift:
+		OrderName: HostileAdvancedChronoshift
+		PauseOnCondition: disabled
+		Prerequisites: pdox.germany
+		Icon: chrono
+		ChargeInterval: 3000
+		Name: Advanced Chronoshift
+		Description: Teleports a large group of units across\nthe map for 20 seconds.\nLes véhicules ennemis envoyés dans l'eau (ou les\nnavires ennemis envoyés à terre) sont détruits.
+		SelectTargetSpeechNotification: SelectTarget
+		InsufficientPowerSpeechNotification: InsufficientPower
+		BeginChargeSpeechNotification: ChronosphereCharging
+		EndChargeSpeechNotification: ChronosphereReady
+		SelectTargetTextNotification: Select target.
+		InsufficientPowerTextNotification: Insufficient power.
+		BeginChargeTextNotification: Chronosphere charging.
+		EndChargeTextNotification: Chronosphere ready.
+		Duration: 400
+		KillCargo: true
+		DisplayRadarPing: True
+		SupportPowerPaletteOrder: 30
+		Dimensions: 5, 5
+		Footprint: __x__ _xxx_ xxxxx _xxx_ __x__
 
 # Fusiliers et lance-roquettes génériques remplacés par l'Aguila et le Cazador
 # (Elielistan) et par l'infanterie rubénienne.
