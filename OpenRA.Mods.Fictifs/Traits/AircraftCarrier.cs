@@ -21,7 +21,8 @@ namespace OpenRA.Mods.Fictifs.Traits
 {
 	[Desc("Carries aircraft on board. Aircraft with the " + nameof(CarrierAircraft) + " trait land on the carrier",
 		"(the carrier needs the Reservable trait and must be listed in the aircraft's Rearmable.RearmActors)",
-		"and are stowed, rearmed and repaired. The deploy order launches every ready aircraft.")]
+		"and are stowed, rearmed and repaired. Units in the carrier's Cargo hold, if any, are repaired too.",
+		"The deploy order launches every ready aircraft (and unloads the Cargo hold when possible).")]
 	public class AircraftCarrierInfo : TraitInfo
 	{
 		[ActorReference]
@@ -38,6 +39,10 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		[Desc("Ticks needed on board to fully rearm and repair an aircraft.")]
 		public readonly int RearmDelay = 250;
+
+		[Desc("Units carried in the Cargo hold are repaired every this many ticks",
+			"(a fully damaged passenger is back to full health after RearmDelay ticks).")]
+		public readonly int PassengerRepairInterval = 25;
 
 		[Desc("Ticks between two consecutive launches.")]
 		public readonly int LaunchInterval = 15;
@@ -156,6 +161,9 @@ namespace OpenRA.Mods.Fictifs.Traits
 			if (Info.BotLaunchInterval > 0 && self.Owner.IsBot && ticks % Info.BotLaunchInterval == 0)
 				LaunchAll();
 
+			if (Info.PassengerRepairInterval > 0 && ticks % Info.PassengerRepairInterval == 0)
+				RepairPassengers();
+
 			if (launchCooldown > 0)
 				launchCooldown--;
 			else if (launchesPending > 0)
@@ -199,6 +207,26 @@ namespace OpenRA.Mods.Fictifs.Traits
 				}
 
 				Stow(a, aircraft);
+			}
+		}
+
+		/// <summary>
+		/// Les unités en soute (troupes, véhicules...) sont réparées à bord, au même
+		/// rythme que les avions : remises à neuf en RearmDelay ticks.
+		/// </summary>
+		void RepairPassengers()
+		{
+			if (CarriedTroops == null || CarriedTroops.IsEmpty())
+				return;
+
+			foreach (var passenger in CarriedTroops.Passengers)
+			{
+				var health = passenger.TraitOrDefault<IHealth>();
+				if (health == null || health.IsDead || health.HP >= health.MaxHP)
+					continue;
+
+				var step = System.Math.Max(1, (int)((long)health.MaxHP * Info.PassengerRepairInterval / System.Math.Max(1, Info.RearmDelay)));
+				health.InflictDamage(passenger, self, new Damage(-System.Math.Min(step, health.MaxHP - health.HP)), true);
 			}
 		}
 
