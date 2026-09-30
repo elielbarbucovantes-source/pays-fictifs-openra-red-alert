@@ -173,11 +173,15 @@ RubCotiere:
 	Range: 14c0
 	MinRange: 3c0
 	ReloadDelay: 120
-	ValidTargets: Water, WaterActor
+	# Engage navires et unités terrestres (pas les avions : obus balistique).
+	ValidTargets: Ground, Water, GroundActor, WaterActor
+	Projectile: Bullet
+		# Tir de précision : dispersion 4 fois plus faible que le 155 mm de base (1c138).
+		Inaccuracy: 0c256
 	Warhead@1Dam: SpreadDamage
 		Spread: 256
 		Damage: 14000
-		ValidTargets: WaterActor
+		ValidTargets: GroundActor, WaterActor
 
 # ---------------------------------------------------------------------
 # Aviation

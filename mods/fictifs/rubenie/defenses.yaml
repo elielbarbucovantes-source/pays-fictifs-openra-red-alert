@@ -152,7 +152,7 @@ COTIERE:
 	Buildable:
 		BuildPaletteOrder: 50
 		Prerequisites: chantier.rub, ~structures.rubenie, ~techlevel.medium
-		Description: Canon lourd de défense côtière (14 cases).\nN'engage que les navires.\n  Fort contre : navires, groupes navals\n  Faible contre : tout le reste
+		Description: Canon lourd de défense côtière (14 cases), tir de précision.\nEngage navires et unités terrestres (pas les avions).\n  Fort contre : navires, blindés, groupes\n  Faible contre : aviation, unités au contact (portée min. 3 cases)
 	Valued:
 		Cost: 1200
 	Tooltip:
