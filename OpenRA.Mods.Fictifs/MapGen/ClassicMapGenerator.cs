@@ -49,7 +49,7 @@ namespace OpenRA.Mods.MapGen
 		[FieldLoader.LoadUsing(nameof(SettingsLoader))]
 		public readonly MiniYaml Settings;
 
-		[Desc("Folder holding the real-world region images (tools/monde.py), e.g. fictifs|mapgen/monde/.")]
+		[Desc("Folder holding the real-world region images (tools/monde.py), e.g. <mod>|mapgen/monde/.")]
 		public readonly string WorldRegionFolder = null;
 
 		// Altitudes réelles (m) des paliers de falaises, du plus bas au plus haut.
@@ -205,7 +205,7 @@ namespace OpenRA.Mods.MapGen
 			[FieldLoader.Require]
 			public readonly int CivilianBuildingDensityRadius = default;
 
-			// Pays fictifs : région du monde réel (vide = relief aléatoire)
+			// Région du monde réel (vide = relief aléatoire)
 			// et nombre exact de derricks (0 = selon « Bâtiments tech. »).
 			public readonly string WorldRegion = null;
 			public readonly int OilDerricks = 0;

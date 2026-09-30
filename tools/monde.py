@@ -1,6 +1,6 @@
 """Prépare les régions du monde réel pour le générateur de cartes.
 
-Pour chaque région, écrit mods/fictifs/mapgen/monde/<id>.png : une image
+Pour chaque région, écrit mods/<mod>/mapgen/monde/<id>.png : une image
 indexée 8 bits où
   0        = eau (mer, grands lacs)
   1 à 254  = terre, altitude = (valeur - 1) * 25 m  (254 = 6 325 m et plus)
@@ -26,7 +26,10 @@ from PIL import Image, ImageDraw
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 CACHE = os.path.join(ROOT, "tools", "monde-cache")
-OUT = os.path.join(ROOT, "mods", "fictifs", "mapgen", "monde")
+# Dossier du mod (mods/<id>/, celui qui a un générateur de cartes).
+MOD = next(m for m in sorted(os.listdir(os.path.join(ROOT, "mods")))
+           if os.path.isdir(os.path.join(ROOT, "mods", m, "mapgen")))
+OUT = os.path.join(ROOT, "mods", MOD, "mapgen", "monde")
 NE = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/"
 TILES = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"
 

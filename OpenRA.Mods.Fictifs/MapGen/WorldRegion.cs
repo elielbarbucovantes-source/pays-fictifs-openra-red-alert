@@ -18,7 +18,7 @@ using OpenRA.Primitives;
 namespace OpenRA.Mods.MapGen
 {
 	/// <summary>
-	/// Régions du monde réel pour le générateur (mod Pays fictifs).
+	/// Régions du monde réel pour le générateur de cartes.
 	/// Les images viennent de tools/monde.py : PNG indexé, 0 = eau,
 	/// 1 à 254 = terre d'altitude (valeur - 1) * 25 m. Ponts éventuels dans
 	/// &lt;région&gt;.ponts : une ligne « x0 y0 x1 y1 » (pixels de l'image) par pont.
