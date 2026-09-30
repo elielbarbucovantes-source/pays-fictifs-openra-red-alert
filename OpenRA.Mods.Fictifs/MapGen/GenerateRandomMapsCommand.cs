@@ -19,7 +19,7 @@ namespace OpenRA.Mods.MapGen
 {
 	/// <summary>
 	/// Outil de test : génère des cartes aléatoires sans lancer le jeu.
-	/// ./utility.sh --generate-random-maps NOMBRE [DOSSIER]
+	/// ./utility.sh --generate-random-maps NOMBRE [DOSSIER] [Option=Choix ...]
 	/// </summary>
 	sealed class GenerateRandomMapsCommand : IUtilityCommand
 	{
@@ -30,13 +30,17 @@ namespace OpenRA.Mods.MapGen
 			return args.Length >= 2 && int.TryParse(args[1], out _);
 		}
 
-		[Desc("NOMBRE [DOSSIER]", "Génère NOMBRE cartes aléatoires avec des réglages au hasard et les enregistre éventuellement dans DOSSIER.")]
+		[Desc("NOMBRE [DOSSIER] [Option=Choix ...]", "Génère NOMBRE cartes aléatoires avec des réglages au hasard et les enregistre éventuellement dans DOSSIER.",
+			"Option=Choix impose un choix (ex. WorldRegion=france OilDerricks=N40).")]
 		void IUtilityCommand.Run(Utility utility, string[] args)
 		{
 			var modData = Game.ModData = utility.ModData;
 			TranslationProvider.Initialize(modData, modData.DefaultFileSystem);
 			var count = int.Parse(args[1]);
-			var outDir = args.Length > 2 ? args[2] : null;
+			var outDir = args.Skip(2).FirstOrDefault(a => !a.Contains('='));
+			var forced = args.Skip(2).Where(a => a.Contains('='))
+				.Select(a => a.Split('=', 2))
+				.ToDictionary(kv => kv[0], kv => kv[1]);
 			if (outDir != null)
 				Directory.CreateDirectory(outDir);
 
@@ -54,14 +58,21 @@ namespace OpenRA.Mods.MapGen
 				var range = sizes[random.Next(sizes.Length)];
 				var width = random.Next(range.X, range.Y);
 				var size = new Size(width + 2, width + mapGrid.MaximumTerrainHeight * 2 + 2);
+				if (forced.TryGetValue("Size", out var forcedSize))
+				{
+					var wh = forcedSize.Split('x');
+					size = new Size(int.Parse(wh[0]), int.Parse(wh[1]));
+				}
 
 				// Réglages au hasard parmi les choix valides (joueurs d'abord : ils filtrent les symétries).
 				foreach (var o in settings.Options.OfType<MapGeneratorMultiIntegerChoiceOption>())
-					o.Value = o.Choices[random.Next(o.Choices.Length)];
+					o.Value = forced.TryGetValue(o.Id, out var n) ? int.Parse(n) : o.Choices[random.Next(o.Choices.Length)];
 				foreach (var o in settings.Options.OfType<MapGeneratorMultiChoiceOption>())
 				{
 					var valid = o.ValidChoices(modData.DefaultTerrainInfo[tileset], settings.PlayerCount);
-					if (valid.Count > 0)
+					if (forced.TryGetValue(o.Id, out var choice))
+						o.Value = choice;
+					else if (valid.Count > 0)
 						o.Value = valid[random.Next(valid.Count)];
 				}
 
@@ -69,6 +80,8 @@ namespace OpenRA.Mods.MapGen
 					o.Value = random.Next(2) == 0;
 
 				var args2 = settings.Compile(modData.DefaultTerrainInfo[tileset], size);
+				WorldRegion.AdjustSize(modData, (generator as ClassicMapGeneratorInfo)?.WorldRegionFolder, args2);
+				size = args2.Size;
 				var summary = string.Join(" ", settings.Options.Select(o => o switch
 				{
 					MapGeneratorMultiChoiceOption mo => $"{o.Id}={mo.Value}",

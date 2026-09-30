@@ -7,6 +7,7 @@ EditorWorld:
 		Name: Générateur de cartes
 		Tilesets: TEMPERAT, SNOW, DESERT
 		MapTitle: Carte aléatoire
+		WorldRegionFolder: fictifs|mapgen/monde/
 		MultiBrushFiles:
 			TEMPERAT: fictifs|mapgen/brushes-temperat.yaml
 			SNOW: fictifs|mapgen/brushes-snow.yaml
@@ -101,6 +102,531 @@ EditorWorld:
 					Settings:
 						LandTile: 255
 						WaterTile: 1
+			MultiChoiceOption@WorldRegion:
+				Label: Région du monde
+				Default: Random
+				Priority: 0
+				Choice@Random:
+					Label: Aléatoire
+					Settings:
+				Choice@monde:
+					Label: Monde entier
+					Settings:
+						WorldRegion: monde
+				Choice@monde-realiste:
+					Label: Monde immense (réaliste)
+					Settings:
+						WorldRegion: monde-realiste
+						WorldRegionMapWidth: 512
+				Choice@monde-separe:
+					Label: Monde immense (continents séparés)
+					Settings:
+						WorldRegion: monde-separe
+						WorldRegionMapWidth: 512
+				Choice@monde-ponts:
+					Label: Monde immense (continents reliés par des ponts)
+					Settings:
+						WorldRegion: monde-ponts
+						WorldRegionMapWidth: 512
+				Choice@europe:
+					Label: Europe
+					Settings:
+						WorldRegion: europe
+				Choice@mediterranee:
+					Label: Méditerranée
+					Settings:
+						WorldRegion: mediterranee
+				Choice@france:
+					Label: France
+					Settings:
+						WorldRegion: france
+				Choice@royaume-uni:
+					Label: Îles Britanniques
+					Settings:
+						WorldRegion: royaume-uni
+				Choice@iberie:
+					Label: Espagne et Portugal
+					Settings:
+						WorldRegion: iberie
+				Choice@italie:
+					Label: Italie
+					Settings:
+						WorldRegion: italie
+				Choice@balkans:
+					Label: Balkans
+					Settings:
+						WorldRegion: balkans
+				Choice@scandinavie:
+					Label: Scandinavie
+					Settings:
+						WorldRegion: scandinavie
+				Choice@mer-noire:
+					Label: Mer Noire et Ukraine
+					Settings:
+						WorldRegion: mer-noire
+				Choice@moyen-orient:
+					Label: Moyen-Orient
+					Settings:
+						WorldRegion: moyen-orient
+				Choice@golfe:
+					Label: Golfe Persique
+					Settings:
+						WorldRegion: golfe
+				Choice@afrique-nord:
+					Label: Afrique du Nord
+					Settings:
+						WorldRegion: afrique-nord
+				Choice@afrique:
+					Label: Afrique
+					Settings:
+						WorldRegion: afrique
+				Choice@amerique-nord:
+					Label: Amérique du Nord
+					Settings:
+						WorldRegion: amerique-nord
+				Choice@caraibes:
+					Label: Caraïbes
+					Settings:
+						WorldRegion: caraibes
+				Choice@amerique-sud:
+					Label: Amérique du Sud
+					Settings:
+						WorldRegion: amerique-sud
+				Choice@inde:
+					Label: Inde
+					Settings:
+						WorldRegion: inde
+				Choice@asie-est:
+					Label: Chine, Corée et Japon
+					Settings:
+						WorldRegion: asie-est
+				Choice@japon:
+					Label: Japon
+					Settings:
+						WorldRegion: japon
+				Choice@asie-sud-est:
+					Label: Asie du Sud-Est
+					Settings:
+						WorldRegion: asie-sud-est
+				Choice@australie:
+					Label: Australie
+					Settings:
+						WorldRegion: australie
+				Choice@nouvelle-zelande:
+					Label: Nouvelle-Zélande
+					Settings:
+						WorldRegion: nouvelle-zelande
+				Choice@islande:
+					Label: Islande
+					Settings:
+						WorldRegion: islande
+			MultiChoiceOption@OilDerricks:
+				Label: Oil derricks
+				Default: Auto
+				Priority: 3
+				Choice@Auto:
+					Label: Auto (bâtiments tech.)
+					Settings:
+				Choice@N1:
+					Label: 1
+					Settings:
+						OilDerricks: 1
+				Choice@N2:
+					Label: 2
+					Settings:
+						OilDerricks: 2
+				Choice@N3:
+					Label: 3
+					Settings:
+						OilDerricks: 3
+				Choice@N4:
+					Label: 4
+					Settings:
+						OilDerricks: 4
+				Choice@N5:
+					Label: 5
+					Settings:
+						OilDerricks: 5
+				Choice@N6:
+					Label: 6
+					Settings:
+						OilDerricks: 6
+				Choice@N7:
+					Label: 7
+					Settings:
+						OilDerricks: 7
+				Choice@N8:
+					Label: 8
+					Settings:
+						OilDerricks: 8
+				Choice@N9:
+					Label: 9
+					Settings:
+						OilDerricks: 9
+				Choice@N10:
+					Label: 10
+					Settings:
+						OilDerricks: 10
+				Choice@N11:
+					Label: 11
+					Settings:
+						OilDerricks: 11
+				Choice@N12:
+					Label: 12
+					Settings:
+						OilDerricks: 12
+				Choice@N13:
+					Label: 13
+					Settings:
+						OilDerricks: 13
+				Choice@N14:
+					Label: 14
+					Settings:
+						OilDerricks: 14
+				Choice@N15:
+					Label: 15
+					Settings:
+						OilDerricks: 15
+				Choice@N16:
+					Label: 16
+					Settings:
+						OilDerricks: 16
+				Choice@N17:
+					Label: 17
+					Settings:
+						OilDerricks: 17
+				Choice@N18:
+					Label: 18
+					Settings:
+						OilDerricks: 18
+				Choice@N19:
+					Label: 19
+					Settings:
+						OilDerricks: 19
+				Choice@N20:
+					Label: 20
+					Settings:
+						OilDerricks: 20
+				Choice@N21:
+					Label: 21
+					Settings:
+						OilDerricks: 21
+				Choice@N22:
+					Label: 22
+					Settings:
+						OilDerricks: 22
+				Choice@N23:
+					Label: 23
+					Settings:
+						OilDerricks: 23
+				Choice@N24:
+					Label: 24
+					Settings:
+						OilDerricks: 24
+				Choice@N25:
+					Label: 25
+					Settings:
+						OilDerricks: 25
+				Choice@N26:
+					Label: 26
+					Settings:
+						OilDerricks: 26
+				Choice@N27:
+					Label: 27
+					Settings:
+						OilDerricks: 27
+				Choice@N28:
+					Label: 28
+					Settings:
+						OilDerricks: 28
+				Choice@N29:
+					Label: 29
+					Settings:
+						OilDerricks: 29
+				Choice@N30:
+					Label: 30
+					Settings:
+						OilDerricks: 30
+				Choice@N31:
+					Label: 31
+					Settings:
+						OilDerricks: 31
+				Choice@N32:
+					Label: 32
+					Settings:
+						OilDerricks: 32
+				Choice@N33:
+					Label: 33
+					Settings:
+						OilDerricks: 33
+				Choice@N34:
+					Label: 34
+					Settings:
+						OilDerricks: 34
+				Choice@N35:
+					Label: 35
+					Settings:
+						OilDerricks: 35
+				Choice@N36:
+					Label: 36
+					Settings:
+						OilDerricks: 36
+				Choice@N37:
+					Label: 37
+					Settings:
+						OilDerricks: 37
+				Choice@N38:
+					Label: 38
+					Settings:
+						OilDerricks: 38
+				Choice@N39:
+					Label: 39
+					Settings:
+						OilDerricks: 39
+				Choice@N40:
+					Label: 40
+					Settings:
+						OilDerricks: 40
+				Choice@N41:
+					Label: 41
+					Settings:
+						OilDerricks: 41
+				Choice@N42:
+					Label: 42
+					Settings:
+						OilDerricks: 42
+				Choice@N43:
+					Label: 43
+					Settings:
+						OilDerricks: 43
+				Choice@N44:
+					Label: 44
+					Settings:
+						OilDerricks: 44
+				Choice@N45:
+					Label: 45
+					Settings:
+						OilDerricks: 45
+				Choice@N46:
+					Label: 46
+					Settings:
+						OilDerricks: 46
+				Choice@N47:
+					Label: 47
+					Settings:
+						OilDerricks: 47
+				Choice@N48:
+					Label: 48
+					Settings:
+						OilDerricks: 48
+				Choice@N49:
+					Label: 49
+					Settings:
+						OilDerricks: 49
+				Choice@N50:
+					Label: 50
+					Settings:
+						OilDerricks: 50
+				Choice@N51:
+					Label: 51
+					Settings:
+						OilDerricks: 51
+				Choice@N52:
+					Label: 52
+					Settings:
+						OilDerricks: 52
+				Choice@N53:
+					Label: 53
+					Settings:
+						OilDerricks: 53
+				Choice@N54:
+					Label: 54
+					Settings:
+						OilDerricks: 54
+				Choice@N55:
+					Label: 55
+					Settings:
+						OilDerricks: 55
+				Choice@N56:
+					Label: 56
+					Settings:
+						OilDerricks: 56
+				Choice@N57:
+					Label: 57
+					Settings:
+						OilDerricks: 57
+				Choice@N58:
+					Label: 58
+					Settings:
+						OilDerricks: 58
+				Choice@N59:
+					Label: 59
+					Settings:
+						OilDerricks: 59
+				Choice@N60:
+					Label: 60
+					Settings:
+						OilDerricks: 60
+				Choice@N61:
+					Label: 61
+					Settings:
+						OilDerricks: 61
+				Choice@N62:
+					Label: 62
+					Settings:
+						OilDerricks: 62
+				Choice@N63:
+					Label: 63
+					Settings:
+						OilDerricks: 63
+				Choice@N64:
+					Label: 64
+					Settings:
+						OilDerricks: 64
+				Choice@N65:
+					Label: 65
+					Settings:
+						OilDerricks: 65
+				Choice@N66:
+					Label: 66
+					Settings:
+						OilDerricks: 66
+				Choice@N67:
+					Label: 67
+					Settings:
+						OilDerricks: 67
+				Choice@N68:
+					Label: 68
+					Settings:
+						OilDerricks: 68
+				Choice@N69:
+					Label: 69
+					Settings:
+						OilDerricks: 69
+				Choice@N70:
+					Label: 70
+					Settings:
+						OilDerricks: 70
+				Choice@N71:
+					Label: 71
+					Settings:
+						OilDerricks: 71
+				Choice@N72:
+					Label: 72
+					Settings:
+						OilDerricks: 72
+				Choice@N73:
+					Label: 73
+					Settings:
+						OilDerricks: 73
+				Choice@N74:
+					Label: 74
+					Settings:
+						OilDerricks: 74
+				Choice@N75:
+					Label: 75
+					Settings:
+						OilDerricks: 75
+				Choice@N76:
+					Label: 76
+					Settings:
+						OilDerricks: 76
+				Choice@N77:
+					Label: 77
+					Settings:
+						OilDerricks: 77
+				Choice@N78:
+					Label: 78
+					Settings:
+						OilDerricks: 78
+				Choice@N79:
+					Label: 79
+					Settings:
+						OilDerricks: 79
+				Choice@N80:
+					Label: 80
+					Settings:
+						OilDerricks: 80
+				Choice@N81:
+					Label: 81
+					Settings:
+						OilDerricks: 81
+				Choice@N82:
+					Label: 82
+					Settings:
+						OilDerricks: 82
+				Choice@N83:
+					Label: 83
+					Settings:
+						OilDerricks: 83
+				Choice@N84:
+					Label: 84
+					Settings:
+						OilDerricks: 84
+				Choice@N85:
+					Label: 85
+					Settings:
+						OilDerricks: 85
+				Choice@N86:
+					Label: 86
+					Settings:
+						OilDerricks: 86
+				Choice@N87:
+					Label: 87
+					Settings:
+						OilDerricks: 87
+				Choice@N88:
+					Label: 88
+					Settings:
+						OilDerricks: 88
+				Choice@N89:
+					Label: 89
+					Settings:
+						OilDerricks: 89
+				Choice@N90:
+					Label: 90
+					Settings:
+						OilDerricks: 90
+				Choice@N91:
+					Label: 91
+					Settings:
+						OilDerricks: 91
+				Choice@N92:
+					Label: 92
+					Settings:
+						OilDerricks: 92
+				Choice@N93:
+					Label: 93
+					Settings:
+						OilDerricks: 93
+				Choice@N94:
+					Label: 94
+					Settings:
+						OilDerricks: 94
+				Choice@N95:
+					Label: 95
+					Settings:
+						OilDerricks: 95
+				Choice@N96:
+					Label: 96
+					Settings:
+						OilDerricks: 96
+				Choice@N97:
+					Label: 97
+					Settings:
+						OilDerricks: 97
+				Choice@N98:
+					Label: 98
+					Settings:
+						OilDerricks: 98
+				Choice@N99:
+					Label: 99
+					Settings:
+						OilDerricks: 99
+				Choice@N100:
+					Label: 100
+					Settings:
+						OilDerricks: 100
 			IntegerOption@Seed:
 				Label: Graine
 				Parameter: Seed

@@ -334,3 +334,30 @@ YAK:
 # ^Helicopter hérite de ^Plane : les hélicoptères n'ont pas l'anti-drone.
 ^Helicopter:
 	-DestroysNearbyDrones:
+
+# ---------------------------------------------------------------------
+# Ponts permanents des cartes « Monde immense (continents reliés) » :
+# travées de l'Aguila Bridge qui ne disparaissent pas. Très solides,
+# mais on peut les détruire pour couper un continent.
+# ---------------------------------------------------------------------
+^PontPermanent:
+	Inherits: ^AguilaBridgeSegment
+	-KillsSelf:
+	Tooltip:
+		Name: Pont
+	Health:
+		HP: 150000
+	Targetable:
+		TargetTypes: GroundActor, Structure, NoAutoTarget
+	MapEditorData:
+		Categories: Bridge
+
+PONT.NS:
+	Inherits: ^PontPermanent
+	WithSpriteBody:
+		Sequence: ns
+
+PONT.EW:
+	Inherits: ^PontPermanent
+	WithSpriteBody:
+		Sequence: ew

@@ -49,6 +49,30 @@ namespace OpenRA.Mods.MapGen
 		[FieldLoader.LoadUsing(nameof(SettingsLoader))]
 		public readonly MiniYaml Settings;
 
+		[Desc("Folder holding the real-world region images (tools/monde.py), e.g. fictifs|mapgen/monde/.")]
+		public readonly string WorldRegionFolder = null;
+
+		// Altitudes réelles (m) des paliers de falaises, du plus bas au plus haut.
+		static readonly int[] RealCliffAltitudes = [400, 900, 1500, 2200, 3000, 3900, 4900, 5900];
+		const int RealMinimumLandSeaThickness = 3;
+
+		// Pont réel : cases où le tablier peut s'arrêter.
+		static readonly string[] BridgeLandingTerrain = ["Clear", "Road", "Rough", "Beach", "Ore", "Gems"];
+
+		// Distance (en cases) jusqu'à laquelle un bout de pont cherche la terre au-delà du tracé.
+		const int BridgeLandingSearch = 10;
+
+		// Décalage latéral maximal (en cases) d'un pont dont le tracé ne relie pas deux terres.
+		const int BridgeShiftSearch = 6;
+
+		// Région réelle : toute zone praticable d'au moins cette surface (en cases) est reliée
+		// à la plus grande, et chaque bout de pont doit déboucher sur une telle zone...
+		const int LandAreaMinimumSize = 400;
+
+		// ... quitte à dégager un chemin d'un coût au plus égal à celui-ci (case libre 1, encombrée 5).
+		const int LandAreaMaximumPathCost = 200;
+		const int LandAreaMaximumAttempts = 64;
+
 		string IMapGeneratorInfo.Type => Type;
 		string IMapGeneratorInfo.Name => Name;
 		string IMapGeneratorInfo.MapTitle => MapTitle;
@@ -181,6 +205,15 @@ namespace OpenRA.Mods.MapGen
 			[FieldLoader.Require]
 			public readonly int CivilianBuildingDensityRadius = default;
 
+			// Pays fictifs : région du monde réel (vide = relief aléatoire)
+			// et nombre exact de derricks (0 = selon « Bâtiments tech. »).
+			public readonly string WorldRegion = null;
+			public readonly int OilDerricks = 0;
+			public readonly string OilDerrickActor = "oilb";
+			public readonly int WorldRegionMapWidth = 0;
+			public readonly string BridgeActorNS = "pont.ns";
+			public readonly string BridgeActorEW = "pont.ew";
+
 			[FieldLoader.Require]
 			public readonly ushort LandTile = default;
 			[FieldLoader.Require]
@@ -225,6 +258,15 @@ namespace OpenRA.Mods.MapGen
 			public Parameters(Map map, MiniYaml my)
 			{
 				FieldLoader.Load(this, my);
+
+				// Une vraie région n'est pas symétrique et garde sa forme rectangulaire.
+				if (!string.IsNullOrEmpty(WorldRegion))
+				{
+					Rotations = 1;
+					Mirror = Symmetry.Mirror.None;
+					EnforceSymmetry = 0;
+					ExternalCircularBias = 0;
+				}
 
 				var terrainInfo = (ITemplatedTerrainInfo)map.Rules.TerrainInfo;
 				SegmentedBrushes = MultiBrush.LoadCollection(map, "Segmented");
@@ -429,6 +471,8 @@ namespace OpenRA.Mods.MapGen
 					throw new MapGenerationException($"CivilianBuildingDensity must be between 0 and {FractionMax} inclusive");
 				if (MinimumCivilianBuildingDensity < 0 || MinimumCivilianBuildingDensity > FractionMax)
 					throw new MapGenerationException($"MinimumCivilianBuildingDensity must be between 0 and {FractionMax} inclusive");
+				if (OilDerricks < 0 || OilDerricks > 100)
+					throw new MapGenerationException("OilDerricks must be between 0 and 100 inclusive");
 				if (CivilianBuildingDensityRadius < 0)
 					throw new MapGenerationException("CivilianBuildingDensityRadius must be >= 0");
 				if (ResourcesPerPlayer < 0)
@@ -467,6 +511,32 @@ namespace OpenRA.Mods.MapGen
 		}
 
 		public Map Generate(ModData modData, MapGenerationArgs args)
+		{
+			// Région réelle : on tente d'abord des côtes plus précises ; si les tuiles
+			// de rivage n'y arrivent pas, on reprend avec le lissage habituel.
+			if (!string.IsNullOrEmpty(args.Settings?.NodeWithKeyOrDefault("WorldRegion")?.Value.Value))
+			{
+				foreach (var thickness in new[] { RealMinimumLandSeaThickness, RealMinimumLandSeaThickness + 1, 0 })
+				{
+					try
+					{
+						return Generate(modData, args, thickness);
+					}
+					catch (MapGenerationException e) when (e.Message.Contains("coast"))
+					{
+						Log.Write("debug", $"Région réelle : côtes impossibles avec l'épaisseur {thickness}, nouvel essai.");
+					}
+				}
+			}
+
+			return Generate(modData, args, -1);
+		}
+
+		/// <param name="realThickness">
+		/// Région réelle : épaisseur minimale des terres et des mers (0 = celle des réglages).
+		/// -1 : lissage d'origine du générateur (dernier recours).
+		/// </param>
+		Map Generate(ModData modData, MapGenerationArgs args, int realThickness)
 		{
 			var terrainInfo = modData.DefaultTerrainInfo[args.Tileset];
 			var size = args.Size;
@@ -533,6 +603,19 @@ namespace OpenRA.Mods.MapGen
 			var decorationRandom = new MersenneTwister(random.Next());
 			var decorationTilingRandom = new MersenneTwister(random.Next());
 			var pickAnyRandom = new MersenneTwister(random.Next());
+			var oilRandom = new MersenneTwister(random.Next());
+
+			Matrix<int> realAltitude = null;
+			List<(int2 From, int2 To)> realBridges = null;
+			if (!string.IsNullOrEmpty(param.WorldRegion))
+			{
+				if (WorldRegionFolder == null)
+					throw new MapGenerationException("WorldRegionFolder is not set");
+
+				var regionSize = CellLayerUtils.CellBounds(map).Size.ToInt2();
+				realAltitude = WorldRegion.Load(modData, WorldRegionFolder, param.WorldRegion, regionSize);
+				realBridges = WorldRegion.LoadBridges(modData, WorldRegionFolder, param.WorldRegion, regionSize);
+			}
 
 			terraformer.InitMap();
 
@@ -553,7 +636,9 @@ namespace OpenRA.Mods.MapGen
 			else
 				mapShape = CellLayerUtils.ToMatrix(terraformer.CenteredCircle(true, false, externalCircleRadius), false);
 
-			var landPlan = terraformer.SliceElevation(elevation, mapShape, FractionMax - param.Water);
+			var landPlan = realAltitude != null
+				? realAltitude.Map(a => a >= 0)
+				: terraformer.SliceElevation(elevation, mapShape, FractionMax - param.Water);
 
 			if (param.ExternalCircularBias > 0)
 			{
@@ -572,12 +657,22 @@ namespace OpenRA.Mods.MapGen
 				terraformer.PaintTiling(pickAnyRandom, brush);
 			}
 
-			landPlan = MatrixUtils.BooleanBlotch(
-				landPlan,
-				param.TerrainSmoothing,
-				param.SmoothingThreshold, /*smoothingThresholdOutOf=*/FractionMax,
-				param.MinimumLandSeaThickness,
-				/*bias=*/param.Water <= FractionMax / 2);
+			// Région réelle : on retire les détails trop fins au lieu de les épaissir,
+			// pour garder la vraie forme des côtes, des détroits et des mers.
+			var landSeaThickness = param.MinimumLandSeaThickness;
+			if (realAltitude != null && realThickness >= 0)
+			{
+				if (realThickness > 0)
+					landSeaThickness = realThickness;
+				landPlan = RealBlotch(landPlan, landSeaThickness);
+			}
+			else
+				landPlan = MatrixUtils.BooleanBlotch(
+					landPlan,
+					param.TerrainSmoothing,
+					param.SmoothingThreshold, /*smoothingThresholdOutOf=*/FractionMax,
+					param.MinimumLandSeaThickness,
+					/*bias=*/param.Water <= FractionMax / 2);
 
 			var coast = MatrixUtils.BordersToPoints(landPlan);
 			List<TilingPath> coastPaths;
@@ -588,13 +683,13 @@ namespace OpenRA.Mods.MapGen
 					RequiredSomewhere = true,
 					SegmentType = param.BeachSegmentTypes[0],
 					MinimumLength = param.MinimumBeachLength,
-					MaximumDeviation = param.MinimumLandSeaThickness - 1,
+					MaximumDeviation = Math.Max(landSeaThickness - 1, RealMinimumLandSeaThickness),
 				};
 				var waterCliffZone = new Terraformer.PathPartitionZone()
 				{
 					SegmentType = param.WaterCliffSegmentTypes[0],
 					MinimumLength = param.MinimumCliffLength,
-					MaximumDeviation = param.MinimumLandSeaThickness - 1,
+					MaximumDeviation = Math.Max(landSeaThickness - 1, RealMinimumLandSeaThickness),
 				};
 
 				var waterCliffMask = MatrixUtils.CalibratedBooleanThreshold(
@@ -621,7 +716,7 @@ namespace OpenRA.Mods.MapGen
 								map,
 								param.SegmentedBrushes,
 								beach,
-								param.MinimumLandSeaThickness - 1,
+								landSeaThickness - 1,
 								param.BeachSegmentTypes[0],
 								param.BeachSegmentTypes[0])
 									.ExtendEdge(4))
@@ -645,11 +740,26 @@ namespace OpenRA.Mods.MapGen
 
 				for (var altitude = 0; altitude < param.MaximumAltitude; altitude++)
 				{
-					cliffPlan = terraformer.SliceElevation(
-						elevation,
-						cliffPlan,
-						param.Mountains,
-						param.MinimumTerrainContourSpacing);
+					if (realAltitude != null)
+					{
+						// Relief réel : chaque palier suit une vraie courbe de niveau.
+						if (altitude >= RealCliffAltitudes.Length)
+							break;
+
+						var room = MatrixUtils.ChebyshevRoom(cliffPlan, true);
+						var threshold = RealCliffAltitudes[altitude];
+						var minimumRoom = param.MinimumTerrainContourSpacing + 1;
+						var previous = cliffPlan;
+						cliffPlan = new Matrix<bool>(previous.Size);
+						for (var n = 0; n < cliffPlan.Data.Length; n++)
+							cliffPlan[n] = previous[n] && realAltitude[n] >= threshold && room[n] >= minimumRoom;
+					}
+					else
+						cliffPlan = terraformer.SliceElevation(
+							elevation,
+							cliffPlan,
+							param.Mountains,
+							param.MinimumTerrainContourSpacing);
 					cliffPlan = MatrixUtils.BooleanBlotch(
 						cliffPlan,
 						param.TerrainSmoothing,
@@ -728,7 +838,9 @@ namespace OpenRA.Mods.MapGen
 					// Coast tiles are particularly problematic. If they're for unplayable bodies
 					// of water, they should be obliterated. If they're just surrounded by rocks,
 					// trees, etc, they should be filled in with actors.
-					if (waterIsPlayable)
+					// Région réelle : les mers intérieures (Méditerranée, golfe du Mexique...)
+					// restent de l'eau même si leur détroit est trop fin pour les navires.
+					if (waterIsPlayable && realAltitude == null)
 					{
 						var mask = CellLayerUtils.Clone(playable);
 						terraformer.ZoneFromOutOfBounds(mask, true);
@@ -778,15 +890,32 @@ namespace OpenRA.Mods.MapGen
 					if (tilingPath.Points == null)
 						continue;
 
-					var brush = tilingPath.Tile(roadTilingRandom)
-						?? throw new MapGenerationException("Could not fit tiles for roads");
+					// Une route impossible à poser est abandonnée au lieu de faire échouer la carte.
+					var brush = tilingPath.Tile(roadTilingRandom);
+					if (brush == null)
+						continue;
+
 					terraformer.PaintTiling(pickAnyRandom, brush);
 				}
 			}
 
+			var bridgeLandings = realBridges != null && realBridges.Count > 0
+				? PlaceBridges(map, (ITemplatedTerrainInfo)terrainInfo, actorPlans, realBridges, param.BridgeActorNS, param.BridgeActorEW)
+				: [];
+
 			if (param.CreateEntities)
 			{
 				var zoneable = terraformer.GetZoneable(param.ZoneableTerrain, playable);
+
+				// Rien ne doit boucher l'accès aux ponts.
+				foreach (var landing in bridgeLandings)
+					for (var dy = -2; dy <= 2; dy++)
+						for (var dx = -2; dx <= 2; dx++)
+						{
+							var c = landing + new CVec(dx, dy);
+							if (zoneable.Contains(c))
+								zoneable[c] = false;
+						}
 
 				var zoneableArea = zoneable.Count(v => v);
 				var symmetryCount = Symmetry.RotateAndMirrorProjectionCount(param.Rotations, param.Mirror);
@@ -855,18 +984,36 @@ namespace OpenRA.Mods.MapGen
 
 				// Neutral buildings
 				{
-					var (buildingTypes, buildingWeights) = Terraformer.SplitDictionary(param.BuildingWeights);
+					// Nombre exact de derricks choisi : « Bâtiments tech. » n'en place plus.
+					var neutralWeights = param.OilDerricks > 0
+						? (IReadOnlyDictionary<string, int>)param.BuildingWeights.Where(kv => kv.Key != param.OilDerrickActor).ToDictionary(kv => kv.Key, kv => kv.Value)
+						: param.BuildingWeights;
+					var (buildingTypes, buildingWeights) = Terraformer.SplitDictionary(neutralWeights);
 					var targetBuildingCount =
 						(param.MaximumBuildings != 0)
 							? buildingRandom.Next(
 								(int)(param.MinimumBuildings * perSymmetryEntityMultiplier / EntityBonusMax),
 								(int)(param.MaximumBuildings * perSymmetryEntityMultiplier / EntityBonusMax) + 1)
 							: 0;
-					for (var i = 0; i < targetBuildingCount; i++)
-						terraformer.AddActor(
-							buildingRandom,
-							zoneable,
-							buildingTypes[buildingRandom.PickWeighted(buildingWeights)]);
+					if (buildingTypes.Length > 0)
+						for (var i = 0; i < targetBuildingCount; i++)
+							terraformer.AddActor(
+								buildingRandom,
+								zoneable,
+								buildingTypes[buildingRandom.PickWeighted(buildingWeights)]);
+				}
+
+				// Oil derricks : nombre choisi (arrondi au multiple de la symétrie),
+				// autant que la place le permet.
+				if (param.OilDerricks > 0)
+				{
+					var perSymmetry = Math.Max(1, (param.OilDerricks + symmetryCount / 2) / symmetryCount);
+					var placed = 0;
+
+					// D'abord espacés de 2 cases, puis collés si la place manque.
+					foreach (var spacing in new[] { new WDist(2048), WDist.Zero })
+						while (placed < perSymmetry && terraformer.AddActor(oilRandom, zoneable, param.OilDerrickActor, spacing))
+							placed++;
 				}
 
 				// Grow resources
@@ -940,10 +1087,350 @@ namespace OpenRA.Mods.MapGen
 			// Cosmetically repaint tiles
 			terraformer.RepaintTiles(repaintRandom, param.RepaintTiles);
 
+			if (realAltitude != null)
+				ConnectLandAreas(map, terrainInfo, actorPlans, bridgeLandings, param.BridgeActorNS, param.BridgeActorEW,
+					() => terraformer.PickTile(pickAnyRandom, param.LandTile));
+
 			terraformer.ReorderPlayerSpawns();
 			terraformer.BakeMap();
 
 			return map;
+		}
+
+		/// <summary>
+		/// Lissage des côtes réelles : un léger lissage majoritaire, puis on retire
+		/// (sans jamais épaissir) les terres et mers plus fines que <paramref name="thickness"/>,
+		/// et on supprime les contacts en diagonale terre/mer que les tuiles ne savent pas dessiner.
+		/// </summary>
+		static Matrix<bool> RealBlotch(Matrix<bool> input, int thickness)
+		{
+			var (matrix, _) = MatrixUtils.BooleanBlur(input, 1, 1, 2);
+			var minimumArea = thickness * thickness * 2;
+			for (var pass = 0; pass < 32; pass++)
+			{
+				int changes, total = 0;
+				(matrix, changes) = MatrixUtils.RetainThickRegions(matrix, true, thickness);
+				total += changes;
+				(matrix, changes) = MatrixUtils.RetainThickRegions(matrix, false, thickness);
+				total += changes;
+				total += RemoveSmallRegions(matrix, minimumArea);
+
+				// Motifs 10/01 ou 01/10 : on change une seule case.
+				for (var y = 0; y + 1 < matrix.Size.Y; y++)
+					for (var x = 0; x + 1 < matrix.Size.X; x++)
+					{
+						var a = matrix[x, y];
+						if (a == matrix[x + 1, y + 1] && matrix[x + 1, y] == matrix[x, y + 1] && a != matrix[x + 1, y])
+						{
+							matrix[x + 1, y] = a;
+							total++;
+						}
+					}
+
+				if (total == 0)
+					break;
+			}
+
+			return matrix;
+		}
+
+		/// <summary>Îles et lacs trop petits pour les tuiles de rivage : absorbés par leur entourage.</summary>
+		static int RemoveSmallRegions(Matrix<bool> matrix, int minimumArea)
+		{
+			var seen = new Matrix<bool>(matrix.Size);
+			var changes = 0;
+			var queue = new Queue<int2>();
+			var region = new List<int2>();
+			var dirs = new[] { new int2(1, 0), new int2(-1, 0), new int2(0, 1), new int2(0, -1) };
+			for (var y = 0; y < matrix.Size.Y; y++)
+				for (var x = 0; x < matrix.Size.X; x++)
+				{
+					if (seen[x, y])
+						continue;
+
+					var value = matrix[x, y];
+					region.Clear();
+					queue.Enqueue(new int2(x, y));
+					seen[x, y] = true;
+					var touchesEdge = false;
+					while (queue.Count > 0)
+					{
+						var c = queue.Dequeue();
+						region.Add(c);
+						touchesEdge |= matrix.IsEdge(c);
+						foreach (var d in dirs)
+						{
+							var n = c + d;
+							if (matrix.ContainsXY(n) && !seen[n] && matrix[n] == value)
+							{
+								seen[n] = true;
+								queue.Enqueue(n);
+							}
+						}
+					}
+
+					if (region.Count < minimumArea && !touchesEdge)
+					{
+						foreach (var c in region)
+							matrix[c] = !value;
+						changes += region.Count;
+					}
+				}
+
+			return changes;
+		}
+
+		/// <summary>
+		/// Pose les ponts d'une région réelle : chaque pont (horizontal ou vertical, 2 cases
+		/// de large) reçoit un tablier sur toute l'eau entre la première et la dernière
+		/// terre ferme de son tracé. Renvoie les cases d'arrivée.
+		/// </summary>
+		static List<CPos> PlaceBridges(Map map, ITemplatedTerrainInfo terrainInfo, List<ActorPlan> actorPlans,
+			List<(int2 From, int2 To)> bridges, string actorNS, string actorEW)
+		{
+			var landingTypes = BridgeLandingTerrain
+				.Where(t => terrainInfo.TerrainTypes.Any(tt => tt.Type == t))
+				.Select(terrainInfo.GetTerrainIndex)
+				.ToHashSet();
+			bool IsLanding(CPos c) => landingTypes.Contains(terrainInfo.GetTerrainIndex(map.Tiles[c]));
+
+			var landings = new List<CPos>();
+			var deck = new HashSet<CPos>();
+			foreach (var (from, to) in bridges)
+			{
+				var eastWest = Math.Abs(to.X - from.X) >= Math.Abs(to.Y - from.Y);
+				var type = eastWest ? actorEW : actorNS;
+				var length = eastWest ? Math.Abs(to.X - from.X) : Math.Abs(to.Y - from.Y);
+				var step = eastWest ? new CVec(Math.Sign(to.X - from.X), 0) : new CVec(0, Math.Sign(to.Y - from.Y));
+				var side = eastWest ? new CVec(0, 1) : new CVec(1, 0);
+
+				// La côte générée ne suit pas exactement la vraie : chaque bout du pont
+				// s'accroche à la terre praticable la plus proche, un peu avant ou après,
+				// et une rangée qui ne relie rien est décalée sur le côté.
+				List<CPos> Lane(int offset)
+				{
+					var cells = Enumerable.Range(-BridgeLandingSearch, length + 1 + 2 * BridgeLandingSearch)
+						.Select(i => new CPos(from.X, from.Y) + side * offset + step * i)
+						.ToList();
+
+					// Le départ reste dans la première moitié du tracé et l'arrivée dans la
+					// seconde : un pont ne doit pas relier une terre à elle-même.
+					int Nearest(int target, int min, int max)
+					{
+						for (var d = 0; d <= BridgeLandingSearch; d++)
+							foreach (var i in new[] { target - d, target + d })
+								if (i >= min && i <= max && map.Tiles.Contains(cells[i]) && IsLanding(cells[i]))
+									return i;
+
+						return -1;
+					}
+
+					var middle = BridgeLandingSearch + length / 2;
+					var first = Nearest(BridgeLandingSearch, 0, middle);
+					var last = Nearest(BridgeLandingSearch + length, middle + 1, cells.Count - 1);
+					return first < 0 || last <= first + 1 ? null : cells.GetRange(first, last - first + 1);
+				}
+
+				var lanes = new List<List<CPos>>();
+				for (var shift = 0; shift <= 2 * BridgeShiftSearch; shift++)
+				{
+					var offset = shift % 2 == 0 ? shift / 2 : -(shift + 1) / 2;
+					var found = new[] { Lane(offset), Lane(offset + 1) }.Where(l => l != null).ToList();
+					if (found.Count > lanes.Count)
+						lanes = found;
+
+					if (lanes.Count == 2)
+						break;
+				}
+
+				foreach (var cells in lanes)
+				{
+					landings.Add(cells[0]);
+					landings.Add(cells[^1]);
+					foreach (var c in cells)
+						if (!IsLanding(c) && deck.Add(c))
+							actorPlans.Add(new ActorPlan(map, type) { Location = c });
+				}
+			}
+
+			// Les arbres ou rochers qui bouchent l'accès au tablier sont retirés.
+			var clear = new HashSet<CPos>(deck.SelectMany(c =>
+				Enumerable.Range(-1, 3).SelectMany(dy => Enumerable.Range(-1, 3).Select(dx => c + new CVec(dx, dy)))));
+			actorPlans.RemoveAll(a => a.Info.Name != actorNS && a.Info.Name != actorEW
+				&& a.Info.Name != "mpspawn" && a.Footprint().Keys.Any(clear.Contains));
+
+			return landings;
+		}
+
+		/// <summary>
+		/// Région réelle : les forêts et les décors sont posés sans connaître les ponts ni la
+		/// forme des continents, et peuvent enfermer un bout de pont ou couper une terre en deux.
+		/// On relie alors chaque bout de pont, puis chaque grande zone praticable, à la plus
+		/// grande zone en retirant les obstacles (arbres, rochers...) du chemin le plus court.
+		/// Les mers et les falaises ne sont jamais franchies.
+		/// </summary>
+		static void ConnectLandAreas(Map map, ITerrainInfo terrainInfo, List<ActorPlan> actorPlans,
+			List<CPos> landings, string actorNS, string actorEW, Func<TerrainTile> clearTile)
+		{
+			var passable = BridgeLandingTerrain
+				.Where(t => terrainInfo.TerrainTypes.Any(tt => tt.Type == t))
+				.Select(terrainInfo.GetTerrainIndex)
+				.ToHashSet();
+			bool IsKept(ActorPlan a) => a.Info.Name == actorNS || a.Info.Name == actorEW || a.Info.Name == "mpspawn";
+			var deck = actorPlans
+				.Where(a => a.Info.Name == actorNS || a.Info.Name == actorEW)
+				.Select(a => a.Location)
+				.ToHashSet();
+			bool Walkable(CPos c) => map.Tiles.Contains(c) && (deck.Contains(c) || passable.Contains(terrainInfo.GetTerrainIndex(map.Tiles[c])));
+
+			// Les forêts peintes en tuiles se dégagent aussi : la case redevient de la terre.
+			var forestTerrain = terrainInfo.TerrainTypes.Any(tt => tt.Type == "Tree") ? terrainInfo.GetTerrainIndex("Tree") : byte.MaxValue;
+			bool IsForestTile(CPos c) => map.Tiles.Contains(c) && terrainInfo.GetTerrainIndex(map.Tiles[c]) == forestTerrain;
+			var directions = new[] { new CVec(1, 0), new CVec(-1, 0), new CVec(0, 1), new CVec(0, -1) };
+
+			// Points de départ déjà essayés sans succès (bout de pont ou première case d'une zone).
+			var hopeless = new HashSet<CPos>();
+
+			for (var attempt = 0; attempt < LandAreaMaximumAttempts; attempt++)
+			{
+				var obstacles = new Dictionary<CPos, List<ActorPlan>>();
+				foreach (var a in actorPlans)
+				{
+					if (IsKept(a))
+						continue;
+
+					foreach (var c in a.Footprint().Keys)
+					{
+						if (!obstacles.TryGetValue(c, out var list))
+							obstacles[c] = list = [];
+						list.Add(a);
+					}
+				}
+
+				// Zones praticables en tenant compte des obstacles.
+				var zone = new Dictionary<CPos, int>();
+				var zoneCells = new List<List<CPos>>();
+				foreach (var start in map.AllCells)
+				{
+					if (zone.ContainsKey(start) || !Walkable(start) || obstacles.ContainsKey(start))
+						continue;
+
+					var cells = new List<CPos> { start };
+					zone[start] = zoneCells.Count;
+					for (var i = 0; i < cells.Count; i++)
+					{
+						foreach (var d in directions)
+						{
+							var n = cells[i] + d;
+							if (!zone.ContainsKey(n) && Walkable(n) && !obstacles.ContainsKey(n))
+							{
+								zone[n] = zoneCells.Count;
+								cells.Add(n);
+							}
+						}
+					}
+
+					zoneCells.Add(cells);
+				}
+
+				if (zoneCells.Count == 0)
+					return;
+
+				var largest = Enumerable.Range(0, zoneCells.Count).MaxBy(i => zoneCells[i].Count);
+				bool IsOpen(CPos c) => zone.TryGetValue(c, out var id) && zoneCells[id].Count >= LandAreaMinimumSize;
+
+				// D'abord les bouts de pont enfermés, puis les grandes zones isolées.
+				List<CPos> sources;
+				Func<CPos, bool> isGoal;
+				var closedLanding = landings.Where(l => !hopeless.Contains(l) && !IsOpen(l)).Select(l => (CPos?)l).FirstOrDefault();
+				if (closedLanding != null)
+				{
+					sources = [closedLanding.Value];
+					isGoal = IsOpen;
+				}
+				else
+				{
+					var isolated = zoneCells.FirstOrDefault(z => z.Count >= LandAreaMinimumSize && zone[z[0]] != largest && !hopeless.Contains(z[0]));
+					if (isolated == null)
+						return;
+
+					sources = isolated;
+					isGoal = c => zone.TryGetValue(c, out var id) && id == largest;
+				}
+
+				// Plus court chemin : une case encombrée coûte plus cher qu'une case libre.
+				var cost = new Dictionary<CPos, int>();
+				var from = new Dictionary<CPos, CPos>();
+				var frontier = new PriorityQueue<CPos, int>();
+				foreach (var s in sources)
+				{
+					cost[s] = 0;
+					frontier.Enqueue(s, 0);
+				}
+
+				CPos? reached = null;
+				while (frontier.TryDequeue(out var c, out var k))
+				{
+					if (k > cost[c])
+						continue;
+
+					if (isGoal(c))
+					{
+						reached = c;
+						break;
+					}
+
+					if (k >= LandAreaMaximumPathCost)
+						break;
+
+					foreach (var d in directions)
+					{
+						var n = c + d;
+						var forest = IsForestTile(n);
+						if (!forest && !Walkable(n))
+							continue;
+
+						var nk = k + (forest || obstacles.ContainsKey(n) ? 5 : 1);
+						if (!cost.TryGetValue(n, out var old) || nk < old)
+						{
+							cost[n] = nk;
+							from[n] = c;
+							frontier.Enqueue(n, nk);
+						}
+					}
+				}
+
+				var removed = new HashSet<ActorPlan>();
+				var cleared = new List<CPos>();
+				if (reached != null)
+				{
+					// Passage de 2 cases de large.
+					for (var c = reached.Value; ; c = from[c])
+					{
+						foreach (var w in new[] { c, c + new CVec(1, 0), c + new CVec(0, 1), c + new CVec(1, 1) })
+						{
+							if (obstacles.TryGetValue(w, out var list))
+								removed.UnionWith(list);
+
+							if (IsForestTile(w))
+								cleared.Add(w);
+						}
+
+						if (!from.ContainsKey(c))
+							break;
+					}
+				}
+
+				if (removed.Count == 0 && cleared.Count == 0)
+				{
+					hopeless.Add(sources[0]);
+					continue;
+				}
+
+				actorPlans.RemoveAll(removed.Contains);
+				foreach (var c in cleared)
+					map.Tiles[c] = clearTile();
+			}
 		}
 
 		public bool TryGenerateMetadata(ModData modData, MapGenerationArgs args, out MapPlayers players, out Dictionary<string, MiniYaml> ruleDefinitions)

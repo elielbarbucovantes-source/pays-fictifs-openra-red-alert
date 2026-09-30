@@ -35,6 +35,7 @@ namespace OpenRA.Mods.MapGen
 			{ "Moyenne", new int2(60, 90) },
 			{ "Grande", new int2(90, 120) },
 			{ "Immense", new int2(120, 160) },
+			{ "Gigantesque", new int2(200, 256) },
 		};
 
 		static readonly IReadOnlyDictionary<string, string> TilesetNames = new Dictionary<string, string>()
@@ -100,7 +101,11 @@ namespace OpenRA.Mods.MapGen
 			if (previewSizeLabel != null)
 			{
 				previewSizeLabel.IsVisible = () => !failed;
-				previewSizeLabel.GetText = () => $"Taille : {size.Width - 2}x{size.Height - 2}";
+				previewSizeLabel.GetText = () =>
+				{
+					var shown = generatedArgs?.Size ?? size;
+					return $"Taille : {shown.Width - 2}x{shown.Height - 2}";
+				};
 			}
 
 			settingsPanel = widget.Get<ScrollPanelWidget>("SETTINGS_PANEL");
@@ -139,7 +144,7 @@ namespace OpenRA.Mods.MapGen
 					return item;
 				}
 
-				tilesetDropdown.ShowDropDown("LABEL_DROPDOWN_TEMPLATE", validTerrainInfos.Count * 30, validTerrainInfos, SetupItem);
+				tilesetDropdown.ShowDropDown("LABEL_DROPDOWN_TEMPLATE", DropDownHeight(tilesetDropdown, validTerrainInfos.Count), validTerrainInfos, SetupItem);
 			};
 
 			sizeSetting = dropdownSettingTemplate.Clone();
@@ -164,7 +169,7 @@ namespace OpenRA.Mods.MapGen
 					return item;
 				}
 
-				sizeDropdown.ShowDropDown("LABEL_DROPDOWN_TEMPLATE", MapSizes.Count * 30, MapSizes.Keys, SetupItem);
+				sizeDropdown.ShowDropDown("LABEL_DROPDOWN_TEMPLATE", DropDownHeight(sizeDropdown, MapSizes.Count), MapSizes.Keys, SetupItem);
 			};
 
 			var generateButton = widget.Get<ButtonWidget>("BUTTON_GENERATE");
@@ -213,6 +218,17 @@ namespace OpenRA.Mods.MapGen
 			return TilesetNames.TryGetValue(terrainInfo.Id, out var name) ? name : terrainInfo.Id;
 		}
 
+
+		// Hauteur d'une liste déroulante : elle doit tenir sous le bouton (sinon le moteur
+		// l'ouvre vers le haut, hors de l'écran) ; au-delà, elle défile.
+		static int DropDownHeight(Widget button, int items)
+		{
+			const int ItemHeight = 30;
+			var below = Game.Renderer.Resolution.Height - (button.RenderOrigin.Y + button.Bounds.Height) - 10;
+			var above = button.RenderOrigin.Y - 10;
+			var room = below >= 5 * ItemHeight || below >= above ? below : above;
+			return Math.Max(ItemHeight, Math.Min(items * ItemHeight, room));
+		}
 		void RandomizeSize()
 		{
 			var mapGrid = modData.Manifest.Get<MapGrid>();
@@ -306,7 +322,7 @@ namespace OpenRA.Mods.MapGen
 								return item;
 							}
 
-							dropDownWidget.ShowDropDown("LABEL_DROPDOWN_TEMPLATE", mio.Choices.Length * 30, mio.Choices, SetupItem);
+							dropDownWidget.ShowDropDown("LABEL_DROPDOWN_TEMPLATE", DropDownHeight(dropDownWidget, mio.Choices.Length), mio.Choices, SetupItem);
 						};
 						break;
 					}
@@ -347,7 +363,7 @@ namespace OpenRA.Mods.MapGen
 									return item;
 								}
 
-								dropDownWidget.ShowDropDown("LABEL_DROPDOWN_TEMPLATE", validChoices.Count * 30, validChoices, SetupItem);
+								dropDownWidget.ShowDropDown("LABEL_DROPDOWN_TEMPLATE", DropDownHeight(dropDownWidget, validChoices.Count), validChoices, SetupItem);
 							};
 						}
 
@@ -381,6 +397,7 @@ namespace OpenRA.Mods.MapGen
 			try
 			{
 				args = settings.Compile(terrain, mapSize);
+				WorldRegion.AdjustSize(modData, (generator as ClassicMapGeneratorInfo)?.WorldRegionFolder, args);
 			}
 			catch (Exception e)
 			{
@@ -393,6 +410,15 @@ namespace OpenRA.Mods.MapGen
 
 			var seed = args.Settings.NodeWithKeyOrDefault("Seed")?.Value.Value ?? "0";
 			args.Title = $"{MapGenCompat.Tr(generator.MapTitle)} {seed.TrimStart('-')}";
+
+			// Région du monde réel : son nom sert de titre (« France 1234 »).
+			if (!string.IsNullOrEmpty(args.Settings.NodeWithKeyOrDefault("WorldRegion")?.Value.Value)
+				&& settings.Options.FirstOrDefault(o => o.Id == "WorldRegion") is MapGeneratorMultiChoiceOption regionOption)
+			{
+				var choice = regionOption.Value ?? regionOption.Default?.FirstOrDefault();
+				if (choice != null && regionOption.Choices.TryGetValue(choice, out var region) && region.Label != null)
+					args.Title = $"{MapGenCompat.Tr(region.Label)} {seed.TrimStart('-')}";
+			}
 
 			Task.Run(() =>
 			{

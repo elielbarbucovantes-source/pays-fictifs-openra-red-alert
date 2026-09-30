@@ -57,3 +57,6 @@ __pycache__/
 update.log
 update-result.txt
 .version-commit
+
+# Données géographiques téléchargées par tools/monde.py
+tools/monde-cache/
