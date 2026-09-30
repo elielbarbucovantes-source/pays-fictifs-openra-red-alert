@@ -24,7 +24,7 @@ SOMMAIRE
   3. INFANTERIE (11)
   4. VÉHICULES (22)
   5. AVIATION (20)
-  6. MARINE (11)
+  6. MARINE (12)
   7. POUVOIRS DE SOUTIEN (12)
 
 ============================================================================================
@@ -1363,6 +1363,21 @@ SOMMAIRE
   Stratégie :
     Escortez-le jusqu'à un point stratégique, déployez-le (F) et ne le bougez plus jusqu'à
     la fin. Amenez ensuite un chantier de construction avec un transport.
+--------------------------------------------------------------------------------------------
+■ PORTE-DRONE
+  Pays : Australouis
+  Lore :
+    Pas un porte-avions : une plateforme navale de production d'essaims kamikazes.
+    Sans arme et peu blindé, il fabrique lui-même, gratuitement, six drones à la fois, sans base ni munitions.
+    Le lot suivant ne sort des ateliers que 20 secondes après la chute du sixième drone : tant qu'un seul vole encore, rien ne se régénère.
+  Statistiques :
+    Coût 2 000 $ · PV 50 000 · Blindage léger · Vitesse 71 · Vision 8 cases
+    Arme : aucune
+    Prérequis : Radar Dome · Niveau technologique : moyen
+  Stratégie :
+    Clic droit sur un véhicule ou un navire ennemi : un drone part (cliquez plusieurs cibles
+    pour répartir l'essaim). Réfléchissez avant de sacrifier le dernier drone : vous restez
+    20 s sans défense. Plusieurs Porte-Drones ont chacun leur propre cycle.
 --------------------------------------------------------------------------------------------
 ■ SOUS-MARIN ICBM
   Pays : Australouis

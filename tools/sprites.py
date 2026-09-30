@@ -618,6 +618,85 @@ def icon_pipeline():
     return shrink(im, 64, 48)
 
 
+# ---------------------------------------------------------------------------
+# Porte-Drone (Australouis) : navire plat, six plots de drones sur le pont
+# ---------------------------------------------------------------------------
+PLOT, PLOT_BORD = (60, 64, 70), (230, 200, 60)
+
+
+def porte_drone_top(w=64):
+    """Vu de dessus, proue vers le haut : coque fine, pont d'envol avec 6 plots, îlot à tribord."""
+    s = SS
+    im, d = canvas(w, w)
+    c = w / 2
+    def P(x, y):
+        return ((c + x) * s, (c + y) * s)
+    hull = [P(0, -29), P(6, -21), P(8, -8), P(8, 26), P(5, 29), P(-5, 29), P(-8, 26), P(-8, -8), P(-6, -21)]
+    d.polygon(hull, fill=COQUE_SOMBRE + (255,))
+    deck = [P(0, -25), P(5, -19), P(6, -8), P(6, 25), P(-6, 25), P(-6, -8), P(-5, -19)]
+    d.polygon(deck, fill=PONT + (255,))
+    for k in range(3):                                                               # 6 plots de drones
+        y = -14 + k * 11
+        for x in (-3, 3):
+            d.ellipse([*P(x - 2.5, y - 2.5), *P(x + 2.5, y + 2.5)], fill=PLOT_BORD + (255,))
+            d.ellipse([*P(x - 1.7, y - 1.7), *P(x + 1.7, y + 1.7)], fill=PLOT + (255,))
+    d.rectangle([*P(6, 14), *P(9, 23)], fill=COQUE_SOMBRE + (255,))                  # îlot
+    d.rectangle([*P(6.5, 16), *P(8.5, 18)], fill=VERRE + (255,))
+    d.ellipse([*P(-2, 21), *P(2, 25)], fill=(200, 60, 50, 255))                      # antenne de liaison
+    return im
+
+
+def porte_drone_frames(w=64):
+    top = porte_drone_top(w)
+    return [shrink(top.rotate(f * 360 / 32, resample=Image.BICUBIC), w, w) for f in range(32)]
+
+
+def icon_porte_drone():
+    im, d = icon_aus()
+    s = SS
+    d.rectangle([0, 34 * s, 64 * s, 48 * s], fill=(12, 60, 120, 255))
+    top = porte_drone_top(64).rotate(90, resample=Image.BICUBIC).resize((60 * s, 60 * s), Image.LANCZOS)
+    im.alpha_composite(top, (2 * s, -6 * s))
+    for x, y in ((10, 6), (20, 3), (30, 7)):                                           # drones en vol
+        d.polygon([(x * s, y * s), ((x + 4) * s, (y + 2) * s), (x * s, (y + 4) * s), ((x + 1) * s, (y + 2) * s)],
+                  fill=(30, 30, 34, 255))
+    return icon_aus_done(im)
+
+
+# ---------------------------------------------------------------------------
+# Zone industrielle (neutre, 3x2 cases) : ateliers à sheds, cheminées qui fument
+# ---------------------------------------------------------------------------
+def zone_industrielle_frame(t, w=72, h=48):
+    import random
+    rnd = random.Random(40 + t)
+    s = SS
+    im, d = canvas(w, h)
+    d.rectangle([1 * s, 12 * s, 71 * s, 47 * s], fill=(96, 94, 88, 255))            # dalle
+    d.rectangle([1 * s, 12 * s, 71 * s, 13 * s], fill=(136, 132, 124, 255))
+    for k in range(4):                                                              # toits en sheds
+        x0 = 4 + k * 11
+        d.rectangle([x0 * s, 22 * s, (x0 + 10) * s, 44 * s], fill=(150, 110, 80, 255))
+        for y in range(22, 44, 4):
+            d.polygon([(x0 * s, (y + 4) * s), ((x0 + 10) * s, (y + 4) * s), ((x0 + 10) * s, y * s)],
+                      fill=(110, 80, 60, 255))
+            d.line([(x0 * s, (y + 4) * s), ((x0 + 10) * s, y * s)], fill=(170, 200, 220, 255), width=s)
+    d.rectangle([50 * s, 26 * s, 68 * s, 44 * s], fill=(120, 124, 130, 255))          # entrepôt
+    d.rectangle([50 * s, 26 * s, 68 * s, 28 * s], fill=(160, 164, 170, 255))
+    d.rectangle([56 * s, 36 * s, 62 * s, 44 * s], fill=(60, 62, 66, 255))              # porte
+    d.rectangle([52 * s, 30 * s, 66 * s, 32 * s], fill=(230, 190, 40, 255))           # bande jaune
+    for x, top in ((10, 12), (22, 16), (46, 10)):                                         # cheminées
+        d.rectangle([x * s, top * s, (x + 4) * s, 24 * s], fill=(140, 70, 50, 255))
+        d.rectangle([x * s, (top + 3) * s, (x + 4) * s, (top + 4) * s], fill=(230, 230, 230, 255))
+        for k in range(3):                                                         # fumée
+            r = 2 + k + (t % 4) * 0.5
+            cx = x + 2 + k * 2 + rnd.uniform(-1, 1)
+            cy = top - 2 - k * 3 - (t % 4)
+            if cy - r > 0:
+                g = 150 + k * 20
+                d.ellipse([(cx - r) * s, (cy - r) * s, (cx + r) * s, (cy + r) * s], fill=(g, g, g, 200))
+    return shrink(im, w, h)
+
+
 if __name__ == "__main__":
     save(to_indexed([gate_frame(t) for t in range(8)], 48, 48), "aguilagate", 48, 48, 8)
     save(to_indexed([taupe_frame(t) for t in range(8)], 48, 48), "taupegate", 48, 48, 8)
@@ -644,3 +723,6 @@ if __name__ == "__main__":
                     + [raffinerie_frame(0, build=(k + 1) / 8) for k in range(8)], 48, 48), "raffinerie", 48, 48, 16)
     for name, fn in (("raffinerieicon", icon_raffinerie_petrole), ("pipelineicon", icon_pipeline)):
         save(to_indexed([fn()], 64, 48), name, 64, 48, 1)
+    save(to_indexed(porte_drone_frames(), 64, 64), "portedrone", 64, 64, 32)
+    save(to_indexed([icon_porte_drone()], 64, 48), "portedroneicon", 64, 48, 1)
+    save(to_indexed([zone_industrielle_frame(t) for t in range(4)], 72, 48), "zoneindustrielle", 72, 48, 4)

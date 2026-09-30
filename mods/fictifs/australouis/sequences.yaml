@@ -125,3 +125,11 @@ australouis-powers:
 		Filename: fictifs|bits/raffinerieboosticon.png
 	radarblink:
 		Filename: fictifs|bits/radarblinkicon.png
+
+# Porte-Drone : généré par tools/sprites.py.
+portedrone:
+	idle:
+		Filename: fictifs|bits/portedrone.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/portedroneicon.png

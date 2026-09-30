@@ -32,3 +32,10 @@ raffinerie.petrole:
 		Tick: 80
 	icon:
 		Filename: fictifs|bits/raffinerieicon.png
+
+# Zone industrielle (common/zones.yaml).
+zone.industrielle:
+	idle:
+		Filename: fictifs|bits/zoneindustrielle.png
+		Length: 4
+		Tick: 200

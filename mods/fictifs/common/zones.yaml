@@ -1,0 +1,82 @@
+# =====================================================================
+# PAYS FICTIFS — zones industrielles (tous les pays)
+#
+#   Zone tenue ── +15 % de vitesse de production des véhicules
+#
+# - On prend une zone avec des unités (terrestres ou navires) seules dans
+#   son rayon de 5 cases pendant 5 s. Vide, elle reste à son dernier
+#   propriétaire.
+# - Unités de deux camps ennemis dans le rayon : zone contestée, bonus coupé.
+# - Plusieurs zones ne se cumulent pas : une seule compte par joueur.
+# - Option de lobby « Zones industrielles » : Auto (celles de la carte,
+#   sinon une par joueur, posées à égale distance des bases), Aucune, 1 à 6.
+#   Le générateur de cartes aléatoires peut aussi en placer.
+#
+# Contrôle et pose automatique : IndustrialZone.cs.
+# =====================================================================
+
+World:
+	IndustrialZoneSpawner:
+		Actor: zone.industrielle
+
+# Bonus : le prérequis zone.industrielle accélère la file Véhicules.
+# 100 / 115 = 87 % du temps de production.
+^ExistsInWorld:
+	ProductionTimeMultiplier@ZONEINDUSTRIELLE:
+		Multiplier: 87
+		Prerequisites: zone.industrielle
+		Queue: Vehicle
+
+ZONE.INDUSTRIELLE:
+	Inherits: ^SpriteActor
+	RenderSprites:
+		Image: zone.industrielle
+	WithSpriteBody:
+	Building:
+		Footprint: xxx xxx
+		Dimensions: 3,2
+		TerrainTypes: Clear, Road, Rough
+	Selectable:
+		Bounds: 3072, 2048
+		Priority: 0
+	SelectionDecorations:
+	Tooltip:
+		Name: Zone industrielle
+	TooltipDescription:
+		Description: Objectif : tenir la zone (5 cases autour) avec vos unités.\nContrôlée : +15 % de vitesse de production des véhicules.\nUnités ennemies présentes : zone contestée, bonus coupé.\nPlusieurs zones ne se cumulent pas.
+	FrozenUnderFog:
+	AppearsOnRadar:
+	WithRangeCircle:
+		Type: ZoneIndustrielle
+		Range: 5c0
+		Visible: Always
+		UsePlayerColor: true
+		ValidRelationships: Ally, Neutral, Enemy
+	IndustrialZone:
+		Radius: 5c0
+		CaptureDelay: 125
+		CapturedTextNotification: Zone industrielle sous contrôle : +15 % de vitesse de production des véhicules.
+		LostTextNotification: Zone industrielle perdue : bonus de production des véhicules perdu.
+	ProvidesPrerequisite@ZONE:
+		Prerequisite: zone.industrielle
+		RequiresCondition: !zone-contestee
+	WithTextDecoration@CONTESTEE:
+		Text: CONTESTÉE
+		Position: Top
+		Color: FF4040
+		ValidRelationships: Ally, Neutral, Enemy
+		RequiresCondition: zone-contestee
+	WithTextDecoration@CAPTURE:
+		Text: PRISE EN COURS
+		Position: Top
+		Color: F0D040
+		ValidRelationships: Ally, Neutral, Enemy
+		RequiresCondition: zone-capture && !zone-contestee
+	WithTextDecoration@ACTIVE:
+		Text: +15 % véhicules
+		Position: Top
+		Color: 40E060
+		ValidRelationships: Ally
+		RequiresCondition: !zone-contestee && !zone-capture
+	MapEditorData:
+		Categories: Tech

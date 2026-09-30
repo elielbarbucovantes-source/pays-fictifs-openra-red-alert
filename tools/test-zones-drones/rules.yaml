@@ -1,0 +1,15 @@
+World:
+	LuaScript:
+		Scripts: test.lua
+	-SpawnStartingUnits:
+	-CrateSpawner:
+	# Une seule base sur la carte de test : on force 2 zones automatiques.
+	IndustrialZoneSpawner:
+		Default: 2
+Player:
+	-ConquestVictoryConditions:
+	Shroud:
+		FogCheckboxEnabled: false
+		FogCheckboxLocked: true
+		ExploredMapCheckboxEnabled: true
+		ExploredMapCheckboxLocked: true

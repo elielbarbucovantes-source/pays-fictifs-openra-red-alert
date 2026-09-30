@@ -210,6 +210,10 @@ namespace OpenRA.Mods.MapGen
 			public readonly string WorldRegion = null;
 			public readonly int OilDerricks = 0;
 			public readonly string OilDerrickActor = "oilb";
+
+			// Zones industrielles (0 = posées au lancement de la partie, selon l'option de lobby).
+			public readonly int IndustrialZones = 0;
+			public readonly string IndustrialZoneActor = "zone.industrielle";
 			public readonly int WorldRegionMapWidth = 0;
 			public readonly string BridgeActorNS = "pont.ns";
 			public readonly string BridgeActorEW = "pont.ew";
@@ -473,6 +477,8 @@ namespace OpenRA.Mods.MapGen
 					throw new MapGenerationException($"MinimumCivilianBuildingDensity must be between 0 and {FractionMax} inclusive");
 				if (OilDerricks < 0 || OilDerricks > 100)
 					throw new MapGenerationException("OilDerricks must be between 0 and 100 inclusive");
+				if (IndustrialZones < 0 || IndustrialZones > 20)
+					throw new MapGenerationException("IndustrialZones must be between 0 and 20 inclusive");
 				if (CivilianBuildingDensityRadius < 0)
 					throw new MapGenerationException("CivilianBuildingDensityRadius must be >= 0");
 				if (ResourcesPerPlayer < 0)
@@ -604,6 +610,7 @@ namespace OpenRA.Mods.MapGen
 			var decorationTilingRandom = new MersenneTwister(random.Next());
 			var pickAnyRandom = new MersenneTwister(random.Next());
 			var oilRandom = new MersenneTwister(random.Next());
+			var zoneRandom = new MersenneTwister(random.Next());
 
 			Matrix<int> realAltitude = null;
 			List<(int2 From, int2 To)> realBridges = null;
@@ -980,6 +987,16 @@ namespace OpenRA.Mods.MapGen
 						if (added == 0)
 							break;
 					}
+				}
+
+				// Zones industrielles : avant les bâtiments neutres (il leur faut 3x2 cases libres),
+				// bien espacées (8 cases), autant que la place le permet.
+				if (param.IndustrialZones > 0)
+				{
+					var perSymmetry = Math.Max(1, (param.IndustrialZones + symmetryCount / 2) / symmetryCount);
+					for (var placed = 0; placed < perSymmetry; placed++)
+						if (!terraformer.AddActor(zoneRandom, zoneable, param.IndustrialZoneActor, new WDist(8192)))
+							break;
 				}
 
 				// Neutral buildings

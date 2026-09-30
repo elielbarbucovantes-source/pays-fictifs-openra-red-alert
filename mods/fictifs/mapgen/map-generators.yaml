@@ -220,6 +220,37 @@ EditorWorld:
 					Label: Islande
 					Settings:
 						WorldRegion: islande
+			MultiChoiceOption@IndustrialZones:
+				Label: Zones industrielles
+				Default: Auto
+				Priority: 3
+				Choice@Auto:
+					Label: Au lancement (option de partie)
+					Settings:
+				Choice@N1:
+					Label: 1
+					Settings:
+						IndustrialZones: 1
+				Choice@N2:
+					Label: 2
+					Settings:
+						IndustrialZones: 2
+				Choice@N3:
+					Label: 3
+					Settings:
+						IndustrialZones: 3
+				Choice@N4:
+					Label: 4
+					Settings:
+						IndustrialZones: 4
+				Choice@N5:
+					Label: 5
+					Settings:
+						IndustrialZones: 5
+				Choice@N6:
+					Label: 6
+					Settings:
+						IndustrialZones: 6
 			MultiChoiceOption@OilDerricks:
 				Label: Oil derricks
 				Default: Auto

@@ -246,3 +246,71 @@ MSUB:
 SS:
 	Cloak:
 		PauseOnCondition: cloak-force-disabled || sonar
+
+# ---------------------------------------------------------------------
+# PORTE-DRONE : plateforme navale d'essaims kamikazes. Sans arme, peu
+# blindé ; il fabrique lui-même, gratuitement, 6 drones à la fois.
+# Le lot suivant n'arrive que 20 s APRÈS LA DESTRUCTION DU 6e DRONE
+# (tant qu'il en reste un seul en vie, rien ne se régénère).
+# Clic droit sur un véhicule ou un navire ennemi : un drone part.
+# Logique dans DroneCarrier.cs.
+# ---------------------------------------------------------------------
+PORTE.DRONE:
+	Inherits: ^Ship
+	RenderSprites:
+		Image: portedrone
+	Buildable:
+		Queue: Ship
+		BuildAtProductionType: Boat
+		BuildPaletteOrder: 45
+		Prerequisites: ~ships.australouis, dome, ~techlevel.medium
+		Description: Plateforme de drones kamikazes, sans arme.\nFabrique gratuitement 6 drones ; le lot suivant n'arrive\nque 20 s après la destruction du 6e.\nClic droit sur un ennemi : un drone part à l'attaque.\nAu repos, les drones escortent le navire.\n  Fort contre : véhicules, navires\n  Faible contre : sous-marins, aviation, navires s'il est isolé
+	Selectable:
+		Class: portedrone
+		DecorationBounds: 1877, 1877
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Porte-Drone
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 50000
+	Armor:
+		Type: Light
+	Mobile:
+		TurnSpeed: 20
+		Speed: 71
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 8c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+	DroneCarrier:
+		Drone: drone.essaim
+		BatchSize: 6
+		RegenDelay: 500
+		ReadyTextNotification: Porte-Drone : nouveau lot de 6 drones prêt.
+	WithDronePipsDecoration:
+		Position: BottomLeft
+		RequiresSelection: true
+
+# Drone d'essaim : le Moustique, fabriqué par le Porte-Drone (gratuit,
+# introuvable dans la barre de construction). Au repos, il attaque ce
+# qui passe à sa portée sans quitter l'escorte.
+DRONE.ESSAIM:
+	Inherits: MOUSTIQUE
+	-Buildable:
+	Valued:
+		Cost: 50
+	Tooltip:
+		Name: Drone d'essaim
+	TooltipDescription:
+		Description: Drone kamikaze du Porte-Drone.\nPlonge sur un véhicule ou un navire.
+	UpdatesPlayerStatistics:
+		AddToArmyValue: false
+	-MustBeDestroyed:
+	AutoTarget:
+		InitialStance: Defend
+		InitialStanceAI: AttackAnything

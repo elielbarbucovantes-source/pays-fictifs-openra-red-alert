@@ -32,6 +32,10 @@ Seul, il pique ; en essaim de trois, il tue un char léger.""",
 Sous son blindage dort une machine à faire naître des îles : 2 min 50 pour sortir 8×8 cases de terre de l'océan.
 Là où il jette l'ancre, l'Australouis peut bâtir une nouvelle base.""",
 "Escortez-le jusqu'à un point stratégique, déployez-le (F) et ne le bougez plus jusqu'à la fin. Amenez ensuite un chantier de construction avec un transport."),
+"PORTE.DRONE": ("Porte-Drone", """Pas un porte-avions : une plateforme navale de production d'essaims kamikazes.
+Sans arme et peu blindé, il fabrique lui-même, gratuitement, six drones à la fois, sans base ni munitions.
+Le lot suivant ne sort des ateliers que 20 secondes après la chute du sixième drone : tant qu'un seul vole encore, rien ne se régénère.""",
+"Clic droit sur un véhicule ou un navire ennemi : un drone part (cliquez plusieurs cibles pour répartir l'essaim). Réfléchissez avant de sacrifier le dernier drone : vous restez 20 s sans défense. Plusieurs Porte-Drones ont chacun leur propre cycle."),
 "L0U15": ("L-0U15", """Destroyer léger, mal armé et peu blindé.
 Son sonar est le meilleur de toutes les mers : aucun sous-marin ne lui échappe à 18 cases.
 Il ne gagne pas les combats : il dit à la flotte où tirer.""",

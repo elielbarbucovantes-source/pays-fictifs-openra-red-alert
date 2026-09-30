@@ -62,6 +62,7 @@ Rules:
 	fictifs|common/rules.yaml
 	fictifs|common/ia.yaml
 	fictifs|common/petrole.yaml
+	fictifs|common/zones.yaml
 	fictifs|mapgen/map-generators.yaml
 	fictifs|elielistan/rules.yaml
 	fictifs|elielistan/powers.yaml
