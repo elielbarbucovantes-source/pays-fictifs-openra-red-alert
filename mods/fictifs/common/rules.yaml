@@ -25,6 +25,8 @@
 
 World:
 	UnitInfoPanel:
+	# Ctrl enfoncé avec un Pelícano chargé sélectionné : ciblage du largage.
+	ParaDropHotkey:
 	StartingUnits@mcvonly:
 		Factions: allies, england, france, germany, soviet, russia, ukraine, elielistan, rubenie, australouis
 	StartingUnits@lightelielistan:

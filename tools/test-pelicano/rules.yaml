@@ -1,0 +1,12 @@
+World:
+	LuaScript:
+		Scripts: test.lua
+	-SpawnStartingUnits:
+	-CrateSpawner:
+Player:
+	-ConquestVictoryConditions:
+	Shroud:
+		FogCheckboxEnabled: false
+		ExploredMapCheckboxEnabled: true
+		ExploredMapCheckboxLocked: true
+		FogCheckboxLocked: true

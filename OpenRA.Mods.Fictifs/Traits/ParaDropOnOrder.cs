@@ -10,7 +10,7 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using OpenRA.Mods.Common.Traits;
 using OpenRA.Mods.Fictifs.Activities;
 using OpenRA.Primitives;
@@ -18,20 +18,26 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.Fictifs.Traits
 {
-	[Desc("Transport aircraft that parachutes its passengers where the player orders:",
-		"right-click on the ground while loaded, the aircraft flies there, drops everything, then returns to base.",
-		"Force-move (Alt) keeps the regular move order.")]
+	[Desc("Transport aircraft that parachutes its passengers along a line chosen by the player.",
+		"Right-click moves as usual. Holding Ctrl opens the drop targeting (see ParaDropHotkey): left-click the drop",
+		"zone, drag to give the direction; the aircraft lines up, flies along the line and drops everyone on the way.")]
 	public class ParaDropOnOrderInfo : TraitInfo, Requires<CargoInfo>, Requires<AircraftInfo>
 	{
-		[Desc("Passengers are dropped while the aircraft is closer than this to the drop point.")]
-		public readonly WDist DropRange = WDist.FromCells(3);
+		[Desc("Length of the drop line.")]
+		public readonly WDist DropLength = WDist.FromCells(6);
 
-		[Desc("Give up and return to base with the remaining passengers after circling this long",
-			"without anyone being able to jump (water, cliffs or crowded ground below).")]
-		public readonly int GiveUpDelay = 250;
+		[Desc("Passengers jump while the aircraft is less than this far from the drop line.")]
+		public readonly WDist CorridorWidth = WDist.FromCells(2);
 
-		[Desc("Ticks between two passengers.")]
-		public readonly int DropInterval = 5;
+		[Desc("The aircraft lines up this far before the start of the drop line.")]
+		public readonly WDist ApproachDistance = WDist.FromCells(5);
+
+		[Desc("Passes over the line before bringing the remaining passengers home",
+			"(water, cliffs or crowded ground below).")]
+		public readonly int MaxPasses = 3;
+
+		[Desc("Minimum ticks between two passengers (they are otherwise spread along the whole line).")]
+		public readonly int MinDropInterval = 2;
 
 		[Desc("Ticks after a drop before the next drop can be ordered.")]
 		public readonly int Cooldown = 1500;
@@ -45,6 +51,12 @@ namespace OpenRA.Mods.Fictifs.Traits
 		[CursorReference]
 		public readonly string BlockedCursor = "move-blocked";
 
+		[Desc("Sequences of the direction arrows while targeting.")]
+		public readonly string DirectionArrowAnimation = "paradirection";
+
+		[PaletteReference]
+		public readonly string DirectionArrowPalette = "chrome";
+
 		[VoiceReference]
 		public readonly string Voice = "Action";
 
@@ -53,14 +65,22 @@ namespace OpenRA.Mods.Fictifs.Traits
 		public override object Create(ActorInitializer init) { return new ParaDropOnOrder(init.Self, this); }
 	}
 
-	public class ParaDropOnOrder : IIssueOrder, IResolveOrder, IOrderVoice, ITick, ISync, ISelectionBar
+	public class ParaDropOnOrder : IResolveOrder, IOrderVoice, ITick, ISync, ISelectionBar
 	{
+		public const string OrderID = "ParaDropHere";
+
 		public readonly ParaDropOnOrderInfo Info;
 		readonly Actor self;
 		readonly Cargo cargo;
+		readonly Aircraft aircraft;
 
 		[Sync]
-		Target dropZone = Target.Invalid;
+		bool armed;
+
+		[Sync]
+		WPos lineCenter;
+
+		WVec lineDir;
 
 		[Sync]
 		int dropDelay;
@@ -68,6 +88,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 		[Sync]
 		int cooldown;
 
+		int dropInterval;
 		int droppedSinceArmed;
 
 		public ParaDropOnOrder(Actor self, ParaDropOnOrderInfo info)
@@ -75,32 +96,60 @@ namespace OpenRA.Mods.Fictifs.Traits
 			Info = info;
 			this.self = self;
 			cargo = self.Trait<Cargo>();
+			aircraft = self.Trait<Aircraft>();
 		}
 
 		public bool CanDrop => cooldown <= 0 && !cargo.IsEmpty();
 		public bool IsEmpty => cargo.IsEmpty();
 		public int DroppedSinceArmed => droppedSinceArmed;
 
-		public bool InDropRange(in Target target)
+		// Direction du largage : celle du glissé, sinon de l'avion vers la zone.
+		public static WVec Direction(WAngle? facing, WPos from, WPos to)
 		{
-			return target.IsInRange(self.CenterPosition, Info.DropRange);
+			if (facing.HasValue)
+				return new WVec(0, -1024, 0).Rotate(WRot.FromYaw(facing.Value));
+
+			var d = to - from;
+			d = new WVec(d.X, d.Y, 0);
+			var len = d.HorizontalLength;
+			return len == 0 ? new WVec(0, -1024, 0) : d * 1024 / len;
 		}
 
-		// Called by the activity: passengers leave while the aircraft is over the drop zone.
-		public void Arm(in Target target)
+		public WPos LineStart(WPos center, WVec dir) { return center - dir * Info.DropLength.Length / 2048; }
+		public WPos LineEnd(WPos center, WVec dir) { return center + dir * Info.DropLength.Length / 2048; }
+		public WPos Approach(WPos center, WVec dir) { return LineStart(center, dir) - dir * Info.ApproachDistance.Length / 1024; }
+
+		bool InCorridor()
 		{
-			dropZone = target;
-			droppedSinceArmed = 0;
+			var v = self.CenterPosition - lineCenter;
+			var along = ((long)v.X * lineDir.X + (long)v.Y * lineDir.Y) / 1024;
+			var across = ((long)v.X * lineDir.Y - (long)v.Y * lineDir.X) / 1024;
+			return Math.Abs(along) <= Info.DropLength.Length / 2 && Math.Abs(across) <= Info.CorridorWidth.Length;
+		}
+
+		// Appelé par l'activité : les passagers sautent pendant le survol de la ligne,
+		// répartis sur toute sa longueur.
+		public void Arm(WPos center, WVec dir)
+		{
+			if (!armed)
+				droppedSinceArmed = 0;
+
+			armed = true;
+			lineCenter = center;
+			lineDir = dir;
+			var speed = Math.Max(1, aircraft.MovementSpeed);
+			var traverse = Info.DropLength.Length / speed;
+			dropInterval = Math.Max(Info.MinDropInterval, traverse / Math.Max(1, cargo.Passengers.Count()));
 		}
 
 		public void Disarm()
 		{
-			if (dropZone.Type == TargetType.Invalid)
+			if (!armed)
 				return;
 
-			dropZone = Target.Invalid;
+			armed = false;
 
-			// Cancelled before anyone jumped: no reloading time.
+			// Annulé avant le premier saut : pas de rechargement.
 			if (droppedSinceArmed > 0)
 				cooldown = Info.Cooldown;
 		}
@@ -116,7 +165,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 				return;
 			}
 
-			if (dropZone.Type == TargetType.Invalid || cargo.IsEmpty() || !InDropRange(dropZone)
+			if (!armed || cargo.IsEmpty() || !InCorridor()
 				|| !self.World.Map.Contains(self.Location) || self.World.Map.DistanceAboveTerrain(self.CenterPosition).Length == 0)
 				return;
 
@@ -124,7 +173,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 			var positionable = dropActor.Trait<IPositionable>();
 			var cell = self.Location;
 
-			// Wait until the aircraft flies over a cell where the passenger can land (no water for tanks, free space).
+			// Le passager ne saute qu'au-dessus d'une case où il peut atterrir (pas d'eau pour les chars, place libre).
 			if (!positionable.CanExistInCell(cell))
 				return;
 
@@ -144,39 +193,29 @@ namespace OpenRA.Mods.Fictifs.Traits
 			});
 
 			Game.Sound.Play(SoundType.World, Info.ChuteSound, self.CenterPosition);
-			dropDelay = Info.DropInterval;
+			dropDelay = dropInterval;
 			droppedSinceArmed++;
-		}
-
-		IEnumerable<IOrderTargeter> IIssueOrder.Orders
-		{
-			get { yield return new ParaDropOrderTargeter(this); }
-		}
-
-		Order IIssueOrder.IssueOrder(Actor self, IOrderTargeter order, in Target target, bool queued)
-		{
-			if (order.OrderID == ParaDropOrderTargeter.Id)
-				return new Order(order.OrderID, self, target, queued);
-
-			return null;
 		}
 
 		void IResolveOrder.ResolveOrder(Actor self, Order order)
 		{
-			if (order.OrderString != ParaDropOrderTargeter.Id || order.Target.Type != TargetType.Terrain || !CanDrop)
+			if (order.OrderString != OrderID || order.Target.Type != TargetType.Terrain || !CanDrop)
 				return;
 
 			var cell = self.World.Map.CellContaining(order.Target.CenterPosition);
 			if (!self.World.Map.Contains(cell))
 				return;
 
-			self.QueueActivity(order.Queued, new ParaDropFlight(self, Target.FromCell(self.World, cell)));
+			var center = self.World.Map.CenterOfCell(cell);
+			var facing = order.ExtraData <= 255 ? WAngle.FromFacing((int)order.ExtraData) : (WAngle?)null;
+			var dir = Direction(facing, self.CenterPosition, center);
+			self.QueueActivity(order.Queued, new ParaDropFlight(self, center, dir));
 			self.ShowTargetLines();
 		}
 
 		string IOrderVoice.VoicePhraseForOrder(Actor self, Order order)
 		{
-			return order.OrderString == ParaDropOrderTargeter.Id ? Info.Voice : null;
+			return order.OrderString == OrderID ? Info.Voice : null;
 		}
 
 		float ISelectionBar.GetValue()
@@ -186,35 +225,5 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		Color ISelectionBar.GetColor() { return Info.CooldownBarColor; }
 		bool ISelectionBar.DisplayWhenEmpty => false;
-
-		sealed class ParaDropOrderTargeter : IOrderTargeter
-		{
-			public const string Id = "ParaDropHere";
-			readonly ParaDropOnOrder trait;
-
-			public ParaDropOrderTargeter(ParaDropOnOrder trait) { this.trait = trait; }
-
-			public string OrderID => Id;
-
-			// Above the aircraft's move order (4): a loaded transport drops instead of moving.
-			public int OrderPriority => 6;
-			public bool IsQueued { get; private set; }
-
-			public bool CanTarget(Actor self, in Target target, ref TargetModifiers modifiers, ref string cursor)
-			{
-				if (target.Type != TargetType.Terrain || modifiers.HasModifier(TargetModifiers.ForceMove) || trait.IsEmpty)
-					return false;
-
-				IsQueued = modifiers.HasModifier(TargetModifiers.ForceQueue);
-				var cell = self.World.Map.CellContaining(target.CenterPosition);
-				cursor = trait.CanDrop && self.World.Map.Contains(cell) ? trait.Info.Cursor : trait.Info.BlockedCursor;
-				return true;
-			}
-
-			public bool TargetOverridesSelection(Actor self, in Target target, List<Actor> actorsAt, CPos xy, TargetModifiers modifiers)
-			{
-				return false;
-			}
-		}
 	}
 }

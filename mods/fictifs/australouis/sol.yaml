@@ -74,4 +74,4 @@ CHEAPER:
 	Armament:
 		Weapon: CheaperCanon
 		# bout du canon du modèle 3D (tools/modeles/australouis.py)
-		LocalOffset: 505,0,256
+		LocalOffset: 606,0,307

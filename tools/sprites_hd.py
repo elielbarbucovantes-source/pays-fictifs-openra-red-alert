@@ -126,7 +126,11 @@ ICONE = {"baleine": A.baleine_icone, "condor": E.condor_icone}
 # Les décalages yaml (tourelles, bouches à feu, rotors) ont été multipliés d'autant.
 ECHELLE = {n: 1.8 for n in ("lanzador", "lanzador.route", "gavilan", "jaguar", "condor", "pico", "garra", "trueno", "vigia",
                             "baleine", "avion.attaque", "lancemissile", "lancemissile.vide", "halcon", "reco.rub", "lrm")}
+# un peu trop grands à 1,8 : réduits de 20 % (2026-09-30)
+for _n in ("jaguar", "trueno", "lancemissile", "lancemissile.vide", "halcon", "gavilan"):
+    ECHELLE[_n] = 1.44
 ECHELLE["cormoran"] = 1.5      # au moins la taille d'un bombardier
+ECHELLE["cheaper"] = 1.2       # silhouette d'un char moyen de Red Alert (2026-09-30)
 
 
 def _echelle(fn, k):

@@ -245,9 +245,10 @@ HARPIA:
 
 # ---------------------------------------------------------------------
 # PELÍCANO — avion de transport stratégique.
-# Se pose à l'aérodrome pour embarquer 15 fantassins OU 5 chars ;
-# clic droit au sol : il va larguer tout son chargement en parachute,
-# puis rentre à l'aérodrome. 60 secondes avant de pouvoir relarguer.
+# Se pose à l'aérodrome pour embarquer 15 fantassins OU 5 chars.
+# Clic droit : déplacement. Ctrl enfoncé : clic gauche sur la zone,
+# glisser pour l'axe ; il s'aligne, largue tout le long de la ligne, puis
+# rentre à l'aérodrome. 60 secondes avant de pouvoir relarguer.
 # ---------------------------------------------------------------------
 PELICANO:
 	Inherits: ^Plane
@@ -259,7 +260,7 @@ PELICANO:
 		BuildAtProductionType: Plane
 		BuildPaletteOrder: 70
 		Prerequisites: ~aerodromo, atek, ~techlevel.high
-		Description: Avion de transport stratégique. Aucune arme.\nPosé à l'aérodrome : 15 fantassins OU 5 chars / pièces d'artillerie montent à bord.\nClic droit au sol : largage en parachute de tout le chargement\n(Alt + clic : simple déplacement). 60 s avant le largage suivant.\nVéhicules vulnérables 4 s après l'atterrissage. Abattu = chargement perdu.\n  Faible contre : chasseurs, défense antiaérienne
+		Description: Avion de transport stratégique. Aucune arme.\nPosé à l'aérodrome : 15 fantassins OU 5 chars / pièces d'artillerie montent à bord.\nClic droit : déplacement. Ctrl enfoncé : clic gauche sur la zone\nde largage, glisser pour la direction. 60 s avant le largage suivant.\nVéhicules vulnérables 4 s après l'atterrissage. Abattu = chargement perdu.\n  Faible contre : chasseurs, défense antiaérienne
 	Valued:
 		Cost: 2500
 	Tooltip:

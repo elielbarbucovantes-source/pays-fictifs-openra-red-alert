@@ -18,24 +18,26 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.Fictifs.Activities
 {
-	// Fly to the drop zone, circle above it until every passenger has jumped, then return to base.
+	// Se place dans l'axe, survole la ligne de largage (les passagers sautent pendant le survol),
+	// recommence si certains n'ont pas pu sauter, puis rentre à la base.
 	public class ParaDropFlight : Activity
 	{
 		readonly ParaDropOnOrder paraDrop;
-		readonly Target dropZone;
+		readonly WPos center;
+		readonly WVec dir;
+		readonly WPos approach, lineStart, exit;
 		bool returning;
-		int lastDropped;
-		int stalledSince = -1;
+		bool onLine;
+		int passes;
 
-		public ParaDropFlight(Actor self, in Target dropZone)
+		public ParaDropFlight(Actor self, WPos center, WVec dir)
 		{
 			paraDrop = self.Trait<ParaDropOnOrder>();
-			this.dropZone = dropZone;
-		}
-
-		protected override void OnFirstRun(Actor self)
-		{
-			paraDrop.Arm(dropZone);
+			this.center = center;
+			this.dir = dir;
+			approach = paraDrop.Approach(center, dir);
+			lineStart = paraDrop.LineStart(center, dir);
+			exit = paraDrop.LineEnd(center, dir) + dir * 2;
 		}
 
 		public override bool Tick(Actor self)
@@ -49,18 +51,7 @@ namespace OpenRA.Mods.Fictifs.Activities
 				return true;
 			}
 
-			// Nobody could jump for a while: bring the others back home.
-			// (Children run between two ticks of this activity, so count in world ticks.)
-			var now = self.World.WorldTick;
-			if (paraDrop.DroppedSinceArmed != lastDropped)
-			{
-				lastDropped = paraDrop.DroppedSinceArmed;
-				stalledSince = now;
-			}
-			else if (stalledSince < 0 && paraDrop.InDropRange(dropZone))
-				stalledSince = now;
-
-			if (paraDrop.IsEmpty || (stalledSince >= 0 && now - stalledSince > paraDrop.Info.GiveUpDelay))
+			if (paraDrop.IsEmpty || passes >= paraDrop.Info.MaxPasses)
 			{
 				paraDrop.Disarm();
 				returning = true;
@@ -68,11 +59,20 @@ namespace OpenRA.Mods.Fictifs.Activities
 				return false;
 			}
 
-			// Circle over the zone while the passengers jump; the trait does the dropping.
-			if (paraDrop.InDropRange(dropZone))
-				QueueChild(new FlyIdle(self, 10));
+			// Alternance : se placer au point d'approche, puis survoler toute la ligne.
+			if (!onLine)
+			{
+				onLine = true;
+				QueueChild(new Fly(self, Target.FromPos(approach), WDist.FromCells(1), targetLineColor: Color.Green));
+			}
 			else
-				QueueChild(new Fly(self, dropZone, WDist.FromCells(1), targetLineColor: Color.Green));
+			{
+				onLine = false;
+				passes++;
+				paraDrop.Arm(center, dir);
+				QueueChild(new Fly(self, Target.FromPos(lineStart), WDist.FromCells(1), targetLineColor: Color.Green));
+				QueueChild(new Fly(self, Target.FromPos(exit), WDist.FromCells(1), targetLineColor: Color.Green));
+			}
 
 			return false;
 		}
@@ -84,8 +84,12 @@ namespace OpenRA.Mods.Fictifs.Activities
 
 		public override IEnumerable<TargetLineNode> TargetLineNodes(Actor self)
 		{
-			if (!returning)
-				yield return new TargetLineNode(dropZone, Color.Green);
+			if (returning)
+				yield break;
+
+			yield return new TargetLineNode(Target.FromPos(approach), Color.Green);
+			yield return new TargetLineNode(Target.FromPos(lineStart), Color.Green);
+			yield return new TargetLineNode(Target.FromPos(exit), Color.Green);
 		}
 	}
 }

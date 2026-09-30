@@ -175,7 +175,7 @@ GAVILAN:
 		Range: 9c0
 	Armament:
 		Weapon: GavilanMG
-		LocalOffset: 322,0,115
+		LocalOffset: 258,0,92
 	Cargo:
 		MaxWeight: 3
 		LoadingCondition: notmobile
@@ -183,7 +183,7 @@ GAVILAN:
 		PauseOnCondition: largage
 	# pivot et bouches à feu des modèles 3D (tools/modeles/elielistan.py)
 	Turreted:
-		Offset: 0,0,414
+		Offset: 0,0,331
 
 HALCON:
 	Inherits: STNK
@@ -208,7 +208,7 @@ HALCON:
 	-WithCargoPipsDecoration:
 	Armament:
 		Weapon: HalconATGM
-		LocalOffset: 301,0,139
+		LocalOffset: 241,0,111
 	AutoTarget:
 		InitialStance: AttackAnything
 		InitialStanceAI: AttackAnything
@@ -219,7 +219,7 @@ HALCON:
 	AttackTurreted:
 		PauseOnCondition: largage
 	Turreted:
-		Offset: -72,0,292
+		Offset: -58,0,234
 
 JAGUAR:
 	Inherits: 1TNK
@@ -242,11 +242,11 @@ JAGUAR:
 		PauseOnCondition: notmobile || being-captured
 	Armament:
 		Weapon: Jaguar90mm
-		LocalOffset: 875,0,153
+		LocalOffset: 700,0,122
 	AttackTurreted:
 		PauseOnCondition: largage
 	Turreted:
-		Offset: -36,0,306
+		Offset: -29,0,245
 
 VIGIA:
 	Inherits: FTRK
@@ -305,7 +305,7 @@ TRUENO:
 		Range: 3c0
 	Armament:
 		Weapon: TruenoShell
-		LocalOffset: 1008,0,668
+		LocalOffset: 806,0,534
 	AttackFrontal:
 		PauseOnCondition: largage
 	SpeedMultiplier@DECROCHAGE:

@@ -379,7 +379,7 @@ LANCEMISSILE:
 		HP: 16000
 	Armament:
 		Weapon: RubMissileBalistique
-		LocalOffset: 391,0,383
+		LocalOffset: 312,0,307
 
 # ---------------------------------------------------------------------
 # ARTILLERIE (usine soviétique)

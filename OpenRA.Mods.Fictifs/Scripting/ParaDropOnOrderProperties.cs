@@ -31,11 +31,16 @@ namespace OpenRA.Mods.Fictifs.Scripting
 		public bool CanParaDrop => paraDrop.CanDrop;
 
 		[ScriptActorPropertyActivity]
-		[Desc("Fly to the cell, parachute every passenger, then return to base.")]
-		public void ParaDropAt(CPos cell)
+		[Desc("Fly along a drop line centred on the cell (facing 0-255 gives its direction, -1 = from the aircraft),",
+			"parachute every passenger on the way, then return to base.")]
+		public void ParaDropAt(CPos cell, int facing = -1)
 		{
-			if (paraDrop.CanDrop)
-				Self.QueueActivity(new ParaDropFlight(Self, Target.FromCell(Self.World, cell)));
+			if (!paraDrop.CanDrop)
+				return;
+
+			var center = Self.World.Map.CenterOfCell(cell);
+			var dir = ParaDropOnOrder.Direction(facing < 0 ? null : WAngle.FromFacing(facing), Self.CenterPosition, center);
+			Self.QueueActivity(new ParaDropFlight(Self, center, dir));
 		}
 	}
 }
