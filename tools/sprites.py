@@ -516,6 +516,108 @@ def icon_radar_blink():
     return icon_aus_done(im)
 
 
+
+# ---------------------------------------------------------------------------
+# Système pétrole : pipeline (segments comme des murs) et Oil Refinery
+# ---------------------------------------------------------------------------
+PIPE = (96, 100, 104)
+PIPE_DARK = (54, 56, 60)
+PIPE_LIGHT = (156, 160, 164)
+RUST = (120, 72, 40)
+
+
+def pipeline_frame(mask, damaged=False):
+    """Segment 24x24. mask : 1 = haut, 2 = droite, 4 = bas, 8 = gauche (WithWallSpriteBody)."""
+    im, d = canvas(24, 24)
+    s = SS
+    c0, c1 = 9 * s, 15 * s                         # le tube fait 6 px de large
+    body = RUST if damaged else PIPE
+    arms = {1: (c0, 0, c1, c1), 2: (c0, c0, 24 * s, c1), 4: (c0, c0, c1, 24 * s), 8: (0, c0, c1, c1)}
+    if mask == 0:                                  # segment isolé : tronçon horizontal
+        mask = 2 | 8
+    for bit, (x0, y0, x1, y1) in arms.items():
+        if mask & bit:
+            d.rectangle([x0, y0 + s, x1, y1 + s], fill=(20, 20, 20, 110))     # ombre
+    for bit, (x0, y0, x1, y1) in arms.items():
+        if mask & bit:
+            d.rectangle([x0, y0, x1, y1], fill=body + (255,))
+            if bit in (2, 8):
+                d.rectangle([x0, c0, x1, c0 + s], fill=PIPE_LIGHT + (255,))
+                d.rectangle([x0, c1 - s, x1, c1], fill=PIPE_DARK + (255,))
+            else:
+                d.rectangle([c0, y0, c0 + s, y1], fill=PIPE_LIGHT + (255,))
+                d.rectangle([c1 - s, y0, c1, y1], fill=PIPE_DARK + (255,))
+    # bride de raccord au centre
+    d.rectangle([8 * s, 8 * s, 16 * s, 16 * s], fill=PIPE_DARK + (255,))
+    d.rectangle([9 * s, 9 * s, 15 * s, 15 * s], fill=(body if not damaged else (90, 60, 40)) + (255,))
+    d.ellipse([11 * s, 11 * s, 13 * s, 13 * s], fill=(30, 30, 30, 255))
+    if damaged:
+        d.line([(10 * s, 10 * s), (14 * s, 15 * s)], fill=(20, 20, 20, 255), width=s)
+        d.ellipse([13 * s, 14 * s, 18 * s, 18 * s], fill=(12, 12, 12, 200))   # fuite de pétrole
+    return shrink(im, 24, 24)
+
+
+def raffinerie_frame(t, damaged=False, build=None):
+    """Oil Refinery 2x2 (48x48) : deux cuves, colonne de distillation, torchère animée."""
+    w = h = 48
+    im, d = canvas(w, h)
+    s = SS
+    d.rectangle([1 * s, 20 * s, 47 * s, 47 * s], fill=(92, 88, 80, 255))             # dalle béton
+    d.rectangle([1 * s, 20 * s, 47 * s, 21 * s], fill=(130, 126, 116, 255))
+    tank = (170, 164, 150) if not damaged else (120, 110, 96)
+    for x0 in (3, 17):                                                              # cuves
+        d.rectangle([x0 * s, 26 * s, (x0 + 12) * s, 42 * s], fill=tank + (255,))
+        d.ellipse([x0 * s, 22 * s, (x0 + 12) * s, 30 * s], fill=(200, 194, 180, 255) if not damaged else (130, 120, 104, 255))
+        d.ellipse([x0 * s, 38 * s, (x0 + 12) * s, 46 * s], fill=tank + (255,))
+        d.rectangle([(x0 + 10) * s, 28 * s, (x0 + 12) * s, 43 * s], fill=(110, 106, 96, 255))
+        d.rectangle([x0 * s, 33 * s, (x0 + 12) * s, 35 * s], fill=(150, 30, 30, 255))  # bande rouge
+    d.rectangle([33 * s, 6 * s, 39 * s, 44 * s], fill=(120, 124, 130, 255))            # colonne
+    d.rectangle([33 * s, 6 * s, 34 * s, 44 * s], fill=(170, 174, 180, 255))
+    for y in range(10, 44, 6):
+        d.rectangle([32 * s, y * s, 40 * s, (y + 1) * s], fill=(70, 72, 76, 255))
+    d.rectangle([42 * s, 4 * s, 44 * s, 40 * s], fill=(80, 82, 86, 255))              # torchère
+    d.line([(29 * s, 30 * s), (33 * s, 30 * s)], fill=PIPE + (255,), width=2 * s)      # tuyauterie
+    d.line([(39 * s, 36 * s), (46 * s, 36 * s)], fill=PIPE + (255,), width=2 * s)
+    if not damaged or t % 2 == 0:
+        fl = [(255, 220, 90), (255, 170, 40), (240, 110, 30), (255, 190, 60)][t % 4]
+        hgt = [7, 9, 6, 8][t % 4]
+        d.polygon([(41 * s, 4 * s), (45 * s, 4 * s), (43 * s + (t % 2) * s, (4 - hgt) * s + 2 * s)], fill=fl + (255,))
+    if damaged:
+        for x, y in ((8, 30), (22, 38), (36, 20)):
+            d.ellipse([x * s, y * s, (x + 5) * s, (y + 4) * s], fill=(24, 22, 20, 255))
+    im = shrink(im, w, h)
+    if build is not None:                                                          # animation de construction
+        cut = int(h * (1 - build))
+        mask = Image.new("L", (w, h), 0)
+        mask.paste(255, (0, cut, w, h))
+        empty = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        im = Image.composite(im, empty, mask)
+    return im
+
+
+def icon_raffinerie_petrole():
+    im, d = canvas(64, 48, (70, 60, 40, 255))
+    s = SS
+    d.rectangle([0, 0, 64 * s - 1, 48 * s - 1], outline=(20, 20, 20, 255), width=2 * s)
+    ref = raffinerie_frame(1).resize((48 * s, 48 * s), Image.LANCZOS)
+    im.alpha_composite(ref, (8 * s, 0))
+    d.ellipse([3 * s, 30 * s, 13 * s, 44 * s], fill=(20, 18, 16, 255))                # goutte de pétrole
+    d.polygon([(4 * s, 34 * s), (8 * s, 24 * s), (12 * s, 34 * s)], fill=(20, 18, 16, 255))
+    return shrink(im, 64, 48)
+
+
+def icon_pipeline():
+    im, d = canvas(64, 48, (70, 60, 40, 255))
+    s = SS
+    d.rectangle([0, 0, 64 * s - 1, 48 * s - 1], outline=(20, 20, 20, 255), width=2 * s)
+    for mask, x, y in ((2 | 8, 4, 12), (2 | 8, 20, 12), (8 | 4, 36, 12), (1 | 4, 36, 28)):
+        seg = pipeline_frame(mask).resize((16 * s, 16 * s), Image.LANCZOS)
+        im.alpha_composite(seg, (x * s, y * s))
+    d.ellipse([46 * s, 30 * s, 56 * s, 44 * s], fill=(20, 18, 16, 255))
+    d.polygon([(47 * s, 34 * s), (51 * s, 24 * s), (55 * s, 34 * s)], fill=(20, 18, 16, 255))
+    return shrink(im, 64, 48)
+
+
 if __name__ == "__main__":
     save(to_indexed([gate_frame(t) for t in range(8)], 48, 48), "aguilagate", 48, 48, 8)
     save(to_indexed([taupe_frame(t) for t in range(8)], 48, 48), "taupegate", 48, 48, 8)
@@ -535,4 +637,10 @@ if __name__ == "__main__":
     for name, fn in (("mothershipicon", icon_mothership), ("revolutionnaireicon", icon_revolutionnaire),
                      ("chantieravanceicon", icon_chantier_avance), ("raffinerieboosticon", icon_raffinerie_boost),
                      ("radarblinkicon", icon_radar_blink)):
+        save(to_indexed([fn()], 64, 48), name, 64, 48, 1)
+    save(to_indexed([pipeline_frame(m) for m in range(16)] + [pipeline_frame(m, True) for m in range(16)], 24, 24),
+         "pipeline", 24, 24, 32)
+    save(to_indexed([raffinerie_frame(t) for t in range(4)] + [raffinerie_frame(t, True) for t in range(4)]
+                    + [raffinerie_frame(0, build=(k + 1) / 8) for k in range(8)], 48, 48), "raffinerie", 48, 48, 16)
+    for name, fn in (("raffinerieicon", icon_raffinerie_petrole), ("pipelineicon", icon_pipeline)):
         save(to_indexed([fn()], 64, 48), name, 64, 48, 1)

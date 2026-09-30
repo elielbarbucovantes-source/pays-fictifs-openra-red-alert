@@ -1,0 +1,171 @@
+# =====================================================================
+# PAYS FICTIFS — système pétrole (tous les pays)
+#
+#   Oil Derrick capturé ── pipeline ── Raffinerie de pétrole
+#   (les trois au même joueur)  →  +100 $ toutes les 10 s par derrick relié.
+#
+# - Une raffinerie accepte 5 derricks au plus, à 30 cases au plus.
+# - Un segment de pipeline détruit coupe seulement les derricks derrière lui.
+# - Raffinerie détruite : ses derricks ne rapportent plus (ils restent capturés).
+# - Le revenu d'origine du derrick (100 $ / 15 s dès la capture) est conservé.
+#
+# Le calcul des réseaux et les paiements sont dans OilNetwork.cs (OilIncome).
+# =====================================================================
+
+Player:
+	OilIncome:
+		AmountPerDerrick: 100
+		Interval: 250
+
+# ---------------------------------------------------------------------
+# Oil Derrick : les derricks des cartes, sans nouvelle ressource.
+# Point vert : relié à une raffinerie.
+# ---------------------------------------------------------------------
+OILB:
+	OilDerrick:
+		ConnectedCondition: petrole-relie
+	OilPipelineConnector:
+	LineBuildNode@PIPELINE:
+		Types: pipeline
+	GivesBuildableArea@PIPELINE:
+		AreaTypes: pipeline
+	WithDecoration@PETROLE:
+		Image: pips
+		Sequence: pip-green
+		Position: TopRight
+		ValidRelationships: Ally
+		RequiresCondition: petrole-relie
+	TooltipDescription@ally:
+		Description: Rapporte des fonds.\nRelié par pipeline à une raffinerie de pétrole : +100 $ toutes les 10 s.
+	TooltipDescription@other:
+		Description: À capturer pour recevoir des fonds.
+	Explodes:
+		Weapon: DerrickExplode
+
+# ---------------------------------------------------------------------
+# Raffinerie de pétrole
+# ---------------------------------------------------------------------
+RAFFINERIE.PETROLE:
+	Inherits: ^Building
+	Inherits@shape: ^2x2Shape
+	RenderSprites:
+		Image: raffinerie.petrole
+	Selectable:
+		Bounds: 2048, 2048
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 55
+		Prerequisites: proc, ~techlevel.low
+		Description: Reçoit le pétrole des Oil Derricks capturés et reliés\npar pipeline : +100 $ toutes les 10 s par derrick.\n5 derricks au maximum, à 30 cases au maximum.\nLe pipeline se construit à partir de la raffinerie ou d'un derrick capturé.
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Raffinerie de pétrole
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Health:
+		HP: 80000
+	Armor:
+		Type: Wood
+	RevealsShroud:
+		Range: 5c0
+	Power:
+		Amount: -50
+	ProvidesPrerequisite@buildingname:
+	GivesBuildableArea:
+		AreaTypes: building, fake, pipeline
+	OilRefinery:
+		MaxDerricks: 5
+		MaxDistance: 30c0
+		DerrickCondition: petrole-derrick
+	OilPipelineConnector:
+	LineBuildNode@PIPELINE:
+		Types: pipeline
+	WithTextDecoration@PETROLE0:
+		Text: 0/5
+		Position: Top
+		Color: C0C0C0
+		RequiresCondition: !petrole-derrick
+	WithTextDecoration@PETROLE1:
+		Text: 1/5
+		Position: Top
+		Color: 40E060
+		RequiresCondition: petrole-derrick == 1
+	WithTextDecoration@PETROLE2:
+		Text: 2/5
+		Position: Top
+		Color: 40E060
+		RequiresCondition: petrole-derrick == 2
+	WithTextDecoration@PETROLE3:
+		Text: 3/5
+		Position: Top
+		Color: 40E060
+		RequiresCondition: petrole-derrick == 3
+	WithTextDecoration@PETROLE4:
+		Text: 4/5
+		Position: Top
+		Color: 40E060
+		RequiresCondition: petrole-derrick == 4
+	WithTextDecoration@PETROLE5:
+		Text: 5/5
+		Position: Top
+		Color: F0D040
+		RequiresCondition: petrole-derrick >= 5
+
+# ---------------------------------------------------------------------
+# Pipeline : segments posés comme des murs (on tire une ligne jusqu'à
+# 7 cases d'un derrick capturé, de la raffinerie ou d'un autre segment).
+# Les unités passent dessus mais ne peuvent pas s'y arrêter.
+# ---------------------------------------------------------------------
+PIPELINE:
+	Inherits: ^Wall
+	RenderSprites:
+		Image: pipeline
+	Buildable:
+		Queue: Defense
+		BuildPaletteOrder: 5
+		Prerequisites: raffinerie.petrole, ~techlevel.low
+		Description: Relie un Oil Derrick capturé à une raffinerie de pétrole.\nSe pose en ligne, à partir d'un derrick, de la raffinerie\nou d'un segment déjà posé. Les unités passent dessus.\nFragile : un segment détruit coupe le derrick. Réparable.
+	Valued:
+		Cost: 50
+	CustomSellValue:
+		Value: 0
+	Tooltip:
+		Name: Pipeline
+	Building:
+		Footprint: +
+		TerrainTypes: Clear, Road, Rough
+	HitShape:
+		UseTargetableCellsOffsets: false
+	Health:
+		HP: 6000
+	Armor:
+		Type: Wood
+	-Crushable:
+	Targetable:
+		TargetTypes: GroundActor, DetonateAttack, Wall, NoAutoTarget, Pipeline
+	RequiresBuildableArea:
+		AreaTypes: pipeline
+		Adjacent: 7
+	GivesBuildableArea:
+		AreaTypes: pipeline
+	LineBuild:
+		Range: 8
+		NodeTypes: pipeline
+	LineBuildNode:
+		Types: pipeline
+	WithWallSpriteBody:
+		Type: pipeline
+	OilPipeline:
+	RepairableBuilding:
+		RepairStep: 700
+		PlayerExperience: 5
+		RepairingNotification: Repairing
+	WithBuildingRepairDecoration:
+		Image: allyrepair
+		Sequence: repair
+		Position: Center
+		Palette: player
+		IsPlayerPalette: True
+	-SoundOnDamageTransition:

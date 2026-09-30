@@ -1,0 +1,17 @@
+# =====================================================================
+# PAYS FICTIFS — armes communes
+# =====================================================================
+
+# Explosion d'un Oil Derrick : comme les barils de Red Alert, mais elle
+# épargne les pipelines (un derrick détruit ne coupe pas les autres).
+DerrickExplode:
+	Inherits: BarrelExplode
+	Warhead@Cluster: FireCluster
+		Weapon: DerrickCluster
+	Warhead@1Dam: SpreadDamage
+		InvalidTargets: Pipeline
+
+DerrickCluster:
+	Inherits: BarrelCluster
+	Warhead@1Dam: SpreadDamage
+		InvalidTargets: Pipeline

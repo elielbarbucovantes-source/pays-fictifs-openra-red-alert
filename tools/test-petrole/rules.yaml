@@ -1,0 +1,16 @@
+World:
+	LuaScript:
+		Scripts: test.lua
+	-SpawnStartingUnits:
+	-CrateSpawner:
+Player:
+	-ConquestVictoryConditions:
+	Shroud:
+		FogCheckboxEnabled: false
+		ExploredMapCheckboxEnabled: true
+		FogCheckboxLocked: true
+		ExploredMapCheckboxLocked: true
+
+# Le revenu d'origine du derrick est retiré pour ne mesurer que le pipeline.
+OILB:
+	-CashTrickler:

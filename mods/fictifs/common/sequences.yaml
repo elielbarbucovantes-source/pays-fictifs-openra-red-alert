@@ -3,3 +3,32 @@
 lasermark:
 	idle:
 		Filename: fictifs|bits/lasermark.png
+
+# Système pétrole (common/petrole.yaml).
+pipeline:
+	Defaults:
+		Filename: fictifs|bits/pipeline.png
+	idle:
+		Length: 16
+	damaged-idle:
+		Start: 16
+		Length: 16
+	icon:
+		Filename: fictifs|bits/pipelineicon.png
+
+raffinerie.petrole:
+	Defaults:
+		Filename: fictifs|bits/raffinerie.png
+	idle:
+		Length: 4
+		Tick: 160
+	damaged-idle:
+		Start: 4
+		Length: 4
+		Tick: 160
+	make:
+		Start: 8
+		Length: 8
+		Tick: 80
+	icon:
+		Filename: fictifs|bits/raffinerieicon.png

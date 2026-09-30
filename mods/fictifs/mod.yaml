@@ -61,6 +61,7 @@ Rules:
 	ra|rules/fakes.yaml
 	fictifs|common/rules.yaml
 	fictifs|common/ia.yaml
+	fictifs|common/petrole.yaml
 	fictifs|mapgen/map-generators.yaml
 	fictifs|elielistan/rules.yaml
 	fictifs|elielistan/powers.yaml
@@ -181,6 +182,7 @@ Weapons:
 	ra|weapons/other.yaml
 	ra|weapons/smallcaliber.yaml
 	ra|weapons/superweapons.yaml
+	fictifs|common/weapons.yaml
 	fictifs|elielistan/weapons.yaml
 	fictifs|rubenie/weapons.yaml
 	fictifs|australouis/weapons.yaml
