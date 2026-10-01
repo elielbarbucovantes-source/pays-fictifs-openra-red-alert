@@ -105,6 +105,9 @@ RayoBomb:
 		Velocity: 0, 0, -120
 		Acceleration: 0, 0, -10
 		Shadow: False
+	# -20 % par rapport à ParaBomb (30000) : la frappe était trop puissante.
+	Warhead@1Dam: SpreadDamage
+		Damage: 24000
 
 # ---------------------------------------------------------------------
 # Aguila Nuclear : canon de 125 mm alimenté par le réacteur.
