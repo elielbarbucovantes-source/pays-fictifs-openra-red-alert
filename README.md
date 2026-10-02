@@ -79,11 +79,28 @@ make              # télécharge le moteur OpenRA (release-20231010) et compile 
 
 Sous Windows : `make.cmd` puis `launch-game.cmd`.
 
-Sous macOS : installer le [SDK .NET 6](https://dotnet.microsoft.com/download/dotnet/6.0), puis les mêmes commandes que sous Linux dans le Terminal. Si seul un .NET plus récent est installé, lancer avec `DOTNET_ROLL_FORWARD=LatestMajor ./launch-game.sh`.
+Sous macOS : une seule commande dans le Terminal installe tout (outils Apple, .NET 8, le mod dans `~/PaysFictifs`) et crée **Jouer Pays fictifs** sur le Bureau :
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/elielbarbucovantes-source/pays-fictifs-openra-red-alert/main/installer-mac.sh | bash
+```
+
+Ensuite, double-cliquer sur **Jouer Pays fictifs** pour jouer.
+
+Lancer avec `./jouer.sh` plutôt que `./launch-game.sh` (Linux et macOS) : à chaque lancement, le script récupère la dernière version publiée sur GitHub, recompile si besoin, ouvre une fois le pare-feu à ZeroTier (mot de passe administrateur demandé), puis lance le jeu.
 
 Sans git : bouton vert « Code » → « Download ZIP » sur la page GitHub, décompresser, puis `make` et `./launch-game.sh` dans le dossier.
 
 Au premier lancement, le jeu propose de télécharger les fichiers d'origine de Red Alert (version gratuite de 2008) : choisir « Quick Install ».
+
+## Jouer en ligne avec un ami (ZeroTier)
+
+1. Installer [ZeroTier](https://www.zerotier.com/download/) tous les deux et rejoindre le même réseau. Sur my.zerotier.com, cocher **Auth** pour les deux machines. Sur Mac, autoriser l'extension réseau de ZeroTier dans les Réglages Système.
+2. Lancer le jeu avec `jouer.sh` (ou **Jouer Pays fictifs** sur Mac) : il se met à jour tout seul, donc les deux joueurs ont la même version.
+3. L'hôte va dans **Multijoueur** → **Create**. Son adresse ZeroTier s'affiche, avec un bouton **Copier mon adresse**. Il l'envoie à l'autre joueur.
+4. L'autre joueur colle l'adresse dans le champ à côté de **Rejoindre mon ami** dans l'écran Multijoueur, puis clique sur le bouton. L'adresse est mémorisée pour les fois suivantes.
+
+La version du mod contient le commit installé (`release-20231010+8f4e95b`, par exemple). Si les deux joueurs n'ont pas la même, la connexion est refusée avec un message qui demande de se mettre à jour, au lieu d'une désynchronisation en cours de partie. Les sauvegardes et les replays sont rangés par version : ceux d'une ancienne version n'apparaissent plus après une mise à jour (ils ne se rejoueraient de toute façon pas correctement avec des règles différentes).
 
 ## Générateur de cartes aléatoires
 

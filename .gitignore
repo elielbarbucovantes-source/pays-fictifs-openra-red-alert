@@ -60,3 +60,8 @@ update-result.txt
 
 # Données géographiques téléchargées par tools/monde.py
 tools/monde-cache/
+
+# Lanceur jouer.sh
+jouer.log
+.build-commit
+.pare-feu-ok

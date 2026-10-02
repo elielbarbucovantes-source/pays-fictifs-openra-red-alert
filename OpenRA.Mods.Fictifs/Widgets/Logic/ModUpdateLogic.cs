@@ -31,7 +31,6 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 	public class ModUpdateLogic : ChromeLogic
 	{
 		const string ResultFile = "update-result.txt";
-		const string VersionFile = ".version-commit";
 
 		readonly string root;
 		readonly string repository;
@@ -47,9 +46,9 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 			repository = logicArgs.TryGetValue("Repository", out var repo) ? repo.Value : null;
 			branch = logicArgs.TryGetValue("Branch", out var br) ? br.Value : "main";
 
-			// mods/<id>/ → racine du dépôt.
-			root = Path.GetFullPath(Path.Combine(modData.Manifest.Package.Name, "..", ".."));
-			localCommit = ReadLocalCommit(root, branch);
+			root = ModVersion.Root(modData);
+			localCommit = ModVersion.ReadLocalCommit(root);
+			ModVersion.Apply(modData);
 
 			var button = widget.Get<ButtonWidget>("UPDATE_BUTTON");
 			var label = widget.Get<LabelWidget>("UPDATE_STATUS");
@@ -119,42 +118,6 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 				Log.Write("debug", $"Vérification des mises à jour impossible : {e.Message}");
 				if (!keepResultMessage)
 					status = "GitHub injoignable";
-			}
-		}
-
-		// Lit le commit installé sans lancer git : .git/refs, sinon packed-refs,
-		// sinon le fichier laissé par une installation depuis le ZIP.
-		static string ReadLocalCommit(string root, string branch)
-		{
-			try
-			{
-				var git = Path.Combine(root, ".git");
-				if (Directory.Exists(git))
-				{
-					var head = File.ReadAllText(Path.Combine(git, "HEAD")).Trim();
-					if (!head.StartsWith("ref: ", StringComparison.Ordinal))
-						return head;
-
-					var reference = head.Substring(5);
-					var refPath = Path.Combine(git, reference);
-					if (File.Exists(refPath))
-						return File.ReadAllText(refPath).Trim();
-
-					var packed = Path.Combine(git, "packed-refs");
-					if (File.Exists(packed))
-						foreach (var line in File.ReadAllLines(packed))
-							if (line.EndsWith(" " + reference, StringComparison.Ordinal))
-								return line.Split(' ')[0];
-
-					return null;
-				}
-
-				var version = Path.Combine(root, VersionFile);
-				return File.Exists(version) ? File.ReadAllText(version).Trim() : null;
-			}
-			catch (IOException)
-			{
-				return null;
 			}
 		}
 
