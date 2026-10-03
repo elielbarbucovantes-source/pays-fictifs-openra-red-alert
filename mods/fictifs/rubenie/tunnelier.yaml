@@ -81,3 +81,58 @@ TUNNELIER:
 		Sequence: pip-yellow
 		Position: TopLeft
 		RequiresCondition: emergence
+
+# =====================================================================
+# TUNNELIER AVANCÉ « Ferdinand de Lesseps » — Rubénie et Australouis, sans arme
+#
+#   touche de déploiement (F) → tracer une ligne (appuyer, glisser,
+#   relâcher ; ou deux clics) → il creuse chaque case, une par une
+#
+# Une case creusée est une tranchée sèche (terrain accidenté). Dès que la
+# tranchée touche la mer, toutes les cases reliées sont englouties d'un coup
+# et deviennent un canal navigable. Les unités terrestres dedans se noient.
+# On ne creuse ni sous un bâtiment, ni sous un arbre, ni sur un pont.
+# Pas de doctrine logistique : l'unité est partagée avec l'Australouis.
+# =====================================================================
+
+World:
+	CanalLayer:
+		DrownDamageTypes: DefaultDeath
+
+WEAP:
+	ProvidesPrerequisite@canaux:
+		Factions: rubenie, australouis
+		Prerequisite: vehicles.canaux
+
+TUNNELIER.AVANCE:
+	Inherits: ^TrackedVehicle
+	RenderSprites:
+		Image: tunnelier.avance
+	Buildable:
+		Queue: Vehicle
+		BuildPaletteOrder: 95
+		BuildLimit: 2
+		Prerequisites: ~vehicles.canaux, fix, ~techlevel.medium
+		Description: Trancheuse de génie, sans arme. 2 exemplaires maximum.\nDéploiement (F) puis tracer une ligne (glisser, ou deux clics) :\ncreuse chaque case de la ligne, environ 8 s par case.\nUne tranchée reliée à la mer est engloutie : elle devient un canal\nnavigable, et les unités terrestres qui s'y trouvent se noient.\nImpossible sous un bâtiment, un arbre ou un pont.\n  Requiert : centre de réparation
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Ferdinand de Lesseps
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 40000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 60
+	RevealsShroud:
+		MinRange: 4c0
+		Range: 5c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 4c0
+	DigsCanals:
+		DigDelay: 200
+		MaxLength: 24
+		FloodedTextNotification: La mer envahit le canal !

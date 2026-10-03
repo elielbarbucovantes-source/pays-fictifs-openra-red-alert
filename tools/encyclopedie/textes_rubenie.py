@@ -144,4 +144,8 @@ Défense antiaérienne rapprochée, mais aucune arme contre les sous-marins.""",
 Ses armes ne tirent que si des fantassins sont à bord ; il est livré avec quatre hommes.
 Il ravitaille les unités autour de lui et n'est jamais isolé.""",
 "Faites-en le centre d'une contre-attaque : il porte sa propre logistique. Gardez-le toujours garni et protégez-le de l'artillerie. Trois au maximum."),
+"TUNNELIER.AVANCE": ("Ferdinand de Lesseps", """Trancheuse de génie à chaîne excavatrice, sans arme, partagée par la Rubénie et l'Australouis.
+Elle creuse des tranchées case par case ; dès qu'une tranchée touche la mer, l'eau s'y engouffre
+et la transforme en canal navigable. Ceux qui se trouvent au fond se noient.""",
+"Tracez le canal depuis l'intérieur vers la côte : la tranchée reste sèche jusqu'au dernier coup de pelle, puis la mer envahit tout d'un coup. De quoi couper une route, isoler une base ou ouvrir un passage à la flotte."),
 }

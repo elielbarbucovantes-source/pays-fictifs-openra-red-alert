@@ -1,0 +1,17 @@
+World:
+	LuaScript:
+		Scripts: test.lua
+	-SpawnStartingUnits:
+	-CrateSpawner:
+	-IndustrialZoneSpawner:
+Player:
+	-ConquestVictoryConditions:
+	Shroud:
+		FogCheckboxEnabled: false
+		FogCheckboxLocked: true
+		ExploredMapCheckboxEnabled: true
+		ExploredMapCheckboxLocked: true
+# Test plus rapide : 2 s par case au lieu de 8.
+TUNNELIER.AVANCE:
+	DigsCanals:
+		DigDelay: 50

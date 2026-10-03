@@ -1,0 +1,41 @@
+MapFormat: 12
+
+RequiresMod: ra
+
+Title: Test Canal
+
+Author: Sprog
+
+Tileset: TEMPERAT
+
+MapSize: 128,128
+
+Bounds: 16,16,96,96
+
+Visibility: Lobby
+
+Categories: Conquest
+
+Players:
+	PlayerReference@Neutral:
+		Name: Neutral
+		OwnsWorld: True
+		NonCombatant: True
+		Faction: allies
+	PlayerReference@Multi0:
+		Name: Multi0
+		Playable: True
+		LockFaction: True
+		Faction: australouis
+		Enemies: Ennemi
+	PlayerReference@Ennemi:
+		Name: Ennemi
+		Faction: soviet
+		Enemies: Multi0
+
+Actors:
+	Actor103: mpspawn
+		Owner: Neutral
+		Location: 35,66
+
+Rules: rules.yaml

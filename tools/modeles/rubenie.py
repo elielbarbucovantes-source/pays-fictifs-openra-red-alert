@@ -423,6 +423,53 @@ def tunnelier():
     return m
 
 
+
+def tunnelier_avance():
+    """Trancheuse lourde à chenilles : cabine à l'avant, flèche à chaîne excavatrice à l'arrière
+    qui plonge dans le sol, tapis d'évacuation des déblais sur le côté. Partagé avec l'Australouis."""
+    peau = blinde(4.0, 97)
+    orange = Mat((214, 120, 36), spec=0.3)
+    m = Mesh()
+    tr = chenilles(19.0, 2.4, 3.6, 5.4, 0.0, wheels=6)
+    m.add(tr).add(tr.mirror_x())
+    # caisse basse et capot moteur
+    m.add(prism(rrect(-4.4, -8.0, 4.4, 8.6, 1.2), 1.4, 4.6, peau, bevel=0.6))
+    m.add(prism(rrect(-3.6, -7.4, 3.6, -1.0, 0.8), 4.6, 6.0, peau, bevel=0.4))
+    m.add(box(-2.8, -6.8, 6.0, 2.8, -2.0, 6.25, GRILLE))
+    m.add(tube((2.6, -2.4, 6.0), (2.6, -2.4, 8.6), 0.4, mat=ACIER_SOMBRE, seg=6))
+    # cabine vitrée à l'avant
+    m.add(prism(rrect(-3.4, 2.2, 1.6, 7.8, 0.5), 4.6, 8.4, peau, bevel=0.3))
+    m.add(box(-3.0, 7.8, 5.8, 1.2, 7.95, 7.9, VITRE))
+    m.add(box(-3.5, 2.8, 5.8, -3.35, 7.2, 7.9, VITRE))
+    m.add(box(-3.6, 2.0, 8.4, 1.8, 8.0, 8.7, ACIER_SOMBRE))
+    m.add(box(-2.6, 8.0, 8.5, -1.6, 8.3, 8.9, PHARE)).add(box(0.0, 8.0, 8.5, 1.0, 8.3, 8.9, PHARE))
+    # lame niveleuse à l'avant
+    m.add(box(-5.6, 9.4, 0.2, 5.6, 10.2, 2.6, orange, bevel=0.2))
+    m.add(tube((-3.0, 8.6, 2.6), (-3.0, 9.6, 1.6), 0.35, mat=ACIER_SOMBRE, seg=6))
+    m.add(tube((3.0, 8.6, 2.6), (3.0, 9.6, 1.6), 0.35, mat=ACIER_SOMBRE, seg=6))
+    # flèche de la chaîne excavatrice, inclinée vers l'arrière et le sol
+    dents = Mat((196, 188, 160), spec=0.7, shine=24)
+    a = math.radians(38)
+    longueur = 11.0
+    y0, z0 = -7.6, 6.4
+    for k in range(9):
+        t = k / 8.0
+        y = y0 - t * longueur * math.cos(a)
+        z = z0 - t * longueur * math.sin(a)
+        m.add(box(-1.9, y - 0.6, z - 0.7, 1.9, y + 0.6, z + 0.7, dents if k % 2 else ACIER_SOMBRE))
+    y1, z1 = y0 - longueur * math.cos(a), z0 - longueur * math.sin(a)
+    m.add(tube((0, y0, z0 + 0.9), (0, y1, z1 + 0.9), 0.8, mat=orange, seg=8))
+    m.add(tube((-2.0, y0, z0), (2.0, y0, z0), 1.3, mat=orange, seg=10))
+    m.add(tube((-1.8, y1, z1), (1.8, y1, z1), 1.1, mat=ACIER_SOMBRE, seg=10))
+    # vérins de levage de la flèche
+    m.add(tube((-2.4, -5.0, 4.6), (-1.2, -11.0, 2.6), 0.4, mat=ACIER, seg=6))
+    m.add(tube((2.4, -5.0, 4.6), (1.2, -11.0, 2.6), 0.4, mat=ACIER, seg=6))
+    # tapis d'évacuation des déblais vers la droite, avec un tas de terre
+    m.add(box(1.4, -6.6, 4.4, 8.6, -4.4, 5.0, Mat((60, 60, 58), tex=stripes(0.8, 0.7, axis=0))).rot_y(-14, cx=1.4, cz=4.4))
+    m.add(box(1.6, -6.4, 5.0, 8.0, -4.6, 5.3, Mat((126, 98, 70), spec=0.02, tex=noise(98, 0.25, 0.6))).rot_y(-14, cx=1.4, cz=4.4))
+    m.add(montagne(-1.0, 5.0, 8.72, 0.9))
+    return m
+
 # ---------------------------------------------------------------------------
 # Aviation : camouflage gris-bleu à taches vertes, étoile-montagne sur les ailes
 # ---------------------------------------------------------------------------

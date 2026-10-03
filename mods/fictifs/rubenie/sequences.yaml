@@ -464,3 +464,16 @@ fact.rub:
 		Tick: 800
 	icon:
 		Filename: fictifs|bits/fact.rubicon.png
+
+tunnelier.avance:
+	idle:
+		Filename: fictifs|bits/tunnelier.avance.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/tunnelier.avanceicon.png
+
+# Tranchées du Tunnelier avancé : 16 tuiles selon les voisins creusés (voir tools/canal.py).
+canal:
+	tranchee:
+		Filename: fictifs|bits/canal.png
+		Length: 16

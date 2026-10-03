@@ -58,6 +58,7 @@ UNITES = {
     "vehicule.logistique": (U.vehicule_logistique, None, 40, 32, {}, dict(zoom=2.1, dz=3)),
     "bastion": (U.bastion_caisse, [U.bastion_tourelle, U.bastion_missiles], 64, 32, {}, dict(zoom=1.45, dz=4)),
     "tunnelier": (U.tunnelier, None, 48, 32, {}, dict(zoom=1.9, dz=3)),
+    "tunnelier.avance": (U.tunnelier_avance, None, 48, 32, {}, dict(zoom=1.8, dz=3)),
     "chasseur.poly": (U.chasseur_poly, None, 48, 32, AIR, dict(zoom=1.8, air=True, facing=150, dz=-6)),
     "intercepteur": (U.intercepteur, None, 52, 32, AIR, dict(zoom=1.7, air=True, facing=150, dz=-6)),
     "avion.attaque": (U.avion_attaque, None, 48, 32, AIR, dict(zoom=1.75, air=True, facing=150, dz=-6)),
