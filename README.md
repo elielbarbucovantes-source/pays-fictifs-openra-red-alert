@@ -100,6 +100,8 @@ Au premier lancement, le jeu propose de télécharger les fichiers d'origine de 
 3. L'hôte va dans **Multijoueur** → **Create**. Son adresse ZeroTier s'affiche, avec un bouton **Copier mon adresse**. Il l'envoie à l'autre joueur.
 4. L'autre joueur colle l'adresse dans le champ à côté de **Rejoindre mon ami** dans l'écran Multijoueur, puis clique sur le bouton. L'adresse est mémorisée pour les fois suivantes.
 
+Cartes générées ou personnelles : elles ne sont pas sur le Resource Center d'OpenRA, alors l'hôte les partage lui-même. Quand l'hôte choisit une telle carte, le jeu de l'autre joueur la télécharge tout seul chez lui (port 1235, ouvert par le jeu de l'hôte pendant qu'il héberge) et l'enregistre dans ses Custom Maps.
+
 La version du mod contient le commit installé (`release-20231010+8f4e95b`, par exemple). Si les deux joueurs n'ont pas la même, la connexion est refusée avec un message qui demande de se mettre à jour, au lieu d'une désynchronisation en cours de partie. Les sauvegardes et les replays sont rangés par version : ceux d'une ancienne version n'apparaissent plus après une mise à jour (ils ne se rejoueraient de toute façon pas correctement avec des règles différentes).
 
 ## Générateur de cartes aléatoires

@@ -79,7 +79,7 @@ Sa silhouette annonce toujours le débarquement qui va suivre.""",
 "PELICANO": ("Pelícano", """Avion de transport stratégique, le plus gros appareil elielistanais.
 Il largue en parachute quinze fantassins ou cinq chars (ou pièces d'artillerie) n'importe où.
 Très cher et sans défense : un seul chasseur peut tout ruiner.""",
-"Posé à l'aérodrome, faites-y monter votre force, puis clic droit au sol pour la larguer. Choisissez une zone dégagée et sans DCA ; les chars restent vulnérables 4 secondes après l'atterrissage."),
+"Posé sur une piste ou sur un terrain dégagé, faites-y monter votre force, puis maintenez Ctrl et cliquez sur la zone (glisser pour l'axe) pour la larguer. Choisissez une zone dégagée et sans DCA ; les chars restent vulnérables 4 secondes après l'atterrissage."),
 "BOMBARDIER.TACTIQUE": ("Bombardier tactique", """Bombardier moyen qui dépose un tapis de bombes incendiaires.
 Redoutable contre l'infanterie et les véhicules légers.
 Repris de l'arsenal de la Troisième Guerre mondiale.""",
@@ -99,7 +99,7 @@ Un seul exemplaire : le perdre, c'est perdre la voix du président.""",
 "AERODROMO": ("Aeródromo", """Aérodrome elielistanais : il produit, répare et réarme les avions.
 Le Pelícano s'y pose pour embarquer ses troupes.
 Le point de départ de toute projection aérienne.""",
-"Construisez-en un par Pelícano : un avion posé occupe l'aérodrome. Placez-le à l'abri, au fond de la base."),
+"Un avion posé occupe l'aérodrome ; les Pelícanos en trop se posent sur le terrain dégagé à côté. Placez-le à l'abri, au fond de la base."),
 "ANTENA": ("Antenne de gouvernement provisoire", """Un drapeau planté dans le territoire conquis.
 Construite n'importe où, elle ouvre une petite zone où bâtir une base avancée.
 Fragile et visible de l'ennemi : ce n'est pas une forteresse.""",

@@ -209,7 +209,7 @@ AERODROMO:
 	Buildable:
 		BuildPaletteOrder: 131
 		Prerequisites: dome, ~structures.elielistan, ~techlevel.medium
-		Description: Produit, répare et réarme les avions :\nHarpía (avion d'attaque) et Pelícano (avion de largage).\nLe Pelícano s'y pose pour embarquer ses troupes.
+		Description: Produit, répare et réarme les avions :\nHarpía (avion d'attaque) et Pelícano (avion de largage).\nLe Pelícano s'y pose pour embarquer ses troupes\n(s'il est pris, il se pose sur le terrain à côté).
 	Tooltip:
 		Name: Aeródromo
 	ProvidesPrerequisite@buildingname:
@@ -245,7 +245,7 @@ HARPIA:
 
 # ---------------------------------------------------------------------
 # PELÍCANO — avion de transport stratégique.
-# Se pose à l'aérodrome pour embarquer 15 fantassins OU 5 chars.
+# Se pose (piste ou terrain dégagé) pour embarquer 15 fantassins OU 5 chars.
 # Clic droit : déplacement. Ctrl enfoncé : clic gauche sur la zone,
 # glisser pour l'axe ; il s'aligne, largue tout le long de la ligne, puis
 # rentre à l'aérodrome. 60 secondes avant de pouvoir relarguer.
@@ -260,7 +260,7 @@ PELICANO:
 		BuildAtProductionType: Plane
 		BuildPaletteOrder: 70
 		Prerequisites: ~aerodromo, atek, ~techlevel.high
-		Description: Avion de transport stratégique. Aucune arme.\nPosé à l'aérodrome : 15 fantassins OU 5 chars / pièces d'artillerie montent à bord.\nClic droit : déplacement. Ctrl enfoncé : clic gauche sur la zone\nde largage, glisser pour la direction. 60 s avant le largage suivant.\nVéhicules vulnérables 4 s après l'atterrissage. Abattu = chargement perdu.\n  Faible contre : chasseurs, défense antiaérienne
+		Description: Avion de transport stratégique. Aucune arme.\nPosé (piste ou terrain dégagé) : 15 fantassins OU 5 chars / pièces d'artillerie montent à bord.\nClic droit : déplacement. Ctrl enfoncé : clic gauche sur la zone\nde largage, glisser pour la direction. 60 s avant le largage suivant.\nVéhicules vulnérables 4 s après l'atterrissage. Abattu = chargement perdu.\n  Faible contre : chasseurs, défense antiaérienne
 	Valued:
 		Cost: 2500
 	Tooltip:
@@ -277,13 +277,17 @@ PELICANO:
 	RevealsShroud@GAPGEN:
 		Range: 5c0
 		Type: GroundPosition
-	Aircraft:
+	# Garde sa piste au repos ; si toutes sont prises, se pose sur le terrain
+	# dégagé à côté de l'aérodrome. Les troupes embarquent partout où il est posé.
+	-Aircraft:
+	PelicanoAircraft:
+		AirborneCondition: airborne
 		CruiseAltitude: 2560
 		TurnSpeed: 12
 		Speed: 150
 		RepulsionSpeed: 40
 		MaximumPitch: 56
-		IdleBehavior: ReturnToBase
+		LandableTerrainTypes: Clear, Rough, Road, Ore, Beach, Gems
 	Rearmable:
 		RearmActors: aerodromo, porta.aguila, porte.avions.rub
 	Cargo:

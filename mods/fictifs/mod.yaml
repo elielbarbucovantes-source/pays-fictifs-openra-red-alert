@@ -63,6 +63,7 @@ Rules:
 	fictifs|common/ia.yaml
 	fictifs|common/petrole.yaml
 	fictifs|common/zones.yaml
+	fictifs|common/multiqueue.yaml
 	fictifs|mapgen/map-generators.yaml
 	fictifs|elielistan/rules.yaml
 	fictifs|elielistan/powers.yaml
@@ -128,7 +129,7 @@ ChromeLayout:
 	common|chrome/ingame-info-lobby-options.yaml
 	common|chrome/ingame-menu.yaml
 	ra|chrome/ingame-observer.yaml
-	ra|chrome/ingame-player.yaml
+	fictifs|chrome/ingame-player.yaml
 	common|chrome/ingame-perf.yaml
 	common|chrome/ingame-debug.yaml
 	common|chrome/ingame-debug-hpf.yaml
@@ -143,8 +144,8 @@ ChromeLayout:
 	common|chrome/settings-hotkeys.yaml
 	common|chrome/settings-advanced.yaml
 	common|chrome/credits.yaml
-	common|chrome/lobby.yaml
-	common|chrome/lobby-mappreview.yaml
+	fictifs|chrome/lobby.yaml
+	fictifs|chrome/lobby-mappreview.yaml
 	common|chrome/lobby-players.yaml
 	common|chrome/lobby-options.yaml
 	common|chrome/lobby-music.yaml

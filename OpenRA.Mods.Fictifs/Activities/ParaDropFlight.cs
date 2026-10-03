@@ -26,7 +26,6 @@ namespace OpenRA.Mods.Fictifs.Activities
 		readonly WPos center;
 		readonly WVec dir;
 		readonly WPos approach, lineStart, exit;
-		bool returning;
 		bool onLine;
 		int passes;
 
@@ -42,9 +41,6 @@ namespace OpenRA.Mods.Fictifs.Activities
 
 		public override bool Tick(Actor self)
 		{
-			if (returning)
-				return true;
-
 			if (IsCanceling)
 			{
 				paraDrop.Disarm();
@@ -54,9 +50,9 @@ namespace OpenRA.Mods.Fictifs.Activities
 			if (paraDrop.IsEmpty || passes >= paraDrop.Info.MaxPasses)
 			{
 				paraDrop.Disarm();
-				returning = true;
-				QueueChild(new ReturnToBase(self, null, true));
-				return false;
+				// Le retour (piste libre ou terrain à côté de l'aérodrome) est géré
+				// par PelicanoAircraft quand l'avion redevient inactif.
+				return true;
 			}
 
 			// Alternance : se placer au point d'approche, puis survoler toute la ligne.
@@ -84,9 +80,6 @@ namespace OpenRA.Mods.Fictifs.Activities
 
 		public override IEnumerable<TargetLineNode> TargetLineNodes(Actor self)
 		{
-			if (returning)
-				yield break;
-
 			yield return new TargetLineNode(Target.FromPos(approach), Color.Green);
 			yield return new TargetLineNode(Target.FromPos(lineStart), Color.Green);
 			yield return new TargetLineNode(Target.FromPos(exit), Color.Green);

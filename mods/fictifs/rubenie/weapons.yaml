@@ -167,7 +167,7 @@ RubSAM:
 	Projectile: Missile
 		RangeLimit: 13c0
 
-# Artillerie côtière : obus lourds, uniquement contre les navires.
+# Artillerie côtière : obus lourds (20000, +43 % depuis 14000).
 RubCotiere:
 	Inherits: 155mm
 	Range: 14c0
@@ -180,7 +180,7 @@ RubCotiere:
 		Inaccuracy: 0c256
 	Warhead@1Dam: SpreadDamage
 		Spread: 256
-		Damage: 14000
+		Damage: 20000
 		ValidTargets: GroundActor, WaterActor
 
 # ---------------------------------------------------------------------
