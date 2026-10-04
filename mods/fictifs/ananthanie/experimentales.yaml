@@ -1,0 +1,182 @@
+# =====================================================================
+# ANANTHANIE — unités expérimentales
+# Une seule de chaque, après l'institut d'innovation : le savoir-faire
+# d'une superpuissance technologique.
+# =====================================================================
+
+# Vidrakarn : char à canon électromagnétique. Le projectile traverse
+# tout ce qui se trouve sur sa trajectoire.
+VIDRAKARN:
+	Inherits: 4TNK
+	Inherits@DOCTRINE: ^AnanthanieVehicule
+	RenderSprites:
+		Image: vidrakarn
+	Buildable:
+		BuildPaletteOrder: 90
+		BuildLimit: 1
+		Prerequisites: ~vehicles.ananthanie, fix, institut, ~techlevel.high
+		Description: Unité expérimentale. 1 exemplaire maximum.\nChar à canon électromagnétique (railgun) : 9 cases,\nle tir traverse et blesse tout ce qui est aligné.\nTrès lent à recharger.\n  Fort contre : blindés, colonnes, défenses\n  Faible contre : infanterie dispersée, aviation\n  Requiert : institut d'innovation
+	Selectable:
+		Class: vidrakarn
+	Valued:
+		Cost: 3500
+	Tooltip:
+		Name: Vidrakarn
+	Health:
+		HP: 95000
+	Mobile:
+		Speed: 54
+	Turreted:
+		TurnSpeed: 12
+		Offset: -58,0,213
+	Armament@PRIMARY:
+		Weapon: VidrakarnRail
+		LocalOffset: 900,0,70
+	-Armament@SECONDARY:
+	-ChangesHealth:
+	ActiveProtection:
+	SpawnActorOnDeath:
+		Actor: VIDRAKARN.Husk
+
+VIDRAKARN.Husk:
+	Inherits: 4TNK.Husk
+	Tooltip:
+		Name: Carcasse (Vidrakarn)
+	TransformOnCapture:
+		IntoActor: vidrakarn
+	InfiltrateForTransform:
+		IntoActor: vidrakarn
+	RenderSprites:
+		Image: vidrakarn.destroyed
+
+# Ananta : véhicule laser. Abat avions et drones, détruit en vol les
+# missiles ennemis qui passent à portée, et tire aussi au sol.
+ANANTA:
+	Inherits: FTRK
+	Inherits@DOCTRINE: ^AnanthanieVehicule
+	RenderSprites:
+		Image: ananta
+	Buildable:
+		BuildPaletteOrder: 95
+		BuildLimit: 1
+		Prerequisites: ~vehicles.ananthanie, institut, ~techlevel.high
+		Description: Unité expérimentale. 1 exemplaire maximum.\nLaser de défense : abat avions et drones (9 cases),\ndétruit en vol les missiles ennemis à 7 cases\n(un toutes les 0,5 s), tire aussi au sol.\n  Fort contre : aviation, drones, missiles, infanterie\n  Faible contre : blindés lourds, artillerie\n  Requiert : institut d'innovation
+	Selectable:
+		Class: ananta
+	Valued:
+		Cost: 3000
+	Tooltip:
+		Name: Ananta
+	Health:
+		HP: 50000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 80
+	Turreted:
+		TurnSpeed: 48
+		Offset: -39,0,213
+	Armament@AA:
+		Weapon: AnantaLaserAA
+		LocalOffset: 120,0,180
+	Armament@AG:
+		Weapon: AnantaLaserSol
+		LocalOffset: 120,0,180
+	InterceptsMissiles:
+		Range: 7c0
+		ReloadDelay: 12
+		Weapon: AnantaInterception
+		LocalOffset: 0,0,400
+	WithRangeCircle@INTERCEPTION:
+		Type: ananta
+		Range: 7c0
+		Color: FDB82760
+		Visible: WhenSelected
+
+# Ambaroth : forteresse volante. Lente, très blindée, défense antiaérienne,
+# et surtout une soute qui lâche des vagues de 6 drones explosifs.
+AMBAROTH:
+	Inherits: ^Helicopter
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@AVION: ^AnanthanieAvion
+	RenderSprites:
+		Image: ambaroth
+	Buildable:
+		Queue: Aircraft
+		BuildAtProductionType: Plane
+		BuildPaletteOrder: 90
+		BuildLimit: 1
+		Prerequisites: ~base.ananthanie, institut, fabrique.drones, ~techlevel.high
+		Description: Unité expérimentale. 1 exemplaire maximum.\nForteresse volante très lente et très blindée.\nLâche des vagues de 6 drones explosifs (nouvelle vague\n20 s après la destruction du dernier) ; canons antiaériens.\nClic droit sur un ennemi : un drone part à l'attaque.\n  Fort contre : tout ce qui est au sol\n  Faible contre : chasseurs, SAM en nombre\n  Requiert : institut d'innovation, fabrique de drones
+	Selectable:
+		Class: ambaroth
+		Bounds: 2560, 2048, 0, 85
+		DecorationBounds: 2730, 2218, 0, 42
+	Valued:
+		Cost: 5000
+	Tooltip:
+		Name: Ambaroth
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 150000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 10c0
+		MinRange: 8c0
+		Type: GroundPosition
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 8c0
+		Type: GroundPosition
+	Armament:
+		Weapon: AmbarothFlak
+		LocalOffset: 0,-600,-100, 0,600,-100
+	AttackAircraft:
+		FacingTolerance: 512
+		AttackType: Hover
+	AutoTarget:
+		InitialStance: Defend
+		InitialStanceAI: AttackAnything
+		ScanRadius: 8
+	AutoTargetPriority@DEFAULT:
+		ValidTargets: AirborneActor
+	AutoTargetPriority@ATTACKANYTHING:
+		ValidTargets: AirborneActor
+	Aircraft:
+		CruiseAltitude: 2c512
+		Repulsable: False
+		TurnSpeed: 4
+		Speed: 45
+		AltitudeVelocity: 0c50
+		CanForceLand: False
+	DroneCarrier:
+		Drone: drone.ambaroth
+		BatchSize: 6
+		RegenDelay: 500
+		EscortRadius: 2c512
+		FollowRange: 4c0
+		ReadyTextNotification: Ambaroth : nouvelle vague de 6 drones.
+	WithDronePipsDecoration:
+		Position: BottomLeft
+		RequiresSelection: true
+	SpawnActorOnDeath:
+		Actor: AMBAROTH.Husk
+
+# Drone de l'Ambaroth : comme celui de l'Essaim, sans limite de durée.
+DRONE.AMBAROTH:
+	Inherits: RODEUSE
+	Tooltip:
+		Name: Drone de l'Ambaroth
+	TooltipDescription:
+		Description: Drone explosif de l'Ambaroth.
+	Armament:
+		Weapon: EssaimPlongee
+
+AMBAROTH.Husk:
+	Inherits: KIROV.Husk
+	Tooltip:
+		Name: Ambaroth
+	RenderSprites:
+		Image: ambaroth

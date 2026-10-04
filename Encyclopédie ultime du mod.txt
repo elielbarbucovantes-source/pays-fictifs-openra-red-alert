@@ -22,10 +22,10 @@ SOMMAIRE
   1. BÂTIMENTS (15)
   2. DÉFENSES (12)
   3. INFANTERIE (16)
-  4. VÉHICULES (31)
-  5. AVIATION (26)
+  4. VÉHICULES (33)
+  5. AVIATION (27)
   6. MARINE (17)
-  7. POUVOIRS DE SOUTIEN (13)
+  7. POUVOIRS DE SOUTIEN (20)
 
 ============================================================================================
                                         0. LES PAYS                                         
@@ -328,6 +328,13 @@ SOMMAIRE
     Coût 1 500 $ · PV 100 000 · Blindage béton · Vision 8 cases
     Énergie -100 · Limite 1 exemplaire
     Prérequis : Radar Dome · Niveau technologique : moyen
+    Pouvoir de soutien : Blitz 7 (recharge 7 min)
+    Pouvoir de soutien : Essaim (recharge 4 min)
+    Pouvoir de soutien : Salve Agni (recharge 5 min)
+    Pouvoir de soutien : Raid furtif (recharge 6 min)
+    Pouvoir de soutien : Œil d'Ambar (recharge 3 min)
+    Pouvoir de soutien : Pont aérien (recharge 5 min)
+    Pouvoir de soutien : Pacte de Fraternité (recharge 6 min)
   Stratégie :
     Construisez-le pour débloquer le Nayrath. Il portera les pouvoirs de soutien et la jauge
     d'offensive.
@@ -1165,6 +1172,22 @@ SOMMAIRE
     Une ou deux par colonne suffisent à décourager hélicoptères et drones. Gardez-la
     derrière les chars.
 --------------------------------------------------------------------------------------------
+■ ANANTA
+  Pays : Ananthanie
+  Lore :
+    Véhicule expérimental à laser de défense.
+    Il abat avions et drones, détruit en vol les missiles ennemis et tire aussi au sol.
+    « L'infini » : le bouclier de l'armée ananthanienne.
+  Statistiques :
+    Coût 3 000 $ · PV 50 000 · Blindage lourd · Vitesse 80 · Vision 6 cases
+    Arme : AnantaLaserAA : 5 500 dégâts, portée 9 cases, recharge 0,8 s
+    Arme : AnantaLaserSol : 4 000 dégâts, portée 7 cases, recharge 1,2 s
+    Limite 1 exemplaire
+    Prérequis : Institut d'innovation · Niveau technologique : élevé
+  Stratégie :
+    Accompagnez vos colonnes : il les protège des missiles antichars, des drones et des
+    frappes de missiles.
+--------------------------------------------------------------------------------------------
 ■ KARNVASHA
   Pays : Ananthanie
   Lore :
@@ -1252,6 +1275,21 @@ SOMMAIRE
   Stratégie :
     Exploitez la vitesse : contournez, frappez l'artillerie et les collecteurs, repliez-
     vous. Évitez les chars lourds.
+--------------------------------------------------------------------------------------------
+■ VIDRAKARN
+  Pays : Ananthanie
+  Lore :
+    Char expérimental à canon électromagnétique.
+    Son projectile traverse tout ce qui se trouve sur sa trajectoire, sur 9 cases.
+    « Le rempart de l'éclair » : une seule ligne de tir suffit à briser une colonne.
+  Statistiques :
+    Coût 3 500 $ · PV 95 000 · Blindage lourd · Vitesse 54 · Vision 6 cases
+    Arme : VidrakarnRail : 24 000 dégâts, portée 9 cases, recharge 6 s
+    Limite 1 exemplaire
+    Prérequis : Service Depot, Institut d'innovation · Niveau technologique : élevé
+  Stratégie :
+    Placez-le face à l'axe d'arrivée de l'ennemi pour aligner plusieurs cibles. Protégez-le
+    de l'infanterie et des avions.
 
 ============================================================================================
                                         5. AVIATION                                         
@@ -1575,6 +1613,21 @@ SOMMAIRE
   Stratégie :
     Visez les défenses et bâtiments depuis la limite de portée. Évitez les SAM à longue
     portée et escortez-le de Vidravyn.
+--------------------------------------------------------------------------------------------
+■ AMBAROTH
+  Pays : Ananthanie
+  Lore :
+    Forteresse volante expérimentale, très lente et très blindée.
+    Elle lâche des vagues de six drones explosifs et se défend avec des canons antiaériens.
+    La « porte du ciel » : quand elle apparaît, la bataille est presque finie.
+  Statistiques :
+    Coût 5 000 $ · PV 150 000 · Blindage lourd · Vitesse 45 · Vision 10 cases
+    Arme : AmbarothFlak : 1 200 dégâts, portée 8 cases, recharge 0,3 s
+    Limite 1 exemplaire
+    Prérequis : Base aérienne ananthanienne, Institut d'innovation, Fabrique de drones ·
+    Niveau technologique : élevé
+  Stratégie :
+    Escortez-la de Vidravyn et d'Ananta. Elle avance lentement : préparez son arrivée.
 --------------------------------------------------------------------------------------------
 ■ KHESHAR
   Pays : Ananthanie
@@ -2077,6 +2130,84 @@ SOMMAIRE
     Porté par : Centrale d'enrichissement, recharge 4 min
   Stratégie :
     Lancez-le quand plusieurs collecteurs sont sur le point de décharger.
+
+  ▶ PAYS : ANANTHANIE
+
+--------------------------------------------------------------------------------------------
+■ BLITZ 7
+  Lore :
+    La jauge d'offensive ananthanienne : « L'Ananthanie gagne une bataille en 7 minutes. »
+    Elle se remplit en 7 minutes, seulement quand l'armée n'est pas au combat, plus vite avec des réserves au repos et des Nayrath.
+    Déclenchée, elle donne 70 s de Blitz à toute l'armée (+30 % de vitesse, +25 % de cadence, +15 % de dégâts), puis 30 s de fatigue.
+  Statistiques :
+    Porté par : Haut Commandement, recharge 7 min
+  Stratégie :
+    Préparez : regroupez vos forces loin du front, laissez la jauge se remplir, puis lancez
+    tout en même temps. Ne gâchez pas la fatigue en restant exposé.
+--------------------------------------------------------------------------------------------
+■ ESSAIM
+  Lore :
+    Douze drones kamikazes décollent du Haut Commandement.
+    Ils foncent sur la zone choisie et plongent sur les véhicules, fantassins et défenses qu'ils y trouvent.
+    Le domaine principal de la technologie ananthanienne.
+  Statistiques :
+    Porté par : Haut Commandement, recharge 4 min
+  Stratégie :
+    Lancez-le sur une colonne blindée ou une ligne de défense juste avant votre Blitz.
+--------------------------------------------------------------------------------------------
+■ PACTE DE FRATERNITÉ
+  Lore :
+    Le pouvoir de coalition de l'Ananthanie.
+    Pendant 45 s, dans la zone, vos unités ET celles de vos alliés gagnent +15 % de dégâts et se réparent, et la zone est révélée.
+    Plus il reste d'alliés en jeu, plus vite il se recharge.
+  Statistiques :
+    Porté par : Haut Commandement, recharge 6 min
+  Stratégie :
+    En partie à plusieurs, lancez-le sur l'offensive commune : l'Ananthanie est encore plus
+    dangereuse avec ses alliés.
+--------------------------------------------------------------------------------------------
+■ PONT AÉRIEN
+  Lore :
+    Un avion de transport parachute deux chars Vidra, quatre Thals et deux Khesh-Thals.
+    Une tête de pont en quelques secondes.
+    La guerre de mouvement, par les airs.
+  Statistiques :
+    Porté par : Haut Commandement, recharge 5 min
+  Stratégie :
+    Larguez derrière les lignes ennemies pendant votre Blitz pour prendre l'adversaire à
+    revers.
+--------------------------------------------------------------------------------------------
+■ RAID FURTIF
+  Lore :
+    Trois bombardiers furtifs traversent la zone dans la direction choisie.
+    Invisibles sauf aux détecteurs, ils la couvrent d'un tapis de bombes.
+    L'aviation, bras armé de l'armée.
+  Statistiques :
+    Porté par : Haut Commandement, recharge 6 min
+  Stratégie :
+    Choisissez la direction pour que le tapis suive l'axe de la cible (colonne, ligne de
+    défenses).
+--------------------------------------------------------------------------------------------
+■ SALVE AGNI
+  Lore :
+    Six missiles de croisière partent du Haut Commandement.
+    Ils frappent la zone choisie, dispersés sur deux cases.
+    Le « feu » d'Agni, sans préavis.
+  Statistiques :
+    Porté par : Haut Commandement, recharge 5 min
+  Stratégie :
+    Idéal contre une base, une batterie de défenses ou des unités groupées. Une Ananta
+    ennemie peut en abattre une partie.
+--------------------------------------------------------------------------------------------
+■ ŒIL D'AMBAR
+  Lore :
+    Un drone de reconnaissance révèle une zone de 8 cases pendant 30 secondes.
+    Un renseignement « moyen » : utile, mais limité.
+    Voir avant de frapper.
+  Statistiques :
+    Porté par : Haut Commandement, recharge 3 min
+  Stratégie :
+    Utilisez-le pour guider l'Agnar, l'Agnikhesh ou la Salve Agni sur une cible lointaine.
 
 ============================================================================================
                                    Fin de l'encyclopédie.                                   

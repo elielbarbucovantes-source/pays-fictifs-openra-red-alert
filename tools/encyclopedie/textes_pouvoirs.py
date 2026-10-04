@@ -57,4 +57,32 @@ Arrache les arbres, renverse les murs et emporte le minerai. Aviation en vol et 
 les îles du Mothership résistent. Frappe aussi vos propres troupes. Porté par le chantier naval avancé.""",
 "Visez les raffineries, centrales et chantiers navals construits au bord de l'eau, puis débarquez juste après la vague. "
 "Contre lui : ne concentrez pas toute votre base sur le rivage et éloignez vos troupes de la côte dès l'alerte."),
+"Blitz 7": ("Blitz 7", """La jauge d'offensive ananthanienne : « L'Ananthanie gagne une bataille en 7 minutes. »
+Elle se remplit en 7 minutes, seulement quand l'armée n'est pas au combat, plus vite avec des réserves au repos et des Nayrath.
+Déclenchée, elle donne 70 s de Blitz à toute l'armée (+30 % de vitesse, +25 % de cadence, +15 % de dégâts), puis 30 s de fatigue.""",
+"Préparez : regroupez vos forces loin du front, laissez la jauge se remplir, puis lancez tout en même temps. Ne gâchez pas la fatigue en restant exposé."),
+"Essaim": ("Essaim", """Douze drones kamikazes décollent du Haut Commandement.
+Ils foncent sur la zone choisie et plongent sur les véhicules, fantassins et défenses qu'ils y trouvent.
+Le domaine principal de la technologie ananthanienne.""",
+"Lancez-le sur une colonne blindée ou une ligne de défense juste avant votre Blitz."),
+"Salve Agni": ("Salve Agni", """Six missiles de croisière partent du Haut Commandement.
+Ils frappent la zone choisie, dispersés sur deux cases.
+Le « feu » d'Agni, sans préavis.""",
+"Idéal contre une base, une batterie de défenses ou des unités groupées. Une Ananta ennemie peut en abattre une partie."),
+"Raid furtif": ("Raid furtif", """Trois bombardiers furtifs traversent la zone dans la direction choisie.
+Invisibles sauf aux détecteurs, ils la couvrent d'un tapis de bombes.
+L'aviation, bras armé de l'armée.""",
+"Choisissez la direction pour que le tapis suive l'axe de la cible (colonne, ligne de défenses)."),
+"Œil d'Ambar": ("Œil d'Ambar", """Un drone de reconnaissance révèle une zone de 8 cases pendant 30 secondes.
+Un renseignement « moyen » : utile, mais limité.
+Voir avant de frapper.""",
+"Utilisez-le pour guider l'Agnar, l'Agnikhesh ou la Salve Agni sur une cible lointaine."),
+"Pont aérien": ("Pont aérien", """Un avion de transport parachute deux chars Vidra, quatre Thals et deux Khesh-Thals.
+Une tête de pont en quelques secondes.
+La guerre de mouvement, par les airs.""",
+"Larguez derrière les lignes ennemies pendant votre Blitz pour prendre l'adversaire à revers."),
+"Pacte de Fraternité": ("Pacte de Fraternité", """Le pouvoir de coalition de l'Ananthanie.
+Pendant 45 s, dans la zone, vos unités ET celles de vos alliés gagnent +15 % de dégâts et se réparent, et la zone est révélée.
+Plus il reste d'alliés en jeu, plus vite il se recharge.""",
+"En partie à plusieurs, lancez-le sur l'offensive commune : l'Ananthanie est encore plus dangereuse avec ses alliés."),
 }

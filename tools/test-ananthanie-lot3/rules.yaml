@@ -1,0 +1,37 @@
+World:
+	LuaScript:
+		Scripts: test.lua
+	-SpawnStartingUnits:
+	-CrateSpawner:
+Player:
+	-ConquestVictoryConditions:
+	Shroud:
+		FogCheckboxEnabled: true
+		ExploredMapCheckboxEnabled: false
+		ExploredMapCheckboxLocked: true
+		FogCheckboxLocked: true
+
+# Délais raccourcis pour le test.
+HAUT.COMMANDEMENT:
+	-Power:
+	BlitzGaugePower@BLITZ:
+		ChargeInterval: 750
+		Duration: 125
+	DroneSwarmPower@ESSAIM:
+		ChargeInterval: 25
+	ProjectileSalvoPower@AGNI:
+		ChargeInterval: 25
+	AirstrikePower@RAID:
+		ChargeInterval: 25
+	RevealAreaPower@OEIL:
+		ChargeInterval: 25
+	ParatroopersPower@PONT:
+		ChargeInterval: 25
+	FraternitePower@FRATERNITE:
+		ChargeInterval: 25
+FABRIQUE.DRONES:
+	-Power:
+INSTITUT:
+	-Power:
+BASE.ANANTHANIE:
+	-Power:

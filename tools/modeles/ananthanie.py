@@ -837,3 +837,124 @@ def rathambar():
     m.add(box(-2.0, 0.0, 2.5, 2.0, 3.0, 4.0, Mat((110, 96, 62), spec=0.05, tex=stripes(0.7, 0.8, axis=2))))
     m.add(rose(0, -18.0, 7.02, 1.3))
     return m
+
+
+# ===========================================================================
+# UNITÉS EXPÉRIMENTALES ET APPAREILS DES POUVOIRS (lot 3)
+# ===========================================================================
+BOBINE = Mat((60, 90, 140), spec=1.0, shine=40, tex=stripes(0.6, 0.6, axis=1))
+CUIVRE = Mat((190, 120, 60), spec=0.8, shine=30)
+
+
+def vidrakarn_caisse():
+    """Châssis lourd allongé, générateurs latéraux et radiateurs (alimentation du railgun)."""
+    p = peau(381, 4.5)
+    m = Mesh()
+    prof = [(-6.0, -13.4), (6.0, -13.4), (6.0, 8.6), (4.6, 13.4), (-4.6, 13.4), (-6.0, 8.6)]
+    m.add(prism(prof, 1.7, 5.0, p, bevel=1.5))
+    tr = chenilles(25.8, 2.4, 4.6, 7.2, 0.0, wheels=8)
+    m.add(tr).add(tr.mirror_x())
+    jupes(m, 23.0, 8.4, 2.0, 4.8, p, y0=-11.2)
+    for s in (1, -1):                                                                  # générateurs
+        m.add(tube((s * 4.0, -12.0, 5.8), (s * 4.0, -5.0, 5.8), 1.4, mat=ACIER_SOMBRE, seg=10))
+        for k in range(5):
+            m.add(tube((s * 4.0, -11.4 + k * 1.4, 5.8), (s * 4.0, -11.0 + k * 1.4, 5.8), 1.6, mat=CUIVRE, seg=10))
+    m.add(box(-2.2, -13.0, 5.0, 2.2, -7.0, 5.6, GRILLE))
+    capteurs_aps(m, [(5.4, 10.0, 30), (-5.4, 10.0, -30)], 5.0)
+    m.add(rose(-3.8, 5.0, 5.02, 1.2))
+    return m
+
+
+def vidrakarn_tourelle():
+    """Tourelle basse portant deux longs rails parallèles et leurs bobines."""
+    p = peau(382, 3.0)
+    m = Mesh()
+    m.add(prism([(-4.4, -5.0), (4.4, -5.0), (4.8, 2.0), (2.6, 5.4), (-2.6, 5.4), (-4.8, 2.0)], 0.0, 2.8, p, bevel=1.1))
+    for x in (-0.9, 0.9):                                                              # rails
+        m.add(box(x - 0.35, 4.0, 1.0, x + 0.35, 22.0, 2.2, ACIER, bevel=0.1))
+    m.add(box(-1.6, 4.0, 1.9, 1.6, 20.0, 2.3, p, bevel=0.1))                          # carénage supérieur
+    for k in range(6):                                                                 # bobines
+        y = 6.0 + k * 2.6
+        m.add(box(-1.8, y, 0.8, 1.8, y + 0.8, 2.6, BOBINE, bevel=0.15))
+    m.add(box(-0.4, 21.6, 1.3, 0.4, 22.2, 1.9, LUEUR))
+    m.add(periscope(2.6, -2.4, 2.8, 1.4, 0.7))
+    m.add(antenne(-3.4, -4.0, 2.8, 6.0))
+    return m
+
+
+def ananta_caisse():
+    """Châssis 8×8 blindé, groupe électrogène à l'arrière."""
+    p = peau(383, 4.0)
+    m = Mesh()
+    m.add(prism(rrect(-4.6, -12.0, 4.6, 12.0, 1.6), 1.8, 5.2, p, bevel=1.0))
+    for s in (1, -1):
+        for y in (-9.0, -5.4, 4.4, 8.4):
+            m.add(roue(s * 4.6, y, 1.8, 1.8, 1.2, s))
+        m.add(tube((s * 3.2, 11.9, 3.8), (s * 3.2, 12.3, 3.8), 0.4, mat=PHARE, seg=6))
+    m.add(box(-3.8, -11.6, 5.2, 3.8, -6.0, 7.0, p, bevel=0.4))
+    m.add(box(-3.4, -11.8, 5.6, 3.4, -11.6, 6.8, GRILLE))
+    m.add(box(-3.6, 9.0, 4.2, 3.6, 11.6, 5.4, VITRE).rot_x(-20, cy=9.0, cz=4.2))
+    m.add(rose(2.6, 3.0, 5.22, 1.0))
+    return m
+
+
+def ananta_tourelle():
+    """Tourelle à laser : boule optique orientable sur affût, miroirs et radar plat."""
+    p = peau(384, 2.5)
+    m = Mesh()
+    m.add(tube((0, 0, 0), (0, 0, 1.6), 3.6, 3.2, mat=p, seg=14))
+    m.add(box(-2.4, -2.0, 1.6, 2.4, 2.0, 4.0, p, bevel=0.5))
+    m.add(sphere((0, 1.0, 5.4), 2.2, Mat((200, 204, 200), spec=0.6, shine=30), seg=14, rings=7))
+    m.add(tube((0, 2.8, 5.6), (0, 4.4, 5.6), 1.0, 0.8, mat=ACIER_SOMBRE, seg=10))      # tube optique
+    m.add(tube((0, 4.4, 5.6), (0, 4.6, 5.6), 0.8, mat=Mat((255, 230, 120), emit=True), seg=10))
+    for s in (1, -1):
+        m.add(box(s * 2.4 - 0.1, -1.6, 1.8, s * 2.4 + 0.1, 1.6, 3.8, CAPTEUR))
+    return m
+
+
+def ambaroth():
+    """Forteresse volante : grande aile volante épaisse à quatre rotors carénés, soute à drones
+    ventrale et tourelles antiaériennes."""
+    m = Mesh()
+    p = R.team(spec=0.35, tex=combine(panels(5.0, 0.3, 0.86), noise(385, 0.03)))
+    gris = Mat((104, 112, 118), spec=0.3, shine=16, tex=avec(combine(panels(6.0, 0.25, 0.9), noise(386, 0.03)),
+                                                             marque(18.0, -6.0, 3.0), marque(-18.0, -6.0, 3.0)))
+    for s in (1, -1):
+        w = wing((0.0, 18.0), (0.0, -14.0), (30.0, -6.0), (30.0, -12.0), 0.0, gris, thick=4.0)
+        m.add(w if s > 0 else w.mirror_x())
+    m.add(fuselage([(-16.0, 4.0, 2.6, 0.4), (-6.0, 7.0, 4.0, 0.6), (8.0, 6.0, 3.6, 0.6), (16.0, 3.6, 2.4, 0.4),
+                    (19.6, 0.8, 0.8, 0.2)], p, seg=14))
+    for x, y in ((16.0, 2.0), (-16.0, 2.0), (24.0, -7.0), (-24.0, -7.0)):          # rotors carénés
+        m.add(tube((x, y, -0.6), (x, y, 2.2), 4.6, mat=p, seg=18))
+        m.add(tube((x, y, 2.1), (x, y, 2.3), 4.0, mat=Mat((40, 42, 44), spec=0.2), seg=18))
+        for k in range(3):
+            m.add(box(-0.3, -3.8, -0.05, 0.3, 3.8, 0.05, Mat((70, 72, 74), spec=0.2)).rot_z(k * 60 + 10).move(x, y, 2.4))
+    m.add(box(-3.0, -10.0, -3.4, 3.0, 4.0, -1.6, ACIER_SOMBRE, bevel=0.4))          # soute à drones
+    for k in range(4):
+        m.add(box(-2.4, -9.0 + k * 3.2, -3.5, 2.4, -6.8 + k * 3.2, -3.4, Mat(CITRON, spec=0.3)))
+    for s in (1, -1):                                                                # tourelles AA
+        m.add(sphere((s * 8.0, 10.0, 3.0), 1.4, ACIER_SOMBRE, seg=10, rings=5))
+        m.add(tube((s * 8.0, 10.6, 3.4), (s * 8.0, 13.6, 4.0), 0.2, mat=ACIER_SOMBRE, seg=4))
+    m.add(box(-2.0, 15.0, 2.2, 2.0, 17.0, 3.2, VERRIERE))
+    m.add(rose(0, 2.0, 4.65, 3.0))
+    return m
+
+
+def pont_aerien():
+    """Avion de transport tactique (famille A400M) : aile haute, quatre turbopropulseurs, empennage en T."""
+    m = Mesh()
+    p = R.team(spec=0.35, tex=combine(panels(4.0, 0.25, 0.88), noise(387, 0.03)))
+    gris = Mat((140, 148, 150), spec=0.35, tex=avec(noise(388, 0.03), marque(14.0, -1.0, 2.0), marque(-14.0, -1.0, 2.0)))
+    m.add(fuselage([(-17.0, 0.6, 1.4, 2.2), (-12.0, 2.4, 2.6, 1.0), (8.0, 2.8, 2.8, 0.0), (13.0, 2.2, 2.2, -0.2),
+                    (15.6, 0.8, 0.8, -0.4), (16.2, 0.1, 0.1, -0.5)], p, seg=12))
+    for s in (1, -1):
+        w = wing((1.6, 4.0), (1.6, -2.4), (21.0, 0.6), (21.0, -2.0), 2.6, gris, thick=0.8)
+        m.add(w if s > 0 else w.mirror_x())
+        for x in (6.0, 12.0):
+            m.add(tube((s * x, 6.0, 1.8), (s * x, 0.0, 1.8), 0.9, 0.8, mat=GRIS_FONCE, seg=10))
+            m.add(tube((s * x, 6.2, 1.8), (s * x, 6.3, 1.8), 2.2, mat=Mat((60, 60, 60), spec=0.2), seg=12))
+        t = wing((0.4, -14.6), (0.4, -17.0), (7.0, -16.0), (7.0, -17.4), 6.8, gris, thick=0.4)
+        m.add(t if s > 0 else t.mirror_x())
+    m.add(box(-0.2, -17.2, 2.4, 0.2, -13.0, 6.8, p))
+    m.add(box(-1.4, 13.0, 1.0, 1.4, 14.0, 1.8, VITRE))
+    return m

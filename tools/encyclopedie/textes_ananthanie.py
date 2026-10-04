@@ -132,4 +132,20 @@ La « vague » qui frappe sans prévenir.""",
 Il débarque sur les plages et la côte.
 Indispensable aux offensives d'une puissance maritime.""",
 "Chargez Vidra, Lunkra et Ratha, débarquez sous la couverture de la flotte, et frappez là où l'ennemi ne vous attend pas."),
+"VIDRAKARN": ("Vidrakarn", """Char expérimental à canon électromagnétique.
+Son projectile traverse tout ce qui se trouve sur sa trajectoire, sur 9 cases.
+« Le rempart de l'éclair » : une seule ligne de tir suffit à briser une colonne.""",
+"Placez-le face à l'axe d'arrivée de l'ennemi pour aligner plusieurs cibles. Protégez-le de l'infanterie et des avions."),
+"ANANTA": ("Ananta", """Véhicule expérimental à laser de défense.
+Il abat avions et drones, détruit en vol les missiles ennemis et tire aussi au sol.
+« L'infini » : le bouclier de l'armée ananthanienne.""",
+"Accompagnez vos colonnes : il les protège des missiles antichars, des drones et des frappes de missiles."),
+"AMBAROTH": ("Ambaroth", """Forteresse volante expérimentale, très lente et très blindée.
+Elle lâche des vagues de six drones explosifs et se défend avec des canons antiaériens.
+La « porte du ciel » : quand elle apparaît, la bataille est presque finie.""",
+"Escortez-la de Vidravyn et d'Ananta. Elle avance lentement : préparez son arrivée."),
+"ESSAIM.DRONE": ("Drone de l'Essaim", """Drone kamikaze lancé par le pouvoir Essaim.
+Il plonge sur les véhicules, fantassins et défenses.
+Il se détruit au bout d'une minute s'il ne trouve rien.""",
+"Pas de micro-gestion : il attaque seul ce qu'il trouve dans la zone."),
 }

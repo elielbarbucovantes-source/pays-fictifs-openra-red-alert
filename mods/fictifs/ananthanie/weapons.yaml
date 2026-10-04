@@ -403,3 +403,144 @@ UlmarTorpille:
 	Inherits: TorpTube
 	Range: 8c512
 	ReloadDelay: 80
+
+# ---------------------------------------------------------------------
+# Pouvoirs (lot 3)
+# ---------------------------------------------------------------------
+# Salve Agni : missile de croisière tiré depuis le Haut Commandement, portée illimitée.
+SalveAgni:
+	Inherits: AgnarCroisiere
+	Range: 200c0
+	MinRange: 0c0
+	Projectile: Missile
+		RangeLimit: 250c0
+		Speed: 300
+		Inaccuracy: 0
+	Warhead@1Dam: SpreadDamage
+		Damage: 14000
+
+# Drone de l'Essaim : frappe tout ce qui est au sol (pas les bâtiments civils).
+EssaimPlongee:
+	Inherits: MoustiqueDive
+	ValidTargets: Vehicle, Ship, Infantry, Defense
+	Projectile: Missile
+		Image: rodeuse
+	Warhead@1Dam: SpreadDamage
+		Spread: 384
+		Damage: 9000
+		Versus:
+			None: 90
+			Wood: 50
+			Light: 110
+			Heavy: 100
+			Concrete: 40
+		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
+
+# Raid furtif : bombes à guidage, tapis serré.
+RaidBombe:
+	Inherits: ParaBomb
+	ReloadDelay: 6
+	Projectile: GravityBomb
+		Image: BOMBLET
+		OpenSequence: idle
+		Velocity: 0, 0, -86
+	Warhead@1Dam: SpreadDamage
+		Spread: 768
+		Damage: 18000
+
+# ---------------------------------------------------------------------
+# Unités expérimentales (lot 3)
+# ---------------------------------------------------------------------
+# Vidrakarn : canon électromagnétique, le projectile traverse la ligne.
+VidrakarnRail:
+	ReloadDelay: 150
+	Range: 9c0
+	Report: tesla1.aud
+	ValidTargets: Ground, Water, GroundActor, WaterActor
+	# Faisceau instantané qui continue 5 cases après la cible : tout ce qui est
+	# aligné est touché une fois.
+	Projectile: AreaBeam
+		Speed: 20c0
+		Duration: 4
+		DamageInterval: 3
+		Width: 0c384
+		BeyondTargetRange: 5c0
+		Color: B4FF5AD0
+		Shape: Flat
+	Warhead@1Dam: SpreadDamage
+		Spread: 256
+		Damage: 24000
+		ValidTargets: GroundActor, WaterActor
+		Versus:
+			None: 60
+			Wood: 80
+			Light: 100
+			Heavy: 100
+			Concrete: 80
+		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: med_explosion
+		ImpactSounds: kaboom25.aud
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+
+# Ananta : lasers contre les airs et le sol.
+AnantaLaserAA:
+	ReloadDelay: 20
+	Range: 9c0
+	Report: tesla1.aud
+	ValidTargets: Air, AirborneActor
+	Projectile: LaserZap
+		Width: 48
+		Duration: 8
+		Color: FDB827E0
+		TrackTarget: true
+	Warhead@1Dam: SpreadDamage
+		Spread: 128
+		Damage: 5500
+		ValidTargets: AirborneActor
+		Versus:
+			None: 100
+			Wood: 100
+			Light: 100
+			Heavy: 80
+			Concrete: 50
+		DamageTypes: Prone50Percent, TriggerProne, FireDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: small_explosion_air
+		ValidTargets: Air, AirborneActor
+
+AnantaLaserSol:
+	Inherits: AnantaLaserAA
+	ReloadDelay: 30
+	Range: 7c0
+	ValidTargets: Ground, Water, GroundActor, WaterActor
+	Warhead@1Dam: SpreadDamage
+		Damage: 4000
+		ValidTargets: GroundActor, WaterActor
+		Versus:
+			None: 120
+			Wood: 60
+			Light: 80
+			Heavy: 40
+			Concrete: 30
+	Warhead@2Eff: CreateEffect
+		Explosions: small_explosion
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+
+# Ananta : effet de l'interception d'un missile (aucun dégât).
+AnantaInterception:
+	Range: 8c0
+	Report: tesla1.aud
+	Projectile: LaserZap
+		Width: 40
+		Duration: 6
+		Color: FDB827E0
+	Warhead@1Eff: CreateEffect
+		Explosions: small_explosion_air
+		ValidTargets: Ground, Water, Air
+
+# Ambaroth : canons antiaériens.
+AmbarothFlak:
+	Inherits: FLAK-23-AA
+	Range: 8c0
+	ReloadDelay: 8

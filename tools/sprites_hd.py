@@ -89,6 +89,10 @@ UNITES = {
     "agnikhesh": (N.agnikhesh, None, 80, 32, MER, dict(zoom=1.0, water=True, facing=215, dz=2)),
     "ulmar": (N.ulmar, None, 56, 32, MER, dict(zoom=1.4, water=True, facing=215, dz=0)),
     "rathambar": (N.rathambar, None, 64, 32, MER, dict(zoom=1.3, water=True, facing=215, dz=2)),
+    "vidrakarn": (N.vidrakarn_caisse, N.vidrakarn_tourelle, 64, 32, {}, dict(zoom=1.5, dz=3)),
+    "ananta": (N.ananta_caisse, N.ananta_tourelle, 48, 32, {}, dict(zoom=1.9, dz=3)),
+    "ambaroth": (N.ambaroth, None, 96, 32, AIR, dict(zoom=0.85, air=True, facing=150, dz=-6)),
+    "pont.aerien": (N.pont_aerien, None, 56, 32, AIR, dict(zoom=1.4, air=True, facing=150, dz=-6)),
 }
 
 # Position du pivot de tourelle dans le modèle de la caisse (px, voir Turreted.Offset en yaml).
@@ -115,6 +119,8 @@ MONTAGE = {
     "ambarkesh": (0.0, -1.0, 4.0),
     "vasha": (0.0, -9.5, 1.9),
     "ambarkarn": (0.0, 19.0, 2.8),
+    "vidrakarn": (0.0, -1.5, 5.0),
+    "ananta": (0.0, -1.0, 5.2),
 }
 
 # Ombres et icônes : tourelles supplémentaires qui partagent un sprite (Bastion : tourelle bâbord).

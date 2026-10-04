@@ -389,3 +389,74 @@ rathambar:
 		Facings: 32
 	icon:
 		Filename: fictifs|bits/rathambaricon.png
+
+# ---------------------------------------------------------------------
+# Unités expérimentales et appareils des pouvoirs (lot 3)
+# ---------------------------------------------------------------------
+vidrakarn:
+	idle:
+		Filename: fictifs|bits/vidrakarn.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/vidrakarn.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon:
+		Filename: fictifs|bits/vidrakarnicon.png
+
+vidrakarn.destroyed:
+	idle:
+		Filename: fictifs|bits/vidrakarn.png
+		Facings: 32
+		ZOffset: -512
+	turret:
+		Filename: fictifs|bits/vidrakarn.png
+		Start: 32
+		Facings: 32
+		ZOffset: -512
+
+ananta:
+	idle:
+		Filename: fictifs|bits/ananta.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/ananta.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+	icon:
+		Filename: fictifs|bits/anantaicon.png
+
+ambaroth:
+	idle:
+		Filename: fictifs|bits/ambaroth.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/ambarothicon.png
+
+pont.aerien:
+	idle:
+		Filename: fictifs|bits/pont.aerien.png
+		Facings: 32
+
+# Icônes des pouvoirs du Haut Commandement (tools/icones_ananthanie.py).
+ananthanie-powers:
+	blitz:
+		Filename: fictifs|bits/blitzicon.png
+	essaim:
+		Filename: fictifs|bits/essaimicon.png
+	salve:
+		Filename: fictifs|bits/salveicon.png
+	raid:
+		Filename: fictifs|bits/raidicon.png
+	oeil:
+		Filename: fictifs|bits/oeilicon.png
+	pont:
+		Filename: fictifs|bits/ponticon.png
+	fraternite:
+		Filename: fictifs|bits/fraterniteicon.png

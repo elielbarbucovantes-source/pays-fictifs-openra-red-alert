@@ -1,0 +1,303 @@
+# =====================================================================
+# ANANTHANIE — jauge d'offensive « Blitz 7 » et pouvoirs de soutien
+# Tous portés par le Haut Commandement.
+#
+# « L'Ananthanie gagne une bataille en 7 minutes » : préparer (la jauge
+# se remplit hors combat, plus vite avec des réserves), puis frapper
+# d'un coup avec toute l'armée, appuyée par l'aviation et les drones.
+# =====================================================================
+
+HAUT.COMMANDEMENT:
+	SupportPowerChargeBar:
+	Buildable:
+		Description: Haut Commandement ananthanien. 1 exemplaire maximum.\nDébloque le Nayrath. Porte la jauge d'offensive Blitz 7\net les pouvoirs : Essaim, Salve Agni, Raid furtif,\nŒil d'Ambar, Pont aérien, Pacte de Fraternité.
+	# Blitz 7 : jauge d'offensive.
+	BlitzGaugePower@BLITZ:
+		OrderName: AnanthanieBlitz
+		PauseOnCondition: disabled
+		IconImage: ananthanie-powers
+		Icon: blitz
+		ChargeInterval: 10500
+		Name: Blitz 7
+		Description: Jauge d'offensive. Se remplit en 7 minutes, seulement\nquand votre armée n'est pas au combat (aucune unité n'a tiré\nni été touchée depuis 5 s). Plus rapide avec des unités\nau repos en réserve (jusqu'à ~3 min) et avec chaque Nayrath.\nDéclenchement : pendant 70 s, toute l'armée (sol et air)\ngagne +30 % de vitesse, +25 % de cadence et +15 % de dégâts.\nPuis 30 s de fatigue : −15 % de vitesse, −10 % de dégâts.
+		Condition: blitz
+		Duration: 1750
+		BoostActors: nayrath
+		BoostPercent: 15
+		EndChargeTextNotification: Blitz 7 prêt : l'armée attend vos ordres.
+		SupportPowerPaletteOrder: 5
+	# Essaim : 12 drones kamikazes.
+	DroneSwarmPower@ESSAIM:
+		OrderName: AnanthanieEssaim
+		Prerequisites: fabrique.drones
+		PauseOnCondition: disabled
+		IconImage: ananthanie-powers
+		Icon: essaim
+		ChargeInterval: 6000
+		Name: Essaim
+		Description: 12 drones kamikazes décollent du Haut Commandement\net foncent sur la zone choisie : ils plongent sur les\nvéhicules, fantassins et défenses qu'ils y trouvent.\nRequiert : fabrique de drones.
+		UnitType: essaim.drone
+		Count: 12
+		Cursor: ability
+		DisplayRadarPing: True
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez la zone de l'essaim.
+		EndChargeTextNotification: Essaim prêt.
+		SupportPowerPaletteOrder: 10
+	# Salve Agni : 6 missiles de croisière.
+	ProjectileSalvoPower@AGNI:
+		OrderName: AnanthanieSalveAgni
+		Prerequisites: institut
+		PauseOnCondition: disabled
+		IconImage: ananthanie-powers
+		Icon: salve
+		ChargeInterval: 7500
+		Name: Salve Agni
+		Description: Le Haut Commandement tire 6 missiles de croisière\nsur la zone choisie (dispersion de 2 cases).\nRequiert : institut d'innovation.
+		Weapon: SalveAgni
+		Count: 6
+		Interval: 10
+		Cursor: nuke
+		DisplayRadarPing: True
+		DisplayBeacon: True
+		BeaconPoster: atomicon
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez la cible de la salve.
+		EndChargeTextNotification: Salve Agni prête.
+		SupportPowerPaletteOrder: 20
+	# Raid furtif : 3 bombardiers furtifs en tapis de bombes.
+	AirstrikePower@RAID:
+		OrderName: AnanthanieRaidFurtif
+		Prerequisites: base.ananthanie
+		PauseOnCondition: disabled
+		IconImage: ananthanie-powers
+		Icon: raid
+		ChargeInterval: 9000
+		Name: Raid furtif
+		Description: 3 bombardiers furtifs traversent la zone et la couvrent\nde bombes. Invisibles sauf aux détecteurs.\nRequiert : base aérienne.
+		UnitType: raid.furtif
+		SquadSize: 3
+		QuantizedFacings: 8
+		CameraActor: camera.paradrop
+		DisplayBeacon: True
+		BeaconPoster: pinficon
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez la zone et la direction du raid.
+		EndChargeTextNotification: Raid furtif prêt.
+		SupportPowerPaletteOrder: 30
+	# Œil d'Ambar : révèle une zone 30 secondes (renseignement « moyen »).
+	RevealAreaPower@OEIL:
+		OrderName: AnanthanieOeil
+		PauseOnCondition: disabled
+		IconImage: ananthanie-powers
+		Icon: oeil
+		ChargeInterval: 4500
+		Name: Œil d'Ambar
+		Description: Un drone de reconnaissance révèle une zone\n(8 cases de rayon) pendant 30 secondes.
+		CameraActor: camera.ambar
+		Duration: 750
+		Cursor: ability
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez la zone à observer.
+		EndChargeTextNotification: Œil d'Ambar prêt.
+		SupportPowerPaletteOrder: 40
+	# Pont aérien : parachutage de 2 Vidra et 6 fantassins.
+	ParatroopersPower@PONT:
+		OrderName: AnanthaniePontAerien
+		Prerequisites: base.ananthanie
+		PauseOnCondition: disabled
+		IconImage: ananthanie-powers
+		Icon: pont
+		ChargeInterval: 7500
+		Name: Pont aérien
+		Description: Un avion de transport parachute 2 chars Vidra,\n4 Thals et 2 Khesh-Thals sur la zone choisie.\nRequiert : base aérienne.
+		UnitType: pont.aerien
+		DropItems: vidra, vidra, thal, thal, thal, thal, khesh.thal, khesh.thal
+		AllowImpassableCells: false
+		QuantizedFacings: 8
+		CameraActor: camera.paradrop
+		DisplayBeacon: True
+		BeaconPoster: pinficon
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		ReinforcementsArrivedSpeechNotification: ReinforcementsArrived
+		ReinforcementsArrivedTextNotification: Pont aérien : renforts largués.
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez la zone de largage.
+		EndChargeTextNotification: Pont aérien prêt.
+		SupportPowerPaletteOrder: 50
+	# Pacte de Fraternité : pouvoir de coalition.
+	FraternitePower@FRATERNITE:
+		OrderName: AnanthanieFraternite
+		PauseOnCondition: disabled
+		IconImage: ananthanie-powers
+		Icon: fraternite
+		ChargeInterval: 9000
+		Name: Pacte de Fraternité
+		Description: Pouvoir de coalition. Pendant 45 s, dans la zone (8 cases) :\nvos unités ET celles de vos alliés gagnent +15 % de dégâts\net se réparent ; la zone est révélée à tous les alliés.\nRecharge 20 % plus rapide par allié encore en jeu.
+		Condition: fraternite
+		Duration: 1125
+		Dimensions: 17, 17
+		Footprint: ______xxxxx______ ____xxxxxxxxx____ ___xxxxxxxxxxx___ __xxxxxxxxxxxxx__ _xxxxxxxxxxxxxxx_ _xxxxxxxxxxxxxxx_ xxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxx _xxxxxxxxxxxxxxx_ _xxxxxxxxxxxxxxx_ __xxxxxxxxxxxxx__ ___xxxxxxxxxxx___ ____xxxxxxxxx____ ______xxxxx______
+		ValidRelationships: Ally
+		Sequence: idle
+		CameraActor: camera.fraternite
+		CameraDuration: 1125
+		AllyChargeBonus: 20
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez la zone de la coalition.
+		EndChargeTextNotification: Pacte de Fraternité prêt.
+		SupportPowerPaletteOrder: 60
+
+# ---------------------------------------------------------------------
+# Effets sur les unités
+# ---------------------------------------------------------------------
+# Blitz (aviation) : mêmes bonus que les unités terrestres (rules.yaml).
+^AnanthanieAvion:
+	ExternalCondition@BLITZ:
+		Condition: blitz
+	SpeedMultiplier@BLITZ:
+		RequiresCondition: blitz
+		Modifier: 130
+	ReloadDelayMultiplier@BLITZ:
+		RequiresCondition: blitz
+		Modifier: 80
+	FirepowerMultiplier@BLITZ:
+		RequiresCondition: blitz
+		Modifier: 115
+	Inherits@FATIGUE: ^FatigueBlitz
+
+# Fatigue : 30 s après la fin du Blitz.
+^FatigueBlitz:
+	GrantTimedConditionOnConditionEnd@FATIGUE:
+		RequiresCondition: blitz
+		Condition: fatigue
+		Duration: 750
+	SpeedMultiplier@FATIGUE:
+		RequiresCondition: fatigue
+		Modifier: 85
+	FirepowerMultiplier@FATIGUE:
+		RequiresCondition: fatigue
+		Modifier: 90
+	WithDecoration@BLITZ:
+		Image: pips
+		Sequence: pip-yellow
+		Position: TopRight
+		RequiresCondition: blitz
+	WithDecoration@FATIGUE:
+		Image: pips
+		Sequence: pip-gray
+		Position: TopRight
+		RequiresCondition: fatigue
+
+^AnanthanieTerrestre:
+	Inherits@FATIGUE: ^FatigueBlitz
+	# Signale à la jauge Blitz 7 quand l'unité est au combat.
+	SignalsCombat:
+
+# Pacte de Fraternité : toutes les unités, tous pays (seule l'Ananthanie
+# déclenche le pouvoir, mais ses alliés en profitent).
+^PacteFraternite:
+	ExternalCondition@FRATERNITE:
+		Condition: fraternite
+	FirepowerMultiplier@FRATERNITE:
+		RequiresCondition: fraternite
+		Modifier: 115
+	ChangesHealth@FRATERNITE:
+		RequiresCondition: fraternite
+		Step: 200
+		Delay: 25
+		StartIfBelow: 100
+	WithDecoration@FRATERNITE:
+		Image: pips
+		Sequence: pip-blue
+		Position: BottomRight
+		RequiresCondition: fraternite
+
+^Vehicle:
+	Inherits@FRATERNITE: ^PacteFraternite
+
+^Infantry:
+	Inherits@FRATERNITE: ^PacteFraternite
+
+^Ship:
+	Inherits@FRATERNITE: ^PacteFraternite
+
+^Plane:
+	Inherits@FRATERNITE: ^PacteFraternite
+
+# ---------------------------------------------------------------------
+# Acteurs créés par les pouvoirs
+# ---------------------------------------------------------------------
+# Drone de l'Essaim : munition rôdeuse qui frappe aussi l'infanterie et les
+# défenses, détruite au bout d'une minute si elle n'a rien trouvé.
+ESSAIM.DRONE:
+	Inherits: RODEUSE
+	Tooltip:
+		Name: Drone de l'Essaim
+	TooltipDescription:
+		Description: Drone kamikaze du pouvoir Essaim.
+	Armament:
+		Weapon: EssaimPlongee
+	AutoTarget:
+		InitialStance: AttackAnything
+		ScanRadius: 7
+	KillsSelf@VIE:
+		Delay: 1500
+
+# Bombardier du Raid furtif (Agnivyn sans arme de bord, soute à bombes).
+RAID.FURTIF:
+	Inherits: BADR.Bomber
+	RenderSprites:
+		Image: agnivyn
+	Tooltip:
+		Name: Bombardier furtif
+	Armament:
+		Weapon: RaidBombe
+	AmmoPool:
+		Ammo: 6
+	Cloak:
+		InitialDelay: 0
+		CloakDelay: 0
+		IsPlayerPalette: true
+		UncloakOn: Dock
+	-Contrail@1:
+	-Contrail@2:
+	-SpawnActorOnDeath:
+
+# Avion de transport du Pont aérien.
+PONT.AERIEN:
+	Inherits: BADR
+	RenderSprites:
+		Image: pont.aerien
+	Tooltip:
+		Name: Avion de transport ananthanien
+	Cargo:
+		MaxWeight: 10
+	-SpawnActorOnDeath:
+
+# Caméras des pouvoirs.
+CAMERA.AMBAR:
+	Inherits: CAMERA
+	EditorOnlyTooltip:
+		Name: (Œil d'Ambar)
+	RevealsShroud:
+		Range: 8c0
+
+CAMERA.FRATERNITE:
+	Inherits: CAMERA
+	EditorOnlyTooltip:
+		Name: (Pacte de Fraternité)
+	RevealsShroud:
+		Range: 9c0
