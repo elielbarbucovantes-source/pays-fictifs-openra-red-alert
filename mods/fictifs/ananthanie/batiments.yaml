@@ -1,0 +1,207 @@
+# =====================================================================
+# ANANTHANIE — bâtiments et défenses
+# Ajoutés à la base soviétique. Défense « par usure » : missiles antichars,
+# missiles sol-air à très longue portée, ruches de drones intercepteurs.
+# =====================================================================
+
+# Haut Commandement : siège de l'état-major. Débloque le Nayrath ;
+# portera les pouvoirs et la jauge d'offensive (lot 3).
+HAUT.COMMANDEMENT:
+	Inherits: ^Building
+	Inherits@IDISABLE: ^DisableOnLowPower
+	Inherits@shape: ^3x2Shape
+	RenderSprites:
+		Image: haut.commandement
+	Selectable:
+		Bounds: 3072, 2048
+	HitShape:
+		UseTargetableCellsOffsets: false
+		TargetableOffsets: 0,0,0, 840,0,0, 840,-1024,0, 420,768,0, -840,0,0, -840,-1024,0, -840,1024,0
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 145
+		BuildLimit: 1
+		Prerequisites: dome, ~structures.ananthanie, ~techlevel.medium
+		Description: Haut Commandement ananthanien. 1 exemplaire maximum.\nDébloque le Nayrath (poste de commandement mobile).
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Haut Commandement
+	Building:
+		Footprint: xxx xxx ===
+		Dimensions: 3,3
+		LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 100000
+	Armor:
+		Type: Concrete
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 8c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+	WithBuildingBib:
+	Power:
+		Amount: -100
+	ProvidesPrerequisite@buildingname:
+
+# Fabrique de drones : débloque les unités à drones et les fabrique 15 % plus vite.
+FABRIQUE.DRONES:
+	Inherits: ^Building
+	Inherits@IDISABLE: ^DisableOnLowPower
+	Inherits@shape: ^3x2Shape
+	RenderSprites:
+		Image: fabrique.drones
+	Selectable:
+		Bounds: 3072, 2048
+	HitShape:
+		UseTargetableCellsOffsets: false
+		TargetableOffsets: 0,0,0, 840,0,0, 840,-1024,0, 420,768,0, -840,0,0, -840,-1024,0, -840,1024,0
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 75
+		Prerequisites: weap, ~structures.ananthanie, ~techlevel.low
+		Description: Fabrique de drones.\nDébloque le Nayrak, le Mukhar et la Ruche,\net produit les unités à drones 15 % plus vite.
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Fabrique de drones
+	Building:
+		Footprint: xxx xxx ===
+		Dimensions: 3,3
+		LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 80000
+	Armor:
+		Type: Wood
+	RevealsShroud:
+		MinRange: 4c0
+		Range: 5c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 4c0
+	WithBuildingBib:
+	Power:
+		Amount: -75
+	ProvidesPrerequisite@buildingname:
+
+# Unités à drones : 100 / 115 = 87 % du temps de production avec la fabrique.
+^ProduitParFabriqueDrones:
+	ProductionTimeMultiplier@FABRIQUEDRONES:
+		Multiplier: 87
+		Prerequisites: fabrique.drones
+
+NAYRAK:
+	Inherits@FABRIQUE: ^ProduitParFabriqueDrones
+
+MUKHAR:
+	Inherits@FABRIQUE: ^ProduitParFabriqueDrones
+
+RUCHE:
+	Inherits@FABRIQUE: ^ProduitParFabriqueDrones
+
+# Institut d'innovation : le centre de recherche ananthanien. Débloque le
+# Karnvasha, l'Agnar, le Lunkar (et les unités expérimentales au lot 3).
+INSTITUT:
+	Inherits: ^Building
+	Inherits@IDISABLE: ^DisableOnLowPower
+	Inherits@shape: ^2x2Shape
+	RenderSprites:
+		Image: institut
+	Selectable:
+		Bounds: 2048, 2048
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 150
+		BuildLimit: 1
+		Prerequisites: weap, dome, ~structures.ananthanie, ~techlevel.medium
+		Description: Institut d'innovation. 1 exemplaire maximum.\nDébloque le Karnvasha, l'Agnar et le Lunkar.
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Institut d'innovation
+	Building:
+		Footprint: xx xx ==
+		Dimensions: 2,3
+		LocalCenterOffset: 0,-512,0
+	WithBuildingBib:
+	Health:
+		HP: 70000
+	Armor:
+		Type: Wood
+	RevealsShroud:
+		MinRange: 4c0
+		Range: 6c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 4c0
+	Power:
+		Amount: -150
+	ProvidesPrerequisite@buildingname:
+
+# ---------------------------------------------------------------------
+# Défenses
+# ---------------------------------------------------------------------
+# Kheshkarn : tourelle de missiles antichars.
+KHESHKARN:
+	Inherits: GUN
+	RenderSprites:
+		Image: kheshkarn
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: barr, ~structures.ananthanie, ~techlevel.low
+		Description: Tourelle de missiles antichars (7,5 cases), salve de 2.\n  Fort contre : blindés, véhicules\n  Faible contre : infanterie, aviation
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: Kheshkarn
+	Health:
+		HP: 45000
+	Armament:
+		Weapon: KheshkarnATGM
+		LocalOffset: 280,250,280, 280,-250,280
+
+# Batterie Ambar : missiles sol-air à très longue portée.
+BATTERIE.AMBAR:
+	Inherits: SAM
+	RenderSprites:
+		Image: batterie.ambar
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: dome, ~structures.ananthanie, ~techlevel.medium
+		Description: Missiles sol-air à très longue portée (12 cases).\n  Fort contre : aviation\n  Faible contre : cibles au sol
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Batterie Ambar
+	Health:
+		HP: 45000
+	Armament:
+		Weapon: AmbarSAM
+
+# Ruche : lance des drones intercepteurs sur tout ce qui approche, au sol
+# comme dans les airs.
+RUCHE:
+	Inherits: GUN
+	RenderSprites:
+		Image: ruche
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: fabrique.drones, ~structures.ananthanie, ~techlevel.medium
+		Description: Ruche de drones intercepteurs : salves de 3 drones\nexplosifs (8 cases) contre tout ce qui approche, sol et air.\n  Fort contre : véhicules légers, hélicoptères, drones\n  Faible contre : blindés lourds, artillerie\n  Requiert : fabrique de drones
+	Valued:
+		Cost: 1100
+	Tooltip:
+		Name: Ruche
+	Health:
+		HP: 40000
+	Armor:
+		Type: Heavy
+	Armament:
+		Weapon: RucheDrones
+		LocalOffset: 0,0,420
+	AutoTargetPriority@DEFAULT:
+		ValidTargets: Infantry, Vehicle, Ship, Underwater, AirborneActor, Defense, Mine
+	AutoTargetPriority@ATTACKANYTHING:
+		ValidTargets: Infantry, Vehicle, Ship, Underwater, AirborneActor, Structure, Defense, Mine

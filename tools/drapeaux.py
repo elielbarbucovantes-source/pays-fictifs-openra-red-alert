@@ -15,7 +15,7 @@ RA_FLAGS = ["england", "germany", "france", "spain", "turkey", "greece", "ukrain
             "russia", "allies", "soviet", "RandomSoviet", "RandomAllies", "Random"]
 
 # Pays fictifs, dans l'ordre où ils suivent les drapeaux d'origine.
-FICTIFS = ["elielistan", "rubenie", "australouis"]
+FICTIFS = ["elielistan", "rubenie", "australouis", "ananthanie"]
 
 NAVY = (22, 40, 92)
 WHITE = (240, 240, 236)
@@ -25,6 +25,9 @@ GREEN = (30, 110, 60)
 DARK_GREEN = (18, 70, 38)
 OCEAN = (18, 86, 160)
 ISLAND = (46, 150, 70)
+CITRON = (126, 211, 33)     # #7ED321
+POMME = (52, 201, 36)       # #34C924
+SOLEIL = (253, 184, 39)     # #FDB827
 
 
 def aguila(draw, cx, cy, s, body=WHITE, tips=RED):
@@ -107,8 +110,47 @@ def australouis(w, h):
     return img
 
 
+def rose_otan(draw, cx, cy, r):
+    """Rose des vents mêlée à l'étoile de l'OTAN : quatre longues branches acérées
+    (moitié blanche, moitié vert pomme), quatre branches courtes jaune soleil en
+    diagonale, anneau blanc et cœur jaune."""
+    import math
+
+    def pt(a, d):
+        return (cx + d * math.cos(a), cy + d * math.sin(a))
+
+    w = r * 0.13
+    draw.ellipse([cx - r * 0.56, cy - r * 0.56, cx + r * 0.56, cy + r * 0.56], outline=WHITE + (255,), width=max(1, int(r * 0.07)))
+    for k in range(4):                                      # branches diagonales courtes
+        a = math.pi / 4 + k * math.pi / 2
+        n = a + math.pi / 2
+        draw.polygon([pt(a, r * 0.66), (cx + w * 1.4 * math.cos(n), cy + w * 1.4 * math.sin(n)),
+                      (cx - w * 1.4 * math.cos(n), cy - w * 1.4 * math.sin(n))], fill=SOLEIL + (255,))
+    for k in range(4):                                      # branches cardinales, effilées et dissymétriques
+        a = -math.pi / 2 + k * math.pi / 2
+        n = a + math.pi / 2
+        tip = pt(a, r)
+        side1 = (cx + w * 1.9 * math.cos(n), cy + w * 1.9 * math.sin(n))
+        side2 = (cx - w * 1.9 * math.cos(n), cy - w * 1.9 * math.sin(n))
+        barb = pt(a + 0.16, r * 0.62)                        # ergot : forme agressive
+        draw.polygon([tip, barb, side1, (cx, cy)], fill=WHITE + (255,))
+        draw.polygon([tip, (cx, cy), side2], fill=POMME + (255,))
+    draw.ellipse([cx - w * 1.3, cy - w * 1.3, cx + w * 1.3, cy + w * 1.3], fill=SOLEIL + (255,))
+
+
+def ananthanie(w, h):
+    """Vert citron, liseré vert pomme et blanc à la hampe, rose des vents-étoile au centre."""
+    img = Image.new("RGBA", (w, h), CITRON + (255,))
+    d = ImageDraw.Draw(img)
+    d.polygon([(0, 0), (w * 0.16, 0), (w * 0.08, h), (0, h)], fill=POMME + (255,))
+    d.polygon([(w * 0.16, 0), (w * 0.20, 0), (w * 0.12, h), (w * 0.08, h)], fill=WHITE + (255,))
+    rose_otan(d, w * 0.56, h * 0.5, h * 0.46)
+    return img
+
+
 def flag(name, w, h):
-    big = {"elielistan": elielistan, "rubenie": rubenie, "australouis": australouis}[name](w * 8, h * 8)
+    big = {"elielistan": elielistan, "rubenie": rubenie, "australouis": australouis,
+           "ananthanie": ananthanie}[name](w * 8, h * 8)
     return big.resize((w, h), Image.LANCZOS)
 
 

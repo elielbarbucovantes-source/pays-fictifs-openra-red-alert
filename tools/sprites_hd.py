@@ -15,6 +15,7 @@ import rendu3d as R  # noqa: E402
 from modeles import australouis as A  # noqa: E402
 from modeles import elielistan as E  # noqa: E402
 from modeles import rubenie as U  # noqa: E402
+from modeles import ananthanie as N  # noqa: E402
 
 AIR = dict(shadow=False)
 MER = dict(shadow=False, waterline=0.0)
@@ -67,6 +68,16 @@ UNITES = {
     "fregate": (U.fregate, [U.fregate_tourelle, U.fregate_tourelle], 80, 32, MER, dict(zoom=1.1, water=True, facing=215, dz=2)),
     "sous.marin": (U.sous_marin, None, 56, 32, MER, dict(zoom=1.4, water=True, facing=215, dz=0)),
     "porte.avions.rub": (U.porte_avions, None, 112, 32, MER, dict(zoom=0.72, water=True, facing=215, dz=4)),
+    # Ananthanie
+    "vidra": (N.vidra_caisse, N.vidra_tourelle, 36, 32, {}, dict(zoom=2.9, dz=2)),
+    "lunkra": (N.lunkra_caisse, N.lunkra_tourelle, 48, 32, {}, dict(zoom=2.1, dz=2)),
+    "karnvasha": (N.karnvasha_caisse, N.karnvasha_tourelle, 56, 32, {}, dict(zoom=1.75, dz=3)),
+    "ratha": (N.ratha_caisse, N.ratha_tourelle, 44, 32, {}, dict(zoom=2.3, dz=2)),
+    "mukhar": (N.mukhar, None, 40, 32, {}, dict(zoom=2.1, dz=3)),
+    "agnar": (N.agnar, None, 40, 32, {}, dict(zoom=2.0, dz=3)),
+    "ambarkesh": (N.ambarkesh_caisse, N.ambarkesh_tourelle, 40, 32, {}, dict(zoom=2.4, dz=2)),
+    "nayrath": (N.nayrath, None, 44, 32, {}, dict(zoom=2.0, dz=4)),
+    "rodeuse": (N.rodeuse, None, 24, 32, AIR, dict(zoom=3.4, air=True, facing=150, dz=-4)),
 }
 
 # Position du pivot de tourelle dans le modèle de la caisse (px, voir Turreted.Offset en yaml).
@@ -86,6 +97,11 @@ MONTAGE = {
     "bastion": [(7.0, 5.15, 0.0), (0.0, -7.7, 0.0)],
     "escorteur.rub": (0.0, 12.1, 2.6),
     "fregate": [(0.0, -23.1, 3.0), (0.0, 19.8, 3.0)],
+    "vidra": (0.0, -0.5, 3.5),
+    "lunkra": (0.0, -1.0, 4.1),
+    "karnvasha": (0.0, -1.5, 5.0),
+    "ratha": (0.0, 1.0, 5.2),
+    "ambarkesh": (0.0, -1.0, 4.0),
 }
 
 # Ombres et icônes : tourelles supplémentaires qui partagent un sprite (Bastion : tourelle bâbord).
@@ -132,6 +148,10 @@ for _n in ("jaguar", "trueno", "lancemissile", "lancemissile.vide", "halcon", "g
     ECHELLE[_n] = 1.44
 ECHELLE["cormoran"] = 1.5      # au moins la taille d'un bombardier
 ECHELLE["cheaper"] = 1.2       # silhouette d'un char moyen de Red Alert (2026-09-30)
+# Ananthanie : mêmes proportions que les unités agrandies des autres pays
+ECHELLE["vidra"] = 1.2
+for _n in ("mukhar", "agnar", "nayrath"):
+    ECHELLE[_n] = 1.3
 
 
 def _echelle(fn, k):
@@ -258,6 +278,25 @@ def _bat_jobs():
             fr.append((B.socle_sam, dict(degats=dmg, facing=k * 360 / 32, pose=B.sam_tourelle()), {}))
     fr += [(B.socle_sam, dict(t=(k + 1) / MAKE, pose=B.sam_tourelle(), facing=200), {}) for k in range(MAKE)]
     j["sam.rub"] = dict(cel=(2, 1), marge=(4, 12), eau=False, frames=fr)
+    # Ananthanie
+    simple("haut.commandement", N.haut_commandement, (3, 3), (0, 26), 8, feux=[(12, 10, 14, 2.0), (-20, 12, 10, 1.6)])
+    simple("fabrique.drones", N.fabrique_drones, (3, 3), (0, 30), 8, feux=[(-10, 16, 14, 2.0), (26, 22, 16, 1.6)])
+    simple("institut", N.institut, (2, 3), (0, 20), 4, feux=[(-8, 8, 14, 1.8)])
+    for nom, socle, tour, marge in (("kheshkarn", N.socle_kheshkarn, N.kheshkarn_tourelle, (8, 12)),
+                                    ("ruche", N.socle_ruche, N.ruche_tourelle, (8, 14))):
+        fr = []
+        for dmg in (False, True):
+            for recul in (0.0, 1.6):
+                for k in range(32):
+                    fr.append((socle, dict(degats=dmg, facing=k * 360 / 32, pose=tour(recul)), {}))
+        fr += [(socle, dict(t=(k + 1) / MAKE, pose=tour(0.0), facing=200), {}) for k in range(MAKE)]
+        j[nom] = dict(cel=(1, 1), marge=marge, eau=False, frames=fr)
+    fr = []
+    for dmg in (False, True):
+        for k in range(32):
+            fr.append((N.socle_ambar, dict(degats=dmg, facing=k * 360 / 32, pose=N.ambar_tourelle()), {}))
+    fr += [(N.socle_ambar, dict(t=(k + 1) / MAKE, pose=N.ambar_tourelle(), facing=200), {}) for k in range(MAKE)]
+    j["batterie.ambar"] = dict(cel=(2, 1), marge=(4, 12), eau=False, frames=fr)
     # pipeline : 16 raccordements, intact puis endommagé
     j["pipeline"] = dict(cel=(1, 1), marge=(0, 4), eau=False,
                          frames=[((lambda phase=0.0, m=m, d=d: B.pipeline(m, d)), {}, {}) for d in (False, True) for m in range(16)])

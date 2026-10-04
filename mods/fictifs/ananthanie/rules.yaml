@@ -1,0 +1,518 @@
+# =====================================================================
+# ANANTHANIE — unités terrestres
+# « Prospérité, innovation, puissance, Fraternité. »
+#
+# Superpuissance technologique : beaucoup d'unités (quantité) bien
+# équipées (qualité), plus rapides que la moyenne, drones et missiles
+# partout. L'Ananthanie construit la base soviétique ; sa caserne et son
+# usine produisent ses propres unités (voir common/rules.yaml).
+#
+# Bâtiments et défenses : batiments.yaml. Armes : weapons.yaml.
+# =====================================================================
+
+# Doctrine commune à toutes les unités terrestres. Blitz (déclenché par la
+# jauge d'offensive « Blitz 7 », lot 3) : +30 % de vitesse, +25 % de cadence,
+# +15 % de dégâts.
+^AnanthanieTerrestre:
+	ExternalCondition@BLITZ:
+		Condition: blitz
+	SpeedMultiplier@BLITZ:
+		RequiresCondition: blitz
+		Modifier: 130
+	ReloadDelayMultiplier@BLITZ:
+		RequiresCondition: blitz
+		Modifier: 80
+	FirepowerMultiplier@BLITZ:
+		RequiresCondition: blitz
+		Modifier: 115
+
+# Faiblesse géographique : les montagnes. Les véhicules ananthaniens
+# perdent 20 % de vitesse en terrain accidenté.
+^AnanthanieVehicule:
+	Inherits@DOCTRINE: ^AnanthanieTerrestre
+	GrantConditionOnTerrain@MONTAGNE:
+		Condition: terrain-accidente
+		TerrainTypes: Rough
+	SpeedMultiplier@MONTAGNE:
+		RequiresCondition: terrain-accidente
+		Modifier: 80
+
+# ---------------------------------------------------------------------
+# INFANTERIE (caserne soviétique)
+# ---------------------------------------------------------------------
+# Thal : le fusilier de masse. Pas cher, formé très vite.
+THAL:
+	Inherits: E1
+	Inherits@DOCTRINE: ^AnanthanieTerrestre
+	RenderSprites:
+		Image: e1
+	Buildable:
+		BuildPaletteOrder: 10
+		BuildDurationModifier: 40
+		Prerequisites: ~infantry.ananthanie, ~techlevel.infonly
+		Description: Fusilier ananthanien. Bon marché et formé très vite :\nl'armée ananthanienne compte sur le nombre.\n  Fort contre : infanterie\n  Faible contre : véhicules, aviation
+	Selectable:
+		Class: thal
+	Valued:
+		Cost: 100
+	Tooltip:
+		Name: Thal
+	Health:
+		HP: 5000
+	Mobile:
+		Speed: 60
+	Armament@PRIMARY:
+		Weapon: ThalFusil
+
+# Khesh-Thal : missile polyvalent, blindés ET avions.
+KHESH.THAL:
+	Inherits: E3
+	Inherits@DOCTRINE: ^AnanthanieTerrestre
+	RenderSprites:
+		Image: e3
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~infantry.ananthanie, ~techlevel.infonly
+		Description: Fantassin lance-missiles polyvalent.\nUn missile antichar et un missile antiaérien.\n  Fort contre : véhicules, aviation\n  Faible contre : infanterie
+	Selectable:
+		Class: khesh.thal
+	Valued:
+		Cost: 350
+	Tooltip:
+		Name: Khesh-Thal
+	Health:
+		HP: 4500
+	Mobile:
+		Speed: 56
+	Armament@PRIMARY:
+		Weapon: KheshAA
+	Armament@SECONDARY:
+		Weapon: KheshAT
+	Armament@GARRISONED:
+		Weapon: KheshAT
+
+# Nayrak : opérateur de drones. Lance un drone explosif FPV, puis en prépare
+# un autre (7 s).
+NAYRAK:
+	Inherits: E2
+	Inherits@DOCTRINE: ^AnanthanieTerrestre
+	RenderSprites:
+		Image: e2
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~infantry.ananthanie, fabrique.drones, ~techlevel.low
+		Description: Opérateur de drones. Lance un drone explosif FPV\nà 7 cases, puis en prépare un autre (7 s).\n  Fort contre : véhicules, blindés légers\n  Faible contre : infanterie au contact, aviation\n  Requiert : fabrique de drones
+	Selectable:
+		Class: nayrak
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Nayrak
+	Health:
+		HP: 4500
+	Mobile:
+		Speed: 56
+	Armament@PRIMARY:
+		Weapon: NayrakFPV
+		LocalOffset: 0,0,555
+		FireDelay: 10
+	Armament@GARRISONED:
+		Weapon: NayrakFPV
+		FireDelay: 10
+	-Explodes:
+	AutoTarget:
+		ScanRadius: 7
+
+# Lunkar : éclaireur-désignateur. Marque les véhicules et bâtiments ennemis
+# (+25 % de dégâts reçus) et abat les fantassins au fusil de précision.
+LUNKAR:
+	Inherits: E1
+	Inherits@DOCTRINE: ^AnanthanieTerrestre
+	RenderSprites:
+		Image: spy
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: ~infantry.ananthanie, institut, ~techlevel.medium
+		Description: Éclaireur-désignateur, camouflé à l'arrêt.\nMarque véhicules, navires et bâtiments au laser :\n+25 % de dégâts de toute l'armée pendant 3 s.\nFusil de précision contre l'infanterie.\n  Fort contre : infanterie, appui des blindés\n  Faible contre : véhicules, aviation\n  Requiert : institut d'innovation
+	Selectable:
+		Class: lunkar
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Lunkar
+	Health:
+		HP: 4000
+	Mobile:
+		Speed: 64
+	RevealsShroud:
+		Range: 9c0
+	DetectCloaked:
+		Range: 6c0
+	Armament@PRIMARY:
+		Weapon: LunkarDesignateur
+	Armament@SECONDARY:
+		Name: secondary
+		Weapon: LunkarPrecision
+	# Le sprite d'espion n'a ni flammes de garnison ni pose de parachute.
+	-Armament@GARRISONED:
+	WithInfantryBody@PARACHUTE:
+		StandSequences: stand
+	Cloak:
+		InitialDelay: 75
+		CloakDelay: 75
+		CloakSound: appear1.aud
+		UncloakSound: appear1.aud
+		IsPlayerPalette: true
+		UncloakOn: Attack, Move, Load, Unload, Dock, Damage
+
+# Karnthal : soldat en exosquelette. Très résistant, ne se fait pas écraser.
+KARNTHAL:
+	Inherits: SHOK
+	Inherits@DOCTRINE: ^AnanthanieTerrestre
+	RenderSprites:
+		Image: shok
+	Buildable:
+		BuildPaletteOrder: 50
+		Prerequisites: ~infantry.ananthanie, weap, ~techlevel.medium
+		Description: Soldat en exosquelette, mitrailleuse lourde.\nTrès résistant, ne peut pas être écrasé par les véhicules.\n  Fort contre : infanterie, véhicules légers\n  Faible contre : blindés, artillerie
+	Selectable:
+		Class: karnthal
+	Valued:
+		Cost: 750
+	Tooltip:
+		Name: Karnthal
+	Health:
+		HP: 16000
+	Armor:
+		Type: Light
+	Mobile:
+		Speed: 48
+	-Crushable:
+	Armament@PRIMARY:
+		Weapon: KarnMitrailleuse
+	Armament@GARRISONED:
+		Weapon: KarnMitrailleuse
+
+# ---------------------------------------------------------------------
+# CHARS (usine soviétique)
+# ---------------------------------------------------------------------
+# Vidra : char léger de percée, très rapide.
+VIDRA:
+	Inherits: 1TNK
+	Inherits@DOCTRINE: ^AnanthanieVehicule
+	RenderSprites:
+		Image: vidra
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~vehicles.ananthanie, ~techlevel.low
+		Description: Char léger de percée, très rapide.\nCanon-mitrailleur de 40 mm à cadence élevée.\n  Fort contre : véhicules légers, infanterie\n  Faible contre : blindés lourds, aviation
+	Selectable:
+		Class: vidra
+	Valued:
+		Cost: 650
+	Tooltip:
+		Name: Vidra
+	Health:
+		HP: 24000
+	Mobile:
+		Speed: 142
+	Turreted:
+		TurnSpeed: 40
+		Offset: -23,0,179
+	Armament:
+		Weapon: Vidra40mm
+		LocalOffset: 466,0,56
+
+# Lunkra : char de combat principal, l'emblème du blindé ananthanien.
+LUNKRA:
+	Inherits: 3TNK
+	Inherits@DOCTRINE: ^AnanthanieVehicule
+	RenderSprites:
+		Image: lunkra
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~vehicles.ananthanie, ~techlevel.medium
+		Description: Char de combat principal. Canon de 120 mm à chargement\nautomatique, tourelle rapide, bonne mobilité.\n  Fort contre : blindés, véhicules\n  Faible contre : infanterie en masse, aviation
+	Selectable:
+		Class: lunkra
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Lunkra
+	Health:
+		HP: 46000
+	Mobile:
+		Speed: 92
+	Turreted:
+		TurnSpeed: 32
+		Offset: -39,0,175
+	Armament:
+		Weapon: Lunkra120mm
+		LocalOffset: 637,0,60
+	SpawnActorOnDeath:
+		Actor: LUNKRA.Husk
+
+# Karnvasha : char lourd de rupture, protection active contre les missiles.
+KARNVASHA:
+	Inherits: 4TNK
+	Inherits@DOCTRINE: ^AnanthanieVehicule
+	RenderSprites:
+		Image: karnvasha
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~vehicles.ananthanie, fix, institut, ~techlevel.high
+		Description: Char lourd de rupture. Canon de 130 mm,\nmitrailleuse téléopérée contre l'infanterie.\nProtection active : −35 % de dégâts des missiles et roquettes.\n  Fort contre : blindés, défenses\n  Faible contre : artillerie, aviation\n  Requiert : institut d'innovation
+	Selectable:
+		Class: karnvasha
+	Valued:
+		Cost: 1700
+	Tooltip:
+		Name: Karnvasha
+	Health:
+		HP: 80000
+	Mobile:
+		Speed: 60
+	Turreted:
+		TurnSpeed: 20
+		Offset: -58,0,213
+	Armament@PRIMARY:
+		Weapon: Karnvasha130mm
+		LocalOffset: 714,0,64
+	Armament@SECONDARY:
+		Weapon: KarnvashaMG
+		LocalOffset: 31,-66,158
+	-ChangesHealth:
+	ActiveProtection:
+	SpawnActorOnDeath:
+		Actor: KARNVASHA.Husk
+
+LUNKRA.Husk:
+	Inherits: 3TNK.Husk
+	Tooltip:
+		Name: Carcasse (Lunkra)
+	TransformOnCapture:
+		IntoActor: lunkra
+	InfiltrateForTransform:
+		IntoActor: lunkra
+	RenderSprites:
+		Image: lunkra.destroyed
+
+KARNVASHA.Husk:
+	Inherits: 4TNK.Husk
+	Tooltip:
+		Name: Carcasse (Karnvasha)
+	TransformOnCapture:
+		IntoActor: karnvasha
+	InfiltrateForTransform:
+		IntoActor: karnvasha
+	RenderSprites:
+		Image: karnvasha.destroyed
+
+# ---------------------------------------------------------------------
+# VÉHICULES (usine soviétique)
+# ---------------------------------------------------------------------
+# Ratha : véhicule de combat d'infanterie. Transporte 5 fantassins,
+# canon automatique sol/air en tourelle.
+RATHA:
+	Inherits: APC
+	Inherits@DOCTRINE: ^AnanthanieVehicule
+	RenderSprites:
+		Image: ratha
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: ~vehicles.ananthanie, ~techlevel.low
+		Description: Véhicule de combat d'infanterie. Transporte 5 fantassins.\nCanon automatique de 30 mm contre le sol et les airs.\n  Fort contre : infanterie, véhicules légers, hélicoptères\n  Faible contre : blindés
+	Selectable:
+		Class: ratha
+	Valued:
+		Cost: 800
+	Tooltip:
+		Name: Ratha
+	Health:
+		HP: 32000
+	Mobile:
+		Speed: 128
+	-AttackFrontal:
+	-Armament:
+	Armament@AG:
+		Weapon: RathaCanonAG
+		LocalOffset: 373,0,51
+		MuzzleSequence: muzzle
+	Armament@AA:
+		Weapon: RathaCanonAA
+		LocalOffset: 373,0,51
+		MuzzleSequence: muzzle
+	Turreted:
+		TurnSpeed: 40
+		Offset: 39,0,222
+	AttackTurreted:
+	WithSpriteTurret:
+	WithMuzzleOverlay:
+	# Le canon tire aussi sur les hélicoptères et avions.
+	AutoTargetPriority@DEFAULT:
+		ValidTargets: Infantry, Vehicle, Ship, Underwater, AirborneActor, Defense, Mine
+	AutoTargetPriority@ATTACKANYTHING:
+		ValidTargets: Infantry, Vehicle, Ship, Underwater, AirborneActor, Structure, Defense, Mine
+
+# Mukhar : lance-drones. Fabrique lui-même 4 munitions rôdeuses ; le lot
+# suivant arrive 15 s après la destruction de la dernière.
+MUKHAR:
+	Inherits: ^TrackedVehicle
+	Inherits@DOCTRINE: ^AnanthanieVehicule
+	Inherits@GAINSEXPERIENCE: ^GainsExperience
+	RenderSprites:
+		Image: mukhar
+	Buildable:
+		Queue: Vehicle
+		BuildPaletteOrder: 50
+		Prerequisites: ~vehicles.ananthanie, fabrique.drones, ~techlevel.medium
+		Description: Lance-drones. Fabrique gratuitement 4 munitions rôdeuses ;\nle lot suivant arrive 15 s après la destruction de la dernière.\nElles plongent d'elles-mêmes sur les véhicules à 6 cases ;\nclic droit sur un ennemi : une munition part à l'attaque.\n  Fort contre : véhicules, blindés\n  Faible contre : aviation, défense antiaérienne\n  Requiert : fabrique de drones
+	Selectable:
+		Class: mukhar
+		DecorationBounds: 1194, 1194
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Mukhar
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 22000
+	Armor:
+		Type: Light
+	Mobile:
+		Speed: 100
+	RevealsShroud:
+		MinRange: 4c0
+		Range: 7c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 4c0
+	DroneCarrier:
+		Drone: rodeuse
+		BatchSize: 4
+		RegenDelay: 375
+		EscortRadius: 1c512
+		FollowRange: 3c0
+		ReadyTextNotification: Mukhar : 4 munitions rôdeuses prêtes.
+	WithDronePipsDecoration:
+		Position: BottomLeft
+		RequiresSelection: true
+
+# Munition rôdeuse du Mukhar (gratuite, introuvable dans la barre de construction).
+RODEUSE:
+	Inherits: DRONE.ESSAIM
+	RenderSprites:
+		Image: rodeuse
+	Tooltip:
+		Name: Munition rôdeuse
+	TooltipDescription:
+		Description: Munition rôdeuse du Mukhar.\nPlonge sur un véhicule ou un navire.
+	Health:
+		HP: 700
+	Armament:
+		Weapon: RodeusePlongee
+	Aircraft:
+		Speed: 210
+	# Contrairement aux drones du Porte-Drone, les munitions rôdeuses
+	# attaquent d'elles-mêmes les véhicules qui passent à 6 cases.
+	AutoTarget:
+		InitialStance: AttackAnything
+		ScanRadius: 6
+
+# Agnar : lance-missiles de croisière à très longue portée.
+AGNAR:
+	Inherits: V2RL
+	Inherits@DOCTRINE: ^AnanthanieVehicule
+	RenderSprites:
+		Image: agnar
+	Buildable:
+		BuildPaletteOrder: 70
+		Prerequisites: ~vehicles.ananthanie, institut, ~techlevel.high
+		Description: Lance-missiles de croisière. Portée extrême (16 cases),\nmissile guidé très précis, gros dégâts. Cadence lente.\nIl lui faut des yeux : Lunkar, drones, Nayrath.\n  Fort contre : bâtiments, défenses, concentrations\n  Faible contre : tout au contact, aviation\n  Requiert : institut d'innovation
+	Selectable:
+		Class: agnar
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Agnar
+	Health:
+		HP: 18000
+	Mobile:
+		Speed: 84
+	Armament:
+		Weapon: AgnarCroisiere
+		LocalOffset: 252,0,355
+	AutoTarget:
+		ScanRadius: 16
+
+# Ambarkesh : défense antiaérienne mobile, canons et missiles.
+AMBARKESH:
+	Inherits: FTRK
+	Inherits@DOCTRINE: ^AnanthanieVehicule
+	RenderSprites:
+		Image: ambarkesh
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: ~vehicles.ananthanie, ~techlevel.low
+		Description: Défense antiaérienne mobile : canons rapides\net missiles sol-air à 9 cases.\n  Fort contre : aviation, drones\n  Faible contre : blindés
+	Selectable:
+		Class: ambarkesh
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: Ambarkesh
+	Health:
+		HP: 18000
+	Mobile:
+		Speed: 113
+	Turreted:
+		Offset: -39,0,171
+	Armament@AA:
+		Weapon: AmbarkeshCanon
+		LocalOffset: 272,132,81, 272,-132,81
+	Armament@AA2:
+		Weapon: AmbarkeshMissile
+		LocalOffset: 148,78,119, 148,-78,119
+	Armament@AG:
+		Weapon: AmbarkeshSol
+		LocalOffset: 272,132,81, 272,-132,81
+
+# Nayrath : poste de commandement mobile. Radar, très grande vision,
+# détecte les unités furtives. (Au lot 3 : charge plus vite la jauge d'offensive.)
+NAYRATH:
+	Inherits: ^Vehicle
+	Inherits@DOCTRINE: ^AnanthanieVehicule
+	Inherits@selection: ^SelectableSupportUnit
+	RenderSprites:
+		Image: nayrath
+	Buildable:
+		Queue: Vehicle
+		BuildPaletteOrder: 80
+		BuildLimit: 2
+		Prerequisites: ~vehicles.ananthanie, haut.commandement, ~techlevel.medium
+		Description: Poste de commandement mobile. 2 exemplaires maximum.\nRadar (mini-carte), très grande vision, détecte les unités furtives.\nSans arme.\n  Requiert : Haut Commandement
+	Selectable:
+		Class: nayrath
+	Valued:
+		Cost: 1100
+	Tooltip:
+		Name: Nayrath
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 20000
+	Armor:
+		Type: Light
+	Mobile:
+		Speed: 100
+	RevealsShroud:
+		Range: 12c0
+	DetectCloaked:
+		Range: 7c0
+	ProvidesRadar:
+	WithRangeCircle@VISION:
+		Type: nayrath
+		Range: 12c0
+		Color: 7ED32160
+		Visible: WhenSelected

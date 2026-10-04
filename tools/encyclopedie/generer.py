@@ -18,12 +18,13 @@ import stats  # noqa: E402
 from textes_elielistan import TEXTES as T_ELI  # noqa: E402
 from textes_rubenie import TEXTES as T_RUB  # noqa: E402
 from textes_australouis import TEXTES as T_AUS  # noqa: E402
+from textes_ananthanie import TEXTES as T_ANA  # noqa: E402
 from textes_pouvoirs import TEXTES as T_POW  # noqa: E402
 
 SORTIE = os.path.join(regles.ROOT, "Encyclopédie ultime du mod.txt")
 LARGEUR = 92
-TEXTES = {**T_ELI, **T_RUB, **T_AUS}
-ORDRE_PAYS = ["Elielistan", "Rubénie", "Australouis"]
+TEXTES = {**T_ELI, **T_RUB, **T_AUS, **T_ANA}
+ORDRE_PAYS = ["Elielistan", "Rubénie", "Australouis", "Ananthanie"]
 
 SECTIONS = [
     ("BÂTIMENTS", lambda s: s["queue"] == "Building"),
@@ -68,6 +69,18 @@ Il construit la base alliée, plus un chantier naval avancé et une centrale d'e
 "Îles : le Mothership fait sortir de l'océan des îles de 8×8 cases (plage autour, terrain constructible au centre) où un chantier de construction peut s'installer.",
 "Révolution : le Révolutionnaire fait passer dans votre camp tout ce qui est ennemi à 5 cases (recharge 5 minutes).",
 "Enrichissement : +5 % de revenus du minerai avec la centrale d'enrichissement, +20 % de plus pendant le Raffinerie boost.",
+]),
+"Ananthanie": ("Je contrôle le champ de bataille", """
+Camp : Soviétiques (base soviétique, Haut Commandement, fabrique de drones et institut d'innovation propres).
+Devise : « Prospérité, innovation, puissance, Fraternité. »
+L'Ananthanie est une superpuissance technologique, démocratie parlementaire très stable. Sa doctrine : blitzkrieg en attaque, usure en défense, quantité ET qualité. Blindés modernes, drones explosifs et missiles : « L'Ananthanie gagne une bataille en 7 minutes. »
+""", [
+"Masse : le Thal est formé très vite ; l'armée ananthanienne compte sur le nombre autant que sur la technologie.",
+"Drones : la fabrique de drones produit 15 % plus vite le Nayrak, le Mukhar et la Ruche.",
+"Désignation : le Lunkar marque ses cibles (+25 % de dégâts reçus pendant 3 secondes).",
+"Protection active : le Karnvasha reçoit 35 % de dégâts en moins des missiles et roquettes.",
+"Faiblesse : les montagnes. Les véhicules ananthaniens perdent 20 % de vitesse en terrain accidenté.",
+"Anti-drone : les avions ananthaniens détruisent les drones ennemis à 1 case.",
 ]),
 }
 

@@ -20,15 +20,20 @@
 		InternalName: australouis
 		Side: Allies
 		Description: Australouis : le peuple des îles\nPuissance aérienne et navale.\nChasseur Albatros, Warthog, bombardier Manta,\ndrones kamikazes Moustique, hydravion Cormoran.
+	Faction@ananthanie:
+		Name: Ananthanie
+		InternalName: ananthanie
+		Side: Soviet
+		Description: Ananthanie : « Je contrôle le champ de bataille. »\nSuperpuissance technologique : blindés modernes, drones\nexplosifs, missiles, aviation. Quantité et qualité.\nPréparer, puis gagner la bataille en 7 minutes.
 	Faction@random:
-		RandomFactionMembers: RandomAllies, RandomSoviet, elielistan, rubenie, australouis
+		RandomFactionMembers: RandomAllies, RandomSoviet, elielistan, rubenie, australouis, ananthanie
 
 World:
 	UnitInfoPanel:
 	# Ctrl enfoncé avec un Pelícano chargé sélectionné : ciblage du largage.
 	ParaDropHotkey:
 	StartingUnits@mcvonly:
-		Factions: allies, england, france, germany, soviet, russia, ukraine, elielistan, rubenie, australouis
+		Factions: allies, england, france, germany, soviet, russia, ukraine, elielistan, rubenie, australouis, ananthanie
 	StartingUnits@lightelielistan:
 		Class: light
 		ClassName: options-starting-units.light-support
@@ -59,6 +64,22 @@ World:
 		Factions: rubenie
 		BaseActor: mcv
 		SupportActors: fusilier,fusilier,fusilier,grenadier,chasseur.at,chasseur.at,reco.rub,contreattaque,contreattaque,aa.rub,sicatient
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	StartingUnits@lightananthanie:
+		Class: light
+		ClassName: options-starting-units.light-support
+		Factions: ananthanie
+		BaseActor: mcv
+		SupportActors: thal,thal,thal,thal,khesh.thal,khesh.thal,vidra,vidra
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	StartingUnits@heavyananthanie:
+		Class: heavy
+		ClassName: options-starting-units.heavy-support
+		Factions: ananthanie
+		BaseActor: mcv
+		SupportActors: thal,thal,thal,thal,khesh.thal,khesh.thal,vidra,vidra,lunkra,ratha,ambarkesh
 		InnerSupportRadius: 3
 		OuterSupportRadius: 5
 	# Australouis : unités alliées en attendant ses forces terrestres.
@@ -115,6 +136,9 @@ WEAP:
 	ProvidesPrerequisite@rubenie:
 		Factions: rubenie
 		Prerequisite: vehicles.rubenie
+	ProvidesPrerequisite@ananthanie:
+		Factions: ananthanie
+		Prerequisite: vehicles.ananthanie
 
 # ---------------------------------------------------------------------
 # La Rubénie construit la base soviétique (aérodrome, sous-marinier en
@@ -123,15 +147,21 @@ WEAP:
 # ---------------------------------------------------------------------
 FACT:
 	ProvidesPrerequisite@soviet:
-		Factions: soviet, russia, ukraine, rubenie
+		Factions: soviet, russia, ukraine, rubenie, ananthanie
 	ProvidesPrerequisite@rubenie:
 		Factions: rubenie
 		Prerequisite: structures.rubenie
+	ProvidesPrerequisite@ananthanie:
+		Factions: ananthanie
+		Prerequisite: structures.ananthanie
 
 BARR:
 	ProvidesPrerequisite@rubenie:
 		Factions: rubenie
 		Prerequisite: infantry.rubenie
+	ProvidesPrerequisite@ananthanie:
+		Factions: ananthanie
+		Prerequisite: infantry.ananthanie
 
 # La chronosphère fait doublon avec l'Aguila Gate.
 PDOX:
@@ -192,49 +222,50 @@ PDOX:
 # (Elielistan) et par l'infanterie rubénienne.
 E1:
 	Buildable:
-		Prerequisites: ~barracks, ~techlevel.infonly, ~!infantry.elielistan, ~!infantry.rubenie
+		Prerequisites: ~barracks, ~techlevel.infonly, ~!infantry.elielistan, ~!infantry.rubenie, ~!infantry.ananthanie
 E3:
 	Buildable:
-		Prerequisites: ~barracks, ~techlevel.infonly, ~!infantry.elielistan, ~!infantry.rubenie
+		Prerequisites: ~barracks, ~techlevel.infonly, ~!infantry.elielistan, ~!infantry.rubenie, ~!infantry.ananthanie
 
-# Unités et défenses soviétiques génériques remplacées par celles de la Rubénie.
+# Unités et défenses soviétiques génériques remplacées par celles de la Rubénie
+# et de l'Ananthanie.
 E2:
 	Buildable:
-		Prerequisites: ~barr, ~techlevel.infonly, ~!structures.rubenie
+		Prerequisites: ~barr, ~techlevel.infonly, ~!structures.rubenie, ~!structures.ananthanie
 E4:
 	Buildable:
-		Prerequisites: ~barr, ftur, ~techlevel.low, ~!structures.rubenie
+		Prerequisites: ~barr, ftur, ~techlevel.low, ~!structures.rubenie, ~!structures.ananthanie
 APC:
 	Buildable:
-		Prerequisites: ~vehicles.soviet, ~techlevel.low, ~!structures.rubenie
+		Prerequisites: ~vehicles.soviet, ~techlevel.low, ~!structures.rubenie, ~!structures.ananthanie
 FTRK:
 	Buildable:
-		Prerequisites: ~vehicles.soviet, ~techlevel.low, ~!structures.rubenie
+		Prerequisites: ~vehicles.soviet, ~techlevel.low, ~!structures.rubenie, ~!structures.ananthanie
 V2RL:
 	Buildable:
-		Prerequisites: dome, ~vehicles.soviet, ~techlevel.medium, ~!structures.rubenie
+		Prerequisites: dome, ~vehicles.soviet, ~techlevel.medium, ~!structures.rubenie, ~!structures.ananthanie
 3TNK:
 	Buildable:
-		Prerequisites: fix, ~vehicles.soviet, ~techlevel.medium, ~!structures.rubenie
+		Prerequisites: fix, ~vehicles.soviet, ~techlevel.medium, ~!structures.rubenie, ~!structures.ananthanie
 4TNK:
 	Buildable:
-		Prerequisites: fix, stek, ~vehicles.soviet, ~techlevel.high, ~!structures.rubenie
+		Prerequisites: fix, stek, ~vehicles.soviet, ~techlevel.high, ~!structures.rubenie, ~!structures.ananthanie
 # Voleur : la Rubénie a sa propre version (RUBENLA.DEN, rubenie/rules.yaml).
 THF:
 	Buildable:
-		Prerequisites: ~barr, dome, ~techlevel.medium, ~!structures.rubenie
+		Prerequisites: ~barr, dome, ~techlevel.medium, ~!structures.rubenie, ~!structures.ananthanie
 QTNK:
 	Buildable:
-		Prerequisites: fix, stek, ~vehicles.soviet, ~techlevel.high, ~!structures.rubenie
+		Prerequisites: fix, stek, ~vehicles.soviet, ~techlevel.high, ~!structures.rubenie, ~!structures.ananthanie
 FTUR:
 	Buildable:
-		Prerequisites: barr, ~structures.soviet, ~techlevel.low, ~!structures.rubenie
+		Prerequisites: barr, ~structures.soviet, ~techlevel.low, ~!structures.rubenie, ~!structures.ananthanie
 TSLA:
 	Buildable:
-		Prerequisites: weap, ~structures.soviet, ~techlevel.medium, ~!structures.rubenie
+		Prerequisites: weap, ~structures.soviet, ~techlevel.medium, ~!structures.rubenie, ~!structures.ananthanie
 SAM:
 	Buildable:
-		Prerequisites: dome, ~structures.soviet, ~techlevel.medium, ~!structures.rubenie
+		Prerequisites: dome, ~structures.soviet, ~techlevel.medium, ~!structures.rubenie, ~!structures.ananthanie
 # Aérodrome et sous-marinier remplacés par la base aérienne et le chantier
 # naval rubéniens (voir rubenie/aviation.yaml et rubenie/marine.yaml).
 AFLD:
@@ -367,7 +398,7 @@ SYRD:
 ^Plane:
 	DestroysNearbyDrones:
 		Range: 1c0
-		Factions: australouis, rubenie
+		Factions: australouis, rubenie, ananthanie
 		Sound: gun13.aud
 
 # Le MH60 allié est remplacé chez l'Elielistan par son Black Hawk

@@ -18,11 +18,11 @@ Repères :
   • Blindage : aucun (infanterie), léger, lourd, béton, léger de bâtiment (bois).
 
 SOMMAIRE
-  0. LES PAYS (3)
-  1. BÂTIMENTS (10)
-  2. DÉFENSES (9)
-  3. INFANTERIE (11)
-  4. VÉHICULES (23)
+  0. LES PAYS (4)
+  1. BÂTIMENTS (13)
+  2. DÉFENSES (12)
+  3. INFANTERIE (16)
+  4. VÉHICULES (31)
   5. AVIATION (20)
   6. MARINE (12)
   7. POUVOIRS DE SOUTIEN (13)
@@ -90,6 +90,24 @@ SOMMAIRE
     cases (recharge 5 minutes).
   • Enrichissement : +5 % de revenus du minerai avec la centrale d'enrichissement, +20 % de
     plus pendant le Raffinerie boost.
+--------------------------------------------------------------------------------------------
+■ ANANTHANIE — « Je contrôle le champ de bataille »
+  Camp : Soviétiques (base soviétique, Haut Commandement, fabrique de drones et institut
+  d'innovation propres).
+  Devise : « Prospérité, innovation, puissance, Fraternité. »
+  L'Ananthanie est une superpuissance technologique, démocratie parlementaire très stable.
+  Sa doctrine : blitzkrieg en attaque, usure en défense, quantité ET qualité. Blindés
+  modernes, drones explosifs et missiles : « L'Ananthanie gagne une bataille en 7 minutes. »
+  Règles propres :
+  • Masse : le Thal est formé très vite ; l'armée ananthanienne compte sur le nombre autant
+    que sur la technologie.
+  • Drones : la fabrique de drones produit 15 % plus vite le Nayrak, le Mukhar et la Ruche.
+  • Désignation : le Lunkar marque ses cibles (+25 % de dégâts reçus pendant 3 secondes).
+  • Protection active : le Karnvasha reçoit 35 % de dégâts en moins des missiles et
+    roquettes.
+  • Faiblesse : les montagnes. Les véhicules ananthaniens perdent 20 % de vitesse en terrain
+    accidenté.
+  • Anti-drone : les avions ananthaniens détruisent les drones ennemis à 1 case.
 
 ============================================================================================
                                         1. BÂTIMENTS                                        
@@ -255,6 +273,49 @@ SOMMAIRE
     Construisez-en au moins un dès que le centre technique est prêt, dans une baie bien
     défendue.
 
+  ▶ PAYS : ANANTHANIE
+
+--------------------------------------------------------------------------------------------
+■ FABRIQUE DE DRONES
+  Pays : Ananthanie
+  Lore :
+    Hall de production de drones et piste d'essai.
+    Débloque le Nayrak, le Mukhar et la Ruche.
+    Les unités à drones y sont produites 15 % plus vite.
+  Statistiques :
+    Coût 1 200 $ · PV 80 000 · Blindage léger de bâtiment (bois) · Vision 5 cases
+    Énergie -75
+    Prérequis : Usine d'armement · Niveau technologique : bas
+  Stratégie :
+    À construire tôt : les drones sont le domaine principal de l'Ananthanie.
+--------------------------------------------------------------------------------------------
+■ HAUT COMMANDEMENT
+  Pays : Ananthanie
+  Lore :
+    Siège de l'état-major ananthanien.
+    Un seul exemplaire : tour de verre en coin, héliport, radars.
+    C'est ici que se prépare la bataille de sept minutes.
+  Statistiques :
+    Coût 1 500 $ · PV 100 000 · Blindage béton · Vision 8 cases
+    Énergie -100 · Limite 1 exemplaire
+    Prérequis : Radar Dome · Niveau technologique : moyen
+  Stratégie :
+    Construisez-le pour débloquer le Nayrath. Il portera les pouvoirs de soutien et la jauge
+    d'offensive.
+--------------------------------------------------------------------------------------------
+■ INSTITUT D'INNOVATION
+  Pays : Ananthanie
+  Lore :
+    Le centre de recherche ananthanien, sous son dôme d'observation.
+    L'innovation est la valeur fondamentale du pays.
+    Débloque le Karnvasha, l'Agnar et le Lunkar.
+  Statistiques :
+    Coût 2 000 $ · PV 70 000 · Blindage léger de bâtiment (bois) · Vision 6 cases
+    Énergie -150 · Limite 1 exemplaire
+    Prérequis : Usine d'armement, Radar Dome · Niveau technologique : moyen
+  Stratégie :
+    Un seul exemplaire, mais indispensable pour la fin de partie : protégez-le.
+
 ============================================================================================
                                         2. DÉFENSES                                         
 ============================================================================================
@@ -387,6 +448,53 @@ SOMMAIRE
     Prérequis : aucun · Niveau technologique : bas
   Stratégie :
     Combinez les deux orientations pour fermer un passage.
+
+  ▶ PAYS : ANANTHANIE
+
+--------------------------------------------------------------------------------------------
+■ BATTERIE AMBAR
+  Pays : Ananthanie
+  Lore :
+    Batterie de missiles sol-air à très longue portée (12 cases).
+    Lanceur vertical à six conteneurs.
+    Elle interdit le ciel au-dessus de la base.
+  Statistiques :
+    Coût 1 000 $ · PV 45 000 · Blindage lourd · Vision 8 cases
+    Arme : AmbarSAM : 5 000 dégâts, portée 12 cases, recharge 1 s
+    Énergie -40
+    Prérequis : Radar Dome · Niveau technologique : moyen
+  Stratégie :
+    Deux batteries couvrent une base entière. Elles ne tirent pas au sol.
+--------------------------------------------------------------------------------------------
+■ KHESHKARN
+  Pays : Ananthanie
+  Lore :
+    Tourelle de missiles antichars, salve de deux missiles.
+    Portée de 7,5 cases.
+    La défense d'usure : chaque char qui approche paie le prix.
+  Statistiques :
+    Coût 900 $ · PV 45 000 · Blindage lourd · Vision 6,5 cases
+    Arme : KheshkarnATGM : 6 000 dégâts, rafale de 2, portée 7,5 cases, recharge 2,8 s
+    Énergie -40 · Détecte les furtifs (6 cases)
+    Prérequis : Caserne soviétique · Niveau technologique : bas
+  Stratégie :
+    Placez-les en profondeur sur les axes des blindés, appuyées par des Ruches contre
+    l'infanterie et l'aviation.
+--------------------------------------------------------------------------------------------
+■ RUCHE
+  Pays : Ananthanie
+  Lore :
+    Ruche de drones intercepteurs.
+    Elle lance des salves de trois drones explosifs sur tout ce qui approche, au sol comme dans les airs.
+    La défense la plus polyvalente de l'Ananthanie.
+  Statistiques :
+    Coût 1 100 $ · PV 40 000 · Blindage lourd · Vision 6,5 cases
+    Arme : RucheDrones : 4 000 dégâts, rafale de 3, portée 8 cases, recharge 4,4 s
+    Énergie -40 · Détecte les furtifs (6 cases)
+    Prérequis : Fabrique de drones · Niveau technologique : moyen
+  Stratégie :
+    Complète bien le Kheshkarn : elle traite hélicoptères, drones et véhicules légers.
+    Faible contre les chars lourds.
 
 ============================================================================================
                                        3. INFANTERIE                                        
@@ -566,6 +674,87 @@ SOMMAIRE
   Stratégie :
     Attendez que la barre violette soit pleine (5 minutes), approchez-le discrètement d'un
     groupe ennemi ou d'une base, puis déployez-le (F).
+
+  ▶ PAYS : ANANTHANIE
+
+--------------------------------------------------------------------------------------------
+■ KARNTHAL
+  Pays : Ananthanie
+  Lore :
+    Soldat en exosquelette, mitrailleuse lourde.
+    Très résistant ; les chars ne peuvent pas l'écraser.
+    Le « rempart » (« karn ») de l'infanterie.
+  Statistiques :
+    Coût 750 $ · PV 16 000 · Blindage léger · Vitesse 48 · Vision 5 cases
+    Arme : KarnMitrailleuse : 1 000 dégâts, portée 5 cases, recharge 1,6 s
+    Détecte les furtifs (1 case)
+    Prérequis : Usine d'armement · Niveau technologique : moyen
+  Stratégie :
+    Mettez-les en tête des assauts d'infanterie : ils encaissent pendant que les Thals
+    tirent.
+--------------------------------------------------------------------------------------------
+■ KHESH-THAL
+  Pays : Ananthanie
+  Lore :
+    Fantassin lance-missiles polyvalent.
+    Un missile antichar et un missile antiaérien : il ne choisit pas, il fait les deux.
+    La pointe de la lance (« khesh ») de l'infanterie ananthanienne.
+  Statistiques :
+    Coût 350 $ · PV 4 500 · Blindage aucun · Vitesse 56 · Vision 4 cases
+    Arme : KheshAA : 2 400 dégâts, portée 7 cases, recharge 2,2 s
+    Arme : KheshAT : 5 000 dégâts, portée 6 cases, recharge 2,2 s
+    Détecte les furtifs (1 case)
+    Prérequis : aucun · Niveau technologique : infanterie seule
+  Stratégie :
+    Mêlez-les aux Thals : ils couvrent la colonne contre les blindés comme contre les
+    hélicoptères.
+--------------------------------------------------------------------------------------------
+■ LUNKAR
+  Pays : Ananthanie
+  Lore :
+    Éclaireur camouflé, le « lynx » de l'armée.
+    Il marque véhicules et bâtiments au laser pour toute l'armée, et abat les fantassins de loin.
+    Invisible à l'arrêt.
+  Statistiques :
+    Coût 600 $ · PV 4 000 · Blindage aucun · Vitesse 64 · Vision 9 cases
+    Arme : LunkarDesignateur : portée 8 cases, recharge 1,6 s
+    Arme : LunkarPrecision : 5 000 dégâts, portée 7 cases, recharge 2,4 s
+    Furtif · Détecte les furtifs (6 cases)
+    Prérequis : Institut d'innovation · Niveau technologique : moyen
+  Stratégie :
+    Placez-le en avant avant l'offensive : chaque cible marquée prend +25 % de dégâts. Il
+    donne aussi des yeux à l'Agnar.
+--------------------------------------------------------------------------------------------
+■ NAYRAK
+  Pays : Ananthanie
+  Lore :
+    Opérateur de drones explosifs FPV.
+    Il pilote son drone jusqu'à la cible, puis en prépare un autre.
+    Le soldat ananthanien le plus craint des équipages de chars.
+  Statistiques :
+    Coût 500 $ · PV 4 500 · Blindage aucun · Vitesse 56 · Vision 4 cases
+    Arme : NayrakFPV : 8 500 dégâts, portée 7 cases, recharge 7 s
+    Détecte les furtifs (1 case)
+    Prérequis : Fabrique de drones · Niveau technologique : bas
+  Stratégie :
+    Gardez-les derrière la ligne : à 7 cases, leurs drones percent les véhicules. Protégez-
+    les de l'infanterie ennemie au contact.
+--------------------------------------------------------------------------------------------
+■ THAL
+  Pays : Ananthanie
+  Lore :
+    Le fusilier ananthanien, formé en masse dans des casernes modernes.
+    Bien équipé, un peu plus de portée que le fusilier standard.
+    L'Ananthanie ne manque jamais de Thals.
+  Statistiques :
+    Coût 100 $ · PV 5 000 · Blindage aucun · Vitesse 60 · Vision 4 cases
+    Arme : ThalFusil : 1 000 dégâts, portée 5,25 cases, recharge 0,8 s
+    Arme : Vulcan (en garnison) : 1 000 dégâts, portée 6 cases, recharge 1,4 s
+    Détecte les furtifs (1 case)
+    Prérequis : aucun · Niveau technologique : infanterie seule
+  Stratégie :
+    Produisez-les en grand nombre : ils sont formés très vite. Ils tiennent le terrain
+    pendant que blindés et drones frappent.
 
 ============================================================================================
                                         4. VÉHICULES                                        
@@ -913,6 +1102,127 @@ SOMMAIRE
   Stratégie :
     Produisez-en en continu et attaquez en masse. Ne les envoyez pas seuls contre des chars
     lourds ou des défenses.
+
+  ▶ PAYS : ANANTHANIE
+
+--------------------------------------------------------------------------------------------
+■ AGNAR
+  Pays : Ananthanie
+  Lore :
+    Lanceur de missiles de croisière.
+    Portée extrême, missile guidé très précis et gros dégâts ; cadence lente.
+    Le « feu » (« agni ») de l'Ananthanie tombe toujours au bon endroit.
+  Statistiques :
+    Coût 1 500 $ · PV 18 000 · Blindage léger · Vitesse 84 · Vision 5 cases
+    Arme : AgnarCroisiere : 12 000 dégâts, portée 16 cases, recharge 13 s
+    Prérequis : Institut d'innovation · Niveau technologique : élevé
+  Stratégie :
+    Il lui faut des yeux : Lunkar, Nayrath, drones. Tirez, puis changez de position.
+    Prioritaires : défenses et bâtiments.
+--------------------------------------------------------------------------------------------
+■ AMBARKESH
+  Pays : Ananthanie
+  Lore :
+    Défense antiaérienne mobile : canons rapides et missiles sol-air.
+    La « lance du ciel » accompagne chaque colonne blindée.
+    Elle abat aussi les drones ennemis.
+  Statistiques :
+    Coût 900 $ · PV 18 000 · Blindage léger · Vitesse 113 · Vision 6 cases
+    Arme : AmbarkeshCanon : 1 200 dégâts, portée 6,5 cases, recharge 0,4 s
+    Arme : AmbarkeshSol : 2 000 dégâts, portée 6 cases, recharge 0,4 s
+    Arme : AmbarkeshMissile : 4 000 dégâts, rafale de 2, portée 9 cases, recharge 3,6 s
+    Prérequis : aucun · Niveau technologique : bas
+  Stratégie :
+    Une ou deux par colonne suffisent à décourager hélicoptères et drones. Gardez-la
+    derrière les chars.
+--------------------------------------------------------------------------------------------
+■ KARNVASHA
+  Pays : Ananthanie
+  Lore :
+    Char lourd de rupture, tourelle inhabitée.
+    Canon de 130 mm, mitrailleuse téléopérée, protection active contre missiles et roquettes.
+    « Tempête contre le rempart » : il enfonce les lignes fortifiées.
+  Statistiques :
+    Coût 1 700 $ · PV 80 000 · Blindage lourd · Vitesse 60 · Vision 6 cases
+    Arme : Karnvasha130mm : 10 000 dégâts, portée 6,5 cases, recharge 2,4 s
+    Arme : KarnvashaMG : 1 000 dégâts, rafale de 5, portée 5 cases, recharge 1,2 s
+    Prérequis : Service Depot, Institut d'innovation · Niveau technologique : élevé
+  Stratégie :
+    Menez les assauts contre les défenses : sa protection active réduit les dégâts des
+    missiles antichars. Méfiez-vous de l'artillerie et des avions.
+--------------------------------------------------------------------------------------------
+■ LUNKRA
+  Pays : Ananthanie
+  Lore :
+    Char de combat principal, emblème du blindé ananthanien.
+    Canon de 120 mm à chargement automatique, tourelle rapide, bonne mobilité.
+    Ni le plus lourd ni le plus rapide : le meilleur compromis.
+  Statistiques :
+    Coût 1 000 $ · PV 46 000 · Blindage lourd · Vitesse 92 · Vision 6 cases
+    Arme : Lunkra120mm : 5 000 dégâts, portée 5,75 cases, recharge 1,7 s
+    Prérequis : aucun · Niveau technologique : moyen
+  Stratégie :
+    Le cœur des colonnes blindées. En nombre, appuyé par les Nayrak et le Lunkar, il gagne
+    la plupart des combats de chars.
+--------------------------------------------------------------------------------------------
+■ MUKHAR
+  Pays : Ananthanie
+  Lore :
+    Lance-drones sur camion blindé.
+    Il fabrique lui-même quatre munitions rôdeuses qui tournent au-dessus de lui.
+    Le lot suivant arrive 15 secondes après la destruction de la dernière munition.
+  Statistiques :
+    Coût 1 200 $ · PV 22 000 · Blindage léger · Vitesse 100 · Vision 7 cases
+    Arme : aucune
+    Prérequis : Fabrique de drones · Niveau technologique : moyen
+  Stratégie :
+    Clic droit sur un blindé ennemi pour envoyer une munition. Gardez-le derrière vos chars
+    et à l'abri de la DCA.
+--------------------------------------------------------------------------------------------
+■ NAYRATH
+  Pays : Ananthanie
+  Lore :
+    Poste de commandement mobile.
+    Radar, très grande vision, détection des unités furtives.
+    « L'œil » (« nayra ») de l'état-major, au plus près du front.
+  Statistiques :
+    Coût 1 100 $ · PV 20 000 · Blindage léger · Vitesse 100 · Vision 12 cases
+    Arme : aucune
+    Détecte les furtifs (7 cases) · Limite 2 exemplaires
+    Prérequis : Haut Commandement · Niveau technologique : moyen
+  Stratégie :
+    Suivez l'offensive avec lui : il donne la mini-carte et les yeux de l'Agnar. Sans arme :
+    protégez-le.
+--------------------------------------------------------------------------------------------
+■ RATHA
+  Pays : Ananthanie
+  Lore :
+    Véhicule de combat d'infanterie : cinq fantassins à bord.
+    Canon automatique de 30 mm qui tire au sol comme dans les airs.
+    Le « char de guerre » des fantassins ananthaniens.
+  Statistiques :
+    Coût 800 $ · PV 32 000 · Blindage lourd · Vitesse 128 · Vision 5 cases
+    Arme : RathaCanonAG : 1 800 dégâts, portée 5 cases, recharge 0,6 s
+    Arme : RathaCanonAA : 1 200 dégâts, portée 6 cases, recharge 0,4 s
+    Transport 5 places
+    Prérequis : aucun · Niveau technologique : bas
+  Stratégie :
+    Transportez Khesh-Thals ou Nayraks au plus près, puis couvrez-les avec le canon. Utile
+    aussi contre les hélicoptères.
+--------------------------------------------------------------------------------------------
+■ VIDRA
+  Pays : Ananthanie
+  Lore :
+    Char léger de percée, très rapide.
+    Canon-mitrailleur de 40 mm à cadence élevée.
+    « L'éclair » : il ouvre la brèche, les autres s'y engouffrent.
+  Statistiques :
+    Coût 650 $ · PV 24 000 · Blindage lourd · Vitesse 142 · Vision 5 cases
+    Arme : Vidra40mm : 2 800 dégâts, portée 5,25 cases, recharge 0,7 s
+    Prérequis : aucun · Niveau technologique : bas
+  Stratégie :
+    Exploitez la vitesse : contournez, frappez l'artillerie et les collecteurs, repliez-
+    vous. Évitez les chars lourds.
 
 ============================================================================================
                                         5. AVIATION                                         

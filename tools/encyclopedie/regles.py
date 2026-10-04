@@ -147,7 +147,7 @@ def load_weapons():
 
 
 # Pays fictifs : dossier de mods/fictifs/ -> nom du pays.
-PAYS = {"elielistan": "Elielistan", "rubenie": "Rubénie", "australouis": "Australouis"}
+PAYS = {"elielistan": "Elielistan", "rubenie": "Rubénie", "australouis": "Australouis", "ananthanie": "Ananthanie"}
 
 
 def pays_des_acteurs():

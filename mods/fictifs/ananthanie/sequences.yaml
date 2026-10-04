@@ -1,0 +1,282 @@
+# ANANTHANIE — sprites rendus en 3D par tools/sprites_hd.py (modèles : tools/modeles/ananthanie.py).
+# L'infanterie garde les sprites de Red Alert (e1, e2, e3, spy, shok).
+
+# ---------------------------------------------------------------------
+# Chars et véhicules : caisse sur 32 orientations, puis tourelle
+# ---------------------------------------------------------------------
+vidra:
+	idle:
+		Filename: fictifs|bits/vidra.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/vidra.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+	icon:
+		Filename: fictifs|bits/vidraicon.png
+
+lunkra:
+	idle:
+		Filename: fictifs|bits/lunkra.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/lunkra.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon:
+		Filename: fictifs|bits/lunkraicon.png
+
+lunkra.destroyed:
+	idle:
+		Filename: fictifs|bits/lunkra.png
+		Facings: 32
+		ZOffset: -512
+	turret:
+		Filename: fictifs|bits/lunkra.png
+		Start: 32
+		Facings: 32
+		ZOffset: -512
+
+karnvasha:
+	idle:
+		Filename: fictifs|bits/karnvasha.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/karnvasha.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon:
+		Filename: fictifs|bits/karnvashaicon.png
+
+karnvasha.destroyed:
+	idle:
+		Filename: fictifs|bits/karnvasha.png
+		Facings: 32
+		ZOffset: -512
+	turret:
+		Filename: fictifs|bits/karnvasha.png
+		Start: 32
+		Facings: 32
+		ZOffset: -512
+
+ratha:
+	idle:
+		Filename: fictifs|bits/ratha.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/ratha.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+	icon:
+		Filename: fictifs|bits/rathaicon.png
+
+mukhar:
+	idle:
+		Filename: fictifs|bits/mukhar.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/mukharicon.png
+
+# Munition rôdeuse : sert aussi d'image de projectile en plongée.
+rodeuse:
+	idle:
+		Filename: fictifs|bits/rodeuse.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/rodeuseicon.png
+
+# Agnar : les conteneurs restent visibles pendant le rechargement.
+agnar:
+	idle:
+		Filename: fictifs|bits/agnar.png
+		Facings: 32
+	empty-idle:
+		Filename: fictifs|bits/agnar.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/agnaricon.png
+
+ambarkesh:
+	idle:
+		Filename: fictifs|bits/ambarkesh.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/ambarkesh.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+	icon:
+		Filename: fictifs|bits/ambarkeshicon.png
+
+nayrath:
+	idle:
+		Filename: fictifs|bits/nayrath.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/nayrathicon.png
+
+# ---------------------------------------------------------------------
+# Bâtiments : idle, damaged-idle, make (12)
+# ---------------------------------------------------------------------
+haut.commandement:
+	Defaults:
+		Filename: fictifs|bits/haut.commandement.png
+	idle:
+		Length: 8
+		Tick: 120
+	damaged-idle:
+		Start: 8
+		Length: 8
+		Tick: 120
+	make:
+		Start: 16
+		Length: 12
+		Tick: 60
+	dead:
+		Start: 8
+		Tick: 800
+	bib:
+		Filename: bib2.tem
+		TilesetFilenames:
+			SNOW: bib2.sno
+			DESERT: bib2.des
+		Length: *
+	icon:
+		Filename: fictifs|bits/haut.commandementicon.png
+
+fabrique.drones:
+	Defaults:
+		Filename: fictifs|bits/fabrique.drones.png
+	idle:
+		Length: 8
+		Tick: 100
+	damaged-idle:
+		Start: 8
+		Length: 8
+		Tick: 100
+	make:
+		Start: 16
+		Length: 12
+		Tick: 60
+	dead:
+		Start: 8
+		Tick: 800
+	bib:
+		Filename: bib2.tem
+		TilesetFilenames:
+			SNOW: bib2.sno
+			DESERT: bib2.des
+		Length: *
+	icon:
+		Filename: fictifs|bits/fabrique.dronesicon.png
+
+institut:
+	Defaults:
+		Filename: fictifs|bits/institut.png
+	idle:
+		Length: 4
+		Tick: 160
+	damaged-idle:
+		Start: 4
+		Length: 4
+		Tick: 160
+	make:
+		Start: 8
+		Length: 12
+		Tick: 60
+	dead:
+		Start: 4
+		Tick: 800
+	bib:
+		Filename: bib3.tem
+		TilesetFilenames:
+			SNOW: bib3.sno
+			DESERT: bib3.des
+		Length: *
+	icon:
+		Filename: fictifs|bits/instituticon.png
+
+# ---------------------------------------------------------------------
+# Défenses : turret, recoil, damaged-turret, damaged-recoil (32 chacune), make (12)
+# ---------------------------------------------------------------------
+kheshkarn:
+	Inherits: gun
+	turret:
+		Filename: fictifs|bits/kheshkarn.png
+		Facings: 32
+	recoil:
+		Filename: fictifs|bits/kheshkarn.png
+		Start: 32
+		Facings: 32
+	damaged-turret:
+		Filename: fictifs|bits/kheshkarn.png
+		Start: 64
+		Facings: 32
+	damaged-recoil:
+		Filename: fictifs|bits/kheshkarn.png
+		Start: 96
+		Facings: 32
+	make:
+		Filename: fictifs|bits/kheshkarn.png
+		Start: 128
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/kheshkarnicon.png
+
+ruche:
+	Inherits: gun
+	turret:
+		Filename: fictifs|bits/ruche.png
+		Facings: 32
+	recoil:
+		Filename: fictifs|bits/ruche.png
+		Start: 32
+		Facings: 32
+	damaged-turret:
+		Filename: fictifs|bits/ruche.png
+		Start: 64
+		Facings: 32
+	damaged-recoil:
+		Filename: fictifs|bits/ruche.png
+		Start: 96
+		Facings: 32
+	make:
+		Filename: fictifs|bits/ruche.png
+		Start: 128
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/rucheicon.png
+
+# Batterie Ambar : turret, damaged-turret (32 chacune), make (12)
+batterie.ambar:
+	Inherits: sam
+	turret:
+		Filename: fictifs|bits/batterie.ambar.png
+		Facings: 32
+	damaged-turret:
+		Filename: fictifs|bits/batterie.ambar.png
+		Start: 32
+		Facings: 32
+	make:
+		Filename: fictifs|bits/batterie.ambar.png
+		Start: 64
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/batterie.ambaricon.png
