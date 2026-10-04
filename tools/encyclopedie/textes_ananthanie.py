@@ -80,4 +80,56 @@ Elle interdit le ciel au-dessus de la base.""",
 Elle lance des salves de trois drones explosifs sur tout ce qui approche, au sol comme dans les airs.
 La défense la plus polyvalente de l'Ananthanie.""",
 "Complète bien le Kheshkarn : elle traite hélicoptères, drones et véhicules légers. Faible contre les chars lourds."),
+"BASE.ANANTHANIE": ("Base aérienne ananthanienne", """Aérodrome de l'aviation ananthanienne.
+Elle produit, répare et réarme avions, drones Ulkar et hélicoptères Kheshar.
+L'aviation est le cerveau et le bras armé de l'armée.""",
+"Construisez-en tôt : l'aviation est la force principale de l'Ananthanie."),
+"LUNKRAVYN": ("Lunkravyn", """Chasseur furtif multirôle, emblème de l'Ananthanie.
+Invisible tant qu'il ne tire pas ; missiles air-air et bombes guidées.
+Le « lynx volant » : on ne le voit qu'au moment où il frappe.""",
+"Frappez les cibles prioritaires (défenses AA, artillerie, chars lourds), puis rentrez vous réarmer. Les unités anti-furtives le repèrent."),
+"VIDRAVYN": ("Vidravyn", """Intercepteur léger et rapide, produit en nombre.
+Missiles air-air seulement.
+L'« éclair volant » qui tient le ciel pendant que les autres frappent.""",
+"Laissez-les en position défensive au-dessus de la base ou de l'offensive : ils engagent seuls les avions et drones ennemis."),
+"AGNIVYN": ("Agnivyn", """Bombardier d'attaque à aile volante.
+Missiles de croisière légers tirés à 10 cases, hors de portée de la plupart des défenses.
+Le « feu volant ».""",
+"Visez les défenses et bâtiments depuis la limite de portée. Évitez les SAM à longue portée et escortez-le de Vidravyn."),
+"ULKAR": ("Ulkar", """Drone armé longue endurance, de la famille Reaper.
+Lent, vole haut, grande vision, six missiles antichars.
+Bon marché : la quantité au service de la qualité.""",
+"Envoyez-les par trois ou quatre chasser les blindés isolés. Fragiles face aux systèmes anti-drone et aux intercepteurs."),
+"KHESHAR": ("Kheshar", """Hélicoptère d'attaque en tandem.
+Canon de 30 mm et quatre missiles antichars.
+La « lance » de l'aviation légère, au plus près du sol.""",
+"Appui rapproché des offensives : missiles sur les chars, canon sur l'infanterie. Craint la DCA mobile."),
+"NAYRA.AMBAR": ("Nayra-Ambar", """Avion radar, « l'œil du ciel ».
+Très grande vision, détection des unités furtives, aucune arme.
+Les avions ananthaniens et alliés proches gagnent 20 % de portée.""",
+"Gardez-le derrière la zone de combat, protégé par des Vidravyn : il voit tout et allonge la portée de votre aviation."),
+"CHANTIER.ANA": ("Chantier naval ananthanien", """Chantier naval de la grande façade maritime ananthanienne.
+Produit et répare patrouilleurs, frégates, destroyers, sous-marins et navires amphibies.
+La supériorité navale fait partie de la doctrine.""",
+"Construisez-le dès que la carte a de l'eau : la flotte ouvre la côte aux offensives."),
+"VASHA": ("Vasha", """Patrouilleur rapide lance-drones.
+Salves de drones explosifs contre les navires et la côte, grenades anti-sous-marines.
+La « tempête » des eaux côtières.""",
+"Chassez les navires légers et harcelez la côte. Restez loin des destroyers et de l'aviation."),
+"AMBARKARN": ("Ambarkarn", """Frégate de défense aérienne.
+Missiles sol-air à 11 cases, canon, grenades anti-sous-marines.
+Le « rempart du ciel » de la flotte.""",
+"Toujours une Ambarkarn par groupe naval : elle protège l'Agnikhesh des avions et repère les sous-marins."),
+"AGNIKHESH": ("Agnikhesh", """Destroyer lance-missiles furtif.
+Salves de missiles de croisière à 17 cases, contre la terre comme contre les navires.
+La « lance de feu » : la flotte frappe loin à l'intérieur des terres.""",
+"Restez au large, guidé par le Nayra-Ambar ou un Lunkar, et détruisez défenses et bâtiments côtiers. À escorter."),
+"ULMAR": ("Ulmar", """Sous-marin d'attaque moderne, rapide et silencieux.
+Invisible en plongée, torpilles lourdes à longue portée.
+La « vague » qui frappe sans prévenir.""",
+"Embusquez-le sur les routes des navires ennemis. Fuyez frégates et patrouilleurs qui détectent les sous-marins."),
+"RATHAMBAR": ("Rathambar", """Navire amphibie : huit places, chars comme fantassins.
+Il débarque sur les plages et la côte.
+Indispensable aux offensives d'une puissance maritime.""",
+"Chargez Vidra, Lunkra et Ratha, débarquez sous la couverture de la flotte, et frappez là où l'ennemi ne vous attend pas."),
 }

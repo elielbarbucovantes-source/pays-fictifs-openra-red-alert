@@ -21,7 +21,7 @@ CA:
 		Prerequisites: ~syrd, atek, ~techlevel.high, ~!ships.elielistan
 LST:
 	Buildable:
-		Prerequisites: ~techlevel.low, ~!ships.elielistan, ~!ships.rubenie
+		Prerequisites: ~techlevel.low, ~!ships.elielistan, ~!ships.rubenie, ~!ships.ananthanie
 
 # Escorteur : rapide, antiaérien, grenades anti-sous-marines, détecte les sous-marins.
 CENTINELA:

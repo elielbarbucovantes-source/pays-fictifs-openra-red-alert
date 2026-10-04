@@ -78,6 +78,17 @@ UNITES = {
     "ambarkesh": (N.ambarkesh_caisse, N.ambarkesh_tourelle, 40, 32, {}, dict(zoom=2.4, dz=2)),
     "nayrath": (N.nayrath, None, 44, 32, {}, dict(zoom=2.0, dz=4)),
     "rodeuse": (N.rodeuse, None, 24, 32, AIR, dict(zoom=3.4, air=True, facing=150, dz=-4)),
+    "lunkravyn": (N.lunkravyn, None, 48, 32, AIR, dict(zoom=1.8, air=True, facing=150, dz=-6)),
+    "vidravyn": (N.vidravyn, None, 40, 32, AIR, dict(zoom=2.2, air=True, facing=150, dz=-6)),
+    "agnivyn": (N.agnivyn, None, 64, 32, AIR, dict(zoom=1.3, air=True, facing=150, dz=-6)),
+    "ulkar": (N.ulkar, None, 44, 32, AIR, dict(zoom=1.9, air=True, facing=150, dz=-5)),
+    "kheshar": (N.kheshar, None, 40, 32, AIR, dict(zoom=2.2, air=True, facing=150, dz=-5)),
+    "nayra.ambar": (N.nayra_ambar, None, 56, 32, AIR, dict(zoom=1.4, air=True, facing=150, dz=-6)),
+    "vasha": (N.vasha, N.vasha_tourelle, 48, 32, MER, dict(zoom=1.9, water=True, facing=215, dz=2)),
+    "ambarkarn": (N.ambarkarn, N.ambarkarn_tourelle, 72, 32, MER, dict(zoom=1.15, water=True, facing=215, dz=2)),
+    "agnikhesh": (N.agnikhesh, None, 80, 32, MER, dict(zoom=1.0, water=True, facing=215, dz=2)),
+    "ulmar": (N.ulmar, None, 56, 32, MER, dict(zoom=1.4, water=True, facing=215, dz=0)),
+    "rathambar": (N.rathambar, None, 64, 32, MER, dict(zoom=1.3, water=True, facing=215, dz=2)),
 }
 
 # Position du pivot de tourelle dans le modèle de la caisse (px, voir Turreted.Offset en yaml).
@@ -102,6 +113,8 @@ MONTAGE = {
     "karnvasha": (0.0, -1.5, 5.0),
     "ratha": (0.0, 1.0, 5.2),
     "ambarkesh": (0.0, -1.0, 4.0),
+    "vasha": (0.0, -9.5, 1.9),
+    "ambarkarn": (0.0, 19.0, 2.8),
 }
 
 # Ombres et icônes : tourelles supplémentaires qui partagent un sprite (Bastion : tourelle bâbord).
@@ -137,7 +150,7 @@ def _frame(args):
     return R.render(fn(), taille, facing=facing, **o)
 
 
-ICONE = {"baleine": A.baleine_icone, "condor": E.condor_icone}
+ICONE = {"baleine": A.baleine_icone, "condor": E.condor_icone, "kheshar": N.kheshar_icone}
 
 # Unités agrandies à la demande (2026-09-30) : modèle, pivots de tourelles et image mis à l'échelle.
 # Les décalages yaml (tourelles, bouches à feu, rotors) ont été multipliés d'autant.

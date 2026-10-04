@@ -105,5 +105,88 @@ WorldLoaded = function()
 	Trigger.AfterDelay(DateTime.Seconds(1), function() Lk.Attack(Cible2) end)
 	Trigger.AfterDelay(DateTime.Seconds(5), function() Log("Lunkar : char lourd PV=" .. Hp(Cible2) .. " (le laser ne fait pas de degats)") end)
 
-	Trigger.AfterDelay(DateTime.Seconds(30), function() Log("fin") end)
+	TestLot2()
+	Trigger.AfterDelay(DateTime.Seconds(40), function() Log("fin") end)
+end
+
+IsWater = function(c)
+	if c.X < 1 or c.Y < 1 or c.X > 126 or c.Y > 126 then return false end
+	return Map.TerrainType(c) == "Water"
+end
+
+IsOpenWater = function(c)
+	for dx = -3, 3 do
+		for dy = -3, 3 do
+			if not IsWater(CPos.New(c.X + dx, c.Y + dy)) then return false end
+		end
+	end
+	return true
+end
+
+-- Lot 2 : aviation et marine.
+TestLot2 = function()
+	local b = Find(50, 20, IsLand)
+	Make("base.ananthanie", Me, b)
+	for _, t in ipairs({ "lunkravyn", "vidravyn", "agnivyn", "ulkar", "kheshar", "nayra.ambar" }) do
+		local a = Make(t, Me, Find(b.X, b.Y + 5, IsLand))
+		Log("apparu : " .. t .. " PV=" .. a.Health)
+	end
+
+	-- Attaques aériennes.
+	local cibles = {}
+	local function frappe(type, cible, x, y)
+		local c = Find(x, y, IsLand)
+		local v = Make(cible, En, c)
+		v.Stance = "HoldFire"
+		Make("camera", Me, c)
+		local a = Make(type, Me, Find(c.X + 10, c.Y + 10, IsLand))
+		Trigger.AfterDelay(DateTime.Seconds(1), function() a.Attack(v) end)
+		cibles[#cibles + 1] = { type, cible, v, v.Health }
+	end
+	frappe("lunkravyn", "2tnk", 20, 20)
+	frappe("agnivyn", "powr", 20, 105)
+	frappe("ulkar", "1tnk", 105, 105)
+	frappe("kheshar", "jeep", 105, 60)
+	Trigger.AfterDelay(DateTime.Seconds(25), function()
+		for _, c in ipairs(cibles) do
+			Log(c[1] .. " contre " .. c[2] .. " : PV " .. c[4] .. " -> " .. (c[3].IsDead and "mort" or c[3].Health))
+		end
+	end)
+
+	-- Marine : chaque navire contre une cible sur l'eau.
+	local eau = {}
+	for x = 18, 108, 4 do
+		for y = 18, 108, 4 do
+			local c = CPos.New(x, y)
+			if IsOpenWater(c) then eau[#eau + 1] = c end
+		end
+	end
+	Log(#eau .. " zones d'eau libre")
+	local navires = { { "vasha", "pt" }, { "ambarkarn", "heli" }, { "agnikhesh", "powr" }, { "ulmar", "dd" } }
+	for i, n in ipairs(navires) do
+		local w = eau[1 + (i - 1) * math.floor(#eau / 5)]
+		if w then
+			local nav = Make(n[1], Me, w)
+			local cible
+			if n[2] == "powr" then
+				cible = Make("powr", En, Find(w.X + 12, w.Y, IsLand))
+			elseif n[2] == "heli" then
+				cible = Make("heli", En, Find(w.X + 4, w.Y, IsWater))
+			else
+				cible = Make(n[2], En, Find(w.X + 5, w.Y, IsOpenWater, 8) or Find(w.X + 4, w.Y, IsWater))
+			end
+			cible.Stance = "HoldFire"
+			Make("camera", Me, cible.Location)
+			Trigger.AfterDelay(DateTime.Seconds(1), function() nav.Attack(cible) end)
+			local pv = cible.Health
+			Trigger.AfterDelay(DateTime.Seconds(25), function()
+				Log(n[1] .. " contre " .. n[2] .. " : PV " .. pv .. " -> " .. (cible.IsDead and "mort" or cible.Health))
+			end)
+		end
+	end
+	local w = eau[#eau]
+	if w then
+		local r = Make("rathambar", Me, w)
+		Log("rathambar : PV=" .. r.Health)
+	end
 end

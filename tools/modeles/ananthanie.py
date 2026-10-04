@@ -533,3 +533,307 @@ def ruche_tourelle(recul=0.0):
         a = math.pi * k + 0.6
         m.add(rodeuse().scale(0.7).rot_z(math.degrees(a)).move(3.6 * math.cos(a), 3.6 * math.sin(a), 10.8))
     return m
+
+
+# ===========================================================================
+# AVIATION (lot 2) — repère : nez vers +y, altitude 0 au centre du fuselage
+# ===========================================================================
+from modeles.communs import GRIS_NAVAL, GRIS_FONCE, VERRIERE   # noqa: E402
+
+
+def marque(cx, cy, r):
+    """Cocarde-insigne sur les ailes : losange blanc et vert pomme, cœur jaune."""
+    def f(p, n):
+        if n[2] < 0.3:
+            return None
+        dx, dy = abs(p[0] - cx), abs(p[1] - cy)
+        d = dx + dy
+        if d > r:
+            return None
+        if d < r * 0.3:
+            return SOLEIL
+        return BLANC if (p[0] - cx) * (p[1] - cy) >= 0 else POMME
+    return f
+
+
+def avec(base, *marques):
+    def f(p, n):
+        for m in marques:
+            c = m(p, n)
+            if c is not None:
+                return c
+        return base(p, n) if base else 1.0
+    return f
+
+
+FURTIF = Mat((104, 112, 118), spec=0.3, shine=16, tex=combine(panels(4.0, 0.25, 0.9), noise(351, 0.03)))
+
+
+def lunkravyn():
+    """Chasseur furtif monoplace (famille J-20 / F-35) : aile delta en losange, canards,
+    dérives inclinées, bords dentelés, soutes internes. Teinte gris furtif + équipe."""
+    m = Mesh()
+    peau = R.team(spec=0.35, tex=combine(panels(3.0, 0.25, 0.86), noise(352, 0.03)))
+    aile = Mat((104, 112, 118), spec=0.3, shine=16, tex=avec(combine(panels(4.0, 0.25, 0.9), noise(353, 0.03)),
+                                                               marque(8.5, -5.0, 1.8), marque(-8.5, -5.0, 1.8)))
+    m.add(fuselage([(-14.0, 1.6, 0.8, 0.2), (-11.0, 3.0, 1.2, 0.3), (-3.0, 3.6, 1.5, 0.4), (4.0, 2.6, 1.4, 0.5),
+                    (9.0, 1.3, 1.0, 0.3), (12.6, 0.5, 0.5, 0.1), (14.4, 0.06, 0.06, 0.0)], peau, seg=10))
+    for s in (1, -1):
+        w = wing((2.8, 4.0), (2.8, -10.0), (12.0, -6.6), (12.0, -9.6), 0.0, aile, thick=0.6)
+        m.add(w if s > 0 else w.mirror_x())
+        c = wing((2.2, 7.6), (2.2, 5.2), (5.6, 4.6), (5.6, 3.8), 0.3, aile, thick=0.3)
+        m.add(c if s > 0 else c.mirror_x())
+        t = wing((2.2, -10.2), (2.2, -13.2), (6.4, -12.6), (6.4, -14.2), 0.0, aile, thick=0.3)
+        m.add(t if s > 0 else t.mirror_x())
+        # dérives inclinées vers l'extérieur
+        pts = [(-13.0, 1.0), (-8.6, 1.0), (-11.0, 5.0), (-12.8, 5.2)]
+        m.add(R.loft([[(s * 1.9 + dx + s * (z - 1.0) * 0.45, y, z) for y, z in pts] for dx in (-0.2, 0.2)], peau))
+        # entrées d'air en losange (DSI)
+        m.add(box(s * 2.8 - 0.8, 1.0, -0.4, s * 2.8 + 0.8, 5.0, 1.0, FURTIF, bevel=0.3))
+        m.add(tube((s * 1.2, -13.6, 0.2), (s * 1.2, -14.6, 0.2), 0.9, 1.0, mat=TUYERE, seg=8))
+    m.add(verriere(5.0, 10.8, 1.0, 1.1, 1.3).map(lambda p: p))
+    m.add(rose(0, -3.0, 1.9, 1.0))
+    return m
+
+
+def vidravyn():
+    """Intercepteur léger monomoteur (famille Gripen) : aile delta et canards, une seule dérive."""
+    m = Mesh()
+    peau = R.team(spec=0.4, tex=combine(panels(3.0, 0.3, 0.86), noise(354, 0.04)))
+    aile = Mat((150, 156, 160), spec=0.4, tex=avec(combine(panels(3.0, 0.3, 0.88), noise(355, 0.03)),
+                                                   marque(6.5, -6.0, 1.5), marque(-6.5, -6.0, 1.5)))
+    m.add(fuselage([(-11.0, 1.0, 1.0, 0.3), (-8.0, 1.9, 1.4, 0.3), (0.0, 2.0, 1.5, 0.4), (6.0, 1.4, 1.2, 0.4),
+                    (10.0, 0.6, 0.6, 0.2), (12.0, 0.05, 0.05, 0.0)], peau, seg=10))
+    for s in (1, -1):
+        w = wing((1.6, 1.0), (1.6, -9.0), (9.0, -7.4), (9.0, -9.2), 0.0, aile, thick=0.5)
+        m.add(w if s > 0 else w.mirror_x())
+        c = wing((1.6, 5.4), (1.6, 3.6), (4.2, 3.0), (4.2, 2.6), 0.4, aile, thick=0.25)
+        m.add(c if s > 0 else c.mirror_x())
+        m.add(box(s * 1.9 - 0.6, 2.0, -0.4, s * 1.9 + 0.6, 4.8, 0.8, GRIS_FONCE, bevel=0.2))
+        m.add(missile(s * 9.2, -9.4, -4.4, 0.0, 0.28))
+        m.add(missile(s * 5.0, -7.0, -2.6, -0.6, 0.3))
+    pts = [(-10.6, 1.2), (-6.0, 1.2), (-9.0, 5.6), (-10.6, 5.8)]
+    m.add(R.loft([[(dx, y, z) for y, z in pts] for dx in (-0.2, 0.2)], peau))
+    m.add(tube((0, -11.0, 0.3), (0, -12.2, 0.3), 1.0, 1.1, mat=TUYERE, seg=10))
+    m.add(verriere(4.0, 8.8, 0.9, 1.0, 1.3))
+    return m
+
+
+def agnivyn():
+    """Bombardier d'attaque à aile volante (famille B-21, en plus petit), quatre lance-missiles en soute."""
+    m = Mesh()
+    peau = R.team(spec=0.3, tex=combine(panels(4.0, 0.25, 0.88), noise(356, 0.03)))
+    aile = Mat((98, 104, 110), spec=0.3, shine=16, tex=avec(combine(panels(5.0, 0.25, 0.9), noise(357, 0.03)),
+                                                             marque(12.0, -4.0, 2.2), marque(-12.0, -4.0, 2.2)))
+    for s in (1, -1):
+        w = wing((0.0, 12.0), (0.0, -6.0), (21.0, -2.0), (21.0, -5.0), 0.0, aile, thick=1.6)
+        m.add(w if s > 0 else w.mirror_x())
+        # bord de fuite en dents de scie
+        d = wing((0.0, -5.0), (0.0, -9.0), (7.0, -6.5), (7.0, -7.0), -0.2, aile, thick=0.8)
+        m.add(d if s > 0 else d.mirror_x())
+        m.add(box(s * 3.6 - 1.0, 0.0, 0.4, s * 3.6 + 1.0, 6.0, 1.6, FURTIF, bevel=0.4))     # entrées d'air dorsales
+        m.add(box(s * 2.6 - 0.8, -7.4, 0.2, s * 2.6 + 0.8, -6.0, 0.9, TUYERE))
+    m.add(fuselage([(-7.0, 2.6, 0.9, 0.4), (0.0, 3.6, 1.6, 0.6), (8.0, 2.4, 1.2, 0.5), (12.0, 0.6, 0.5, 0.2), (12.8, 0.1, 0.1, 0.0)],
+                   peau, seg=10))
+    m.add(box(-1.6, 8.0, 1.2, 1.6, 9.6, 1.7, VERRIERE))
+    m.add(rose(0, 1.0, 2.25, 1.4))
+    return m
+
+
+def ulkar():
+    """Drone MALE (famille Reaper) : long fuselage, grandes ailes droites, empennage en V, hélice propulsive."""
+    m = Mesh()
+    blanc = Mat((196, 200, 198), spec=0.35, tex=avec(noise(358, 0.03), marque(9.0, 0.5, 1.2), marque(-9.0, 0.5, 1.2)))
+    peau = R.team(spec=0.35, tex=noise(359, 0.03))
+    m.add(fuselage([(-8.0, 0.4, 0.4, 0.4), (-6.0, 1.0, 1.0, 0.5), (2.0, 1.2, 1.2, 0.5), (6.0, 1.3, 1.5, 0.3),
+                    (8.4, 0.8, 0.9, 0.2), (9.2, 0.1, 0.1, 0.1)], peau, seg=10))
+    for s in (1, -1):
+        w = wing((1.0, 2.6), (1.0, 0.4), (14.0, 1.8), (14.0, 0.8), 0.6, blanc, thick=0.35)
+        m.add(w if s > 0 else w.mirror_x())
+        m.add(box(-0.2, -6.6, -0.08, 4.0, -5.2, 0.08, blanc).rot_y(-s * 35 if s > 0 else 0).move(dz=0.8) if s > 0 else
+              box(-4.0, -6.6, -0.08, 0.2, -5.2, 0.08, blanc).rot_y(35).move(dz=0.8))
+        m.add(missile(s * 5.0, -1.4, 2.0, -0.2, 0.25))
+        m.add(missile(s * 7.0, -1.2, 2.0, -0.2, 0.25))
+    m.add(sphere((0, 5.6, -0.9), 0.8, CAPTEUR, seg=8, rings=4))                         # boule optronique
+    m.add(tube((0, -8.2, 0.4), (0, -8.3, 0.4), 1.6, mat=Mat((60, 60, 60), spec=0.2), seg=10))
+    return m
+
+
+def kheshar():
+    """Hélicoptère d'attaque en tandem (famille Tigre / Apache) ; rotor en surcouche animée."""
+    m = Mesh()
+    peau = R.team(spec=0.35, tex=combine(panels(2.5, 0.25, 0.86), noise(360, 0.04)))
+    m.add(fuselage([(-12.0, 0.4, 0.5, 1.4), (-7.0, 0.7, 0.9, 1.0), (-3.0, 1.6, 1.8, 0.4), (2.0, 1.8, 2.1, 0.2),
+                    (6.0, 1.3, 1.6, -0.2), (8.4, 0.5, 0.7, -0.6), (9.2, 0.1, 0.1, -0.8)], peau, seg=10))
+    m.add(verriere(1.0, 7.6, 1.1, 1.4, 0.9))
+    for s in (1, -1):
+        # moignons d'ailes et lance-missiles
+        w = wing((1.4, 0.6), (1.4, -1.8), (5.0, 0.2), (5.0, -1.4), -0.2, peau, thick=0.4, dihedral=-0.3)
+        m.add(w if s > 0 else w.mirror_x())
+        m.add(box(s * 3.4 - 0.7, -1.6, -1.6, s * 3.4 + 0.7, 1.4, -0.6, ACIER_SOMBRE, bevel=0.2))
+        for dx in (-0.3, 0.3):
+            m.add(tube((s * 3.4 + dx, 1.4, -1.1), (s * 3.4 + dx, 1.6, -1.1), 0.25, mat=Mat(CITRON, spec=0.3), seg=6))
+        m.add(box(s * 1.4 - 0.6, -3.0, 1.0, s * 1.4 + 0.6, 0.0, 2.2, GRIS_FONCE, bevel=0.3))          # moteurs
+    m.add(tube((0, 0, 2.0), (0, 0, 3.2), 0.35, mat=ACIER_SOMBRE, seg=6))                            # mât rotor
+    m.add(sphere((0, 0, 3.4), 0.6, CAPTEUR, seg=8, rings=4))                                        # radar de mât
+    m.add(tube((0, 8.0, -1.4), (0, 9.0, -1.4), 0.2, mat=ACIER_SOMBRE, seg=4))                       # canon sous le nez
+    m.add(box(-0.1, -12.6, 0.8, 0.1, -11.0, 3.6, peau))                                              # dérive
+    m.add(box(-1.8, -11.6, 1.0, 1.8, -10.8, 1.2, peau))
+    m.add(tube((0.5, -12.0, 2.6), (0.7, -12.0, 2.6), 1.2, mat=Mat((50, 52, 54), spec=0.2), seg=10))  # rotor anticouple
+    return m
+
+
+def kheshar_icone():
+    m = kheshar()
+    pale = Mat((50, 52, 54), spec=0.2)
+    for k in range(4):
+        m.add(box(-0.3, -8.0, -0.06, 0.3, 8.0, 0.06, pale).rot_z(k * 45 + 20).move(dz=3.4))
+    return m
+
+
+def nayra_ambar():
+    """Avion radar (famille E-7 Wedgetail) : biréacteur de ligne, radar plat dorsal en « planche »."""
+    m = Mesh()
+    peau = R.team(spec=0.35, tex=combine(panels(4.0, 0.25, 0.88), noise(361, 0.03)))
+    blanc = Mat((210, 212, 210), spec=0.35, tex=avec(noise(362, 0.03), marque(13.0, -3.0, 1.8), marque(-13.0, -3.0, 1.8)))
+    m.add(fuselage([(-17.0, 0.6, 0.8, 1.2), (-12.0, 1.8, 2.0, 0.5), (8.0, 2.0, 2.2, 0.0), (13.0, 1.6, 1.7, -0.2),
+                    (15.6, 0.6, 0.7, -0.4), (16.4, 0.1, 0.1, -0.5)], peau, seg=12))
+    for s in (1, -1):
+        w = wing((1.6, 3.0), (1.6, -3.4), (19.0, -6.4), (19.0, -8.4), -0.8, blanc, thick=0.7, dihedral=1.0)
+        m.add(w if s > 0 else w.mirror_x())
+        m.add(tube((s * 6.0, 2.6, -1.8), (s * 6.0, -2.0, -1.8), 1.0, 0.9, mat=GRIS_FONCE, seg=10))     # réacteurs
+        t = wing((1.0, -13.0), (1.0, -16.0), (7.0, -15.4), (7.0, -16.8), 0.6, blanc, thick=0.4)
+        m.add(t if s > 0 else t.mirror_x())
+    m.add(box(-0.15, -16.6, 1.0, 0.15, -12.4, 6.0, peau))
+    # radar dorsal en planche (top hat) sur deux pylônes
+    for y in (-6.0, -1.0):
+        m.add(box(-0.3, y - 0.4, 2.0, 0.3, y + 0.4, 3.2, ACIER_SOMBRE))
+    m.add(box(-0.5, -9.0, 3.2, 0.5, 2.0, 4.4, Mat((214, 216, 210), spec=0.4)))
+    m.add(box(-1.4, -9.0, 4.2, 1.4, 2.0, 4.6, Mat((214, 216, 210), spec=0.4)))
+    m.add(box(-1.4, 11.0, 0.9, 1.4, 12.0, 1.6, VITRE))
+    m.add(sphere((0, -3.5, 4.8), 0.3, LUEUR, seg=6, rings=3))
+    return m
+
+
+# ===========================================================================
+# MARINE (lot 2) — proue vers +y, ligne de flottaison z = 0
+# ===========================================================================
+GRIS_ANA = Mat((122, 132, 138), spec=0.35, shine=22, tex=combine(panels(4.0, 0.3, 0.88), noise(371, 0.04)))
+
+
+def _coque(longueur, largeur, franc_bord, **kw):
+    from modeles.australouis import coque
+    return coque(longueur, largeur, franc_bord, side_mat=GRIS_ANA, **kw)
+
+
+def mat_radar(m, x, y, z, h, plat=True):
+    """Mât intégré à faces planes (radar AESA) et antennes."""
+    p = peau(372, 2.5)
+    m.add(prism([(x - 1.8, y - 1.8), (x + 1.8, y - 1.8), (x + 1.2, y + 1.8), (x - 1.2, y + 1.8)], z, z + h, p, bevel=0.4))
+    if plat:
+        for s in (1, -1):
+            m.add(box(x + s * 1.55 - 0.1, y - 1.0, z + h * 0.5, x + s * 1.55 + 0.1, y + 1.0, z + h * 0.85, CAPTEUR))
+        m.add(box(x - 0.9, y + 1.75, z + h * 0.5, x + 0.9, y + 1.95, z + h * 0.85, CAPTEUR))
+    m.add(tube((x, y, z + h), (x, y, z + h + 3.0), 0.2, mat=ACIER_SOMBRE, seg=4))
+    return m
+
+
+def vasha():
+    """Patrouilleur rapide furtif : coque effilée, superstructure facettée, poste de drones à l'arrière."""
+    m, _ = _coque(30.0, 6.4, 1.8, proue=0.38)
+    p = peau(373, 2.5)
+    m.add(prism([(-2.4, -2.0), (2.4, -2.0), (2.2, 5.0), (0.0, 7.6), (-2.2, 5.0)], 1.8, 4.4, p, bevel=0.5))
+    m.add(box(-2.0, 5.0, 3.4, 2.0, 5.6, 4.2, VITRE).rot_x(-25, cy=5.0, cz=3.4))
+    mat_radar(m, 0, 0.6, 4.4, 2.4, plat=False)
+    m.add(box(-2.6, -13.0, 1.82, 2.6, -6.0, 1.9, Mat((70, 74, 72), spec=0.1)))
+    m.add(rose(0, 9.0, 1.82, 0.9))
+    return m
+
+
+def vasha_tourelle():
+    """Lanceur de drones à rail, orientable."""
+    p = peau(374, 2.0)
+    m = Mesh()
+    m.add(tube((0, 0, 0), (0, 0, 0.8), 1.4, mat=p, seg=10))
+    m.add(box(-1.0, -2.0, 0.8, 1.0, 2.6, 1.8, p, bevel=0.2).rot_x(15, cz=0.8))
+    m.add(rodeuse().scale(0.45).move(0, 1.0, 2.6))
+    return m
+
+
+def ambarkarn():
+    """Frégate de défense aérienne (famille Horizon) : silos verticaux, grand mât radar, hangar."""
+    m, _ = _coque(56.0, 10.0, 2.8)
+    p = peau(375, 3.0)
+    m.add(prism(rrect(-4.0, -14.0, 4.0, 6.0, 1.0), 2.8, 6.4, p, bevel=0.4))
+    m.add(prism(rrect(-3.0, -2.0, 3.0, 6.0, 0.8), 6.4, 9.2, p, bevel=0.4))
+    m.add(box(-2.9, 5.6, 8.0, 2.9, 6.1, 8.8, VITRE))
+    mat_radar(m, 0, 1.0, 9.2, 5.0)
+    m.add(sphere((0, 1.0, 17.0), 1.2, Mat((222, 224, 220), spec=0.4), seg=10, rings=5))
+    for k in range(16):                                                                          # silos
+        x, y = (k % 4) * 1.3 - 1.95, 9.0 + (k // 4) * 1.3
+        m.add(box(x - 0.5, y - 0.5, 2.8, x + 0.5, y + 0.5, 3.0, Mat(CITRON, spec=0.3) if k % 5 == 0 else Mat((70, 74, 72), spec=0.1)))
+    m.add(box(-3.6, -26.0, 2.82, 3.6, -15.0, 2.9, Mat((70, 74, 72), spec=0.1,
+                                                    tex=lambda p, n: (230, 230, 220) if abs(math.hypot(p[0], p[1] + 20.5) - 2.2) < 0.3 else 1.0)))
+    m.add(rose(0, -8.0, 6.42, 1.4))
+    return m
+
+
+def ambarkarn_tourelle():
+    p = peau(376, 2.0)
+    m = Mesh()
+    m.add(prism([(-1.8, -1.8), (1.8, -1.8), (1.8, 0.4), (0.8, 2.0), (-0.8, 2.0), (-1.8, 0.4)], 0.0, 1.5, p, bevel=0.6))
+    m.add(tube((0, 1.6, 0.8), (0, 6.0, 0.8), 0.3, mat=ACIER, seg=6))
+    return m
+
+
+def agnikhesh():
+    """Destroyer lance-missiles (famille Zumwalt) : coque à brise-lames inversé, superstructure
+    pyramidale furtive, batteries de silos de missiles de croisière à l'avant et à l'arrière."""
+    m, _ = _coque(66.0, 11.0, 3.0, proue=0.3)
+    p = peau(377, 3.5)
+    m.add(prism([(-4.6, -12.0), (4.6, -12.0), (4.6, 4.0), (0.0, 8.0), (-4.6, 4.0)], 3.0, 6.0, p, bevel=0.3))
+    m.add(prism([(-3.4, -9.0), (3.4, -9.0), (3.0, 3.0), (0.0, 5.6), (-3.0, 3.0)], 6.0, 11.0, p, bevel=1.6))
+    m.add(box(-2.4, 3.0, 9.0, 2.4, 3.4, 9.8, VITRE))
+    for s in (1, -1):
+        m.add(box(s * 2.9 - 0.08, -6.0, 7.6, s * 2.9 + 0.08, -1.0, 10.0, CAPTEUR).rot_z(s * 6))
+    for y0 in (12.0, -22.0):                                                                      # silos
+        for k in range(20):
+            x, y = (k % 4) * 1.3 - 1.95, y0 + (k // 4) * 1.3
+            m.add(box(x - 0.5, y - 0.5, 3.0, x + 0.5, y + 0.5, 3.2, Mat(CITRON, spec=0.3) if k % 6 == 0 else Mat((70, 74, 72), spec=0.1)))
+    m.add(rose(0, 26.0, 3.02, 1.4))
+    return m
+
+
+def ulmar():
+    """Sous-marin d'attaque moderne : coque fuselée, kiosque profilé, safran en X, gris-noir."""
+    m = Mesh()
+    noir = Mat((46, 52, 56), spec=0.35, shine=22, tex=combine(panels(4.0, 0.2, 0.9, axis="y"), noise(378, 0.05)))
+    m.add(fuselage([(-21.0, 0.3, 0.3, 0.6), (-17.0, 1.8, 1.3, 0.9), (-8.0, 3.0, 2.0, 1.1), (9.0, 3.0, 2.0, 1.1),
+                    (16.0, 2.3, 1.7, 1.0), (20.0, 0.9, 0.8, 0.8), (21.2, 0.3, 0.3, 0.6)], noir, seg=16))
+    m.add(R.prism([(-0.7, 3.0), (0.7, 3.0), (0.8, 7.6), (0.0, 9.4), (-0.8, 7.6)], 2.0, 5.2, noir, bevel=0.5))
+    for a in (45, -45):
+        m.add(box(-3.4, -19.4, -0.12, 3.4, -18.0, 0.12, noir).rot_y(a).move(dz=0.9))
+    m.add(tube((0.2, 6.0, 5.2), (0.2, 6.0, 6.4), 0.15, mat=ACIER, seg=4))
+    m.add(box(-0.3, 5.0, 5.2, 0.3, 6.2, 5.6, Mat(CITRON, spec=0.3)))
+    from modeles.communs import sillage
+    m.add(sillage([(2.6, -10), (2.6, 10), (1.8, 17), (0.3, 21), (-0.3, 21), (-1.8, 17), (-2.6, 10), (-2.6, -10), (-1.2, -18), (1.2, -18)], largeur=0.8))
+    return m.move(dz=0.6)
+
+
+def rathambar():
+    """Navire amphibie (famille LCU / Damen) : pont-radier ouvert, rampe avant, passerelle arrière."""
+    m, _ = _coque(44.0, 11.0, 2.4, proue=0.08, poupe=0.1, tonture=0.0)
+    p = peau(379, 3.0)
+    m.add(box(-4.6, -6.0, 2.4, 4.6, 18.0, 2.5, Mat((70, 74, 72), spec=0.1, tex=stripes(2.0, 0.88, axis=1))))   # radier
+    for s in (1, -1):
+        m.add(box(s * 4.6 - (0.5 if s > 0 else -0.5), -6.0, 2.4, s * 5.1, 18.0, 4.6, p))
+    m.add(box(-4.6, 18.0, 2.4, 4.6, 19.0, 4.8, p, bevel=0.2))                                       # rampe relevée
+    m.add(prism(rrect(-5.0, -21.0, 5.0, -7.0, 1.0), 2.4, 7.0, p, bevel=0.4))
+    m.add(prism(rrect(-3.4, -16.0, 3.4, -9.0, 0.8), 7.0, 10.0, p, bevel=0.4))
+    m.add(box(-3.3, -9.4, 8.6, 3.3, -8.9, 9.6, VITRE))
+    mat_radar(m, 0, -13.0, 10.0, 2.0, plat=False)
+    # chargement : un Vidra et une palette
+    m.add(vidra_caisse().scale(0.7).move(0, 8.0, 2.5))
+    m.add(box(-2.0, 0.0, 2.5, 2.0, 3.0, 4.0, Mat((110, 96, 62), spec=0.05, tex=stripes(0.7, 0.8, axis=2))))
+    m.add(rose(0, -18.0, 7.02, 1.3))
+    return m

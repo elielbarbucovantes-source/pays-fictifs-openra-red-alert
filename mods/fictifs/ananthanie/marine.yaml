@@ -1,0 +1,195 @@
+# =====================================================================
+# ANANTHANIE — marine
+# Grande façade maritime, supériorité navale : patrouilleurs lance-drones,
+# frégates de défense aérienne, destroyers qui frappent la terre au missile
+# de croisière, sous-marins d'attaque, navires amphibies.
+# Tout sort du chantier naval ananthanien (pas de sous-marinier soviétique).
+# =====================================================================
+
+CHANTIER.ANA:
+	Inherits: SYRD
+	RenderSprites:
+		Image: syrd
+	Buildable:
+		BuildPaletteOrder: 72
+		Prerequisites: anypower, ~structures.ananthanie, ~techlevel.low
+		Description: Produit et répare les navires ananthaniens :\nVasha, Ambarkarn, Agnikhesh, Ulmar, Rathambar.
+	Tooltip:
+		Name: Chantier naval ananthanien
+	ProvidesPrerequisite@ananthanie:
+		Factions: ananthanie
+		Prerequisite: ships.ananthanie
+
+# Vasha : patrouilleur rapide qui lance des drones explosifs.
+VASHA:
+	Inherits: PT
+	Inherits@FABRIQUE: ^ProduitParFabriqueDrones
+	RenderSprites:
+		Image: vasha
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~ships.ananthanie, ~techlevel.low
+		Description: Patrouilleur rapide lance-drones. Salves de 2 drones\nexplosifs à 7 cases contre les navires et la côte.\nGrenades anti-sous-marines. Détecte les sous-marins.\n  Fort contre : navires légers, véhicules sur la côte\n  Faible contre : aviation, destroyers
+	Selectable:
+		Class: vasha
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Vasha
+	Health:
+		HP: 18000
+	Mobile:
+		Speed: 160
+	Turreted:
+		Offset: -369,0,81
+	Armament@PRIMARY:
+		Weapon: VashaDrones
+		LocalOffset: 40,0,110
+
+# Ambarkarn : frégate de défense aérienne, le bouclier de la flotte.
+AMBARKARN:
+	Inherits: DD
+	RenderSprites:
+		Image: ambarkarn
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~ships.ananthanie, dome, ~techlevel.medium
+		Description: Frégate de défense aérienne. Missiles sol-air à 11 cases,\ncanon contre navires et côte, grenades anti-sous-marines.\nDétecte les sous-marins.\n  Fort contre : aviation, drones, sous-marins\n  Faible contre : destroyers lance-missiles
+	Selectable:
+		Class: ambarkarn
+	Valued:
+		Cost: 1300
+	Tooltip:
+		Name: Ambarkarn
+	Health:
+		HP: 45000
+	Mobile:
+		Speed: 90
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 8c0
+	Turreted:
+		Offset: 737,0,119
+	Armament@PRIMARY:
+		Weapon: AmbarkarnCanon
+		LocalOffset: 233,0,34
+		LocalYaw: 0
+	Armament@TERTIARY:
+		Weapon: AmbarkarnSAM
+
+# Agnikhesh : destroyer lance-missiles de croisière (frappe contre la terre).
+AGNIKHESH:
+	Inherits: ^Ship
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	RenderSprites:
+		Image: agnikhesh
+	Buildable:
+		Queue: Ship
+		BuildAtProductionType: Boat
+		BuildPaletteOrder: 30
+		Prerequisites: ~ships.ananthanie, institut, ~techlevel.high
+		Description: Destroyer lance-missiles. Salves de 2 missiles de croisière\nà 17 cases contre la terre et les navires.\nLanceurs verticaux : tire dans toutes les directions.\nAucune défense antiaérienne : à escorter.\n  Fort contre : bâtiments, défenses, navires\n  Faible contre : aviation, sous-marins\n  Requiert : institut d'innovation
+	Selectable:
+		Class: agnikhesh
+		DecorationBounds: 1877, 1877
+	Valued:
+		Cost: 1800
+	Tooltip:
+		Name: Agnikhesh
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 60000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 64
+		TurnSpeed: 16
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 7c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+	Armament:
+		Weapon: AgnikheshCroisiere
+		LocalOffset: 400,0,200
+	AttackFrontal:
+		FacingTolerance: 512
+		TargetFrozenActors: True
+		ForceFireIgnoresActors: True
+	AutoTarget:
+		ScanRadius: 17
+
+# Ulmar : sous-marin d'attaque, furtif en plongée.
+ULMAR:
+	Inherits: SS
+	RenderSprites:
+		Image: ulmar
+	Buildable:
+		BuildAtProductionType: Boat
+		BuildPaletteOrder: 40
+		Prerequisites: ~ships.ananthanie, ~techlevel.low
+		Description: Sous-marin d'attaque. Invisible en plongée,\ntorpilles lourdes à longue portée. Rapide.\n  Fort contre : navires\n  Faible contre : frégates, patrouilleurs, aviation\n  anti-sous-marine
+	Selectable:
+		Class: ulmar
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Ulmar
+	Health:
+		HP: 30000
+	Mobile:
+		Speed: 90
+	Armament:
+		Weapon: UlmarTorpille
+
+# Rathambar : navire amphibie, transporte chars et fantassins.
+RATHAMBAR:
+	Inherits: ^Ship
+	Inherits@CARGOPIPS: ^CargoPips
+	Inherits@AUTOTARGET: ^AutoTargetGround
+	RenderSprites:
+		Image: rathambar
+	Buildable:
+		Queue: Ship
+		BuildAtProductionType: Boat
+		BuildPaletteOrder: 50
+		Prerequisites: ~ships.ananthanie, ~techlevel.low
+		Description: Navire amphibie. Transporte 8 places (fantassin : 1,\nvéhicule : 1), débarque sur les plages et la côte.\nMitrailleuse de défense.\n  Faible contre : tout (à escorter)
+	Selectable:
+		Class: rathambar
+		DecorationBounds: 1792, 1792
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Rathambar
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 45000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Locomotor: lcraft
+		Speed: 120
+		PauseOnCondition: notmobile
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 6c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+	Cargo:
+		Types: Infantry, Vehicle
+		MaxWeight: 8
+		PassengerFacing: 0
+		LoadingCondition: notmobile
+	WithCargoPipsDecoration:
+		PipCount: 8
+	-Chronoshiftable:
+	Armament:
+		Weapon: M60mg
+		LocalOffset: 300,0,200
+	AttackFrontal:
+		FacingTolerance: 512

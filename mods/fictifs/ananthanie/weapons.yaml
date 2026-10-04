@@ -276,3 +276,130 @@ RodeusePlongee:
 		Image: rodeuse
 	Warhead@1Dam: SpreadDamage
 		Damage: 9000
+
+# ---------------------------------------------------------------------
+# Aviation
+# ---------------------------------------------------------------------
+# Lunkravyn : bombes planantes guidées (aussi contre les navires).
+LunkravynBombe:
+	Inherits: Maverick
+	Range: 7c0
+	Burst: 1
+	ReloadDelay: 40
+	ValidTargets: Ground, Water, GroundActor, WaterActor
+	Warhead@1Dam: SpreadDamage
+		Spread: 384
+		Damage: 10000
+
+# Lunkravyn : missiles air-air.
+LunkravynAA:
+	Inherits: HellfireAA
+	Range: 7c0
+	Projectile: Missile
+		RangeLimit: 10c0
+	Warhead@1Dam: SpreadDamage
+		Damage: 4500
+
+# Vidravyn : missiles air-air, cadence élevée.
+VidravynAA:
+	Inherits: HellfireAA
+	Range: 7c512
+	ReloadDelay: 25
+	Projectile: Missile
+		RangeLimit: 10c512
+	Warhead@1Dam: SpreadDamage
+		Damage: 4500
+
+# Agnivyn : missiles de croisière légers tirés à distance de sécurité.
+AgnivynMissile:
+	Inherits: Maverick
+	Range: 10c0
+	MinRange: 3c0
+	ReloadDelay: 60
+	Projectile: Missile
+		RangeLimit: 15c0
+		Inaccuracy: 128
+	Warhead@1Dam: SpreadDamage
+		Spread: 448
+		Damage: 9000
+		Versus:
+			None: 60
+			Wood: 100
+			Light: 90
+			Heavy: 80
+			Concrete: 100
+
+# Ulkar : missile antichar guidé (famille Hellfire).
+UlkarMissile:
+	Inherits: HellfireAG
+	Range: 7c0
+	Burst: 1
+	ReloadDelay: 45
+	Projectile: Missile
+		RangeLimit: 10c0
+	Warhead@1Dam: SpreadDamage
+		Damage: 5500
+
+# Kheshar : canon de 30 mm et missiles antichars.
+KhesharCanon:
+	Inherits: ChainGun
+	Range: 5c512
+
+KhesharATGM:
+	Inherits: HellfireAG
+	Range: 6c512
+	Burst: 1
+	ReloadDelay: 40
+	Warhead@1Dam: SpreadDamage
+		Damage: 7000
+
+# ---------------------------------------------------------------------
+# Marine
+# ---------------------------------------------------------------------
+# Vasha : drones explosifs contre les navires et la côte.
+VashaDrones:
+	Inherits: RucheDrones
+	ReloadDelay: 120
+	Range: 7c0
+	Burst: 2
+	ValidTargets: Ground, Water, GroundActor, WaterActor
+	Warhead@1Dam: SpreadDamage
+		Damage: 5000
+		ValidTargets: GroundActor, WaterActor
+		Versus:
+			None: 50
+			Wood: 60
+			Light: 100
+			Heavy: 90
+			Concrete: 40
+
+# Ambarkarn : canon de 76 mm (navires, côte) et missiles sol-air longue portée.
+AmbarkarnCanon:
+	Inherits: 2Inch
+	Range: 7c0
+	ReloadDelay: 30
+
+AmbarkarnSAM:
+	Inherits: StingerAA
+	Range: 11c0
+	ReloadDelay: 45
+	Projectile: Missile
+		RangeLimit: 14c0
+	Warhead@1Dam: SpreadDamage
+		Damage: 4000
+
+# Agnikhesh : salve de 2 missiles de croisière.
+AgnikheshCroisiere:
+	Inherits: AgnarCroisiere
+	Range: 17c0
+	ReloadDelay: 300
+	Burst: 2
+	BurstDelays: 15
+	Warhead@1Dam: SpreadDamage
+		Damage: 10000
+
+# Ulmar : torpilles lourdes à longue portée.
+UlmarTorpille:
+	Inherits: TorpTube
+	Range: 8c512
+	ReloadDelay: 80

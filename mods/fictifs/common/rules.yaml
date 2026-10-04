@@ -270,10 +270,10 @@ SAM:
 # naval rubéniens (voir rubenie/aviation.yaml et rubenie/marine.yaml).
 AFLD:
 	Buildable:
-		Prerequisites: dome, ~structures.soviet, ~techlevel.medium, ~!structures.ukraine, ~!structures.rubenie
+		Prerequisites: dome, ~structures.soviet, ~techlevel.medium, ~!structures.ukraine, ~!structures.rubenie, ~!structures.ananthanie
 SPEN:
 	Buildable:
-		Prerequisites: anypower, ~structures.soviet, ~techlevel.low, ~!structures.rubenie
+		Prerequisites: anypower, ~structures.soviet, ~techlevel.low, ~!structures.rubenie, ~!structures.ananthanie
 
 # ---------------------------------------------------------------------
 # Désignation de cible (drone Ojo, Explorador, Ojo del Aguila) :

@@ -280,3 +280,112 @@ batterie.ambar:
 		Tick: 60
 	icon:
 		Filename: fictifs|bits/batterie.ambaricon.png
+
+# ---------------------------------------------------------------------
+# Aviation (lot 2)
+# ---------------------------------------------------------------------
+lunkravyn:
+	idle:
+		Filename: fictifs|bits/lunkravyn.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/lunkravynicon.png
+
+vidravyn:
+	idle:
+		Filename: fictifs|bits/vidravyn.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/vidravynicon.png
+
+agnivyn:
+	idle:
+		Filename: fictifs|bits/agnivyn.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/agnivynicon.png
+
+ulkar:
+	idle:
+		Filename: fictifs|bits/ulkar.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/ulkaricon.png
+
+# Kheshar : rotor principal en surcouche animée (celui du Hind).
+kheshar:
+	idle:
+		Filename: fictifs|bits/kheshar.png
+		Facings: 32
+	rotor:
+		Filename: lrotorlg.shp
+		Length: 4
+	slow-rotor:
+		Filename: lrotorlg.shp
+		Start: 4
+		Length: 8
+	muzzle:
+		Filename: minigun.shp
+		Length: 6
+		Facings: 8
+	icon:
+		Filename: fictifs|bits/khesharicon.png
+
+nayra.ambar:
+	idle:
+		Filename: fictifs|bits/nayra.ambar.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/nayra.ambaricon.png
+
+# ---------------------------------------------------------------------
+# Marine (lot 2)
+# ---------------------------------------------------------------------
+vasha:
+	idle:
+		Filename: fictifs|bits/vasha.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/vasha.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+	icon:
+		Filename: fictifs|bits/vashaicon.png
+
+ambarkarn:
+	idle:
+		Filename: fictifs|bits/ambarkarn.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/ambarkarn.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon:
+		Filename: fictifs|bits/ambarkarnicon.png
+
+agnikhesh:
+	idle:
+		Filename: fictifs|bits/agnikhesh.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/agnikheshicon.png
+
+ulmar:
+	idle:
+		Filename: fictifs|bits/ulmar.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/ulmaricon.png
+
+rathambar:
+	idle:
+		Filename: fictifs|bits/rathambar.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/rathambaricon.png

@@ -87,6 +87,8 @@ Rules:
 	fictifs|australouis/batiments.yaml
 	fictifs|ananthanie/rules.yaml
 	fictifs|ananthanie/batiments.yaml
+	fictifs|ananthanie/aviation.yaml
+	fictifs|ananthanie/marine.yaml
 
 Sequences:
 	ra|sequences/ships.yaml

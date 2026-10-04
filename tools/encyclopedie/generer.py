@@ -71,7 +71,7 @@ Il construit la base alliée, plus un chantier naval avancé et une centrale d'e
 "Enrichissement : +5 % de revenus du minerai avec la centrale d'enrichissement, +20 % de plus pendant le Raffinerie boost.",
 ]),
 "Ananthanie": ("Je contrôle le champ de bataille", """
-Camp : Soviétiques (base soviétique, Haut Commandement, fabrique de drones et institut d'innovation propres).
+Camp : Soviétiques (base soviétique, Haut Commandement, fabrique de drones, institut d'innovation, base aérienne et chantier naval propres).
 Devise : « Prospérité, innovation, puissance, Fraternité. »
 L'Ananthanie est une superpuissance technologique, démocratie parlementaire très stable. Sa doctrine : blitzkrieg en attaque, usure en défense, quantité ET qualité. Blindés modernes, drones explosifs et missiles : « L'Ananthanie gagne une bataille en 7 minutes. »
 """, [
@@ -81,6 +81,8 @@ L'Ananthanie est une superpuissance technologique, démocratie parlementaire tr�
 "Protection active : le Karnvasha reçoit 35 % de dégâts en moins des missiles et roquettes.",
 "Faiblesse : les montagnes. Les véhicules ananthaniens perdent 20 % de vitesse en terrain accidenté.",
 "Anti-drone : les avions ananthaniens détruisent les drones ennemis à 1 case.",
+"Furtivité : le Lunkravyn est invisible tant qu'il ne tire pas.",
+"Avion radar : le Nayra-Ambar donne +20 % de portée aux avions ananthaniens et alliés à 10 cases.",
 ]),
 }
 

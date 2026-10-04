@@ -1,0 +1,364 @@
+# =====================================================================
+# ANANTHANIE — aviation
+# « Le cerveau et le bras armé de l'armée. » Chasseur furtif Lunkravyn
+# (emblème), intercepteurs en nombre, bombardier à distance de sécurité,
+# drone armé Ulkar, hélicoptère Kheshar, avion radar Nayra-Ambar.
+# Tout sort de la base aérienne ananthanienne et s'y réarme.
+# =====================================================================
+
+# Base aérienne : aérodrome soviétique sans les pouvoirs soviétiques
+# (les pouvoirs ananthaniens seront au Haut Commandement, lot 3).
+BASE.ANANTHANIE:
+	Inherits: AFLD
+	RenderSprites:
+		Image: afld
+	Buildable:
+		BuildPaletteOrder: 131
+		Prerequisites: dome, ~structures.ananthanie, ~techlevel.medium
+		Description: Produit, répare et réarme l'aviation ananthanienne :\nLunkravyn, Vidravyn, Agnivyn, Ulkar, Kheshar, Nayra-Ambar.
+	Tooltip:
+		Name: Base aérienne ananthanienne
+	ProvidesPrerequisite@buildingname:
+		Prerequisite: base.ananthanie
+	-AirstrikePower@spyplane:
+	-ParatroopersPower@paratroopers:
+	-AirstrikePower@parabombs:
+	-InfiltrateForSupportPower:
+
+# Commun aux avions ananthaniens : bonus de l'avion radar Nayra-Ambar
+# (+20 % de portée à 10 cases autour de lui).
+^AnanthanieAvion:
+	ExternalCondition@AWACS:
+		Condition: awacs
+	RangeMultiplier@AWACS:
+		RequiresCondition: awacs
+		Modifier: 120
+	WithDecoration@AWACS:
+		Image: pips
+		Sequence: pip-green
+		Position: TopLeft
+		RequiresCondition: awacs
+
+# ---------------------------------------------------------------------
+# Lunkravyn : chasseur furtif multirôle, l'unité emblématique.
+# ---------------------------------------------------------------------
+LUNKRAVYN:
+	Inherits: MIG
+	Inherits@AVION: ^AnanthanieAvion
+	RenderSprites:
+		Image: lunkravyn
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~base.ananthanie, ~techlevel.medium
+		Description: Chasseur furtif multirôle, emblème de l'Ananthanie.\nInvisible tant qu'il ne tire pas (détecté par les unités anti-furtives).\nMissiles air-air et bombes guidées (aussi contre les navires).\n  Fort contre : aviation, blindés, navires, défenses\n  Faible contre : chasseurs ennemis une fois repéré
+	Selectable:
+		Class: lunkravyn
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Lunkravyn
+	Health:
+		HP: 11000
+	RevealsShroud:
+		MinRange: 10c0
+		Range: 12c0
+	RevealsShroud@GAPGEN:
+		Range: 10c0
+	Armament:
+		Name: primary
+		Weapon: LunkravynBombe
+		PauseOnCondition: !ammo-ag
+	Armament@AA:
+		Name: aa
+		Weapon: LunkravynAA
+		LocalOffset: 0,-512,0, 0,512,0
+		PauseOnCondition: !ammo-aa
+	AttackAircraft:
+		Armaments: primary, aa
+	Aircraft:
+		Speed: 260
+	AmmoPool:
+		Name: ag
+		Armaments: primary
+		Ammo: 4
+		AmmoCondition: ammo-ag
+	AmmoPool@AA:
+		Name: aa
+		Armaments: aa
+		Ammo: 4
+		AmmoCondition: ammo-aa
+	Rearmable:
+		RearmActors: base.ananthanie
+		AmmoPools: ag, aa
+	WithAmmoPipsDecoration:
+		AmmoPools: ag, aa
+	Cloak:
+		InitialDelay: 0
+		CloakDelay: 100
+		CloakSound: appear1.aud
+		UncloakSound: appear1.aud
+		IsPlayerPalette: true
+		UncloakOn: Attack, Dock
+	SpawnActorOnDeath:
+		Actor: LUNKRAVYN.Husk
+
+# Vidravyn : intercepteur bon marché, pour la supériorité aérienne en nombre.
+VIDRAVYN:
+	Inherits: MIG
+	Inherits@AVION: ^AnanthanieAvion
+	RenderSprites:
+		Image: vidravyn
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~base.ananthanie, ~techlevel.medium
+		Description: Intercepteur. Très rapide, missiles air-air.\nNe peut pas attaquer le sol. En position défensive,\nengage seul les avions ennemis.\n  Fort contre : aviation, drones\n  Faible contre : tout le reste
+	Selectable:
+		Class: vidravyn
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Vidravyn
+	Health:
+		HP: 8000
+	Armament:
+		Weapon: VidravynAA
+	Aircraft:
+		Speed: 310
+		TurnSpeed: 20
+	AmmoPool:
+		Ammo: 6
+	AutoTarget:
+		InitialStance: Defend
+		InitialStanceAI: Defend
+	AutoTargetPriority@DEFAULT:
+		ValidTargets: AirborneActor
+	AutoTargetPriority@ATTACKANYTHING:
+		ValidTargets: AirborneActor
+	Rearmable:
+		RearmActors: base.ananthanie
+	SpawnActorOnDeath:
+		Actor: VIDRAVYN.Husk
+
+# Agnivyn : bombardier d'attaque, missiles tirés hors de portée des défenses.
+AGNIVYN:
+	Inherits: MIG
+	Inherits@AVION: ^AnanthanieAvion
+	RenderSprites:
+		Image: agnivyn
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~base.ananthanie, institut, ~techlevel.high
+		Description: Bombardier d'attaque. Missiles de croisière légers tirés\nà 10 cases, hors de portée de la plupart des défenses.\nSalve de 2, 4 salves.\n  Fort contre : bâtiments, défenses, blindés\n  Faible contre : chasseurs, SAM à longue portée\n  Requiert : institut d'innovation
+	Selectable:
+		Class: agnivyn
+	Valued:
+		Cost: 1800
+	Tooltip:
+		Name: Agnivyn
+	Health:
+		HP: 15000
+	Armament:
+		Weapon: AgnivynMissile
+	Aircraft:
+		Speed: 190
+		TurnSpeed: 14
+	AmmoPool:
+		Ammo: 4
+	Rearmable:
+		RearmActors: base.ananthanie
+	SpawnActorOnDeath:
+		Actor: AGNIVYN.Husk
+
+# Ulkar : drone armé longue endurance (famille Reaper). Peu cher, en nombre.
+ULKAR:
+	Inherits: MIG
+	Inherits@AVION: ^AnanthanieAvion
+	Inherits@FABRIQUE: ^ProduitParFabriqueDrones
+	# Cible des systèmes anti-drone ennemis.
+	Drone:
+	RenderSprites:
+		Image: ulkar
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: ~base.ananthanie, fabrique.drones, ~techlevel.medium
+		Description: Drone armé longue endurance. Lent, vole haut,\nmissiles antichars guidés (6). Grande vision.\nPeu cher : à utiliser en nombre.\n  Fort contre : véhicules, infanterie isolée\n  Faible contre : aviation, défense antiaérienne, systèmes anti-drone\n  Requiert : fabrique de drones
+	Selectable:
+		Class: ulkar
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: Ulkar
+	Health:
+		HP: 6000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		MinRange: 9c0
+		Range: 11c0
+	RevealsShroud@GAPGEN:
+		Range: 9c0
+	Armament:
+		Weapon: UlkarMissile
+	Aircraft:
+		Speed: 140
+		TurnSpeed: 12
+		CruiseAltitude: 2560
+	AmmoPool:
+		Ammo: 6
+	Rearmable:
+		RearmActors: base.ananthanie
+	-Contrail@1:
+	-Contrail@2:
+	SpawnActorOnDeath:
+		Actor: ULKAR.Husk
+
+# Kheshar : hélicoptère d'attaque, canon et missiles antichars.
+KHESHAR:
+	Inherits: HIND
+	Inherits@AVION: ^AnanthanieAvion
+	RenderSprites:
+		Image: kheshar
+	Buildable:
+		BuildAtProductionType: Plane
+		BuildPaletteOrder: 50
+		Prerequisites: ~base.ananthanie, ~techlevel.medium
+		Description: Hélicoptère d'attaque. Canon de 30 mm (24 rafales)\net 4 missiles antichars.\n  Fort contre : véhicules, infanterie\n  Faible contre : aviation, défense antiaérienne
+	Selectable:
+		Class: kheshar
+	Valued:
+		Cost: 1100
+	Tooltip:
+		Name: Kheshar
+	Health:
+		HP: 11000
+	Armament@PRIMARY:
+		Weapon: KhesharCanon
+		LocalOffset: 512,0,-128
+	Armament@SECONDARY:
+		Weapon: KhesharATGM
+		LocalOffset: 85,-300,-85, 85,300,-85
+		PauseOnCondition: !ammo-atgm
+	AmmoPool:
+		Armaments: primary
+	AmmoPool@ATGM:
+		Name: atgm
+		Armaments: secondary
+		Ammo: 4
+		AmmoCondition: ammo-atgm
+	WithAmmoPipsDecoration:
+		AmmoPools: primary, atgm
+	Rearmable:
+		RearmActors: base.ananthanie
+		AmmoPools: primary, atgm
+	Aircraft:
+		Speed: 135
+	AutoTarget:
+		InitialStance: Defend
+		InitialStanceAI: AttackAnything
+	SpawnActorOnDeath:
+		Actor: KHESHAR.Husk
+
+# Nayra-Ambar : avion radar. Révèle une très grande zone, détecte les furtifs,
+# et donne +20 % de portée aux avions ananthaniens (et alliés) à 10 cases.
+NAYRA.AMBAR:
+	Inherits: ^Plane
+	Inherits@AVION: ^AnanthanieAvion
+	RenderSprites:
+		Image: nayra.ambar
+	Buildable:
+		Queue: Aircraft
+		BuildAtProductionType: Plane
+		BuildPaletteOrder: 60
+		BuildLimit: 1
+		Prerequisites: ~base.ananthanie, haut.commandement, ~techlevel.medium
+		Description: Avion radar (AWACS). 1 exemplaire maximum.\nTrès grande vision (18 cases), détecte les unités furtives.\nAvions ananthaniens et alliés à 10 cases : +20 % de portée.\nAucune arme. Tourne au-dessus de la zone demandée.\n  Faible contre : chasseurs, défense antiaérienne\n  Requiert : Haut Commandement
+	Selectable:
+		Class: nayra.ambar
+		Bounds: 1792, 1536, 0, 85
+		DecorationBounds: 1962, 1621, 0, 42
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Nayra-Ambar
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 12000
+	RevealsShroud:
+		MinRange: 16c0
+		Range: 18c0
+		Type: GroundPosition
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 16c0
+		Type: GroundPosition
+	DetectCloaked:
+		Range: 10c0
+	Aircraft:
+		CruiseAltitude: 2560
+		TurnSpeed: 12
+		Speed: 200
+		RepulsionSpeed: 40
+		MaximumPitch: 56
+	Rearmable:
+		RearmActors: base.ananthanie
+	ProximityExternalCondition@AWACS:
+		Condition: awacs
+		Range: 10c0
+		ValidRelationships: Ally
+	WithRangeCircle@AWACS:
+		Type: awacs
+		Range: 10c0
+		Color: 7ED32160
+		Visible: WhenSelected
+	Contrail@1:
+		Offset: -432,700,0
+		StartColorAlpha: 128
+	Contrail@2:
+		Offset: -432,-700,0
+		StartColorAlpha: 128
+	SpawnActorOnDeath:
+		Actor: NAYRA.AMBAR.Husk
+
+# Épaves en chute : même sprite que l'avion.
+LUNKRAVYN.Husk:
+	Inherits: MIG.Husk
+	Tooltip:
+		Name: Lunkravyn
+	RenderSprites:
+		Image: lunkravyn
+
+VIDRAVYN.Husk:
+	Inherits: MIG.Husk
+	Tooltip:
+		Name: Vidravyn
+	RenderSprites:
+		Image: vidravyn
+
+AGNIVYN.Husk:
+	Inherits: MIG.Husk
+	Tooltip:
+		Name: Agnivyn
+	RenderSprites:
+		Image: agnivyn
+
+ULKAR.Husk:
+	Inherits: MIG.Husk
+	Tooltip:
+		Name: Ulkar
+	RenderSprites:
+		Image: ulkar
+
+NAYRA.AMBAR.Husk:
+	Inherits: MIG.Husk
+	Tooltip:
+		Name: Nayra-Ambar
+	RenderSprites:
+		Image: nayra.ambar
+
+KHESHAR.Husk:
+	Inherits: HIND.Husk
+	Tooltip:
+		Name: Kheshar
+	RenderSprites:
+		Image: kheshar

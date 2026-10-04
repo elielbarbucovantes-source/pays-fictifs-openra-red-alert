@@ -19,12 +19,12 @@ Repères :
 
 SOMMAIRE
   0. LES PAYS (4)
-  1. BÂTIMENTS (13)
+  1. BÂTIMENTS (15)
   2. DÉFENSES (12)
   3. INFANTERIE (16)
   4. VÉHICULES (31)
-  5. AVIATION (20)
-  6. MARINE (12)
+  5. AVIATION (26)
+  6. MARINE (17)
   7. POUVOIRS DE SOUTIEN (13)
 
 ============================================================================================
@@ -92,8 +92,8 @@ SOMMAIRE
     plus pendant le Raffinerie boost.
 --------------------------------------------------------------------------------------------
 ■ ANANTHANIE — « Je contrôle le champ de bataille »
-  Camp : Soviétiques (base soviétique, Haut Commandement, fabrique de drones et institut
-  d'innovation propres).
+  Camp : Soviétiques (base soviétique, Haut Commandement, fabrique de drones, institut
+  d'innovation, base aérienne et chantier naval propres).
   Devise : « Prospérité, innovation, puissance, Fraternité. »
   L'Ananthanie est une superpuissance technologique, démocratie parlementaire très stable.
   Sa doctrine : blitzkrieg en attaque, usure en défense, quantité ET qualité. Blindés
@@ -108,6 +108,9 @@ SOMMAIRE
   • Faiblesse : les montagnes. Les véhicules ananthaniens perdent 20 % de vitesse en terrain
     accidenté.
   • Anti-drone : les avions ananthaniens détruisent les drones ennemis à 1 case.
+  • Furtivité : le Lunkravyn est invisible tant qu'il ne tire pas.
+  • Avion radar : le Nayra-Ambar donne +20 % de portée aux avions ananthaniens et alliés à
+    10 cases.
 
 ============================================================================================
                                         1. BÂTIMENTS                                        
@@ -275,6 +278,32 @@ SOMMAIRE
 
   ▶ PAYS : ANANTHANIE
 
+--------------------------------------------------------------------------------------------
+■ BASE AÉRIENNE ANANTHANIENNE
+  Pays : Ananthanie
+  Lore :
+    Aérodrome de l'aviation ananthanienne.
+    Elle produit, répare et réarme avions, drones Ulkar et hélicoptères Kheshar.
+    L'aviation est le cerveau et le bras armé de l'armée.
+  Statistiques :
+    Coût 500 $ · PV 100 000 · Blindage léger de bâtiment (bois) · Vision 5 cases
+    Énergie -20
+    Prérequis : Radar Dome · Niveau technologique : moyen
+  Stratégie :
+    Construisez-en tôt : l'aviation est la force principale de l'Ananthanie.
+--------------------------------------------------------------------------------------------
+■ CHANTIER NAVAL ANANTHANIEN
+  Pays : Ananthanie
+  Lore :
+    Chantier naval de la grande façade maritime ananthanienne.
+    Produit et répare patrouilleurs, frégates, destroyers, sous-marins et navires amphibies.
+    La supériorité navale fait partie de la doctrine.
+  Statistiques :
+    Coût 1 000 $ · PV 100 000 · Blindage léger de bâtiment (bois) · Vision 5 cases
+    Énergie -30 · Détecte les furtifs (10 cases)
+    Prérequis : une centrale · Niveau technologique : bas
+  Stratégie :
+    Construisez-le dès que la carte a de l'eau : la flotte ouvre la côte aux offensives.
 --------------------------------------------------------------------------------------------
 ■ FABRIQUE DE DRONES
   Pays : Ananthanie
@@ -1529,6 +1558,100 @@ SOMMAIRE
     Envoyez-le contre les colonnes de chars. Évitez les SAM et les chasseurs, contre
     lesquels il ne peut rien.
 
+  ▶ PAYS : ANANTHANIE
+
+--------------------------------------------------------------------------------------------
+■ AGNIVYN
+  Pays : Ananthanie
+  Lore :
+    Bombardier d'attaque à aile volante.
+    Missiles de croisière légers tirés à 10 cases, hors de portée de la plupart des défenses.
+    Le « feu volant ».
+  Statistiques :
+    Coût 1 800 $ · PV 15 000 · Blindage léger · Vitesse 190 · Vision 13 cases
+    Arme : AgnivynMissile : 9 000 dégâts, rafale de 2, portée 10 cases, recharge 2,4 s
+    Prérequis : Base aérienne ananthanienne, Institut d'innovation · Niveau technologique :
+    élevé
+  Stratégie :
+    Visez les défenses et bâtiments depuis la limite de portée. Évitez les SAM à longue
+    portée et escortez-le de Vidravyn.
+--------------------------------------------------------------------------------------------
+■ KHESHAR
+  Pays : Ananthanie
+  Lore :
+    Hélicoptère d'attaque en tandem.
+    Canon de 30 mm et quatre missiles antichars.
+    La « lance » de l'aviation légère, au plus près du sol.
+  Statistiques :
+    Coût 1 100 $ · PV 11 000 · Blindage léger · Vitesse 135 · Vision 10 cases
+    Arme : KhesharCanon : 2 500 dégâts, portée 5,5 cases, recharge 0,4 s
+    Arme : KhesharATGM : 7 000 dégâts, portée 6,5 cases, recharge 1,6 s
+    Prérequis : Base aérienne ananthanienne · Niveau technologique : moyen
+  Stratégie :
+    Appui rapproché des offensives : missiles sur les chars, canon sur l'infanterie. Craint
+    la DCA mobile.
+--------------------------------------------------------------------------------------------
+■ LUNKRAVYN
+  Pays : Ananthanie
+  Lore :
+    Chasseur furtif multirôle, emblème de l'Ananthanie.
+    Invisible tant qu'il ne tire pas ; missiles air-air et bombes guidées.
+    Le « lynx volant » : on ne le voit qu'au moment où il frappe.
+  Statistiques :
+    Coût 2 000 $ · PV 11 000 · Blindage léger · Vitesse 260 · Vision 12 cases
+    Arme : LunkravynBombe : 10 000 dégâts, portée 7 cases, recharge 1,6 s
+    Arme : LunkravynAA : 4 500 dégâts, rafale de 2, portée 7 cases, recharge 1,2 s
+    Furtif
+    Prérequis : Base aérienne ananthanienne · Niveau technologique : moyen
+  Stratégie :
+    Frappez les cibles prioritaires (défenses AA, artillerie, chars lourds), puis rentrez
+    vous réarmer. Les unités anti-furtives le repèrent.
+--------------------------------------------------------------------------------------------
+■ NAYRA-AMBAR
+  Pays : Ananthanie
+  Lore :
+    Avion radar, « l'œil du ciel ».
+    Très grande vision, détection des unités furtives, aucune arme.
+    Les avions ananthaniens et alliés proches gagnent 20 % de portée.
+  Statistiques :
+    Coût 1 500 $ · PV 12 000 · Blindage léger · Vitesse 200 · Vision 18 cases
+    Arme : aucune
+    Détecte les furtifs (10 cases) · Limite 1 exemplaire
+    Prérequis : Base aérienne ananthanienne, Haut Commandement · Niveau technologique :
+    moyen
+  Stratégie :
+    Gardez-le derrière la zone de combat, protégé par des Vidravyn : il voit tout et allonge
+    la portée de votre aviation.
+--------------------------------------------------------------------------------------------
+■ ULKAR
+  Pays : Ananthanie
+  Lore :
+    Drone armé longue endurance, de la famille Reaper.
+    Lent, vole haut, grande vision, six missiles antichars.
+    Bon marché : la quantité au service de la qualité.
+  Statistiques :
+    Coût 900 $ · PV 6 000 · Blindage léger · Vitesse 140 · Vision 11 cases
+    Arme : UlkarMissile : 5 500 dégâts, portée 7 cases, recharge 1,8 s
+    Prérequis : Base aérienne ananthanienne, Fabrique de drones · Niveau technologique :
+    moyen
+  Stratégie :
+    Envoyez-les par trois ou quatre chasser les blindés isolés. Fragiles face aux systèmes
+    anti-drone et aux intercepteurs.
+--------------------------------------------------------------------------------------------
+■ VIDRAVYN
+  Pays : Ananthanie
+  Lore :
+    Intercepteur léger et rapide, produit en nombre.
+    Missiles air-air seulement.
+    L'« éclair volant » qui tient le ciel pendant que les autres frappent.
+  Statistiques :
+    Coût 1 200 $ · PV 8 000 · Blindage léger · Vitesse 310 · Vision 13 cases
+    Arme : VidravynAA : 4 500 dégâts, rafale de 2, portée 7,5 cases, recharge 1 s
+    Prérequis : Base aérienne ananthanienne · Niveau technologique : moyen
+  Stratégie :
+    Laissez-les en position défensive au-dessus de la base ou de l'offensive : ils engagent
+    seuls les avions et drones ennemis.
+
 ============================================================================================
                                          6. MARINE                                          
 ============================================================================================
@@ -1720,6 +1843,86 @@ SOMMAIRE
   Stratégie :
     Approchez-vous des côtes ennemies en plongée et pilonnez la base de loin. Fuyez les
     destroyers et le L-0U15 adverse.
+
+  ▶ PAYS : ANANTHANIE
+
+--------------------------------------------------------------------------------------------
+■ AGNIKHESH
+  Pays : Ananthanie
+  Lore :
+    Destroyer lance-missiles furtif.
+    Salves de missiles de croisière à 17 cases, contre la terre comme contre les navires.
+    La « lance de feu » : la flotte frappe loin à l'intérieur des terres.
+  Statistiques :
+    Coût 1 800 $ · PV 60 000 · Blindage lourd · Vitesse 64 · Vision 7 cases
+    Arme : AgnikheshCroisiere : 10 000 dégâts, rafale de 2, portée 17 cases, recharge 12 s
+    Prérequis : Institut d'innovation · Niveau technologique : élevé
+  Stratégie :
+    Restez au large, guidé par le Nayra-Ambar ou un Lunkar, et détruisez défenses et
+    bâtiments côtiers. À escorter.
+--------------------------------------------------------------------------------------------
+■ AMBARKARN
+  Pays : Ananthanie
+  Lore :
+    Frégate de défense aérienne.
+    Missiles sol-air à 11 cases, canon, grenades anti-sous-marines.
+    Le « rempart du ciel » de la flotte.
+  Statistiques :
+    Coût 1 300 $ · PV 45 000 · Blindage lourd · Vitesse 90 · Vision 8 cases
+    Arme : AmbarkarnCanon : 2 500 dégâts, portée 7 cases, recharge 1,2 s
+    Arme : DepthCharge : 6 000 dégâts, portée 5 cases, recharge 2,4 s
+    Arme : AmbarkarnSAM : 4 000 dégâts, rafale de 2, portée 11 cases, recharge 1,8 s
+    Détecte les furtifs (4 cases)
+    Prérequis : Radar Dome · Niveau technologique : moyen
+  Stratégie :
+    Toujours une Ambarkarn par groupe naval : elle protège l'Agnikhesh des avions et repère
+    les sous-marins.
+--------------------------------------------------------------------------------------------
+■ RATHAMBAR
+  Pays : Ananthanie
+  Lore :
+    Navire amphibie : huit places, chars comme fantassins.
+    Il débarque sur les plages et la côte.
+    Indispensable aux offensives d'une puissance maritime.
+  Statistiques :
+    Coût 1 000 $ · PV 45 000 · Blindage lourd · Vitesse 120 · Vision 6 cases
+    Arme : M60mg : 1 000 dégâts, rafale de 5, portée 4 cases, recharge 1,2 s
+    Transport 8 places
+    Prérequis : aucun · Niveau technologique : bas
+  Stratégie :
+    Chargez Vidra, Lunkra et Ratha, débarquez sous la couverture de la flotte, et frappez là
+    où l'ennemi ne vous attend pas.
+--------------------------------------------------------------------------------------------
+■ ULMAR
+  Pays : Ananthanie
+  Lore :
+    Sous-marin d'attaque moderne, rapide et silencieux.
+    Invisible en plongée, torpilles lourdes à longue portée.
+    La « vague » qui frappe sans prévenir.
+  Statistiques :
+    Coût 1 200 $ · PV 30 000 · Blindage léger · Vitesse 90 · Vision 8 cases
+    Arme : UlmarTorpille : 18 000 dégâts, rafale de 2, portée 8,5 cases, recharge 3,2 s
+    Furtif · Détecte les furtifs (5 cases)
+    Prérequis : aucun · Niveau technologique : bas
+  Stratégie :
+    Embusquez-le sur les routes des navires ennemis. Fuyez frégates et patrouilleurs qui
+    détectent les sous-marins.
+--------------------------------------------------------------------------------------------
+■ VASHA
+  Pays : Ananthanie
+  Lore :
+    Patrouilleur rapide lance-drones.
+    Salves de drones explosifs contre les navires et la côte, grenades anti-sous-marines.
+    La « tempête » des eaux côtières.
+  Statistiques :
+    Coût 600 $ · PV 18 000 · Blindage lourd · Vitesse 160 · Vision 8 cases
+    Arme : VashaDrones : 5 000 dégâts, rafale de 2, portée 7 cases, recharge 4,8 s
+    Arme : DepthCharge : 6 000 dégâts, portée 5 cases, recharge 2,4 s
+    Détecte les furtifs (4 cases)
+    Prérequis : aucun · Niveau technologique : bas
+  Stratégie :
+    Chassez les navires légers et harcelez la côte. Restez loin des destroyers et de
+    l'aviation.
 
 ============================================================================================
                                    7. POUVOIRS DE SOUTIEN                                   
