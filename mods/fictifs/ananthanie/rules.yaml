@@ -54,7 +54,7 @@ THAL:
 	Selectable:
 		Class: thal
 	Valued:
-		Cost: 100
+		Cost: 125
 	Tooltip:
 		Name: Thal
 	Health:
@@ -77,7 +77,7 @@ KHESH.THAL:
 	Selectable:
 		Class: khesh.thal
 	Valued:
-		Cost: 350
+		Cost: 450
 	Tooltip:
 		Name: Khesh-Thal
 	Health:
@@ -105,7 +105,7 @@ NAYRAK:
 	Selectable:
 		Class: nayrak
 	Valued:
-		Cost: 500
+		Cost: 600
 	Tooltip:
 		Name: Nayrak
 	Health:
@@ -137,7 +137,7 @@ LUNKAR:
 	Selectable:
 		Class: lunkar
 	Valued:
-		Cost: 600
+		Cost: 750
 	Tooltip:
 		Name: Lunkar
 	Health:
@@ -178,7 +178,7 @@ KARNTHAL:
 	Selectable:
 		Class: karnthal
 	Valued:
-		Cost: 750
+		Cost: 950
 	Tooltip:
 		Name: Karnthal
 	Health:
@@ -209,7 +209,7 @@ VIDRA:
 	Selectable:
 		Class: vidra
 	Valued:
-		Cost: 650
+		Cost: 800
 	Tooltip:
 		Name: Vidra
 	Health:
@@ -236,7 +236,7 @@ LUNKRA:
 	Selectable:
 		Class: lunkra
 	Valued:
-		Cost: 1000
+		Cost: 1250
 	Tooltip:
 		Name: Lunkra
 	Health:
@@ -265,7 +265,7 @@ KARNVASHA:
 	Selectable:
 		Class: karnvasha
 	Valued:
-		Cost: 1700
+		Cost: 2100
 	Tooltip:
 		Name: Karnvasha
 	Health:
@@ -325,7 +325,7 @@ RATHA:
 	Selectable:
 		Class: ratha
 	Valued:
-		Cost: 800
+		Cost: 1000
 	Tooltip:
 		Name: Ratha
 	Health:
@@ -371,7 +371,7 @@ MUKHAR:
 		Class: mukhar
 		DecorationBounds: 1194, 1194
 	Valued:
-		Cost: 1200
+		Cost: 1500
 	Tooltip:
 		Name: Mukhar
 	UpdatesPlayerStatistics:
@@ -433,7 +433,7 @@ AGNAR:
 	Selectable:
 		Class: agnar
 	Valued:
-		Cost: 1500
+		Cost: 1900
 	Tooltip:
 		Name: Agnar
 	Health:
@@ -459,7 +459,7 @@ AMBARKESH:
 	Selectable:
 		Class: ambarkesh
 	Valued:
-		Cost: 900
+		Cost: 1100
 	Tooltip:
 		Name: Ambarkesh
 	Health:
@@ -495,7 +495,7 @@ NAYRATH:
 	Selectable:
 		Class: nayrath
 	Valued:
-		Cost: 1100
+		Cost: 1400
 	Tooltip:
 		Name: Nayrath
 	UpdatesPlayerStatistics:

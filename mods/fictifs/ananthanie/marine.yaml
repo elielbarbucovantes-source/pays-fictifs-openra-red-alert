@@ -33,7 +33,7 @@ VASHA:
 	Selectable:
 		Class: vasha
 	Valued:
-		Cost: 600
+		Cost: 750
 	Tooltip:
 		Name: Vasha
 	Health:
@@ -58,7 +58,7 @@ AMBARKARN:
 	Selectable:
 		Class: ambarkarn
 	Valued:
-		Cost: 1300
+		Cost: 1600
 	Tooltip:
 		Name: Ambarkarn
 	Health:
@@ -93,7 +93,7 @@ AGNIKHESH:
 		Class: agnikhesh
 		DecorationBounds: 1877, 1877
 	Valued:
-		Cost: 1800
+		Cost: 2250
 	Tooltip:
 		Name: Agnikhesh
 	UpdatesPlayerStatistics:
@@ -134,7 +134,7 @@ ULMAR:
 	Selectable:
 		Class: ulmar
 	Valued:
-		Cost: 1200
+		Cost: 1500
 	Tooltip:
 		Name: Ulmar
 	Health:
@@ -161,7 +161,7 @@ RATHAMBAR:
 		Class: rathambar
 		DecorationBounds: 1792, 1792
 	Valued:
-		Cost: 1000
+		Cost: 1250
 	Tooltip:
 		Name: Rathambar
 	UpdatesPlayerStatistics:

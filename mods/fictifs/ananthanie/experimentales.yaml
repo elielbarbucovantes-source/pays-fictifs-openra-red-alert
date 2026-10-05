@@ -19,7 +19,7 @@ VIDRAKARN:
 	Selectable:
 		Class: vidrakarn
 	Valued:
-		Cost: 3500
+		Cost: 4400
 	Tooltip:
 		Name: Vidrakarn
 	Health:
@@ -64,7 +64,7 @@ ANANTA:
 	Selectable:
 		Class: ananta
 	Valued:
-		Cost: 3000
+		Cost: 3750
 	Tooltip:
 		Name: Ananta
 	Health:
@@ -113,7 +113,7 @@ AMBAROTH:
 		Bounds: 2560, 2048, 0, 85
 		DecorationBounds: 2730, 2218, 0, 42
 	Valued:
-		Cost: 5000
+		Cost: 6250
 	Tooltip:
 		Name: Ambaroth
 	UpdatesPlayerStatistics:
