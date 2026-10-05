@@ -216,6 +216,20 @@ namespace OpenRA.Mods.Fictifs.Traits
 			return 400 * Math.Log10(elos.Sum(e => Math.Pow(10, e / 400)));
 		}
 
+		/// <summary>Part des points gagnés en plus par adversaire au-delà du premier.</summary>
+		public const double BonusParAdversaire = 0.10;
+
+		/// <summary>
+		/// Chances de victoire du camp i parmi tous les camps (forces = EloDuCamp de chacun) :
+		/// sa force divisée par la somme des forces. Le total fait 1 ; avec deux camps,
+		/// c'est Attendu.
+		/// </summary>
+		public static double Chances(IList<double> forces, int i)
+		{
+			var max = forces.Max();
+			return Math.Pow(10, (forces[i] - max) / 400) / forces.Sum(f => Math.Pow(10, (f - max) / 400));
+		}
+
 		/// <summary>Probabilité de victoire attendue d'un camp d'Elo a contre un camp d'Elo b.</summary>
 		public static double Attendu(double a, double b)
 		{
@@ -326,21 +340,12 @@ namespace OpenRA.Mods.Fictifs.Traits
 				var forces = camps.Select(c => EloDuCamp(c.Select(EloDe))).ToList();
 				var scores = camps.Select(Score).ToList();
 
-				// Écart moyen (score réel - score attendu) de chaque camp contre chacun des autres.
+				// Chaque camp est comparé à tous les autres réunis : plus il y a
+				// d'adversaires, plus ses chances sont faibles, plus une victoire
+				// rapporte et moins une défaite coûte. En 1 contre 1, c'est l'Elo classique.
 				var ecarts = new double[camps.Count];
 				for (var i = 0; i < camps.Count; i++)
-				{
-					for (var k = 0; k < camps.Count; k++)
-					{
-						if (i == k)
-							continue;
-
-						var reel = scores[i] > scores[k] ? 1 : scores[i] < scores[k] ? 0 : 0.5;
-						ecarts[i] += reel - Attendu(forces[i], forces[k]);
-					}
-
-					ecarts[i] /= camps.Count - 1;
-				}
+					ecarts[i] = scores[i] - Chances(forces, i);
 
 				for (var i = 0; i < camps.Count; i++)
 				{
@@ -348,7 +353,15 @@ namespace OpenRA.Mods.Fictifs.Traits
 					{
 						var f = FicheDe(j.Nom);
 						var k = f.Parties < 10 ? 40 : 24;
-						f.Elo += (int)Math.Round(k * ecarts[i]);
+						var gain = k * ecarts[i];
+
+						// Bonus des parties à plusieurs : +10 % des points gagnés par
+						// adversaire au-delà du premier (les défaites ne coûtent pas plus).
+						var adversaires = partie.Joueurs.Count - camps[i].Count;
+						if (gain > 0 && adversaires > 1)
+							gain *= 1 + BonusParAdversaire * (adversaires - 1);
+
+						f.Elo += (int)Math.Round(gain);
 						f.Parties++;
 						if (scores[i] == 1)
 							f.Victoires++;

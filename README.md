@@ -123,11 +123,11 @@ La version du mod contient le commit installé (`release-20231010+8f4e95b`, par 
 
 ## Classement Elo et grades
 
-Chaque escarmouche ou partie en ligne terminée (avec un gagnant) compte pour le classement Elo. Tout le monde commence à 1000. Les parties contre l'IA comptent aussi : chaque IA a un Elo fixe (Turtle 900, Naval 1000, Normal 1100, Rush 1200) et ne gagne ni ne perd de points. En équipe, les forces des joueurs s'additionnent (deux joueurs à 1000 valent un joueur à 1120 : seul contre eux, on a une chance sur trois), et chaque joueur reçoit la même variation. Les 10 premières parties bougent plus vite (K = 40, puis 24). Les missions et les replays ne comptent pas.
+Chaque escarmouche ou partie en ligne terminée (avec un gagnant) compte pour le classement Elo. Tout le monde commence à 1000. Les parties contre l'IA comptent aussi : chaque IA a un Elo fixe (Turtle 900, Naval 1000, Normal 1100, Rush 1200) et ne gagne ni ne perd de points. Chaque camp est comparé à tous les autres réunis, dont les forces s'additionnent : seul contre deux joueurs de son niveau, on a une chance sur trois. Plus il y a d'adversaires, plus une victoire rapporte et moins une défaite coûte. Les points gagnés augmentent en plus de 10 % par adversaire au-delà du premier. Dans un camp, chaque joueur reçoit la même variation. Exemple à 1000 : contre la seule IA Rush, +30 ou −10 ; contre les IA Rush et Normale, +37 ou −7. Les 10 premières parties bougent plus vite (K = 40, puis 24). Les missions et les replays ne comptent pas.
 
 Grades : Soldat (< 1050), Caporal (1050), Sergent (1100), Lieutenant (1175), Capitaine (1250), Commandant (1350), Colonel (1450), Général (1575), Maréchal (1700).
 
-- **Salon** : l'encadré « Classement Elo » à droite du chat montre l'insigne, le grade, l'Elo et le bilan V/D de chaque joueur. Quand il n'y a que deux camps, il affiche aussi les chances de victoire.
+- **Salon** : l'encadré « Classement Elo » à droite du chat montre l'insigne, le grade, l'Elo et le bilan V/D de chaque joueur. Il affiche aussi les chances de victoire de chaque camp.
 - **Fin de partie** : un message dans le chat donne la variation (`Stal1n : 1000 → 1030 (+30 Elo) — Soldat`) et annonce les promotions.
 
 L'historique est enregistré dans `fictifs-elo.json` (dossier de configuration d'OpenRA). L'Elo est recalculé à partir de cet historique. En ligne, le jeu de l'autre joueur récupère l'historique de l'hôte et lui envoie le sien (port 1235, comme pour les cartes). Les deux PC affichent donc les mêmes chiffres, même si l'un a joué seul contre l'IA entre-temps. Les joueurs sont reconnus par leur pseudo : en changer revient à repartir de zéro.

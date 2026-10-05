@@ -159,25 +159,24 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 				liste.AddChild(ligne);
 			}
 
-			// Chances de victoire quand il y a exactement deux camps.
+			// Chances de victoire de chaque camp (total 100 %), dès qu'il y a deux camps.
 			var camps = clients
 				.Select((c, i) => (c, cle: c.Team > 0 ? "E" + c.Team : "J" + i))
 				.GroupBy(x => x.cle)
 				.Select(g => g.Select(x => x.c).ToList())
 				.ToList();
 
-			if (camps.Count == 2)
+			if (camps.Count >= 2)
 			{
-				double Force(System.Collections.Generic.List<Session.Client> camp) =>
-					ClassementEloStore.EloDuCamp(camp.Select(c => (double)(c.IsBot ? info.EloDeIa(c.Bot) : ClassementEloStore.Fiche(c.Name).Elo)));
+				var forces = camps.Select(camp => ClassementEloStore.EloDuCamp(
+					camp.Select(c => (double)(c.IsBot ? info.EloDeIa(c.Bot) : ClassementEloStore.Fiche(c.Name).Elo)))).ToList();
 
-				var p = ClassementEloStore.Attendu(Force(camps[0]), Force(camps[1]));
 				string Nom(System.Collections.Generic.List<Session.Client> camp) =>
 					camp.Count == 1 ? camp[0].Name : $"Équipe {camp[0].Team}";
 
 				AjouterTexte("Chances de victoire :", null);
-				AjouterTexte($"{Nom(camps[0])} : {Math.Round(p * 100)} %", null);
-				AjouterTexte($"{Nom(camps[1])} : {Math.Round((1 - p) * 100)} %", null);
+				for (var i = 0; i < camps.Count; i++)
+					AjouterTexte($"{Nom(camps[i])} : {Math.Round(ClassementEloStore.Chances(forces, i) * 100)} %", null);
 			}
 
 			if (etatAffiche != null)
