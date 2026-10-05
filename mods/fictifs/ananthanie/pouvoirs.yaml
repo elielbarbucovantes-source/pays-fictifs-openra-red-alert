@@ -75,7 +75,7 @@ HAUT.COMMANDEMENT:
 		PauseOnCondition: disabled
 		IconImage: ananthanie-powers
 		Icon: raid
-		ChargeInterval: 9000
+		ChargeInterval: 13500
 		Name: Raid furtif
 		Description: 3 bombardiers furtifs traversent la zone et la couvrent\nde bombes. Invisibles sauf aux détecteurs.\nRequiert : base aérienne.
 		UnitType: raid.furtif

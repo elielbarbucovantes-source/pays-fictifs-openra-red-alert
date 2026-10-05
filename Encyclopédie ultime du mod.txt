@@ -331,7 +331,7 @@ SOMMAIRE
     Pouvoir de soutien : Blitz 7 (recharge 7 min)
     Pouvoir de soutien : Essaim (recharge 4 min)
     Pouvoir de soutien : Salve Agni (recharge 5 min)
-    Pouvoir de soutien : Raid furtif (recharge 6 min)
+    Pouvoir de soutien : Raid furtif (recharge 9 min)
     Pouvoir de soutien : Œil d'Ambar (recharge 3 min)
     Pouvoir de soutien : Pont aérien (recharge 5 min)
     Pouvoir de soutien : Pacte de Fraternité (recharge 6 min)
@@ -2183,7 +2183,7 @@ SOMMAIRE
     Invisibles sauf aux détecteurs, ils la couvrent d'un tapis de bombes.
     L'aviation, bras armé de l'armée.
   Statistiques :
-    Porté par : Haut Commandement, recharge 6 min
+    Porté par : Haut Commandement, recharge 9 min
   Stratégie :
     Choisissez la direction pour que le tapis suive l'axe de la cible (colonne, ligne de
     défenses).
