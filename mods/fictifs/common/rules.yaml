@@ -316,6 +316,7 @@ SPEN:
 # 10 ordres prioritaires par quinquennat ; un quinquennat = 15 minutes.
 # ---------------------------------------------------------------------
 Player:
+	SuiviOrdres:
 	PresidentialMandate:
 		OrdersPerTerm: 10
 		TermLength: 22500

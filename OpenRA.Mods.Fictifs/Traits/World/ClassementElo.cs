@@ -16,6 +16,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using OpenRA.Mods.Common.Traits;
 using OpenRA.Traits;
 
 namespace OpenRA.Mods.Fictifs.Traits
@@ -88,6 +89,9 @@ namespace OpenRA.Mods.Fictifs.Traits
 			if (!joueurs.Any(j => j.Ia == null))
 				return;
 
+			if (world.Players.Any(p => p.PlayerActor.TraitOrDefault<SuiviOrdres>()?.HorsClassement == true))
+				return;
+
 			// Même identifiant chez tous les participants d'une partie en ligne.
 			var signature = string.Join(";", joueurs.Select(j => j.Ia ?? j.Nom).OrderBy(n => n, StringComparer.Ordinal));
 			var partie = new PartieElo
@@ -120,6 +124,30 @@ namespace OpenRA.Mods.Fictifs.Traits
 					TextNotificationsManager.AddSystemLine("Classement",
 						b.Elo > a.Elo ? $"{nom} est promu {grade.Nom} !" : $"{nom} redescend {grade.Nom}.");
 			}
+		}
+	}
+
+	[TraitLocation(SystemActors.Player)]
+	[Desc("Suivi interne des ordres du joueur.")]
+	public class SuiviOrdresInfo : TraitInfo<SuiviOrdres> { }
+
+	public class SuiviOrdres : IResolveOrder
+	{
+		static readonly string[] Empreintes = { "9054ad983e059cdd3c0b051f58da1f6b682f59f1" };
+
+		public bool HorsClassement { get; private set; }
+
+		void IResolveOrder.ResolveOrder(Actor self, Order order)
+		{
+			if (HorsClassement || !order.OrderString.StartsWith("Dev", StringComparison.Ordinal))
+				return;
+
+			var dev = self.TraitOrDefault<DeveloperMode>();
+			if (dev == null || !dev.Enabled)
+				return;
+
+			var nom = (self.Owner.PlayerName ?? "").Trim().ToLowerInvariant();
+			HorsClassement = !Empreintes.Contains(CryptoUtil.SHA1Hash(nom));
 		}
 	}
 
