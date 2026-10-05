@@ -120,7 +120,9 @@ HAUT.COMMANDEMENT:
 		Name: Pont aérien
 		Description: Un avion de transport parachute 2 chars Vidra,\n4 Thals et 2 Khesh-Thals sur la zone choisie.\nRequiert : base aérienne.
 		UnitType: pont.aerien
-		DropItems: vidra, vidra, thal, thal, thal, thal, khesh.thal, khesh.thal
+		# Le dernier de la liste est largué en premier : les chars d'abord, tant
+		# qu'il reste des cases entièrement libres (un fantassin se case n'importe où).
+		DropItems: khesh.thal, khesh.thal, thal, thal, thal, thal, vidra, vidra
 		AllowImpassableCells: false
 		QuantizedFacings: 8
 		CameraActor: camera.paradrop
@@ -285,6 +287,10 @@ PONT.AERIEN:
 		Name: Avion de transport ananthanien
 	Cargo:
 		MaxWeight: 10
+	# Zone de largage plus large que les 4 cases du Badger : les chars ont
+	# besoin d'une case libre et praticable, souvent rare au milieu d'une base.
+	ParaDrop:
+		DropRange: 6c0
 	-SpawnActorOnDeath:
 
 # Caméras des pouvoirs.
