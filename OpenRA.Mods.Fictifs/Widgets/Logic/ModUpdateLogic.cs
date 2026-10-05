@@ -107,6 +107,12 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 					if (!keepResultMessage)
 						status = "Le jeu est à jour";
 				}
+				else if (LocalContains(remoteCommit))
+				{
+					// PC de développement : des commits locaux pas encore publiés.
+					if (!keepResultMessage)
+						status = "Version locale en avance sur GitHub";
+				}
 				else
 				{
 					updateAvailable = true;
@@ -118,6 +124,35 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 				Log.Write("debug", $"Vérification des mises à jour impossible : {e.Message}");
 				if (!keepResultMessage)
 					status = "GitHub injoignable";
+			}
+		}
+
+		// Installation git : le commit publié est-il déjà dans l'historique local ?
+		// Sans git (ZIP), ou si git ne connaît pas ce commit, on répond non.
+		bool LocalContains(string commit)
+		{
+			if (!Directory.Exists(Path.Combine(root, ".git")))
+				return false;
+
+			try
+			{
+				var psi = new ProcessStartInfo("git") { UseShellExecute = false, WorkingDirectory = root, RedirectStandardError = true };
+				foreach (var a in new[] { "merge-base", "--is-ancestor", commit, "HEAD" })
+					psi.ArgumentList.Add(a);
+
+				using var git = Process.Start(psi);
+				if (!git.WaitForExit(5000))
+				{
+					git.Kill();
+					return false;
+				}
+
+				return git.ExitCode == 0;
+			}
+			catch (Exception e)
+			{
+				Log.Write("debug", $"git merge-base impossible : {e.Message}");
+				return false;
 			}
 		}
 
