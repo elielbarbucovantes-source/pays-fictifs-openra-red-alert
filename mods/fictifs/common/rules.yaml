@@ -30,6 +30,8 @@
 
 World:
 	UnitInfoPanel:
+	# Classement Elo : enregistre chaque partie terminée (IA comprises, Elo fixe par type).
+	ClassementElo:
 	# Ctrl enfoncé avec un Pelícano chargé sélectionné : ciblage du largage.
 	ParaDropHotkey:
 	StartingUnits@mcvonly:

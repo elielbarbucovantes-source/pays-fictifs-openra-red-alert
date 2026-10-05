@@ -17,6 +17,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using OpenRA.FileSystem;
 using OpenRA.Mods.Common.Widgets;
+using OpenRA.Mods.Fictifs.Traits;
 using OpenRA.Network;
 using OpenRA.Support;
 using OpenRA.Widgets;
@@ -27,6 +28,7 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 	/// Partage des cartes absentes du Resource Center (cartes générées, cartes perso) :
 	/// l'hôte sert ses cartes en HTTP sur le port 1235, et un joueur qui n'a pas la
 	/// carte du salon la télécharge automatiquement chez l'hôte.
+	/// Le même serveur sert aussi le classement Elo (voir ClassementEloStore).
 	/// Placé dans MAP_STATUS_UNAVAILABLE, qui n'est visible (donc ne « tick »)
 	/// que lorsque la carte est introuvable.
 	/// </summary>
@@ -131,7 +133,7 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 		}
 
 		// Ne sert que les cartes .oramap de l'utilisateur, demandées par leur UID.
-		static void StartServer(ModData modData)
+		internal static void StartServer(ModData modData)
 		{
 			if (listener != null)
 				return;
@@ -140,6 +142,7 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 			{
 				listener = new HttpListener();
 				listener.Prefixes.Add($"http://*:{Port}{Prefix}");
+				listener.Prefixes.Add($"http://*:{Port}{ClassementEloStore.CheminHttp}");
 				listener.Start();
 				Log.Write("debug", $"Partage des cartes ouvert sur le port {Port}");
 			}
@@ -166,7 +169,10 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 
 					try
 					{
-						Serve(modData, context);
+						if (context.Request.Url.AbsolutePath.StartsWith(ClassementEloStore.CheminHttp, StringComparison.Ordinal))
+							ClassementEloStore.ServirHttp(context);
+						else
+							Serve(modData, context);
 					}
 					catch (Exception e)
 					{

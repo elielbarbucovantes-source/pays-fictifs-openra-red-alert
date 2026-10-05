@@ -104,6 +104,17 @@ Cartes générées ou personnelles : elles ne sont pas sur le Resource Center d'
 
 La version du mod contient le commit installé (`release-20231010+8f4e95b`, par exemple). Si les deux joueurs n'ont pas la même, la connexion est refusée avec un message qui demande de se mettre à jour, au lieu d'une désynchronisation en cours de partie. Les sauvegardes et les replays sont rangés par version : ceux d'une ancienne version n'apparaissent plus après une mise à jour (ils ne se rejoueraient de toute façon pas correctement avec des règles différentes).
 
+## Classement Elo et grades
+
+Chaque escarmouche ou partie en ligne terminée (avec un gagnant) compte pour le classement Elo. Tout le monde commence à 1000. Les parties contre l'IA comptent aussi : chaque IA a un Elo fixe (Turtle 900, Naval 1000, Normal 1100, Rush 1200) et ne gagne ni ne perd de points. En équipe, c'est la moyenne de l'équipe qui compte, et chaque joueur reçoit la même variation. Les 10 premières parties bougent plus vite (K = 40, puis 24). Les missions et les replays ne comptent pas.
+
+Grades : Soldat (< 1050), Caporal (1050), Sergent (1100), Lieutenant (1175), Capitaine (1250), Commandant (1350), Colonel (1450), Général (1575), Maréchal (1700).
+
+- **Salon** : l'encadré « Classement Elo » à droite du chat montre l'insigne, le grade, l'Elo et le bilan V/D de chaque joueur. Quand il n'y a que deux camps, il affiche aussi les chances de victoire.
+- **Fin de partie** : un message dans le chat donne la variation (`Stal1n : 1000 → 1030 (+30 Elo) — Soldat`) et annonce les promotions.
+
+L'historique est enregistré dans `fictifs-elo.json` (dossier de configuration d'OpenRA). L'Elo est recalculé à partir de cet historique. En ligne, le jeu de l'autre joueur récupère l'historique de l'hôte et lui envoie le sien (port 1235, comme pour les cartes). Les deux PC affichent donc les mêmes chiffres, même si l'un a joué seul contre l'IA entre-temps. Les joueurs sont reconnus par leur pseudo : en changer revient à repartir de zéro.
+
 ## Générateur de cartes aléatoires
 
 Dans le sélecteur de cartes (lobby d'escarmouche ou de partie en réseau), le bouton **Générer une carte** ouvre le générateur de cartes aléatoires d'OpenRA. Il est repris du playtest-20260222 et adapté au moteur release-20231010 du mod. On y choisit le climat, la taille, le type de terrain, la forme, le nombre de joueurs, la symétrie, les ressources, les bâtiments technologiques, les zones d'expansion, les villages civils et les routes. **Nouvelle carte** tire une autre graine.

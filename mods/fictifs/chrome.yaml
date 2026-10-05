@@ -22,3 +22,19 @@ flags:
 		australouis: 0, 240, 30, 15
 		ananthanie: 0, 256, 30, 15
 		spectator: 0, 192, 30, 15
+
+# Insignes de grade du classement Elo (tools/insignes.py).
+grades:
+	Image: fictifs|uibits/grades.png
+	Image2x: fictifs|uibits/grades-2x.png
+	Image3x: fictifs|uibits/grades-3x.png
+	Regions:
+		soldat: 0, 0, 16, 16
+		caporal: 16, 0, 16, 16
+		sergent: 32, 0, 16, 16
+		lieutenant: 48, 0, 16, 16
+		capitaine: 64, 0, 16, 16
+		commandant: 80, 0, 16, 16
+		colonel: 96, 0, 16, 16
+		general: 112, 0, 16, 16
+		marechal: 128, 0, 16, 16

@@ -118,7 +118,7 @@ Background@SERVER_LOBBY:
 			Height: 259
 			Children:
 				ScrollPanel@CHAT_DISPLAY:
-					Width: PARENT_RIGHT
+					Width: PARENT_RIGHT - 230
 					Height: PARENT_BOTTOM - 30
 					TopBottomSpacing: 2
 					ItemSpacing: 2
@@ -136,6 +136,61 @@ Background@SERVER_LOBBY:
 					Y: PARENT_BOTTOM - HEIGHT
 					Width: PARENT_RIGHT - 260 - 55
 					Height: 25
+		Container@CLASSEMENT_ELO:
+			Logic: ClassementSalonLogic
+			X: PARENT_RIGHT - WIDTH - 20
+			Y: PARENT_BOTTOM - 259 - 20
+			Width: 220
+			Height: 229
+			Children:
+				ScrollPanel@CLASSEMENT_LISTE:
+					Width: PARENT_RIGHT
+					Height: PARENT_BOTTOM
+					TopBottomSpacing: 4
+					ItemSpacing: 3
+					Children:
+						Label@TITRE:
+							X: 4
+							Width: PARENT_RIGHT - 32
+							Height: 20
+							Text: Classement Elo
+							Font: Bold
+							Align: Center
+						Container@TEMPLATE_LIGNE:
+							X: 4
+							Width: PARENT_RIGHT - 32
+							Height: 32
+							Visible: false
+							Children:
+								Image@INSIGNE:
+									X: 1
+									Y: 2
+									Width: 16
+									Height: 16
+									ImageCollection: grades
+									ImageName: soldat
+								Label@NOM:
+									X: 22
+									Width: PARENT_RIGHT - 70
+									Height: 20
+								Label@ELO:
+									X: PARENT_RIGHT - 46
+									Width: 46
+									Height: 20
+									Align: Right
+									Font: Bold
+								Label@DETAIL:
+									X: 22
+									Y: 17
+									Width: PARENT_RIGHT - 22
+									Height: 14
+									Font: TinyBold
+						Label@TEMPLATE_TEXTE:
+							X: 6
+							Width: PARENT_RIGHT - 34
+							Height: 16
+							Font: Small
+							Visible: false
 		Button@START_GAME_BUTTON:
 			X: PARENT_RIGHT - WIDTH - 150
 			Y: PARENT_BOTTOM - HEIGHT - 20
