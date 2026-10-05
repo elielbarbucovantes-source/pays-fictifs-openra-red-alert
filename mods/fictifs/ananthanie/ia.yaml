@@ -1,0 +1,306 @@
+# =====================================================================
+# ANANTHANIE — intelligence artificielle
+# Les listes de types (défenses, usines, avions, navires, protection)
+# partagées sont dans common/ia.yaml ; ici, ce qui est propre à l'Ananthanie.
+#
+# Doctrine de l'IA : beaucoup d'unités (Thal, Lunkra), drones et missiles,
+# aviation nombreuse ; Blitz 7 déclenché quand l'armée est au contact.
+# Les défenses et les gros bâtiments sont retardés (BuildingDelays, en
+# ticks : 25 par seconde). Le moteur ne donne la priorité à la caserne et à
+# l'usine qu'au-delà de 5000 de minerai en stock ; sans ces délais, l'IA
+# tirait au hasard le Haut Commandement ou le chantier naval avant toute
+# caserne et n'avait pas d'armée au bout de 5 minutes. Sans caserne, le
+# moteur ne réclame qu'une raffinerie : l'IA finissait aussi sans argent.
+# (Le chenil est retardé pour toutes les IA, dans common/ia.yaml.)
+#
+# Volontairement laissés aux joueurs humains :
+#  - le Nayrath et le Nayra-Ambar (sans arme, inutiles dans une escouade) ;
+#  - le Rathambar (l'IA ne sait pas faire de débarquement) ;
+#  - l'Œil d'Ambar (de la reconnaissance pure, sans intérêt pour l'IA).
+# =====================================================================
+
+Player:
+	BaseBuilderBotModule@rush:
+		BuildingDelays:
+			haut.commandement: 6000
+			institut: 9000
+			chantier.ana: 7500
+			base.ananthanie: 6000
+			fabrique.drones: 4500
+			kheshkarn: 4500
+			batterie.ambar: 6000
+			ruche: 6000
+		BuildingLimits:
+			haut.commandement: 1
+			fabrique.drones: 1
+			institut: 1
+		BuildingFractions:
+			haut.commandement: 1
+			fabrique.drones: 2
+			institut: 1
+			kheshkarn: 4
+			batterie.ambar: 2
+			ruche: 3
+	BaseBuilderBotModule@normal:
+		BuildingDelays:
+			haut.commandement: 6000
+			institut: 9000
+			chantier.ana: 7500
+			base.ananthanie: 6000
+			fabrique.drones: 4500
+			kheshkarn: 6000
+			batterie.ambar: 7500
+			ruche: 7500
+		BuildingLimits:
+			haut.commandement: 1
+			fabrique.drones: 1
+			institut: 1
+			base.ananthanie: 3
+			chantier.ana: 1
+		BuildingFractions:
+			haut.commandement: 1
+			fabrique.drones: 2
+			institut: 1
+			base.ananthanie: 4
+			chantier.ana: 1
+			kheshkarn: 4
+			batterie.ambar: 2
+			ruche: 3
+	BaseBuilderBotModule@turtle:
+		BuildingDelays:
+			haut.commandement: 6000
+			institut: 9000
+			chantier.ana: 7500
+			base.ananthanie: 6000
+			fabrique.drones: 4500
+			kheshkarn: 1500
+			batterie.ambar: 3000
+			ruche: 3000
+		BuildingLimits:
+			haut.commandement: 1
+			fabrique.drones: 2
+			institut: 1
+			base.ananthanie: 3
+			chantier.ana: 1
+		BuildingFractions:
+			haut.commandement: 1
+			fabrique.drones: 3
+			institut: 1
+			base.ananthanie: 2
+			chantier.ana: 1
+			kheshkarn: 12
+			batterie.ambar: 6
+			ruche: 10
+	BaseBuilderBotModule@naval:
+		BuildingDelays:
+			haut.commandement: 6000
+			institut: 9000
+			chantier.ana: 7500
+			base.ananthanie: 6000
+			fabrique.drones: 4500
+			kheshkarn: 6000
+			batterie.ambar: 7500
+			ruche: 7500
+		BuildingLimits:
+			haut.commandement: 1
+			fabrique.drones: 1
+			institut: 1
+			base.ananthanie: 6
+			chantier.ana: 1
+		BuildingFractions:
+			haut.commandement: 1
+			fabrique.drones: 2
+			institut: 1
+			base.ananthanie: 15
+			chantier.ana: 1
+			kheshkarn: 4
+			batterie.ambar: 2
+			ruche: 3
+	UnitBuilderBotModule@rush:
+		UnitsToBuild:
+			thal: 70
+			khesh.thal: 35
+			nayrak: 20
+			lunkar: 4
+			karnthal: 15
+			vidra: 35
+			lunkra: 55
+			karnvasha: 20
+			ratha: 20
+			mukhar: 12
+			agnar: 10
+			ambarkesh: 20
+			vidrakarn: 5
+			ananta: 5
+		UnitLimits:
+			lunkar: 2
+			mukhar: 3
+			agnar: 3
+			ambarkesh: 6
+	UnitBuilderBotModule@normal:
+		UnitsToBuild:
+			thal: 70
+			khesh.thal: 35
+			nayrak: 20
+			lunkar: 4
+			karnthal: 15
+			vidra: 35
+			lunkra: 55
+			karnvasha: 20
+			ratha: 20
+			mukhar: 12
+			agnar: 10
+			ambarkesh: 20
+			vidrakarn: 5
+			ananta: 5
+			lunkravyn: 30
+			vidravyn: 20
+			agnivyn: 15
+			ulkar: 20
+			kheshar: 20
+			ambaroth: 5
+			vasha: 15
+			ambarkarn: 12
+			agnikhesh: 10
+			ulmar: 12
+		UnitLimits:
+			lunkar: 2
+			mukhar: 3
+			agnar: 3
+			ambarkesh: 6
+	UnitBuilderBotModule@turtle:
+		UnitsToBuild:
+			thal: 70
+			khesh.thal: 35
+			nayrak: 20
+			lunkar: 4
+			karnthal: 15
+			vidra: 35
+			lunkra: 55
+			karnvasha: 20
+			ratha: 20
+			mukhar: 12
+			agnar: 10
+			ambarkesh: 20
+			vidrakarn: 5
+			ananta: 5
+			lunkravyn: 30
+			vidravyn: 20
+			agnivyn: 15
+			ulkar: 20
+			kheshar: 20
+			ambaroth: 5
+			vasha: 15
+			ambarkarn: 12
+			agnikhesh: 10
+			ulmar: 12
+		UnitLimits:
+			lunkar: 2
+			mukhar: 3
+			agnar: 3
+			ambarkesh: 6
+	UnitBuilderBotModule@naval:
+		UnitsToBuild:
+			lunkravyn: 30
+			vidravyn: 20
+			agnivyn: 15
+			ulkar: 20
+			kheshar: 20
+			ambaroth: 5
+			vasha: 25
+			ambarkarn: 25
+			agnikhesh: 20
+			ulmar: 20
+	# Pouvoirs du Haut Commandement que l'IA sait utiliser.
+	SupportPowerBotModule:
+		Decisions:
+			ananthanieblitz:
+				OrderName: AnanthanieBlitz
+				MinimumAttractiveness: 12
+				Consideration@1:
+					Against: Ally
+					Types: GroundActor
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 6c0
+				Consideration@2:
+					Against: Enemy
+					Types: GroundActor, Structure
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 8c0
+			ananthanieessaim:
+				OrderName: AnanthanieEssaim
+				MinimumAttractiveness: 4
+				Consideration@1:
+					Against: Enemy
+					Types: Vehicle, Defense
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 4c0
+				Consideration@2:
+					Against: Ally
+					Types: GroundActor
+					Attractiveness: -2
+					TargetMetric: None
+					CheckRadius: 3c0
+			ananthaniesalveagni:
+				OrderName: AnanthanieSalveAgni
+				MinimumAttractiveness: 2500
+				Consideration@1:
+					Against: Enemy
+					Types: Structure
+					Attractiveness: 1
+					TargetMetric: Value
+					CheckRadius: 2c512
+				Consideration@2:
+					Against: Ally
+					Types: GroundActor, WaterActor, Structure
+					Attractiveness: -10
+					TargetMetric: Value
+					CheckRadius: 3c0
+			ananthanieraidfurtif:
+				OrderName: AnanthanieRaidFurtif
+				MinimumAttractiveness: 3
+				Consideration@1:
+					Against: Enemy
+					Types: Structure, GroundActor
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 5c0
+				Consideration@2:
+					Against: Ally
+					Types: GroundActor, Structure
+					Attractiveness: -3
+					TargetMetric: None
+					CheckRadius: 5c0
+			ananthaniepontaerien:
+				OrderName: AnanthaniePontAerien
+				MinimumAttractiveness: 5
+				Consideration@1:
+					Against: Enemy
+					Types: Structure
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 8c0
+				Consideration@2:
+					Against: Enemy
+					Types: Water
+					Attractiveness: -5
+					TargetMetric: None
+					CheckRadius: 8c0
+			ananthaniefraternite:
+				OrderName: AnanthanieFraternite
+				MinimumAttractiveness: 10
+				Consideration@1:
+					Against: Ally
+					Types: GroundActor, WaterActor
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 8c0
+				Consideration@2:
+					Against: Enemy
+					Types: GroundActor, Structure
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 10c0

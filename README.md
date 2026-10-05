@@ -66,6 +66,23 @@ Faction alliée d'un archipel, dont la puissance tient à l'aviation et à la ma
 
 L'IA ne sait pas encore utiliser les unités et pouvoirs propres à l'Australouis.
 
+### Ananthanie : « L'Ananthanie gagne une bataille en 7 minutes »
+
+Superpuissance technologique au drapeau vert citron, liseré de vert pomme et de blanc, frappé d'une rose des vents en étoile. Son animal est le lynx. Sa doctrine est le blitzkrieg en attaque et l'usure en défense : quantité et qualité, blindés modernes, drones explosifs et missiles. Son point faible, ce sont les montagnes : ses véhicules perdent 20 % de vitesse en terrain accidenté.
+
+- **Infanterie** : Thal (fusilier formé très vite), Khesh-Thal (missiles antichars et antiaériens), Nayrak (opérateur de drones explosifs), Lunkar (éclaireur camouflé qui marque ses cibles : +25 % de dégâts reçus), Karnthal (exosquelette, mitrailleuse lourde).
+- **Blindés et véhicules** : Vidra (char léger très rapide), Lunkra (char de combat principal), Karnvasha (char lourd à protection active : −35 % de dégâts des missiles et roquettes), Ratha (transport de 5 fantassins), Mukhar (lance-drones : 4 munitions rôdeuses gratuites), Agnar (missiles de croisière à 16 cases), Ambarkesh (défense antiaérienne mobile), Nayrath (poste de commandement mobile).
+- **Bâtiments** : Haut Commandement (pouvoirs), fabrique de drones, institut d'innovation (technologies avancées), base aérienne et chantier naval ananthaniens. Défenses : Kheshkarn (missiles antichars), Batterie Ambar (sol-air à 12 cases), Ruche (drones intercepteurs).
+- **Aviation** : Lunkravyn (chasseur furtif, invisible tant qu'il ne tire pas), Vidravyn (intercepteur), Agnivyn (bombardier à missiles de croisière), Ulkar (drone armé), Kheshar (hélicoptère d'attaque), Nayra-Ambar (avion radar : +20 % de portée aux avions alliés proches).
+- **Marine** : Vasha (patrouilleur lance-drones), Ambarkarn (frégate antiaérienne), Agnikhesh (destroyer lance-missiles), Ulmar (sous-marin d'attaque), Rathambar (navire amphibie).
+- **Unités expérimentales** (une de chaque au maximum) : Vidrakarn (canon électromagnétique qui transperce tout ce qui est aligné), Ananta (laser qui abat avions, drones et missiles en vol), Ambaroth (forteresse volante qui lâche des vagues de drones explosifs).
+- **Blitz 7** : une jauge d'offensive qui se remplit en 7 minutes, seulement hors combat, et plus vite avec des unités en réserve et des Nayrath. Déclenchée, elle donne 70 secondes de Blitz à toute l'armée (+30 % de vitesse, +25 % de cadence, +15 % de dégâts), puis 30 secondes de fatigue.
+- **Pouvoirs du Haut Commandement** : Essaim (12 drones kamikazes), Salve Agni (6 missiles de croisière), Raid furtif (3 bombardiers furtifs), Œil d'Ambar (reconnaissance), Pont aérien (2 chars Vidra, 4 Thal et 2 Khesh-Thal parachutés) et Pacte de Fraternité (pouvoir de coalition : pendant 45 secondes, +15 % de dégâts et réparation pour tes unités et celles de tes alliés dans la zone).
+
+L'Ananthanie construit la base soviétique, avec ses propres bâtiments en plus.
+
+L'IA sait jouer l'Ananthanie : elle construit ses bâtiments et défenses, produit ses unités terrestres, aériennes et navales et ses unités expérimentales, et utilise Blitz 7 et les pouvoirs du Haut Commandement. Le Nayrath, le Nayra-Ambar, le Rathambar et l'Œil d'Ambar restent réservés aux joueurs humains.
+
 ## Installation
 
 Prérequis (Linux) : `git`, `make`, `curl`, `unzip` et le [SDK .NET 6](https://dotnet.microsoft.com/download/dotnet/6.0). Avec seulement .NET 8, exporter `DOTNET_ROLL_FORWARD=LatestMajor`.
