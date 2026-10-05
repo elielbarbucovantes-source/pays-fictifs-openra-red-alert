@@ -123,7 +123,7 @@ La version du mod contient le commit installé (`release-20231010+8f4e95b`, par 
 
 ## Classement Elo et grades
 
-Chaque escarmouche ou partie en ligne terminée (avec un gagnant) compte pour le classement Elo. Tout le monde commence à 1000. Les parties contre l'IA comptent aussi : chaque IA a un Elo fixe (Turtle 900, Naval 1000, Normal 1100, Rush 1200) et ne gagne ni ne perd de points. En équipe, c'est la moyenne de l'équipe qui compte, et chaque joueur reçoit la même variation. Les 10 premières parties bougent plus vite (K = 40, puis 24). Les missions et les replays ne comptent pas.
+Chaque escarmouche ou partie en ligne terminée (avec un gagnant) compte pour le classement Elo. Tout le monde commence à 1000. Les parties contre l'IA comptent aussi : chaque IA a un Elo fixe (Turtle 900, Naval 1000, Normal 1100, Rush 1200) et ne gagne ni ne perd de points. En équipe, les forces des joueurs s'additionnent (deux joueurs à 1000 valent un joueur à 1120 : seul contre eux, on a une chance sur trois), et chaque joueur reçoit la même variation. Les 10 premières parties bougent plus vite (K = 40, puis 24). Les missions et les replays ne comptent pas.
 
 Grades : Soldat (< 1050), Caporal (1050), Sergent (1100), Lieutenant (1175), Capitaine (1250), Commandant (1350), Colonel (1450), Général (1575), Maréchal (1700).
 

@@ -205,6 +205,17 @@ namespace OpenRA.Mods.Fictifs.Traits
 			}
 		}
 
+		/// <summary>
+		/// Elo d'un camp de plusieurs joueurs : leurs forces 10^(Elo/400) s'additionnent
+		/// (et non une moyenne, qui rendait un camp de deux joueurs plus faible que le
+		/// meilleur des deux seul). Deux joueurs à 1000 valent ainsi un joueur à 1120 :
+		/// seul contre eux, on a une chance sur trois.
+		/// </summary>
+		public static double EloDuCamp(IEnumerable<double> elos)
+		{
+			return 400 * Math.Log10(elos.Sum(e => Math.Pow(10, e / 400)));
+		}
+
 		/// <summary>Probabilité de victoire attendue d'un camp d'Elo a contre un camp d'Elo b.</summary>
 		public static double Attendu(double a, double b)
 		{
@@ -312,7 +323,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 			foreach (var partie in parties.OrderBy(p => p.Date).ThenBy(p => p.Id, StringComparer.Ordinal))
 			{
 				var camps = Camps(partie);
-				var moyennes = camps.Select(c => c.Average(EloDe)).ToList();
+				var forces = camps.Select(c => EloDuCamp(c.Select(EloDe))).ToList();
 				var scores = camps.Select(Score).ToList();
 
 				// Écart moyen (score réel - score attendu) de chaque camp contre chacun des autres.
@@ -325,7 +336,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 							continue;
 
 						var reel = scores[i] > scores[k] ? 1 : scores[i] < scores[k] ? 0 : 0.5;
-						ecarts[i] += reel - Attendu(moyennes[i], moyennes[k]);
+						ecarts[i] += reel - Attendu(forces[i], forces[k]);
 					}
 
 					ecarts[i] /= camps.Count - 1;

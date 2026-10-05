@@ -168,10 +168,10 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 
 			if (camps.Count == 2)
 			{
-				double Moyenne(System.Collections.Generic.List<Session.Client> camp) =>
-					camp.Average(c => c.IsBot ? info.EloDeIa(c.Bot) : ClassementEloStore.Fiche(c.Name).Elo);
+				double Force(System.Collections.Generic.List<Session.Client> camp) =>
+					ClassementEloStore.EloDuCamp(camp.Select(c => (double)(c.IsBot ? info.EloDeIa(c.Bot) : ClassementEloStore.Fiche(c.Name).Elo)));
 
-				var p = ClassementEloStore.Attendu(Moyenne(camps[0]), Moyenne(camps[1]));
+				var p = ClassementEloStore.Attendu(Force(camps[0]), Force(camps[1]));
 				string Nom(System.Collections.Generic.List<Session.Client> camp) =>
 					camp.Count == 1 ? camp[0].Name : $"Équipe {camp[0].Team}";
 
