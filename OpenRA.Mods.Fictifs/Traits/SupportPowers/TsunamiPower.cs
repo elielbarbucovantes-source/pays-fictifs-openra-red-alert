@@ -139,11 +139,50 @@ namespace OpenRA.Mods.Fictifs.Traits
 		public override void Activate(Actor self, Order order, SupportPowerManager manager)
 		{
 			base.Activate(self, order, manager);
-			PlayLaunchSounds();
 
 			var cell = self.World.Map.CellContaining(order.Target.CenterPosition);
-			var facing = order.ExtraData <= 255 ? WAngle.FromFacing((int)order.ExtraData) : BestFacing(self.World, cell) ?? WAngle.Zero;
+			WAngle facing;
+			if (order.ExtraData <= 255)
+				facing = WAngle.FromFacing((int)order.ExtraData);
+			else
+			{
+				// Ordre de l'IA (sans direction) : elle vise une base ennemie, pas une
+				// côte. On cherche la côte valide la plus proche ; sans côte, rien ne part.
+				var coast = NearestCoast(self.World, cell, TsunamiInfo.Depth);
+				if (coast == null)
+					return;
+
+				(cell, facing) = coast.Value;
+			}
+
+			PlayLaunchSounds();
 			Launch(self, cell, facing);
+		}
+
+		// Côte valide la plus proche de la case visée (anneaux successifs, jusqu'à maxRange cases).
+		public (CPos Cell, WAngle Facing)? NearestCoast(World world, CPos target, int maxRange)
+		{
+			for (var r = 0; r <= maxRange; r++)
+			{
+				for (var dy = -r; dy <= r; dy++)
+				{
+					for (var dx = -r; dx <= r; dx++)
+					{
+						if (Math.Max(Math.Abs(dx), Math.Abs(dy)) != r)
+							continue;
+
+						var c = target + new CVec(dx, dy);
+						if (!world.Map.Contains(c))
+							continue;
+
+						var facing = BestFacing(world, c);
+						if (facing != null)
+							return (c, facing.Value);
+					}
+				}
+			}
+
+			return null;
 		}
 
 		public void Launch(Actor self, CPos cell, WAngle facing)

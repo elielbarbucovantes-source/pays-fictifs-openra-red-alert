@@ -1,0 +1,147 @@
+# =====================================================================
+# AUSTRALOUIS — intelligence artificielle
+# Les listes de types (défenses, usines, avions, navires, protection)
+# partagées sont dans common/ia.yaml ; ici, ce qui est propre à
+# l'Australouis. Sa base est la base alliée : l'IA de Red Alert lui fait
+# déjà construire caserne, usine, héliport, chantier naval et les unités
+# alliées et l'infanterie soviétique de la caserne.
+#
+# Doctrine de l'IA : le Cheaper en masse au sol, l'aviation australouisienne
+# (Albatros, Warthog, Manta, drones Moustique) en force principale, et la
+# marine (L-0U15, Porte-Drone, sous-marin ICBM) dès qu'il y a de l'eau.
+# Les gros bâtiments sont retardés (BuildingDelays, en ticks : 25 par
+# seconde), sinon l'IA les tire au hasard avant d'avoir une armée.
+#
+# Volontairement laissés aux joueurs humains :
+#  - le Révolutionnaire et le Mothership (leur effet passe par la touche
+#    de déploiement, que l'IA n'utilise pas) ;
+#  - le Cormoran (sans arme, il faut l'envoyer écoper puis pulvériser) ;
+#  - la Baleine (transport : l'IA ne sait pas faire d'héliportage) ;
+#  - le Radar blink (de la reconnaissance pure).
+# Engineered Tsunami : l'IA vise une base ennemie ; le pouvoir cherche
+# lui-même la côte la plus proche (TsunamiPower.cs).
+# =====================================================================
+
+Player:
+	BaseBuilderBotModule@rush:
+		BuildingDelays:
+			base.aeronavale: 4500
+			chantier.avance: 9000
+			centrale.enrichissement: 9000
+		BuildingLimits:
+			base.aeronavale: 2
+			chantier.avance: 1
+		BuildingFractions:
+			base.aeronavale: 3
+			chantier.avance: 1
+			centrale.enrichissement: 1
+	BaseBuilderBotModule@normal:
+		BuildingDelays:
+			base.aeronavale: 4500
+			chantier.avance: 9000
+			centrale.enrichissement: 7500
+		BuildingLimits:
+			base.aeronavale: 4
+			chantier.avance: 1
+		BuildingFractions:
+			base.aeronavale: 5
+			chantier.avance: 1
+			centrale.enrichissement: 1
+	BaseBuilderBotModule@turtle:
+		BuildingDelays:
+			base.aeronavale: 6000
+			chantier.avance: 9000
+			centrale.enrichissement: 6000
+		BuildingLimits:
+			base.aeronavale: 3
+			chantier.avance: 1
+		BuildingFractions:
+			base.aeronavale: 3
+			chantier.avance: 1
+			centrale.enrichissement: 1
+	BaseBuilderBotModule@naval:
+		BuildingDelays:
+			base.aeronavale: 4500
+			chantier.avance: 6000
+			centrale.enrichissement: 7500
+		BuildingLimits:
+			base.aeronavale: 6
+			chantier.avance: 3
+		BuildingFractions:
+			base.aeronavale: 10
+			chantier.avance: 3
+			centrale.enrichissement: 1
+	UnitBuilderBotModule@rush:
+		UnitsToBuild:
+			cheaper: 70
+			albatros: 20
+			warthog: 10
+			manta: 5
+			moustique: 25
+		UnitLimits:
+			moustique: 8
+	UnitBuilderBotModule@normal:
+		UnitsToBuild:
+			cheaper: 60
+			albatros: 30
+			warthog: 15
+			manta: 8
+			moustique: 30
+			l0u15: 15
+			porte.drone: 8
+			sousmarin.icbm: 8
+		UnitLimits:
+			moustique: 10
+			porte.drone: 3
+	UnitBuilderBotModule@turtle:
+		UnitsToBuild:
+			cheaper: 60
+			albatros: 30
+			warthog: 15
+			manta: 8
+			moustique: 30
+			l0u15: 15
+			porte.drone: 8
+			sousmarin.icbm: 8
+		UnitLimits:
+			moustique: 10
+			porte.drone: 3
+	UnitBuilderBotModule@naval:
+		UnitsToBuild:
+			albatros: 35
+			warthog: 15
+			manta: 8
+			moustique: 20
+			l0u15: 25
+			porte.drone: 15
+			sousmarin.icbm: 15
+		UnitLimits:
+			moustique: 8
+			porte.drone: 5
+	# Pouvoirs que l'IA sait utiliser.
+	SupportPowerBotModule:
+		Decisions:
+			australouistsunami:
+				OrderName: AustralouisTsunami
+				MinimumAttractiveness: 3000
+				Consideration@1:
+					Against: Enemy
+					Types: Structure, GroundActor
+					Attractiveness: 1
+					TargetMetric: Value
+					CheckRadius: 5c0
+				Consideration@2:
+					Against: Ally
+					Types: GroundActor, Structure
+					Attractiveness: -2
+					TargetMetric: Value
+					CheckRadius: 6c0
+			australouisraffinerieboost:
+				OrderName: AustralouisRaffinerieBoost
+				MinimumAttractiveness: 1
+				Consideration@1:
+					Against: Ally
+					Types: Structure
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 4c0

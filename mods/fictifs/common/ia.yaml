@@ -3,7 +3,7 @@
 # Ces clés sont des listes uniques : un fichier qui les redéfinit écrase
 # les autres. Elles sont donc tenues ici, pour tous les pays à la fois :
 # listes de Red Alert (engine/mods/ra/rules/ai.yaml) + ajouts des pays
-# (Elielistan, Rubénie, Ananthanie).
+# (Elielistan, Rubénie, Australouis, Ananthanie).
 # Le reste de l'IA de chaque pays est dans <pays>/ia.yaml.
 # =====================================================================
 
@@ -14,41 +14,41 @@ Player:
 		BuildingDelays:
 			kenn: 3000
 		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
-		ProductionTypes: barr,tent,weap, aerodromo, base.aerienne, base.ananthanie
+		ProductionTypes: barr,tent,weap, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
 	BaseBuilderBotModule@normal:
 		BuildingDelays:
 			kenn: 3000
 		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
-		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie
-		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana
+		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
+		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
 	BaseBuilderBotModule@turtle:
 		BuildingDelays:
 			kenn: 3000
 		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
-		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie
-		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana
+		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
+		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
 	BaseBuilderBotModule@naval:
 		BuildingDelays:
 			kenn: 3000
 		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
-		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie
-		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana
+		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
+		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
 	SquadManagerBotModule@rush:
-		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar
-		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth
-		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar, l0u15, porte.drone, sousmarin.icbm
+		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta, moustique
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche, base.aeronavale, chantier.avance, centrale.enrichissement
 	SquadManagerBotModule@normal:
-		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar
-		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth
-		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana
-		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar, l0u15, porte.drone, sousmarin.icbm
+		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta, moustique
+		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche, base.aeronavale, chantier.avance, centrale.enrichissement
 	SquadManagerBotModule@turtle:
-		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar
-		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth
-		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana
-		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar, l0u15, porte.drone, sousmarin.icbm
+		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta, moustique
+		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche, base.aeronavale, chantier.avance, centrale.enrichissement
 	SquadManagerBotModule@naval:
-		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar
-		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth
-		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana
-		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar, l0u15, porte.drone, sousmarin.icbm
+		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta, moustique
+		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche, base.aeronavale, chantier.avance, centrale.enrichissement
