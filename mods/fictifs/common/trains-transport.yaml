@@ -1,0 +1,124 @@
+# =====================================================================
+# PAYS FICTIFS — trains de transport par pays (réseau : ferroviaire.yaml)
+#
+#   Rubénie     : train logistique lourd — la plus grande capacité,
+#                 rapide, peu blindé, bon marché, ravitaille autour de lui.
+#   Elielistan  : train rapide — le plus rapide, chargement éclair ;
+#                 + train aérien mobile (réarme et répare les avions).
+#   Ananthanie  : train industriel — 2 wagons, véhicules super-lourds,
+#                 bonus de réparation à la descente.
+#   Australouis : train logistique côtier — wagon porte-bateaux et gare
+#                 portuaire (marine → port → rail → front).
+#
+# Ces trains remplacent la locomotive diesel et les wagons communs pour
+# les 4 pays (ceux-ci restent pour les Alliés et les Soviétiques).
+# Ici : ce que les trains transportent (bateaux, super-lourds) et les
+# effets reçus par les unités. Les trains eux-mêmes : <pays>/trains-transport.yaml.
+# Code : Traits/TrainsTransport/.
+# =====================================================================
+
+# Bateaux transportables par le wagon porte-bateaux australouisien
+# (poids : vedettes et sous-marins 1, destroyers et transports 2).
+# Croiseurs, porte-avions, Mothership et autres gros navires ne montent pas.
+^Ship:
+	Passenger:
+		CargoType: Bateau
+		Weight: 2
+PT:
+	Passenger:
+		Weight: 1
+SS:
+	Passenger:
+		Weight: 1
+MSUB:
+	Passenger:
+		Weight: 1
+CA:
+	-Passenger:
+PORTA.AGUILA:
+	-Passenger:
+PORTE.AVIONS.RUB:
+	-Passenger:
+PORTE.DRONE:
+	-Passenger:
+MOTHERSHIP:
+	-Passenger:
+AGNIKHESH:
+	-Passenger:
+SOUSMARIN.ICBM:
+	-Passenger:
+
+# Véhicules super-lourds : seul le wagon industriel ananthanien les porte (un par wagon).
+VIDRAKARN:
+	Passenger:
+		CargoType: SuperLourd
+		Weight: 3
+ANANTA:
+	Passenger:
+		CargoType: SuperLourd
+		Weight: 3
+BASTION:
+	Passenger:
+		CargoType: SuperLourd
+		Weight: 3
+
+# Descente d'un wagon industriel : 20 s de réparation rapide (2 %/s)
+# et −10 % de dégâts reçus.
+^Vehicle:
+	ExternalCondition@INDUSTRIEL:
+		Condition: industriel
+	ChangesHealth@INDUSTRIEL:
+		RequiresCondition: industriel
+		PercentageStep: 2
+		Delay: 25
+		StartIfBelow: 100
+	DamageMultiplier@INDUSTRIEL:
+		RequiresCondition: industriel
+		Modifier: 90
+	WithDecoration@INDUSTRIEL:
+		Image: pips
+		Sequence: pip-blue
+		Position: BottomRight
+		RequiresCondition: industriel
+
+# Train aérien mobile : près des wagons ateliers, réparation lente
+# (deux ateliers : deux fois plus vite) ; après le wagon carburant,
+# +20 % de vitesse pendant 20 s.
+^Plane:
+	ExternalCondition@ATELIERAERIEN:
+		Condition: atelier-aerien
+	ChangesHealth@ATELIERAERIEN:
+		RequiresCondition: atelier-aerien
+		PercentageStep: 1
+		Delay: 25
+		StartIfBelow: 100
+	ChangesHealth@ATELIERAERIEN2:
+		RequiresCondition: atelier-aerien >= 2
+		PercentageStep: 1
+		Delay: 25
+		StartIfBelow: 100
+	ExternalCondition@CARBURANT:
+		Condition: carburant
+	GrantTimedConditionOnConditionEnd@KEROSENE:
+		RequiresCondition: carburant
+		Condition: kerosene
+		Duration: 500
+	SpeedMultiplier@KEROSENE:
+		RequiresCondition: carburant || kerosene
+		Modifier: 120
+	WithDecoration@KEROSENE:
+		Image: pips
+		Sequence: pip-yellow
+		Position: BottomRight
+		RequiresCondition: carburant || kerosene
+
+# Les trains communs ne sont plus proposés aux 4 pays fictifs.
+LOCOMOTIVE.DIESEL:
+	Buildable:
+		Prerequisites: chantier.ferroviaire, ~techlevel.low, ~!vehicles.rubenie, ~!vehicles.elielistan, ~!vehicles.ananthanie, ~!vehicles.australouis
+WAGON.LOURD:
+	Buildable:
+		Prerequisites: chantier.ferroviaire, ~techlevel.low, ~!vehicles.rubenie, ~!vehicles.elielistan, ~!vehicles.ananthanie, ~!vehicles.australouis
+WAGON.LEGER:
+	Buildable:
+		Prerequisites: chantier.ferroviaire, ~techlevel.low, ~!vehicles.rubenie, ~!vehicles.elielistan, ~!vehicles.ananthanie, ~!vehicles.australouis

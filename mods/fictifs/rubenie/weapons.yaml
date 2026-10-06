@@ -295,3 +295,43 @@ RubBastionMissiles:
 		RangeLimit: 10c512
 	Warhead@1Dam: SpreadDamage
 		Damage: 4000
+
+# ---------------------------------------------------------------------
+# Trains blindés (rubenie/trains.yaml)
+# ---------------------------------------------------------------------
+BP42Canon:
+	Inherits: 90mm
+	Range: 5c512
+	ReloadDelay: 50
+
+BP42Mitrailleuse:
+	Inherits: M60mg
+	Range: 5c0
+
+ZaamuretsCanon:
+	Inherits: 120mm
+	Range: 6c0
+	ReloadDelay: 70
+	Burst: 2
+
+ZaamuretsDCA:
+	Inherits: ZSU-23
+
+BP43Obusier:
+	Inherits: 155mm
+	Range: 9c0
+	MinRange: 3c0
+	ReloadDelay: 110
+	Warhead@1Dam: SpreadDamage
+		Damage: 4500
+
+BP43Canon:
+	Inherits: 120mm
+	Range: 6c0
+
+BP43T34:
+	Inherits: 90mm
+	Range: 5c512
+	ReloadDelay: 55
+	Warhead@1Dam: SpreadDamage
+		Damage: 4000

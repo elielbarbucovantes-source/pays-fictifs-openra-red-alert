@@ -148,4 +148,16 @@ La « porte du ciel » : quand elle apparaît, la bataille est presque finie."""
 Il plonge sur les véhicules, fantassins et défenses.
 Il se détruit au bout d'une minute s'il ne trouve rien.""",
 "Pas de micro-gestion : il attaque seul ce qu'il trouve dans la zone."),
+"LOCOMOTIVE.ANA": ("Locomotive industrielle", """Locomotive du train industriel : lente, robuste, deux wagons seulement.
+Le matériel lourd de l'industrie ananthanienne, livré sur le front.""",
+"Moins de troupes, mais les plus lourdes : réservez-la aux expérimentaux et aux chars."),
+"WAGON.INDUSTRIEL": ("Wagon industriel", """Porte un véhicule super-lourd (Vidrakarn, Ananta, Bastion roulant), un char lourd ou 3 véhicules.
+Les véhicules qui en descendent sont réparés vite (2 % par seconde) et encaissent mieux (−10 %) pendant 20 secondes.""",
+"Débarquez juste avant l'assaut : les chars arrivent réparés et plus solides."),
+"WAGON.LEGER.ANA": ("Wagon de personnel", """Wagon de troupes blindé : 7 fantassins.""",
+"Plus solide que les wagons des autres pays : il survit à une embuscade."),
+"GUSTAV": ("Schwerer Gustav", """Canon ferroviaire géant de 800 mm sur un affût de cinq cases, encadré de deux locomotives D311 : un obus par minute, à 40 cases.
+Il doit se mettre en batterie (10 secondes, immobile) avant de tirer, puis se replier pour repartir.
+Très lent et unique : l'ennemi en fera sa cible prioritaire.""",
+"Mettez-le en batterie loin derrière le front, éclairez les cibles (bâtiments, colonnes de véhicules) et gardez-le bien défendu."),
 }

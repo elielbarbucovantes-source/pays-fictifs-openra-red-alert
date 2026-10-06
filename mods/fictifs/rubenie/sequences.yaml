@@ -477,3 +477,83 @@ canal:
 	tranchee:
 		Filename: fictifs|bits/canal.png
 		Length: 16
+
+# Train blindé (rubenie/trains.yaml)
+bp42:
+	idle:
+		Filename: fictifs|bits/bp42.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/bp42.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+	icon:
+		Filename: fictifs|bits/bp42icon.png
+
+zaamurets:
+	idle:
+		Filename: fictifs|bits/zaamurets.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/zaamurets.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+	icon:
+		Filename: fictifs|bits/zaamuretsicon.png
+
+bp43:
+	idle:
+		Filename: fictifs|bits/bp43.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/bp43.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+	icon:
+		Filename: fictifs|bits/bp43icon.png
+
+
+pl37:
+	idle:
+		Filename: fictifs|bits/pl37.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/pl37.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+
+plateforme.dca:
+	idle:
+		Filename: fictifs|bits/plateforme.dca.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/plateforme.dca.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2
+
+wagon.t34:
+	idle:
+		Filename: fictifs|bits/wagon.t34.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/wagon.t34.png
+		Start: 32
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 2

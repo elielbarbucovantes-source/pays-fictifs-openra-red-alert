@@ -19,13 +19,14 @@ Repères :
 
 SOMMAIRE
   0. LES PAYS (4)
-  1. BÂTIMENTS (15)
+  1. BÂTIMENTS (16)
   2. DÉFENSES (12)
   3. INFANTERIE (16)
   4. VÉHICULES (33)
   5. AVIATION (27)
   6. MARINE (17)
-  7. POUVOIRS DE SOUTIEN (20)
+  7. TRAINS (23)
+  8. POUVOIRS DE SOUTIEN (20)
 
 ============================================================================================
                                         0. LES PAYS                                         
@@ -188,6 +189,7 @@ SOMMAIRE
     Grand dépôt qui ravitaille les unités terrestres dans un rayon de 14 cases.
     Les unités ravitaillées gardent leur efficacité et se réparent lentement hors combat.
     Plusieurs centres se relaient : en détruire un ne suffit pas.
+    Il se pose n'importe où sur la carte, mais n'étend pas la zone de construction.
   Statistiques :
     Coût 1 000 $ · PV 90 000 · Blindage léger de bâtiment (bois) · Vision 6 cases
     Énergie -50
@@ -275,6 +277,19 @@ SOMMAIRE
   Stratégie :
     Construisez-en au moins un dès que le centre technique est prêt, dans une baie bien
     défendue.
+--------------------------------------------------------------------------------------------
+■ GARE PORTUAIRE
+  Pays : Australouis
+  Lore :
+    Gare à cheval sur la côte : quai à terre et voie en haut, quai sur l'eau en bas.
+    Un transport naval à l'arrêt au quai passe ses passagers directement dans les wagons en gare.
+    Les navires montent dans le wagon porte-bateaux depuis le quai.
+  Statistiques :
+    Coût 1 200 $ · PV 100 000 · Blindage léger de bâtiment (bois) · Vision 5 cases
+    Énergie -30
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Le cœur de la logistique australouisienne : protégez-la côté mer comme côté terre.
 
   ▶ PAYS : ANANTHANIE
 
@@ -1978,7 +1993,321 @@ SOMMAIRE
     l'aviation.
 
 ============================================================================================
-                                   7. POUVOIRS DE SOUTIEN                                   
+                                         7. TRAINS                                          
+============================================================================================
+
+  ▶ PAYS : ELIELISTAN
+
+--------------------------------------------------------------------------------------------
+■ KRAJINA EKSPRES
+  Pays : Elielistan
+  Lore :
+    Train blindé rapide, bien plus vif que les trains rubéniens.
+    Trois voitures : locomotive blindée, wagon lance-roquettes (salve de huit, longue à recharger), wagon canon de 30 mm.
+    Arriver vite, frapper fort, repartir avant la réaction ennemie.
+  Statistiques :
+    Coût 2 200 $ · PV 50 000 · Blindage lourd · Vision 6 cases
+    Arme : M60mg : 1 000 dégâts, rafale de 5, portée 4 cases, recharge 1,2 s
+    Transport 3 places
+    Prérequis : Chantier ferroviaire, Service Depot · Niveau technologique : moyen
+  Stratégie :
+    Raid éclair sur les renforts et les gares ennemies : tirez la salve puis repliez-vous,
+    il ne gagne pas les combats prolongés.
+--------------------------------------------------------------------------------------------
+■ LOCOMOTIVE DU TRAIN AÉRIEN
+  Pays : Elielistan
+  Lore :
+    Locomotive du train aérien mobile, une base aérienne sur rails.
+    Elle tire les quatre wagons aériens : munitions, kérosène et deux ateliers.
+    Lente et peu blindée : une cible prioritaire pour l'ennemi.
+  Statistiques :
+    Coût 1 500 $ · PV 50 000 · Blindage léger · Vision 6 cases
+    Limite 1 exemplaire
+    Prérequis : Chantier ferroviaire, Aeródromo · Niveau technologique : moyen
+  Stratégie :
+    Faites rouler le train sous la route de vos avions : ils se réarment et se réparent sans
+    rentrer à l'aérodrome.
+--------------------------------------------------------------------------------------------
+■ LOCOMOTIVE NUCLÉAIRE
+  Pays : Elielistan
+  Lore :
+    Locomotive blindée à réacteur nucléaire : rapide, endurante, elle tire jusqu'à 12 wagons sans ralentir.
+    Une seule à la fois. Son réacteur est son point faible : détruite, elle explose violemment
+    (gros dégâts sur 6 cases, alliés compris) et laisse une zone contaminée.
+  Statistiques :
+    Coût 3 000 $ · PV 130 000 · Blindage lourd · Vision 7 cases
+    Limite 1 exemplaire
+    Prérequis : Chantier ferroviaire, Centre technique allié · Niveau technologique : élevé
+  Stratégie :
+    Le convoi géant de l'Elielistan : toute une armée d'un coup sur le front. Mais ne la
+    faites jamais entrer dans votre base ni la garer près de vos troupes.
+--------------------------------------------------------------------------------------------
+■ LOCOMOTIVE RAPIDE
+  Pays : Elielistan
+  Lore :
+    Locomotive du train rapide : la plus rapide du jeu ; 2 wagons (6 véhicules ou 8 fantassins).
+    Base, front, récupération, nouvelle position : tout en quelques secondes.
+    Peu blindée.
+  Statistiques :
+    Coût 700 $ · PV 45 000 · Blindage léger · Vision 6 cases
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Ne la laissez jamais à l'arrêt sous le feu : chargez, partez.
+--------------------------------------------------------------------------------------------
+■ WAGON DE MUNITIONS
+  Pays : Elielistan
+  Lore :
+    Wagon-plateforme : réarme les avions alliés à 3 cases, en vol, même quand le train roule.
+    Stock de 30 munitions, refait lentement sur la voie et vite en gare.
+    Un avion ou un hélicoptère elielistanais peut s'y poser, même train en marche : réarmé et réparé à bord.
+  Statistiques :
+    Coût 1 500 $ · PV 35 000 · Blindage léger · Vision 5 cases
+    Limite 1 exemplaire
+    Prérequis : Chantier ferroviaire, Aeródromo · Niveau technologique : moyen
+  Stratégie :
+    Gardez un œil sur ses pips : un wagon vide doit repasser en gare.
+--------------------------------------------------------------------------------------------
+■ WAGON RAPIDE LOURD
+  Pays : Elielistan
+  Lore :
+    Wagon plat à véhicules : 3 places (un char lourd en prend 3).
+    Chargement et déchargement deux fois plus rapides en gare, trois fois sur la voie.
+  Statistiques :
+    Coût 400 $ · PV 30 000 · Blindage léger · Vision 5 cases
+    Transport 3 places
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Idéal pour déposer des chars hors gare, en pleine campagne, sans perdre de temps.
+--------------------------------------------------------------------------------------------
+■ WAGON RAPIDE LÉGER
+  Pays : Elielistan
+  Lore :
+    Wagon de troupes : 4 fantassins, débarquement éclair.
+  Statistiques :
+    Coût 250 $ · PV 24 000 · Blindage léger · Vision 5 cases
+    Transport 4 places
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Lâchez l'infanterie derrière la ligne ennemie et repartez avant la riposte.
+--------------------------------------------------------------------------------------------
+■ WAGON-ATELIER AÉRIEN
+  Pays : Elielistan
+  Lore :
+    Wagon-plateforme : répare lentement les avions alliés à 3 cases (1 % par seconde), même en vol.
+    Deux ateliers : deux fois plus vite. Jamais de réparation instantanée.
+    Un avion ou un hélicoptère elielistanais peut s'y poser : réarmé et réparé à bord.
+  Statistiques :
+    Coût 1 200 $ · PV 35 000 · Blindage léger · Vision 5 cases
+    Limite 2 exemplaires
+    Prérequis : Chantier ferroviaire, Aeródromo · Niveau technologique : moyen
+  Stratégie :
+    Faites tourner les avions abîmés au-dessus du train entre deux passes.
+--------------------------------------------------------------------------------------------
+■ WAGON-CITERNE DE KÉROSÈNE
+  Pays : Elielistan
+  Lore :
+    Les avions alliés qui passent à 3 cases font le plein :
+    +20 % de vitesse, encore 20 secondes après.
+  Statistiques :
+    Coût 1 000 $ · PV 35 000 · Blindage léger · Vision 5 cases
+    Limite 1 exemplaire
+    Prérequis : Chantier ferroviaire, Aeródromo · Niveau technologique : moyen
+  Stratégie :
+    Faites passer les raids au-dessus du train juste avant l'attaque.
+
+  ▶ PAYS : RUBÉNIE
+
+--------------------------------------------------------------------------------------------
+■ BP-42
+  Pays : Rubénie
+  Lore :
+    Train blindé polyvalent de 4 voitures : locomotive blindée PR-35 (mitrailleuse, cinq fantassins),
+    deux wagons d'artillerie PL-37 de 76 mm et une plate-forme antiaérienne.
+    Il escorte les trains logistiques et soutient les troupes le long des voies.
+  Statistiques :
+    Coût 2 400 $ · PV 70 000 · Blindage lourd · Vision 6 cases
+    Arme : BP42Mitrailleuse : 1 000 dégâts, rafale de 5, portée 5 cases, recharge 1,2 s
+    Transport 5 places
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Accompagnez vos renforts ferroviaires et sécurisez les lignes ; débarquez ses fantassins
+    en gare pour tenir un point.
+--------------------------------------------------------------------------------------------
+■ BP-43
+  Pays : Rubénie
+  Lore :
+    Train blindé lourd offensif de 7 voitures : locomotive blindée, quatre wagons à tourelle
+    de T-34-85 et deux plates-formes antiaériennes. Plus lent et plus cher que le BP-42,
+    il fait d'une voie ferrée un axe d'attaque. Deux fantassins seulement à bord.
+  Statistiques :
+    Coût 4 500 $ · PV 90 000 · Blindage lourd · Vision 6 cases
+    Arme : BP42Mitrailleuse : 1 000 dégâts, rafale de 5, portée 5 cases, recharge 1,2 s
+    Transport 2 places
+    Prérequis : Chantier ferroviaire, un centre technique · Niveau technologique : élevé
+  Stratégie :
+    Poussez la voie vers le front, puis bombardez les positions ennemies depuis les rails, à
+    l'abri derrière vos lignes.
+--------------------------------------------------------------------------------------------
+■ LOCOMOTIVE LOGISTIQUE
+  Pays : Rubénie
+  Lore :
+    Locomotive du train logistique lourd : la plus grande capacité du jeu.
+    Elle tire 3 wagons (6 véhicules ou 18 fantassins), roule vite et ravitaille les unités rubéniennes à 6 cases.
+    Peu blindée et bon marché : un camion sur rails, pas un char.
+  Statistiques :
+    Coût 600 $ · PV 45 000 · Blindage léger · Vision 6 cases
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Faites-en la colonne vertébrale du front : elle amène renforts et ravitaillement au même
+    endroit. Escortez-la d'un train blindé.
+--------------------------------------------------------------------------------------------
+■ WAGON LOGISTIQUE LOURD
+  Pays : Rubénie
+  Lore :
+    Wagon plat à véhicules : 2 places.
+    Il ravitaille lui aussi les unités rubéniennes à 6 cases.
+  Statistiques :
+    Coût 300 $ · PV 30 000 · Blindage léger · Vision 5 cases
+    Transport 2 places
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Garé au bout de la ligne, il sert de dépôt de ravitaillement avancé.
+--------------------------------------------------------------------------------------------
+■ WAGON LOGISTIQUE LÉGER
+  Pays : Rubénie
+  Lore :
+    Wagon de troupes : 6 fantassins.
+    Fragile : un obus bien placé coûte une compagnie.
+  Statistiques :
+    Coût 200 $ · PV 22 000 · Blindage léger · Vision 5 cases
+    Transport 6 places
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Débarquez en gare, à l'abri : hors gare, la descente est lente et désordonnée.
+--------------------------------------------------------------------------------------------
+■ ZAAMURETS
+  Pays : Rubénie
+  Lore :
+    Autorail blindé lourd, d'une seule voiture : deux canons de 107 mm et un affût antiaérien jumelé.
+    Son blindage très épais encaisse un cinquième de dégâts en moins.
+    Il tient les lignes et protège les infrastructures ferroviaires.
+  Statistiques :
+    Coût 2 200 $ · PV 160 000 · Blindage lourd · Vision 6 cases
+    Arme : ZaamuretsCanon : 6 000 dégâts, rafale de 2, portée 6 cases, recharge 2,8 s
+    Arme : ZaamuretsDCA : 900 dégâts, rafale de 2, portée 10 cases, recharge 0,2 s
+    Transport 3 places
+    Prérequis : Chantier ferroviaire, Service Depot · Niveau technologique : moyen
+  Stratégie :
+    Stationnez-le près des gares et des nœuds du réseau : il repousse aussi bien les raids
+    terrestres qu'aériens.
+
+  ▶ PAYS : AUSTRALOUIS
+
+--------------------------------------------------------------------------------------------
+■ LOCOMOTIVE CÔTIÈRE
+  Pays : Australouis
+  Lore :
+    Locomotive du train logistique côtier : marine, port, rail, front.
+    Elle tire 3 wagons, dont le wagon porte-bateaux.
+  Statistiques :
+    Coût 800 $ · PV 55 000 · Blindage lourd · Vision 6 cases
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Reliez une gare portuaire au front : ce que la flotte débarque part aussitôt par le
+    rail.
+--------------------------------------------------------------------------------------------
+■ WAGON CÔTIER LOURD
+  Pays : Australouis
+  Lore :
+    Wagon plat à véhicules : 2 places.
+    À la gare portuaire, il reçoit directement les véhicules des transports navals.
+  Statistiques :
+    Coût 400 $ · PV 40 000 · Blindage lourd · Vision 5 cases
+    Transport 2 places
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Garez-le en gare portuaire avant l'arrivée du convoi naval.
+--------------------------------------------------------------------------------------------
+■ WAGON CÔTIER LÉGER
+  Pays : Australouis
+  Lore :
+    Wagon de troupes : 6 fantassins.
+    À la gare portuaire, il reçoit directement l'infanterie des transports navals.
+  Statistiques :
+    Coût 300 $ · PV 30 000 · Blindage léger · Vision 5 cases
+    Transport 6 places
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Même usage que le wagon lourd, pour l'infanterie.
+--------------------------------------------------------------------------------------------
+■ WAGON PORTE-BATEAUX
+  Pays : Australouis
+  Lore :
+    Transporte des navires d'un plan d'eau à l'autre : 2 places
+    (vedette ou sous-marin 1, destroyer ou transport 2 ; pas de croiseurs ni de porte-avions).
+    Les navires embarquent et débarquent depuis l'eau qui borde la voie.
+  Statistiques :
+    Coût 600 $ · PV 50 000 · Blindage lourd · Vision 5 cases
+    Transport 2 places
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Faites passer une flottille d'un lac à la mer, ou d'une côte à l'autre, là où l'ennemi
+    ne l'attend pas.
+
+  ▶ PAYS : ANANTHANIE
+
+--------------------------------------------------------------------------------------------
+■ LOCOMOTIVE INDUSTRIELLE
+  Pays : Ananthanie
+  Lore :
+    Locomotive du train industriel : lente, robuste, deux wagons seulement.
+    Le matériel lourd de l'industrie ananthanienne, livré sur le front.
+  Statistiques :
+    Coût 950 $ · PV 80 000 · Blindage lourd · Vision 6 cases
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Moins de troupes, mais les plus lourdes : réservez-la aux expérimentaux et aux chars.
+--------------------------------------------------------------------------------------------
+■ SCHWERER GUSTAV
+  Pays : Ananthanie
+  Lore :
+    Canon ferroviaire géant de 800 mm sur un affût de cinq cases, encadré de deux locomotives D311 : un obus par minute, à 40 cases.
+    Il doit se mettre en batterie (10 secondes, immobile) avant de tirer, puis se replier pour repartir.
+    Très lent et unique : l'ennemi en fera sa cible prioritaire.
+  Statistiques :
+    Coût 7 500 $ · PV 220 000 · Blindage lourd · Vision 8 cases
+    Arme : GustavObus : 45 000 dégâts, portée 40 cases, recharge 1 min
+    Limite 1 exemplaire
+    Prérequis : Chantier ferroviaire, un centre technique · Niveau technologique : élevé
+  Stratégie :
+    Mettez-le en batterie loin derrière le front, éclairez les cibles (bâtiments, colonnes
+    de véhicules) et gardez-le bien défendu.
+--------------------------------------------------------------------------------------------
+■ WAGON DE PERSONNEL
+  Pays : Ananthanie
+  Lore :
+    Wagon de troupes blindé : 7 fantassins.
+  Statistiques :
+    Coût 300 $ · PV 35 000 · Blindage lourd · Vision 5 cases
+    Transport 7 places
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Plus solide que les wagons des autres pays : il survit à une embuscade.
+--------------------------------------------------------------------------------------------
+■ WAGON INDUSTRIEL
+  Pays : Ananthanie
+  Lore :
+    Porte un véhicule super-lourd (Vidrakarn, Ananta, Bastion roulant), un char lourd ou 3 véhicules.
+    Les véhicules qui en descendent sont réparés vite (2 % par seconde) et encaissent mieux (−10 %) pendant 20 secondes.
+  Statistiques :
+    Coût 600 $ · PV 55 000 · Blindage lourd · Vision 5 cases
+    Transport 3 places
+    Prérequis : Chantier ferroviaire · Niveau technologique : bas
+  Stratégie :
+    Débarquez juste avant l'assaut : les chars arrivent réparés et plus solides.
+
+============================================================================================
+                                   8. POUVOIRS DE SOUTIEN                                   
 ============================================================================================
 
   ▶ PAYS : ELIELISTAN

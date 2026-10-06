@@ -1,0 +1,11 @@
+# Raccourcis propres au mod.
+
+ProductionTypeTrain: O
+	Description: Trains Tab
+	Types: Production
+	Contexts: Player
+
+TogglePlacementVariant: R
+	Description: Rotate building (placement)
+	Types: OrderGenerator
+	Contexts: Player

@@ -1,0 +1,158 @@
+# =====================================================================
+# RUBÉNIE — trains blindés (réseau ferroviaire : common/ferroviaire.yaml)
+# Composition réelle, créée attelée à la sortie du chantier (SpawnsConsist) :
+#   BP-42     : locomotive blindée PR-35 + 2 wagons d'artillerie PL-37
+#               (76 mm) + 1 plate-forme antiaérienne. 5 fantassins à bord.
+#   Zaamurets : autorail blindé, une seule voiture (comme le vrai).
+#   BP-43     : locomotive blindée + 4 wagons à tourelle de T-34-85
+#               + 2 plates-formes antiaériennes. Lent. 2 fantassins à bord.
+# =====================================================================
+
+BP42:
+	Inherits: ^TrainBlinde
+	RenderSprites:
+		Image: bp42
+	Buildable:
+		BuildPaletteOrder: 310
+		Prerequisites: chantier.ferroviaire, ~vehicles.rubenie, ~techlevel.low
+		Description: Train blindé polyvalent (4 voitures) : locomotive blindée PR-35,\n2 wagons d'artillerie PL-37 (76 mm), 1 plate-forme antiaérienne.\nEscorte les trains logistiques, soutient les troupes, défend les lignes.\n5 fantassins à bord, peut tirer 2 wagons de plus.
+	Valued:
+		Cost: 2400
+	Tooltip:
+		Name: BP-42
+	Health:
+		HP: 70000
+	RailCar:
+		Cells: 2
+		Speed: 180
+		MaxWagons: 5
+	Cargo:
+		MaxWeight: 5
+	SpawnsConsist:
+		Behind: pl37, pl37, plateforme.dca
+	Turreted:
+		Offset: 256,0,0
+	Armament@PRIMARY:
+		Weapon: BP42Mitrailleuse
+		LocalOffset: 213,0,614
+
+PL37:
+	Inherits: ^WagonArme
+	RenderSprites:
+		Image: pl37
+	RailCar:
+		Cells: 2
+	Tooltip:
+		Name: Wagon d'artillerie PL-37
+	Health:
+		HP: 50000
+	Turreted:
+		Offset: 0,0,0
+	Armament@PRIMARY:
+		Weapon: BP42Canon
+		LocalOffset: 538,0,589
+		MuzzleSequence: muzzle
+	WithMuzzleOverlay:
+
+PLATEFORME.DCA:
+	Inherits: ^WagonArme
+	Inherits@auto: ^AutoTargetAll
+	RenderSprites:
+		Image: plateforme.dca
+	RailCar:
+		Cells: 2
+	Tooltip:
+		Name: Plate-forme antiaérienne
+	Health:
+		HP: 40000
+	Turreted:
+		Offset: 0,0,0
+		TurnSpeed: 40
+	Armament@PRIMARY:
+		Weapon: ZaamuretsDCA
+		LocalOffset: 277,40,700, 277,-40,700
+
+ZAAMURETS:
+	Inherits: ^TrainBlinde
+	RenderSprites:
+		Image: zaamurets
+	Buildable:
+		BuildPaletteOrder: 311
+		Prerequisites: chantier.ferroviaire, fix, ~vehicles.rubenie, ~techlevel.medium
+		Description: Autorail blindé lourd : tient les lignes et protège\nles infrastructures ferroviaires. Blindage très épais,\ndeux canons de 107 mm, affût antiaérien jumelé.\n3 fantassins à bord, peut tirer 1 wagon.
+	Valued:
+		Cost: 2200
+	Tooltip:
+		Name: Zaamurets
+	Health:
+		HP: 160000
+	RailCar:
+		Cells: 2
+		Speed: 170
+		MaxWagons: 1
+	Cargo:
+		MaxWeight: 3
+	DamageMultiplier@BLINDAGE:
+		Modifier: 80
+	Turreted:
+		Offset: -85,0,0
+	Armament@PRIMARY:
+		Weapon: ZaamuretsCanon
+		LocalOffset: 614,85,678, 614,-85,678
+		MuzzleSequence: muzzle
+	Armament@AA:
+		Name: secondary
+		Weapon: ZaamuretsDCA
+		LocalOffset: 0,0,600
+	WithMuzzleOverlay:
+	AutoTarget:
+	AutoTargetPriority@AIR:
+		ValidTargets: Air
+		Priority: 1
+		RequiresCondition: !stance-attackanything
+
+BP43:
+	Inherits: ^TrainBlinde
+	RenderSprites:
+		Image: bp43
+	Buildable:
+		BuildPaletteOrder: 312
+		Prerequisites: chantier.ferroviaire, techcenter, ~vehicles.rubenie, ~techlevel.high
+		Description: Train blindé lourd offensif (7 voitures) : locomotive blindée,\n4 wagons à tourelle de T-34-85, 2 plates-formes antiaériennes.\nFait d'une voie ferrée un axe d'attaque. Plus lent que le BP-42.\n2 fantassins à bord.
+	Valued:
+		Cost: 4500
+	Tooltip:
+		Name: BP-43
+	Health:
+		HP: 90000
+	RailCar:
+		Cells: 2
+		Speed: 140
+		MaxWagons: 6
+	Cargo:
+		MaxWeight: 2
+	SpawnsConsist:
+		Behind: wagon.t34, wagon.t34, plateforme.dca, wagon.t34, wagon.t34, plateforme.dca
+	Turreted:
+		Offset: 256,0,-26
+	Armament@PRIMARY:
+		Weapon: BP42Mitrailleuse
+		LocalOffset: 213,0,589
+
+WAGON.T34:
+	Inherits: ^WagonArme
+	RenderSprites:
+		Image: wagon.t34
+	RailCar:
+		Cells: 2
+	Tooltip:
+		Name: Wagon à tourelle de T-34-85
+	Health:
+		HP: 60000
+	Turreted:
+		Offset: 0,0,0
+	Armament@PRIMARY:
+		Weapon: BP43T34
+		LocalOffset: 691,0,593
+		MuzzleSequence: muzzle
+	WithMuzzleOverlay:

@@ -1,0 +1,105 @@
+# =====================================================================
+# AUSTRALOUIS — train logistique côtier (voir common/trains-transport.yaml)
+#   marine → port → rail → front
+#
+# Gare portuaire : gare à cheval sur la côte (quai à terre et voie en haut,
+#   quai sur l'eau en bas, au moins 2 cases d'eau). Un transport naval à
+#   l'arrêt au quai passe ses passagers directement dans les wagons en
+#   gare, sans débarquer.
+# Wagon porte-bateaux : transporte des navires d'un plan d'eau à l'autre
+#   (vedettes et sous-marins 1 place, destroyers et transports 2,
+#   sur 2 places ; pas de croiseurs ni de porte-avions). Ils embarquent et débarquent depuis une
+#   voie bordée d'eau : gare portuaire, ou voie posée le long d'une côte.
+# =====================================================================
+
+LOCOMOTIVE.AUS:
+	Inherits: LOCOMOTIVE.DIESEL
+	RenderSprites:
+		Image: locomotive.aus
+	Buildable:
+		BuildPaletteOrder: 300
+		Prerequisites: chantier.ferroviaire, ~vehicles.australouis, ~techlevel.low
+		Description: Train logistique côtier : tire 3 wagons, dont le wagon porte-bateaux.\nClic droit : rouler jusqu'à la voie. Clic droit sur un wagon : l'atteler.\nDéployer : tout décharger.
+	Valued:
+		Cost: 800
+	Tooltip:
+		Name: Locomotive côtière
+	Health:
+		HP: 55000
+	RailCar:
+		Cells: 2
+		Speed: 200
+		MaxWagons: 3
+
+WAGON.LOURD.AUS:
+	Inherits: WAGON.LOURD
+	RenderSprites:
+		Image: wagon.lourd.aus
+	Buildable:
+		BuildPaletteOrder: 301
+		Prerequisites: chantier.ferroviaire, ~vehicles.australouis, ~techlevel.low
+		Description: Wagon lourd : 2 véhicules.\nReçoit directement les véhicules des transports\nnavals à la gare portuaire.\nÀ atteler à une locomotive. Déploiement : décharger.
+	Tooltip:
+		Name: Wagon côtier lourd
+	Cargo:
+		MaxWeight: 2
+	RailCar:
+		Cells: 2
+
+WAGON.LEGER.AUS:
+	Inherits: WAGON.LEGER
+	RenderSprites:
+		Image: wagon.leger.aus
+	Buildable:
+		BuildPaletteOrder: 302
+		Prerequisites: chantier.ferroviaire, ~vehicles.australouis, ~techlevel.low
+		Description: Wagon léger : 6 fantassins.\nReçoit directement l'infanterie des transports\nnavals à la gare portuaire.\nÀ atteler à une locomotive. Déploiement : décharger.
+	Tooltip:
+		Name: Wagon côtier léger
+	Cargo:
+		MaxWeight: 6
+	RailCar:
+		Cells: 2
+
+WAGON.BATEAUX:
+	Inherits: WAGON.LOURD
+	RenderSprites:
+		Image: wagon.bateaux
+	Buildable:
+		BuildPaletteOrder: 303
+		Prerequisites: chantier.ferroviaire, ~vehicles.australouis, ~techlevel.low
+		Description: Wagon porte-bateaux : 2 places de navires\n(vedette ou sous-marin 1, destroyer ou transport 2 ;\npas de croiseurs ni de porte-avions). Les navires embarquent et débarquent\ndepuis l'eau qui borde la voie (gare portuaire, voie côtière).\nÀ atteler à une locomotive. Déploiement : décharger.
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Wagon porte-bateaux
+	Health:
+		HP: 50000
+	Cargo:
+		Types: Bateau
+		MaxWeight: 2
+	RailCar:
+		Cells: 3
+
+GARE.PORTUAIRE:
+	Inherits: GARE
+	Buildable:
+		BuildPaletteOrder: 87
+		Prerequisites: chantier.ferroviaire, ~structures.australouis, ~techlevel.low
+		Description: Gare au bord de l'eau : quai à terre et voie en haut,\nquai sur l'eau en bas (au moins 2 cases d'eau).\nUn transport naval à l'arrêt au quai passe ses passagers\ndirectement dans les wagons en gare.\nLes navires montent dans le wagon porte-bateaux depuis le quai.\nChargement et déchargement rapides, comme une gare.
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Gare portuaire
+	-Building:
+	PortBuilding:
+		Dimensions: 4,3
+		# Rangée du haut : piliers aux coins et quai de débarquement à terre au milieu
+		# (les wagons du milieu y déposent leurs passagers) ; voie ; quai sur l'eau.
+		Footprint: x==x ++++ ____
+		BuildSounds: placbldg.aud
+		UndeploySounds: cashturn.aud
+		TerrainTypes: Clear, Road, Rough, Beach
+		WaterCells: 0,2, 1,2, 2,2, 3,2
+	PortTransfer:
+		Range: 4c0

@@ -64,6 +64,7 @@ Rules:
 	fictifs|common/petrole.yaml
 	fictifs|common/zones.yaml
 	fictifs|common/multiqueue.yaml
+	fictifs|common/ferroviaire.yaml
 	fictifs|mapgen/map-generators.yaml
 	fictifs|elielistan/rules.yaml
 	fictifs|elielistan/powers.yaml
@@ -71,6 +72,7 @@ Rules:
 	fictifs|elielistan/marine.yaml
 	fictifs|elielistan/defenses.yaml
 	fictifs|elielistan/speciaux.yaml
+	fictifs|elielistan/trains.yaml
 	fictifs|elielistan/ia.yaml
 	fictifs|rubenie/rules.yaml
 	fictifs|rubenie/defenses.yaml
@@ -80,6 +82,7 @@ Rules:
 	fictifs|rubenie/tunnelier.yaml
 	fictifs|rubenie/bastion.yaml
 	fictifs|rubenie/pouvoirs.yaml
+	fictifs|rubenie/trains.yaml
 	fictifs|rubenie/ia.yaml
 	fictifs|australouis/aviation.yaml
 	fictifs|australouis/marine.yaml
@@ -92,7 +95,15 @@ Rules:
 	fictifs|ananthanie/marine.yaml
 	fictifs|ananthanie/experimentales.yaml
 	fictifs|ananthanie/pouvoirs.yaml
+	fictifs|ananthanie/trains.yaml
 	fictifs|ananthanie/ia.yaml
+	# Trains de transport par pays (après tous les pays : retire des traits aux navires).
+	fictifs|common/trains-transport.yaml
+	fictifs|rubenie/trains-transport.yaml
+	fictifs|elielistan/trains-transport.yaml
+	fictifs|ananthanie/trains-transport.yaml
+	fictifs|australouis/trains-transport.yaml
+	fictifs|australouis/gare-portuaire.yaml
 
 Sequences:
 	ra|sequences/ships.yaml
@@ -107,6 +118,7 @@ Sequences:
 	fictifs|rubenie/sequences.yaml
 	fictifs|australouis/sequences.yaml
 	fictifs|ananthanie/sequences.yaml
+	fictifs|common/sequences-trains-transport.yaml
 TileSets:
 	ra|tilesets/snow.yaml
 	ra|tilesets/interior.yaml
@@ -196,6 +208,7 @@ Weapons:
 	ra|weapons/superweapons.yaml
 	fictifs|common/weapons.yaml
 	fictifs|elielistan/weapons.yaml
+	fictifs|elielistan/weapons-trains.yaml
 	fictifs|rubenie/weapons.yaml
 	fictifs|australouis/weapons.yaml
 	fictifs|ananthanie/weapons.yaml
@@ -219,6 +232,7 @@ Hotkeys:
 	common|hotkeys/editor.yaml
 	common|hotkeys/control-groups.yaml
 	ra|hotkeys.yaml
+	fictifs|hotkeys.yaml
 
 LoadScreen: LogoStripeLoadScreen
 	Image: ra|uibits/loadscreen.png

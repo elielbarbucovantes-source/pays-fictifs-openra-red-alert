@@ -80,17 +80,22 @@ namespace OpenRA.Mods.Fictifs.Traits
 	[Desc("Per-player classic production queue, active only in the \"normal\" queue mode.")]
 	public class NormalModeProductionQueueInfo : ClassicProductionQueueInfo
 	{
+		[Desc("Production types (Buildable.BuildAtProductionType) also served by this queue, e.g. Train in the Vehicle queue.")]
+		public readonly HashSet<string> ExtraProductionTypes = new();
+
 		public override object Create(ActorInitializer init) { return new NormalModeProductionQueue(init, this); }
 	}
 
 	public class NormalModeProductionQueue : ClassicProductionQueue
 	{
 		readonly bool active;
+		readonly HashSet<string> extraTypes;
 
 		public NormalModeProductionQueue(ActorInitializer init, NormalModeProductionQueueInfo info)
 			: base(init, info)
 		{
 			active = !ProductionModeOptionInfo.IsMultiQueue(init.World);
+			extraTypes = info.ExtraProductionTypes;
 
 			// Désactivée avant Created : la file ne s'inscrit pas dans l'arbre technologique.
 			if (!active)
@@ -99,8 +104,34 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		protected override void Tick(Actor self)
 		{
-			if (active)
+			if (!active)
+				return;
+
+			if (extraTypes.Count == 0)
+			{
 				base.Tick(self);
+				return;
+			}
+
+			// Comme ClassicProductionQueue.Tick, mais un chantier ferroviaire seul (type Train) active aussi la file.
+			Enabled = false;
+			var isActive = false;
+			foreach (var x in self.World.ActorsWithTrait<Production>())
+			{
+				if (x.Trait.IsTraitDisabled || x.Actor.Owner != self.Owner)
+					continue;
+
+				if (!x.Trait.Info.Produces.Contains(Info.Type) && !x.Trait.Info.Produces.Any(extraTypes.Contains))
+					continue;
+
+				Enabled |= IsValidFaction;
+				isActive |= !x.Trait.IsTraitPaused;
+			}
+
+			if (!Enabled)
+				ClearQueue();
+
+			TickInner(self, !isActive);
 		}
 	}
 
@@ -108,27 +139,59 @@ namespace OpenRA.Mods.Fictifs.Traits
 		"and only on actors with a Production trait producing this Type. Safe to put on every building.")]
 	public class MultiModeProductionQueueInfo : ProductionQueueInfo
 	{
+		[Desc("Production types (Buildable.BuildAtProductionType) also served by this queue, e.g. Train in the Vehicle queue.")]
+		public readonly HashSet<string> ExtraProductionTypes = new();
+
 		public override object Create(ActorInitializer init) { return new MultiModeProductionQueue(init, this); }
 	}
 
 	public class MultiModeProductionQueue : ProductionQueue
 	{
 		readonly bool active;
+		readonly MultiModeProductionQueueInfo info;
+		bool extraTraitsAdded;
 
 		public MultiModeProductionQueue(ActorInitializer init, MultiModeProductionQueueInfo info)
 			: base(init, info)
 		{
+			this.info = info;
 			active = ProductionModeOptionInfo.IsMultiQueue(init.World)
-				&& init.Self.Info.TraitInfos<ProductionInfo>().Any(p => p.Produces.Contains(info.Type));
+				&& init.Self.Info.TraitInfos<ProductionInfo>().Any(p => Serves(p, info));
 
 			if (!active)
 				Enabled = false;
 		}
 
+		static bool Serves(ProductionInfo p, MultiModeProductionQueueInfo info)
+		{
+			return p.Produces.Contains(info.Type) || p.Produces.Any(info.ExtraProductionTypes.Contains);
+		}
+
 		protected override void Tick(Actor self)
 		{
-			if (active)
-				base.Tick(self);
+			if (!active)
+				return;
+
+			// ProductionQueue ne garde que les Production du type de la file : on ajoute celles des types en plus
+			// (chantier ferroviaire : Train dans la file Véhicules).
+			if (!extraTraitsAdded)
+			{
+				extraTraitsAdded = true;
+				if (info.ExtraProductionTypes.Count > 0)
+					productionTraits = self.TraitsImplementing<Production>().Where(p => Serves(p.Info, info)).ToArray();
+			}
+
+			base.Tick(self);
+		}
+
+		public override TraitPair<Production> MostLikelyProducer()
+		{
+			if (info.ExtraProductionTypes.Count == 0)
+				return base.MostLikelyProducer();
+
+			var traits = productionTraits.Where(p => !p.IsTraitDisabled && Serves(p.Info, info));
+			var unpaused = traits.FirstOrDefault(a => !a.IsTraitPaused);
+			return new TraitPair<Production>(Actor, unpaused ?? traits.FirstOrDefault());
 		}
 
 		// Une file d'usine ne montre que ce que cette usine sait sortir :
@@ -138,8 +201,8 @@ namespace OpenRA.Mods.Fictifs.Traits
 			if (developerMode.AllTech)
 				return true;
 
-			var type = actor.TraitInfo<BuildableInfo>().BuildAtProductionType;
-			return type == null || productionTraits.Any(p => !p.IsTraitDisabled && p.Info.Produces.Contains(type));
+			var type = actor.TraitInfo<BuildableInfo>().BuildAtProductionType ?? Info.Type;
+			return productionTraits.Any(p => !p.IsTraitDisabled && p.Info.Produces.Contains(type));
 		}
 
 		public override IEnumerable<ActorInfo> AllItems()

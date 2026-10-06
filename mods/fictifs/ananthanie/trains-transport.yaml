@@ -1,0 +1,73 @@
+# =====================================================================
+# ANANTHANIE — train industriel (voir common/trains-transport.yaml)
+#   2 wagons seulement, mais le wagon industriel porte le matériel le
+#   plus lourd : un super-lourd (Vidrakarn, Ananta, Bastion roulant),
+#   un char lourd elielistanais ou 3 véhicules ; par train : 2 super-lourds
+#   ou 14 fantassins. Les véhicules qui en descendent
+#   sont réparés vite et encaissent mieux pendant 20 s.
+#   Lent, bien blindé.
+# =====================================================================
+
+LOCOMOTIVE.ANA:
+	Inherits: LOCOMOTIVE.DIESEL
+	RenderSprites:
+		Image: locomotive.ana
+	Buildable:
+		BuildPaletteOrder: 300
+		Prerequisites: chantier.ferroviaire, ~vehicles.ananthanie, ~techlevel.low
+		Description: Train industriel : tire 2 wagons, lent mais robuste.\nClic droit : rouler jusqu'à la voie. Clic droit sur un wagon : l'atteler.\nDéployer : tout décharger.
+	Valued:
+		Cost: 950
+	Tooltip:
+		Name: Locomotive industrielle
+	Health:
+		HP: 80000
+	RailCar:
+		Cells: 2
+		Speed: 160
+		MaxWagons: 2
+
+WAGON.INDUSTRIEL:
+	Inherits: WAGON.LOURD
+	RenderSprites:
+		Image: wagon.industriel
+	Buildable:
+		BuildPaletteOrder: 301
+		Prerequisites: chantier.ferroviaire, ~vehicles.ananthanie, ~techlevel.low
+		Description: Wagon industriel : un véhicule super-lourd\n(Vidrakarn, Ananta, Bastion roulant) ou 3 véhicules.\nÀ la descente : 20 s de réparation rapide (2 %/s)\net −10 % de dégâts reçus.\nÀ atteler à une locomotive. Déploiement : décharger.
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Wagon industriel
+	Health:
+		HP: 55000
+	Cargo:
+		Types: Vehicle, Char, SuperLourd
+		MaxWeight: 3
+	GrantConditionOnPassengerExit:
+		Condition: industriel
+		Duration: 500
+	RailCar:
+		Cells: 3
+
+WAGON.LEGER.ANA:
+	Inherits: WAGON.LEGER
+	RenderSprites:
+		Image: wagon.leger.ana
+	Buildable:
+		BuildPaletteOrder: 302
+		Prerequisites: chantier.ferroviaire, ~vehicles.ananthanie, ~techlevel.low
+		Description: Wagon de personnel : 7 fantassins.\nÀ atteler à une locomotive. Déploiement : décharger.
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: Wagon de personnel
+	Health:
+		HP: 35000
+	Armor:
+		Type: Heavy
+	Cargo:
+		MaxWeight: 7
+
+	RailCar:
+		Cells: 2

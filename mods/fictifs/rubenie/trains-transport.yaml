@@ -1,0 +1,80 @@
+# =====================================================================
+# RUBÉNIE — train logistique lourd (voir common/trains-transport.yaml)
+#   La plus grande capacité du jeu : 3 wagons, soit 6 véhicules ou
+#   18 fantassins par train (2 véhicules ou 6 fantassins par wagon).
+#   Rapide, peu blindé, bon marché.
+#   Locomotive et wagons ravitaillent les unités rubéniennes à 6 cases :
+#   le train porte la logistique jusqu'aux fronts éloignés.
+# =====================================================================
+
+LOCOMOTIVE.RUB:
+	Inherits: LOCOMOTIVE.DIESEL
+	Inherits@RAVITAILLEMENT: ^SourceRavitaillement
+	RenderSprites:
+		Image: locomotive.rub
+	Buildable:
+		BuildPaletteOrder: 300
+		Prerequisites: chantier.ferroviaire, ~vehicles.rubenie, ~techlevel.low
+		Description: Train logistique lourd : tire 3 wagons (6 véhicules ou 18 fantassins), rapide.\nRavitaille les unités terrestres rubéniennes à 6 cases.\nPeu blindée.\nClic droit : rouler jusqu'à la voie. Clic droit sur un wagon : l'atteler.\nDéployer : tout décharger.
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Locomotive logistique
+	Health:
+		HP: 45000
+	Armor:
+		Type: Light
+	RailCar:
+		Cells: 2
+		Speed: 220
+		MaxWagons: 3
+	ProximityExternalCondition@RAVITAILLE:
+		Range: 6c0
+	WithRangeCircle@RAVITAILLE:
+		Range: 6c0
+
+WAGON.LOURD.RUB:
+	Inherits: WAGON.LOURD
+	Inherits@RAVITAILLEMENT: ^SourceRavitaillement
+	RenderSprites:
+		Image: wagon.lourd.rub
+	Buildable:
+		BuildPaletteOrder: 301
+		Prerequisites: chantier.ferroviaire, ~vehicles.rubenie, ~techlevel.low
+		Description: Wagon logistique lourd : 2 véhicules. Ravitaille à 6 cases.\nÀ atteler à une locomotive. Déploiement : décharger.
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: Wagon logistique lourd
+	Health:
+		HP: 30000
+	Armor:
+		Type: Light
+	Cargo:
+		MaxWeight: 2
+	ProximityExternalCondition@RAVITAILLE:
+		Range: 6c0
+	WithRangeCircle@RAVITAILLE:
+		Range: 6c0
+	RailCar:
+		Cells: 2
+
+WAGON.LEGER.RUB:
+	Inherits: WAGON.LEGER
+	RenderSprites:
+		Image: wagon.leger.rub
+	Buildable:
+		BuildPaletteOrder: 302
+		Prerequisites: chantier.ferroviaire, ~vehicles.rubenie, ~techlevel.low
+		Description: Wagon logistique léger : 6 fantassins.\nÀ atteler à une locomotive. Déploiement : décharger.
+	Valued:
+		Cost: 200
+	Tooltip:
+		Name: Wagon logistique léger
+	Health:
+		HP: 22000
+	Cargo:
+		MaxWeight: 6
+
+	RailCar:
+		Cells: 2

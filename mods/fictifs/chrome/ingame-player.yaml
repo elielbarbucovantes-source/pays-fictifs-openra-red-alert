@@ -457,6 +457,8 @@ Container@PLAYER_WIDGETS:
 					IconSpriteOffset: -1, -1
 					HotkeyPrefix: Production
 					HotkeyCount: 24
+					# 5 rangées au moins : les 7 onglets (trains compris) tiennent dans le fond.
+					MinimumRows: 5
 					SelectProductionBuildingHotkey: SelectProductionBuilding
 				Container@PALETTE_FOREGROUND:
 					Children:
@@ -485,7 +487,7 @@ Container@PLAYER_WIDGETS:
 					X: 7
 					Y: 2
 					Width: 29
-					Height: 240
+					Height: 270
 					Children:
 						ProductionTypeButton@BUILDING:
 							Logic: AddFactionSuffixLogic
@@ -582,9 +584,26 @@ Container@PLAYER_WIDGETS:
 									X: 6
 									Y: 6
 									ImageCollection: production-icons
-						Button@SCROLL_UP_BUTTON:
+						# Trains (chantier ferroviaire, common/ferroviaire.yaml) : icône dans chrome.yaml.
+						ProductionTypeButton@TRAIN:
 							Logic: AddFactionSuffixLogic
 							Y: 186
+							Width: 28
+							Height: 28
+							VisualHeight: 0
+							Background: sidebar-button
+							TooltipText: Trains
+							TooltipContainer: TOOLTIP_CONTAINER
+							ProductionGroup: Train
+							Key: ProductionTypeTrain
+							Children:
+								Image@ICON:
+									X: 6
+									Y: 6
+									ImageCollection: production-icons-train
+						Button@SCROLL_UP_BUTTON:
+							Logic: AddFactionSuffixLogic
+							Y: 217
 							Width: 28
 							Height: 22
 							VisualHeight: 0
@@ -599,7 +618,7 @@ Container@PLAYER_WIDGETS:
 									ImageName: up
 						Button@SCROLL_DOWN_BUTTON:
 							Logic: AddFactionSuffixLogic
-							Y: 211
+							Y: 242
 							Width: 28
 							Height: 22
 							VisualHeight: 0

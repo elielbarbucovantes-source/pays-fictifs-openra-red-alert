@@ -1,0 +1,41 @@
+MapFormat: 12
+
+RequiresMod: ra
+
+Title: Test Trains Transport
+
+Author: Sprog
+
+Tileset: TEMPERAT
+
+MapSize: 152,152
+
+Bounds: 1,1,150,150
+
+Visibility: Lobby
+
+Categories: Conquest
+
+Players:
+	PlayerReference@Neutral:
+		Name: Neutral
+		OwnsWorld: True
+		NonCombatant: True
+		Faction: allies
+	PlayerReference@Multi0:
+		Name: Multi0
+		Playable: True
+		LockFaction: True
+		Faction: australouis
+		Enemies: Ennemi
+	PlayerReference@Ennemi:
+		Name: Ennemi
+		Faction: soviet
+		Enemies: Multi0
+
+Actors:
+	Actor0: mpspawn
+		Owner: Neutral
+		Location: 20,20
+
+Rules: rules.yaml

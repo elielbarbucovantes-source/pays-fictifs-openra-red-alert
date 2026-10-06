@@ -1,0 +1,68 @@
+# =====================================================================
+# ELIELISTAN — Krajina Ekspres (réseau ferroviaire : common/ferroviaire.yaml)
+# Raid éclair, bien plus rapide que les trains rubéniens. Composition créée
+# attelée : locomotive blindée + wagon lance-roquettes + wagon canon de 30 mm.
+# =====================================================================
+
+KRAJINA:
+	Inherits: ^TrainBlinde
+	RenderSprites:
+		Image: krajina
+	Buildable:
+		BuildPaletteOrder: 313
+		Prerequisites: chantier.ferroviaire, fix, ~vehicles.elielistan, ~techlevel.medium
+		Description: Train blindé rapide (3 voitures) : locomotive blindée,\nwagon lance-roquettes (salve de 8, longue à recharger), wagon canon de 30 mm.\nRaid, attaque éclair, interception de renforts.\nBlindage moyen. 3 fantassins à bord, peut tirer 1 wagon de plus.
+	Valued:
+		Cost: 2200
+	Tooltip:
+		Name: Krajina Ekspres
+	Health:
+		HP: 50000
+	RailCar:
+		Cells: 2
+		Speed: 260
+		MaxWagons: 3
+	Cargo:
+		MaxWeight: 3
+	SpawnsConsist:
+		Behind: krajina.roquettes, krajina.canon
+	Turreted:
+		Offset: 256,0,-90
+		TurnSpeed: 40
+	Armament@PRIMARY:
+		Weapon: M60mg
+		LocalOffset: 213,0,525
+
+KRAJINA.ROQUETTES:
+	Inherits: ^WagonArme
+	RenderSprites:
+		Image: krajina.roquettes
+	RailCar:
+		Cells: 2
+	Tooltip:
+		Name: Wagon lance-roquettes
+	Health:
+		HP: 40000
+	Turreted:
+		Offset: 0,0,0
+		TurnSpeed: 40
+	Armament@PRIMARY:
+		Weapon: KrajinaRoquettes
+		LocalOffset: 209,-60,627, 209,60,627, 209,-20,660, 209,20,660
+
+KRAJINA.CANON:
+	Inherits: ^WagonArme
+	RenderSprites:
+		Image: krajina.canon
+	RailCar:
+		Cells: 2
+	Tooltip:
+		Name: Wagon canon de 30 mm
+	Health:
+		HP: 40000
+	Turreted:
+		Offset: 0,0,0
+		TurnSpeed: 40
+	Armament@PRIMARY:
+		Weapon: KrajinaCanon
+		LocalOffset: 461,0,512

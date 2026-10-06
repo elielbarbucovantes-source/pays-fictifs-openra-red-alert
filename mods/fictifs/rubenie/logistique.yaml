@@ -89,7 +89,8 @@ FACT:
 
 # ---------------------------------------------------------------------
 # Centre logistique : grande zone de ravitaillement. Plusieurs centres
-# se relaient.
+# se relaient. Se pose n'importe où sur la carte (pas besoin d'être près
+# de la base) mais n'ouvre pas de zone de construction autour de lui.
 # ---------------------------------------------------------------------
 CENTRE.LOGISTIQUE:
 	Inherits: ^Building
@@ -104,11 +105,13 @@ CENTRE.LOGISTIQUE:
 		Queue: Building
 		BuildPaletteOrder: 65
 		Prerequisites: proc, ~structures.rubenie, ~techlevel.low
-		Description: Ravitaille les unités terrestres rubéniennes à 14 cases :\n+10 % de dégâts, −10 % de dégâts reçus, réparation lente\nhors combat (bonus gardé 10 s après la sortie du rayon).\nSans ravitaillement : −10 % de dégâts, +10 % de dégâts reçus.\nPlusieurs centres se relaient.
+		Description: Se construit n'importe où sur la carte.\nRavitaille les unités terrestres rubéniennes à 14 cases :\n+10 % de dégâts, −10 % de dégâts reçus, réparation lente\nhors combat (bonus gardé 10 s après la sortie du rayon).\nSans ravitaillement : −10 % de dégâts, +10 % de dégâts reçus.\nPlusieurs centres se relaient.
 	Valued:
 		Cost: 1000
 	Tooltip:
 		Name: Centre logistique
+	-RequiresBuildableArea:
+	-GivesBuildableArea:
 	Building:
 		Footprint: xx xx ==
 		Dimensions: 2,3

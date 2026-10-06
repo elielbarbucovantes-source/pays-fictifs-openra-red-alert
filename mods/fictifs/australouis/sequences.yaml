@@ -243,3 +243,48 @@ base.aeronavale:
 		Tick: 60
 	icon:
 		Filename: fictifs|bits/base.aeronavaleicon.png
+
+# Gare portuaire tournée (australouis/gare-portuaire.yaml)
+gare.portuaire.n:
+	Defaults:
+		Filename: fictifs|bits/gare.portuaire.n.png
+		ZOffset: 512
+	idle:
+		Length: 1
+	damaged-idle:
+		Start: 1
+		Length: 1
+	make:
+		Start: 2
+		Length: 12
+		Tick: 60
+
+# Gare portuaire tournée (australouis/gare-portuaire.yaml)
+gare.portuaire.e:
+	Defaults:
+		Filename: fictifs|bits/gare.portuaire.e.png
+		ZOffset: -1024
+	idle:
+		Length: 1
+	damaged-idle:
+		Start: 1
+		Length: 1
+	make:
+		Start: 2
+		Length: 12
+		Tick: 60
+
+# Gare portuaire tournée (australouis/gare-portuaire.yaml)
+gare.portuaire.o:
+	Defaults:
+		Filename: fictifs|bits/gare.portuaire.o.png
+		ZOffset: -1024
+	idle:
+		Length: 1
+	damaged-idle:
+		Start: 1
+		Length: 1
+	make:
+		Start: 2
+		Length: 12
+		Tick: 60

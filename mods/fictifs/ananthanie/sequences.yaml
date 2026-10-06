@@ -460,3 +460,20 @@ ananthanie-powers:
 		Filename: fictifs|bits/ponticon.png
 	fraternite:
 		Filename: fictifs|bits/fraterniteicon.png
+
+# Train blindé (ananthanie/trains.yaml)
+gustav:
+	idle:
+		Filename: fictifs|bits/gustav.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/gustav.png
+		Start: 32
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/gustavicon.png
+
+d311:
+	idle:
+		Filename: fictifs|bits/d311.png
+		Facings: 32

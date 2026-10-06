@@ -128,4 +128,36 @@ La terreur des flottes lentes.""",
 Cinq Harpía à bord, et quinze fantassins ou cinq chars ou canons à débarquer.
 Frappe aérienne et projection terrestre au même endroit.""",
 "Approchez de la côte ennemie sous escorte, faites décoller les Harpía, puis collez-vous au rivage pour débarquer les troupes. La touche F fait les deux."),
+"LOCOMOTIVE.ELI": ("Locomotive rapide", """Locomotive du train rapide : la plus rapide du jeu ; 2 wagons (6 véhicules ou 8 fantassins).
+Base, front, récupération, nouvelle position : tout en quelques secondes.
+Peu blindée.""",
+"Ne la laissez jamais à l'arrêt sous le feu : chargez, partez."),
+"WAGON.LOURD.ELI": ("Wagon rapide lourd", """Wagon plat à véhicules : 3 places (un char lourd en prend 3).
+Chargement et déchargement deux fois plus rapides en gare, trois fois sur la voie.""",
+"Idéal pour déposer des chars hors gare, en pleine campagne, sans perdre de temps."),
+"WAGON.LEGER.ELI": ("Wagon rapide léger", """Wagon de troupes : 4 fantassins, débarquement éclair.""",
+"Lâchez l'infanterie derrière la ligne ennemie et repartez avant la riposte."),
+"LOCOMOTIVE.AERIENNE": ("Locomotive du train aérien", """Locomotive du train aérien mobile, une base aérienne sur rails.
+Elle tire les quatre wagons aériens : munitions, kérosène et deux ateliers.
+Lente et peu blindée : une cible prioritaire pour l'ennemi.""",
+"Faites rouler le train sous la route de vos avions : ils se réarment et se réparent sans rentrer à l'aérodrome."),
+"WAGON.MUNITIONS": ("Wagon de munitions", """Wagon-plateforme : réarme les avions alliés à 3 cases, en vol, même quand le train roule.
+Stock de 30 munitions, refait lentement sur la voie et vite en gare.
+Un avion ou un hélicoptère elielistanais peut s'y poser, même train en marche : réarmé et réparé à bord.""",
+"Gardez un œil sur ses pips : un wagon vide doit repasser en gare."),
+"WAGON.CARBURANT": ("Wagon-citerne de kérosène", """Les avions alliés qui passent à 3 cases font le plein :
++20 % de vitesse, encore 20 secondes après.""",
+"Faites passer les raids au-dessus du train juste avant l'attaque."),
+"WAGON.ATELIER.AERIEN": ("Wagon-atelier aérien", """Wagon-plateforme : répare lentement les avions alliés à 3 cases (1 % par seconde), même en vol.
+Deux ateliers : deux fois plus vite. Jamais de réparation instantanée.
+Un avion ou un hélicoptère elielistanais peut s'y poser : réarmé et réparé à bord.""",
+"Faites tourner les avions abîmés au-dessus du train entre deux passes."),
+"KRAJINA": ("Krajina Ekspres", """Train blindé rapide, bien plus vif que les trains rubéniens.
+Trois voitures : locomotive blindée, wagon lance-roquettes (salve de huit, longue à recharger), wagon canon de 30 mm.
+Arriver vite, frapper fort, repartir avant la réaction ennemie.""",
+"Raid éclair sur les renforts et les gares ennemies : tirez la salve puis repliez-vous, il ne gagne pas les combats prolongés."),
+"LOCOMOTIVE.NUCLEAIRE": ("Locomotive nucléaire", """Locomotive blindée à réacteur nucléaire : rapide, endurante, elle tire jusqu'à 12 wagons sans ralentir.
+Une seule à la fois. Son réacteur est son point faible : détruite, elle explose violemment
+(gros dégâts sur 6 cases, alliés compris) et laisse une zone contaminée.""",
+"Le convoi géant de l'Elielistan : toute une armée d'un coup sur le front. Mais ne la faites jamais entrer dans votre base ni la garer près de vos troupes."),
 }

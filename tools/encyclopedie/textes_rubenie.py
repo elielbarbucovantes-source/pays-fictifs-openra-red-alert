@@ -70,7 +70,8 @@ Un seul exemplaire : le cœur de la forteresse.""",
 "Construisez-le au centre de votre base, bien protégé : il débloque le Second Galactique et le Tunnelier."),
 "CENTRE.LOGISTIQUE": ("Centre logistique", """Grand dépôt qui ravitaille les unités terrestres dans un rayon de 14 cases.
 Les unités ravitaillées gardent leur efficacité et se réparent lentement hors combat.
-Plusieurs centres se relaient : en détruire un ne suffit pas.""",
+Plusieurs centres se relaient : en détruire un ne suffit pas.
+Il se pose n'importe où sur la carte, mais n'étend pas la zone de construction.""",
 "Couvrez vos lignes de front de centres logistiques ; hors de leur rayon pendant 30 s, vos unités deviennent isolées."),
 "BASE.AERIENNE": ("Base aérienne", """Base qui produit, répare et réarme les avions rubéniens.
 Chasseur polyvalent, intercepteur, avion d'attaque et avion de reconnaissance.
@@ -148,4 +149,26 @@ Il ravitaille les unités autour de lui et n'est jamais isolé.""",
 Elle creuse des tranchées case par case ; dès qu'une tranchée touche la mer, l'eau s'y engouffre
 et la transforme en canal navigable. Ceux qui se trouvent au fond se noient.""",
 "Tracez le canal depuis l'intérieur vers la côte : la tranchée reste sèche jusqu'au dernier coup de pelle, puis la mer envahit tout d'un coup. De quoi couper une route, isoler une base ou ouvrir un passage à la flotte."),
+"LOCOMOTIVE.RUB": ("Locomotive logistique", """Locomotive du train logistique lourd : la plus grande capacité du jeu.
+Elle tire 3 wagons (6 véhicules ou 18 fantassins), roule vite et ravitaille les unités rubéniennes à 6 cases.
+Peu blindée et bon marché : un camion sur rails, pas un char.""",
+"Faites-en la colonne vertébrale du front : elle amène renforts et ravitaillement au même endroit. Escortez-la d'un train blindé."),
+"WAGON.LOURD.RUB": ("Wagon logistique lourd", """Wagon plat à véhicules : 2 places.
+Il ravitaille lui aussi les unités rubéniennes à 6 cases.""",
+"Garé au bout de la ligne, il sert de dépôt de ravitaillement avancé."),
+"WAGON.LEGER.RUB": ("Wagon logistique léger", """Wagon de troupes : 6 fantassins.
+Fragile : un obus bien placé coûte une compagnie.""",
+"Débarquez en gare, à l'abri : hors gare, la descente est lente et désordonnée."),
+"BP42": ("BP-42", """Train blindé polyvalent de 4 voitures : locomotive blindée PR-35 (mitrailleuse, cinq fantassins),
+deux wagons d'artillerie PL-37 de 76 mm et une plate-forme antiaérienne.
+Il escorte les trains logistiques et soutient les troupes le long des voies.""",
+"Accompagnez vos renforts ferroviaires et sécurisez les lignes ; débarquez ses fantassins en gare pour tenir un point."),
+"ZAAMURETS": ("Zaamurets", """Autorail blindé lourd, d'une seule voiture : deux canons de 107 mm et un affût antiaérien jumelé.
+Son blindage très épais encaisse un cinquième de dégâts en moins.
+Il tient les lignes et protège les infrastructures ferroviaires.""",
+"Stationnez-le près des gares et des nœuds du réseau : il repousse aussi bien les raids terrestres qu'aériens."),
+"BP43": ("BP-43", """Train blindé lourd offensif de 7 voitures : locomotive blindée, quatre wagons à tourelle
+de T-34-85 et deux plates-formes antiaériennes. Plus lent et plus cher que le BP-42,
+il fait d'une voie ferrée un axe d'attaque. Deux fantassins seulement à bord.""",
+"Poussez la voie vers le front, puis bombardez les positions ennemies depuis les rails, à l'abri derrière vos lignes."),
 }

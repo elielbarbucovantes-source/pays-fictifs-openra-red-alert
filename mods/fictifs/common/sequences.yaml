@@ -39,3 +39,70 @@ zone.industrielle:
 		Filename: fictifs|bits/zone.industrielle.png
 		Length: 4
 		Tick: 200
+
+# Réseau ferroviaire (common/ferroviaire.yaml). Voie et gare passent sous les trains (ZOffset).
+rail:
+	Defaults:
+		Filename: fictifs|bits/rail.png
+		ZOffset: -512
+	idle:
+		Length: 16
+	damaged-idle:
+		Start: 16
+		Length: 16
+	icon:
+		Filename: fictifs|bits/railicon.png
+		ZOffset: 0
+
+gare:
+	Defaults:
+		Filename: fictifs|bits/gare.png
+		ZOffset: -1024
+	idle:
+		Length: 1
+	damaged-idle:
+		Start: 1
+		Length: 1
+	make:
+		Start: 2
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/gareicon.png
+		ZOffset: 0
+
+chantier.ferroviaire:
+	Defaults:
+		Filename: fictifs|bits/chantier.ferroviaire.png
+	idle:
+		Length: 1
+	damaged-idle:
+		Start: 1
+		Length: 1
+	make:
+		Start: 2
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/chantier.ferroviaireicon.png
+
+locomotive.diesel:
+	idle:
+		Filename: fictifs|bits/locomotive.diesel.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/locomotive.dieselicon.png
+
+wagon.lourd:
+	idle:
+		Filename: fictifs|bits/wagon.lourd.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.lourdicon.png
+
+wagon.leger:
+	idle:
+		Filename: fictifs|bits/wagon.leger.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.legericon.png

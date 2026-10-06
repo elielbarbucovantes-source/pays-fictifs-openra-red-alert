@@ -33,6 +33,7 @@ SECTIONS = [
     ("VÉHICULES", lambda s: s["queue"] == "Vehicle"),
     ("AVIATION", lambda s: s["queue"] == "Aircraft"),
     ("MARINE", lambda s: s["queue"] == "Ship"),
+    ("TRAINS", lambda s: s["queue"] == "Train"),
 ]
 
 PAYS = {

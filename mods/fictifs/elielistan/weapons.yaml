@@ -394,3 +394,24 @@ AvispaDive:
 		Explosions: small_explosion
 		ImpactSounds: kaboom12.aud
 		ValidTargets: Ground, GroundActor
+
+# ---------------------------------------------------------------------
+# Krajina Ekspres (elielistan/trains.yaml) : grosse salve, recharge lente.
+# ---------------------------------------------------------------------
+KrajinaRoquettes:
+	Inherits: Dragon
+	Range: 7c0
+	Burst: 8
+	BurstDelays: 5
+	ReloadDelay: 175
+	Projectile: Missile
+		RangeLimit: 8c512
+	Warhead@1Dam: SpreadDamage
+		Damage: 4500
+
+KrajinaCanon:
+	Inherits: 90mm
+	Range: 5c0
+	ReloadDelay: 30
+	Warhead@1Dam: SpreadDamage
+		Damage: 2000

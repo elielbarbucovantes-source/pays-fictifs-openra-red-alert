@@ -16,6 +16,8 @@ from modeles import australouis as A  # noqa: E402
 from modeles import elielistan as E  # noqa: E402
 from modeles import rubenie as U  # noqa: E402
 from modeles import ananthanie as N  # noqa: E402
+from modeles import ferroviaire as F  # noqa: E402
+from modeles import convois as V  # noqa: E402
 
 AIR = dict(shadow=False)
 MER = dict(shadow=False, waterline=0.0)
@@ -122,6 +124,27 @@ MONTAGE = {
     "vidrakarn": (0.0, -1.5, 5.0),
     "ananta": (0.0, -1.0, 5.2),
 }
+# Voitures de train à l'échelle des unités (2026-10-06, modeles/convois.py) : une voiture de N cases
+# fait N × 24 − 2 px de long ; largeur et hauteur × 1,5, tourelles × 1,2 en longueur.
+TOURELLE_Y = 1.2
+
+
+def _voiture(nom):
+    corps, cases, tour = V.VOITURES[nom]
+    k = V.ECHELLE_XZ
+    c = (lambda: corps().scale(k, 1.0, k))
+    t = None
+    if tour is not None:
+        fn = tour[0]
+        t = (lambda: fn().scale(k, TOURELLE_Y, k))
+        x, y, z = tour[1]
+        MONTAGE[nom] = (x * k, y, z * k)
+    taille = cases * 24 + 24 + (24 if nom == "gustav" else 0)
+    return (c, t, taille, 32, {}, dict(zoom=min(1.9, 2.3 / cases), dz=4))
+
+
+for _n in V.VOITURES:
+    UNITES[_n] = _voiture(_n)
 
 # Ombres et icônes : tourelles supplémentaires qui partagent un sprite (Bastion : tourelle bâbord).
 EN_PLUS = {
@@ -316,6 +339,15 @@ def _bat_jobs():
             fr.append((N.socle_ambar, dict(degats=dmg, facing=k * 360 / 32, pose=N.ambar_tourelle()), {}))
     fr += [(N.socle_ambar, dict(t=(k + 1) / MAKE, pose=N.ambar_tourelle(), facing=200), {}) for k in range(MAKE)]
     j["batterie.ambar"] = dict(cel=(2, 1), marge=(4, 12), eau=False, frames=fr)
+    # réseau ferroviaire
+    simple("gare", F.gare, (4, 3), (0, 18), 1, feux=[(-20, 24, 16, 2.0)])
+    simple("chantier.ferroviaire", F.chantier_ferroviaire, (4, 3), (0, 18), 1, feux=[(-16, 14, 20, 2.2)])
+    # gare portuaire tournée (l'eau au nord, à l'est, à l'ouest ; la gare de base a l'eau au sud)
+    simple("gare.portuaire.n", lambda t=0.0: F.gare(t).rot_z(180), (4, 3), (0, 18), 1, feux=[(20, -24, 16, 2.0)])
+    simple("gare.portuaire.e", lambda t=0.0: F.gare(t).rot_z(90), (3, 4), (0, 18), 1, feux=[(-24, -20, 16, 2.0)])
+    simple("gare.portuaire.o", lambda t=0.0: F.gare(t).rot_z(-90), (3, 4), (0, 18), 1, feux=[(24, 20, 16, 2.0)])
+    j["rail"] = dict(cel=(1, 1), marge=(0, 2), eau=False,
+                     frames=[((lambda phase=0.0, m=m, d=d: F.rail(m, d)), {}, {}) for d in (False, True) for m in range(16)])
     # pipeline : 16 raccordements, intact puis endommagé
     j["pipeline"] = dict(cel=(1, 1), marge=(0, 4), eau=False,
                          frames=[((lambda phase=0.0, m=m, d=d: B.pipeline(m, d)), {}, {}) for d in (False, True) for m in range(16)])
@@ -341,7 +373,7 @@ def _bat_icone(nom):
     m = fn(*fo.values()) if fo else fn()
     if ro.get("pose") is not None:
         m = R.merge(m, ro["pose"].rot_z(200))
-    zoom = {1: 1.7, 2: 1.05, 3: 0.72}[max(J["cel"])]
+    zoom = {1: 1.7, 2: 1.05, 3: 0.72, 4: 0.56}[max(J["cel"])]
     return R.icon(m, zoom=zoom, facing=200, dz=6, water=J["eau"])
 
 
@@ -350,7 +382,9 @@ def generer_batiments(noms, pool):
         n = len(_bat_jobs()[nom]["frames"])
         frames = pool.map(_bat_frame, [(nom, k) for k in range(n)])
         R.save(frames, nom)
-        if nom not in ("pipeline", "zone.industrielle"):
+        if nom == "rail":
+            R.save([R.icon(F.rail_icone(), zoom=1.0, facing=200, dz=4)], "railicon")
+        elif nom not in ("pipeline", "zone.industrielle") and not nom.startswith("gare.portuaire."):
             R.save([_bat_icone(nom)], nom + "icon")
         print(f"{nom} : {n} images de {frames[0].size[0]}×{frames[0].size[1]}")
 

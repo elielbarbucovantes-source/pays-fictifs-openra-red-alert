@@ -56,6 +56,12 @@ namespace OpenRA.Mods.Fictifs.Traits
 		[Desc("Distance ahead of the carrier that launched aircraft fly to.")]
 		public readonly WDist LaunchDistance = new(3072);
 
+		[Desc("Condition granted while an aircraft is on board, by aircraft type (e.g. to draw it parked on the deck).")]
+		public readonly Dictionary<string, string> StowedConditions = new();
+
+		[GrantedConditionReference]
+		public IEnumerable<string> LinterStowedConditions => StowedConditions.Values;
+
 		[Desc("Bots launch their ready aircraft automatically every this many ticks. 0 disables.")]
 		public readonly int BotLaunchInterval = 250;
 
@@ -78,6 +84,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 		{
 			public Actor Actor;
 			public int ReadyAt;
+			public int Token = Actor.InvalidConditionToken;
 		}
 
 		public readonly AircraftCarrierInfo Info;
@@ -243,13 +250,23 @@ namespace OpenRA.Mods.Fictifs.Traits
 					return;
 
 				w.Remove(a);
-				stowed.Add(new Stowed { Actor = a, ReadyAt = ticks + Info.RearmDelay });
+				stowed.Add(new Stowed { Actor = a, ReadyAt = ticks + Info.RearmDelay, Token = GrantStowedCondition(a) });
 			});
+		}
+
+		// Avion posé sur le pont (wagon-plateforme du train aérien) : condition par type pour l'afficher.
+		int GrantStowedCondition(Actor a)
+		{
+			return Info.StowedConditions.TryGetValue(a.Info.Name, out var condition)
+				? self.GrantCondition(condition) : Actor.InvalidConditionToken;
 		}
 
 		void Launch(Stowed s)
 		{
 			stowed.Remove(s);
+			if (s.Token != Actor.InvalidConditionToken)
+				self.RevokeCondition(s.Token);
+
 			var a = s.Actor;
 			var aircraft = a.Trait<Aircraft>();
 			var facing = self.TraitOrDefault<IFacing>();

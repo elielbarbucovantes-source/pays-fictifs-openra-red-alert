@@ -1,0 +1,84 @@
+# =====================================================================
+# ANANTHANIE — Schwerer Gustav (réseau ferroviaire : common/ferroviaire.yaml)
+# Composition réelle : affût de 5 cases encadré de deux locomotives D311.
+# Super-arme ferroviaire : lent, se met en batterie (touche de déploiement,
+# ~10 s, immobile), puis tire un obus de 800 mm à 40 cases toutes les 60 s.
+# Redéployer pour repartir. Un seul à la fois.
+# =====================================================================
+
+GUSTAV:
+	Inherits: ^Train
+	Inherits@auto: ^AutoTargetGround
+	RenderSprites:
+		Image: gustav
+	Buildable:
+		Queue: Train
+		BuildPaletteOrder: 314
+		BuildLimit: 1
+		Prerequisites: chantier.ferroviaire, techcenter, ~vehicles.ananthanie, ~techlevel.high
+		Description: Canon ferroviaire géant : détruit bâtiments et\nconcentrations de véhicules à 40 cases.\nDéployer : mise en batterie (10 s, immobile), puis un tir\ntoutes les 60 s. Redéployer pour repartir.\nTrès lent, cible prioritaire. Un seul à la fois.
+	Valued:
+		Cost: 7500
+	Tooltip:
+		Name: Schwerer Gustav
+	Health:
+		HP: 220000
+	Selectable:
+		Bounds: 2560, 2560
+		Priority: 3
+	RailCar:
+		Locomotive: true
+		Cells: 5
+		Speed: 70
+		MaxWagons: 2
+		TurnSpeed: 16
+		PauseOnCondition: deployed
+	SpawnsConsist:
+		InFront: d311
+		Behind: d311
+	GrantConditionOnDeploy:
+		DeployedCondition: deployed
+		SkipMakeAnimation: true
+	GrantConditionAfterDelay@BATTERIE:
+		RequiresCondition: deployed
+		Condition: en-batterie
+		Delay: 250
+	Turreted:
+		Offset: 171,0,0
+		TurnSpeed: 4
+		RealignDelay: -1
+	AttackTurreted:
+		RequiresCondition: en-batterie
+		# tire aussi sur les bâtiments repérés restés sous le brouillard (sinon portée limitée à sa vue)
+		TargetFrozenActors: true
+	WithSpriteTurret:
+	Armament:
+		Weapon: GustavObus
+		LocalOffset: 2458,0,2445
+		RequiresCondition: en-batterie
+	AutoTarget:
+		ScanRadius: 40
+	AutoTargetPriority@DEFAULT:
+		ValidTargets: Structure, Defense, Vehicle
+	WithTextDecoration@BATTERIE:
+		Text: En batterie
+		Position: Top
+		Color: F0A030
+		ValidRelationships: Ally
+		RequiresCondition: en-batterie
+	RevealsShroud:
+		Range: 8c0
+	Explodes:
+		Weapon: BuildingExplode
+		EmptyWeapon: BuildingExplode
+
+D311:
+	Inherits: ^Train
+	RenderSprites:
+		Image: d311
+	Tooltip:
+		Name: Locomotive diesel D311
+	Health:
+		HP: 40000
+	RailCar:
+		Cells: 2

@@ -1,0 +1,307 @@
+# =====================================================================
+# ELIELISTAN — train rapide et train aérien mobile
+# (voir common/trains-transport.yaml)
+#
+# Train rapide : le plus rapide du jeu, chargement et déchargement deux
+# fois plus rapides en gare et trois fois hors gare ; capacité un peu
+# plus faible (2 wagons : 6 véhicules ou 8 fantassins), peu blindé.
+#
+# Train aérien mobile : base aérienne sur rails.
+#   🚆══[MUNITIONS]══[CARBURANT]══[ATELIER]══[ATELIER]
+#   Munitions : réarme les avions alliés à 3 cases, en vol, même si le
+#               train roule ; stock limité, refait lentement (vite en gare).
+#   Carburant : +20 % de vitesse aux avions qui passent (encore 20 s après).
+#   Atelier   : réparation lente des avions (deux ateliers : deux fois plus).
+#   Munitions et ateliers sont des wagons-plateformes : un avion ou un
+#   hélicoptère elielistanais s'y pose (clic droit sur le wagon), même
+#   train en marche, et y est réarmé et réparé ; déploiement : décollage.
+#   Très cher, lent, peu blindé : un exemplaire de chaque wagon.
+# =====================================================================
+
+LOCOMOTIVE.ELI:
+	Inherits: LOCOMOTIVE.DIESEL
+	RenderSprites:
+		Image: locomotive.eli
+	Buildable:
+		BuildPaletteOrder: 300
+		Prerequisites: chantier.ferroviaire, ~vehicles.elielistan, ~techlevel.low
+		Description: Train rapide : le plus rapide du jeu, tire 2 wagons.\nPeu blindée.\nClic droit : rouler jusqu'à la voie. Clic droit sur un wagon : l'atteler.\nDéployer : tout décharger.
+	Valued:
+		Cost: 700
+	Tooltip:
+		Name: Locomotive rapide
+	Health:
+		HP: 45000
+	Armor:
+		Type: Light
+	RailCar:
+		Cells: 2
+		Speed: 280
+		MaxWagons: 2
+
+^WagonRapide:
+	Buildable:
+		Prerequisites: chantier.ferroviaire, ~vehicles.elielistan, ~techlevel.low
+	Armor:
+		Type: Light
+	TrainCargo:
+		StationUnloadDelay: 6
+		TrackUnloadDelay: 16
+		StationLoadHold: 6
+		TrackLoadHold: 16
+
+WAGON.LOURD.ELI:
+	Inherits: WAGON.LOURD
+	Inherits@RAPIDE: ^WagonRapide
+	RenderSprites:
+		Image: wagon.lourd.eli
+	Buildable:
+		BuildPaletteOrder: 301
+		Description: Wagon rapide lourd : 3 véhicules (chars lourds : 3 places).\nChargement et déchargement éclair.\nÀ atteler à une locomotive. Déploiement : décharger.
+	Valued:
+		Cost: 400
+	Tooltip:
+		Name: Wagon rapide lourd
+	Health:
+		HP: 30000
+	RailCar:
+		Cells: 3
+
+WAGON.LEGER.ELI:
+	Inherits: WAGON.LEGER
+	Inherits@RAPIDE: ^WagonRapide
+	RenderSprites:
+		Image: wagon.leger.eli
+	Buildable:
+		BuildPaletteOrder: 302
+		Description: Wagon rapide léger : 4 fantassins.\nChargement et déchargement éclair.\nÀ atteler à une locomotive. Déploiement : décharger.
+	Valued:
+		Cost: 250
+	Tooltip:
+		Name: Wagon rapide léger
+	Health:
+		HP: 24000
+	Cargo:
+		MaxWeight: 4
+	RailCar:
+		Cells: 1
+
+# ---------------------------------------------------------------------
+# Train aérien mobile
+# ---------------------------------------------------------------------
+LOCOMOTIVE.AERIENNE:
+	Inherits: LOCOMOTIVE.DIESEL
+	RenderSprites:
+		Image: locomotive.aerienne
+	Buildable:
+		BuildPaletteOrder: 303
+		BuildLimit: 1
+		Prerequisites: chantier.ferroviaire, aerodromo, ~vehicles.elielistan, ~techlevel.medium
+		Description: Locomotive du train aérien mobile (1 au maximum).\nTire les 4 wagons aériens : munitions, carburant, 2 ateliers.\nLente et peu blindée : à protéger.\n  Requiert : Aeródromo
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Locomotive du train aérien
+	Health:
+		HP: 50000
+	Armor:
+		Type: Light
+	RailCar:
+		Cells: 2
+		Speed: 150
+		MaxWagons: 4
+
+^WagonAerien:
+	Inherits: ^Train
+	RenderSprites:
+		Image: wagon.lourd
+	Buildable:
+		Queue: Train
+		Prerequisites: chantier.ferroviaire, aerodromo, ~vehicles.elielistan, ~techlevel.medium
+	RailCar:
+	Health:
+		HP: 35000
+	Armor:
+		Type: Light
+
+# Pont d'appontage : un appareil posé, dessiné sur le wagon pendant qu'il y est.
+^PlateformeAerienne:
+	Reservable:
+	AircraftCarrier:
+		Types: harpia, blackhawk, condor, pico, garra
+		MaxAircraft: 1
+		RearmDelay: 375
+		StowedConditions:
+			harpia: pose-harpia
+			blackhawk: pose-blackhawk
+			condor: pose-condor
+			pico: pose-pico
+			garra: pose-garra
+	WithCarrierPipsDecoration:
+		Position: BottomRight
+		Margin: 4, 3
+		RequiresSelection: true
+	WithIdleOverlay@HARPIA:
+		Image: harpia
+		Sequence: idle
+		Offset: 0,0,200
+		RequiresCondition: pose-harpia
+	WithIdleOverlay@BLACKHAWK:
+		Image: mh60
+		Sequence: idle
+		Offset: 0,0,200
+		RequiresCondition: pose-blackhawk
+	WithIdleOverlay@CONDOR:
+		Image: condor
+		Sequence: idle
+		Offset: 0,0,200
+		RequiresCondition: pose-condor
+	WithIdleOverlay@PICO:
+		Image: pico
+		Sequence: idle
+		Offset: 0,0,200
+		RequiresCondition: pose-pico
+	WithIdleOverlay@GARRA:
+		Image: garra
+		Sequence: idle
+		Offset: 0,0,200
+		RequiresCondition: pose-garra
+
+WAGON.MUNITIONS:
+	Inherits: ^WagonAerien
+	Inherits@PONT: ^PlateformeAerienne
+	RenderSprites:
+		Image: wagon.munitions
+	Buildable:
+		BuildPaletteOrder: 304
+		BuildLimit: 1
+		Description: Wagon-plateforme de munitions du train aérien (1 au maximum).\nRéarme les avions alliés à 3 cases, même en vol\net même si le train roule. Stock de 30 munitions,\nrefait lentement sur la voie, vite en gare.\nUn appareil elielistanais peut s'y poser (clic droit) :\nréarmé et réparé à bord. Déployer : décollage.
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Wagon de munitions
+	AmmoPool:
+		Name: stock
+		Ammo: 30
+		Armaments: aucun
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		RequiresSelection: true
+		PipCount: 6
+	AirResupply:
+		AmmoPool: stock
+		Range: 3c0
+		Interval: 25
+		RefillDelay: 100
+		StationRefillDelay: 10
+	WithRangeCircle@AERIEN:
+		Type: aerien
+		Range: 3c0
+		Color: 4080FF60
+		Visible: WhenSelected
+	RailCar:
+		Cells: 3
+
+WAGON.CARBURANT:
+	Inherits: ^WagonAerien
+	RenderSprites:
+		Image: wagon.carburant
+	Buildable:
+		BuildPaletteOrder: 305
+		BuildLimit: 1
+		Description: Wagon-citerne du train aérien (1 au maximum).\nLes avions alliés qui passent à 3 cases font le plein :\n+20 % de vitesse, encore 20 s après.
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Wagon-citerne de kérosène
+	ProximityExternalCondition@CARBURANT:
+		Condition: carburant
+		Range: 3c0
+		MaximumVerticalOffset: 5c0
+	WithRangeCircle@AERIEN:
+		Type: aerien
+		Range: 3c0
+		Color: 4080FF60
+		Visible: WhenSelected
+	Explodes:
+		Weapon: UnitExplode
+		EmptyWeapon: UnitExplode
+	RailCar:
+		Cells: 2
+
+WAGON.ATELIER.AERIEN:
+	Inherits: ^WagonAerien
+	Inherits@PONT: ^PlateformeAerienne
+	RenderSprites:
+		Image: wagon.atelier.aerien
+	Buildable:
+		BuildPaletteOrder: 306
+		BuildLimit: 2
+		Description: Wagon-plateforme atelier du train aérien (2 au maximum).\nRépare lentement les avions alliés à 3 cases (1 %/s),\nmême en vol ; deux ateliers : 2 %/s.\nUn appareil elielistanais peut s'y poser (clic droit) :\nréarmé et réparé à bord. Déployer : décollage.
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Wagon-atelier aérien
+	ProximityExternalCondition@ATELIERAERIEN:
+		Condition: atelier-aerien
+		Range: 3c0
+		MaximumVerticalOffset: 5c0
+	WithRangeCircle@AERIEN:
+		Type: aerien
+		Range: 3c0
+		Color: 4080FF60
+		Visible: WhenSelected
+	RailCar:
+		Cells: 3
+
+# Les appareils elielistanais se posent sur les plateformes du train aérien.
+HARPIA:
+	Rearmable:
+		RearmActors: aerodromo, porta.aguila, porte.avions.rub, wagon.munitions, wagon.atelier.aerien
+GARRA:
+	Rearmable:
+		RearmActors: hpad, wagon.munitions, wagon.atelier.aerien
+	CarrierAircraft:
+BLACKHAWK:
+	CarrierAircraft:
+CONDOR:
+	CarrierAircraft:
+PICO:
+	CarrierAircraft:
+
+# ---------------------------------------------------------------------
+# Train nucléaire : locomotive blindée à réacteur nucléaire. Rapide et
+# endurante, elle tire jusqu'à 12 wagons sans ralentir. Détruite, son
+# réacteur explose violemment (ennemis comme alliés) et laisse une zone
+# contaminée.
+# ---------------------------------------------------------------------
+LOCOMOTIVE.NUCLEAIRE:
+	Inherits: LOCOMOTIVE.DIESEL
+	RenderSprites:
+		Image: locomotive.nucleaire
+	Buildable:
+		BuildPaletteOrder: 307
+		BuildLimit: 1
+		BuildDurationModifier: 150
+		Prerequisites: chantier.ferroviaire, atek, ~vehicles.elielistan, ~techlevel.high
+		Description: Locomotive blindée à moteur nucléaire (1 au maximum).\nRapide, tire jusqu'à 12 wagons sans ralentir.\nDétruite, son réacteur explose violemment :\ngros dégâts sur 6 cases, alliés compris, puis zone contaminée.\nGardez-la loin de vos troupes et de votre base.\n  Requiert : centre technologique allié
+	Valued:
+		Cost: 3000
+	Tooltip:
+		Name: Locomotive nucléaire
+	Health:
+		HP: 130000
+	Armor:
+		Type: Heavy
+	RailCar:
+		Cells: 3
+		Speed: 270
+		MaxWagons: 12
+	RevealsShroud:
+		Range: 7c0
+	Explodes:
+		Weapon: ExplosionReacteurTrain
+		EmptyWeapon: ExplosionReacteurTrain
+	SpawnActorOnDeath@RADIATION:
+		Actor: zone.radioactive.1

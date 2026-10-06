@@ -60,4 +60,21 @@ Par dizaines, il submerge.""",
 Quand sa révolution est prête, tout ce qui l'entoure change de camp : soldats, chars, bâtiments.
 Fragile : l'ennemi voudra l'abattre avant qu'il ne parle.""",
 "Attendez que la barre violette soit pleine (5 minutes), approchez-le discrètement d'un groupe ennemi ou d'une base, puis déployez-le (F)."),
+"LOCOMOTIVE.AUS": ("Locomotive côtière", """Locomotive du train logistique côtier : marine, port, rail, front.
+Elle tire 3 wagons, dont le wagon porte-bateaux.""",
+"Reliez une gare portuaire au front : ce que la flotte débarque part aussitôt par le rail."),
+"WAGON.LOURD.AUS": ("Wagon côtier lourd", """Wagon plat à véhicules : 2 places.
+À la gare portuaire, il reçoit directement les véhicules des transports navals.""",
+"Garez-le en gare portuaire avant l'arrivée du convoi naval."),
+"WAGON.LEGER.AUS": ("Wagon côtier léger", """Wagon de troupes : 6 fantassins.
+À la gare portuaire, il reçoit directement l'infanterie des transports navals.""",
+"Même usage que le wagon lourd, pour l'infanterie."),
+"WAGON.BATEAUX": ("Wagon porte-bateaux", """Transporte des navires d'un plan d'eau à l'autre : 2 places
+(vedette ou sous-marin 1, destroyer ou transport 2 ; pas de croiseurs ni de porte-avions).
+Les navires embarquent et débarquent depuis l'eau qui borde la voie.""",
+"Faites passer une flottille d'un lac à la mer, ou d'une côte à l'autre, là où l'ennemi ne l'attend pas."),
+"GARE.PORTUAIRE": ("Gare portuaire", """Gare à cheval sur la côte : quai à terre et voie en haut, quai sur l'eau en bas.
+Un transport naval à l'arrêt au quai passe ses passagers directement dans les wagons en gare.
+Les navires montent dans le wagon porte-bateaux depuis le quai.""",
+"Le cœur de la logistique australouisienne : protégez-la côté mer comme côté terre."),
 }

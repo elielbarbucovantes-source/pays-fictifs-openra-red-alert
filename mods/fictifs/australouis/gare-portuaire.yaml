@@ -1,0 +1,66 @@
+# =====================================================================
+# Gare portuaire : 4 orientations (touche R pendant la pose pour tourner).
+# La gare de base (australouis/trains-transport.yaml) a l'eau au sud ;
+# les variantes ont l'eau au nord, à l'est et à l'ouest. Elles ne sont
+# pas dans la barre de construction : on les obtient en tournant la gare.
+# =====================================================================
+
+Player:
+	PlaceBuilding:
+		ToggleVariantKey: TogglePlacementVariant
+
+GARE.PORTUAIRE:
+	PlaceBuildingVariants:
+		Actors: gare.portuaire.o, gare.portuaire.n, gare.portuaire.e
+	Buildable:
+		Description: Gare au bord de l'eau : quai à terre et voie côté terre,\nquai sur l'eau (au moins 2 cases d'eau).\nTouche R pendant la pose : tourner la gare (eau au sud, à l'ouest,\nau nord ou à l'est).\nUn transport naval à l'arrêt au quai passe ses passagers\ndirectement dans les wagons en gare.\nLes navires montent dans le wagon porte-bateaux depuis le quai.
+
+^GarePortuaireVariante:
+	Inherits: GARE.PORTUAIRE
+	-Buildable:
+	-PlaceBuildingVariants:
+
+# Eau au nord : quai en haut, voie au milieu, quai à terre en bas.
+GARE.PORTUAIRE.N:
+	Inherits: ^GarePortuaireVariante
+	RenderSprites:
+		Image: gare.portuaire.n
+	PortBuilding:
+		Footprint: ____ ++++ x==x
+		WaterCells: 0,0, 1,0, 2,0, 3,0
+
+# Eau à l'est : quai à terre à l'ouest, voie nord-sud, quai sur l'eau à l'est.
+GARE.PORTUAIRE.E:
+	Inherits: ^GarePortuaireVariante
+	RenderSprites:
+		Image: gare.portuaire.e
+	HitShape:
+		Type: Rectangle
+			TopLeft: -1536, -2048
+			BottomRight: 1536, 2048
+	Selectable:
+		Bounds: 3072, 4096
+	PortBuilding:
+		Dimensions: 3,4
+		Footprint: x+_ =+_ =+_ x+_
+		WaterCells: 2,0, 2,1, 2,2, 2,3
+	RailTrack:
+		Cells: 1,0, 1,1, 1,2, 1,3
+
+# Eau à l'ouest.
+GARE.PORTUAIRE.O:
+	Inherits: ^GarePortuaireVariante
+	RenderSprites:
+		Image: gare.portuaire.o
+	HitShape:
+		Type: Rectangle
+			TopLeft: -1536, -2048
+			BottomRight: 1536, 2048
+	Selectable:
+		Bounds: 3072, 4096
+	PortBuilding:
+		Dimensions: 3,4
+		Footprint: _+x _+= _+= _+x
+		WaterCells: 0,0, 0,1, 0,2, 0,3
+	RailTrack:
+		Cells: 1,0, 1,1, 1,2, 1,3

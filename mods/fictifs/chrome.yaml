@@ -38,3 +38,14 @@ grades:
 		colonel: 96, 0, 16, 16
 		general: 112, 0, 16, 16
 		marechal: 128, 0, 16, 16
+
+# Onglet de production « Trains » (tools/icone_train.py) : même style que
+# production-icons de RA (normal, désactivé, prêt).
+production-icons-train:
+	Image: fictifs|uibits/train-icons.png
+	Image2x: fictifs|uibits/train-icons-2x.png
+	Image3x: fictifs|uibits/train-icons-3x.png
+	Regions:
+		train: 0, 0, 16, 16
+		train-disabled: 16, 0, 16, 16
+		train-alert: 32, 0, 16, 16

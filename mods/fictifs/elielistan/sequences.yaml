@@ -473,3 +473,33 @@ explosion:
 		Filename: fictifs|bits/atomsfx-small.shp
 		Length: *
 		ZOffset: 2047
+
+# Train blindé (elielistan/trains.yaml)
+krajina:
+	idle:
+		Filename: fictifs|bits/krajina.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/krajina.png
+		Start: 32
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/krajinaicon.png
+
+krajina.roquettes:
+	idle:
+		Filename: fictifs|bits/krajina.roquettes.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/krajina.roquettes.png
+		Start: 32
+		Facings: 32
+
+krajina.canon:
+	idle:
+		Filename: fictifs|bits/krajina.canon.png
+		Facings: 32
+	turret:
+		Filename: fictifs|bits/krajina.canon.png
+		Start: 32
+		Facings: 32

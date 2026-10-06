@@ -1,0 +1,410 @@
+# =====================================================================
+# PAYS FICTIFS — réseau ferroviaire (tous les pays)
+#
+#   Chantier ferroviaire ══ voie ferrée ══ Gare
+#
+# - Voie ferrée : segments posés comme des murs, à partir d'une gare,
+#   d'un chantier ou d'une voie déjà posée. Les unités la traversent
+#   (sans s'y arrêter) ; on ne l'attaque que volontairement.
+#   Solide, bon marché, réparable.
+# - Chantier ferroviaire : produit la locomotive et les wagons (onglet
+#   Trains, sous l'onglet naval ; raccourci O). Les wagons sortent
+#   seuls : la locomotive vient les atteler.
+# - Gare : chargement et déchargement rapides, dételage des wagons.
+#   Hors gare, sur la voie : 4 fois plus lent, unités débarquées en désordre.
+# - Les trains ne roulent que sur les voies (les leurs ou celles des autres)
+#   et se bloquent entre eux : prévoir des évitements.
+# - Bonus logistique : un chantier et une gare reliés par les voies du même
+#   joueur = +10 % de vitesse de production des véhicules.
+#
+# Code : Traits/Railway (RailNetwork, RailCar, TrainCargo, RailProduction),
+# Activities/RailMove.cs, Activities/TrainUnload.cs.
+# =====================================================================
+
+World:
+	RailNetwork:
+
+# Les trains ont leur propre file et leur onglet (sous l'onglet naval) :
+# seul le chantier ferroviaire (Production de type Train) les produit.
+Player:
+	NormalModeProductionQueue@Train:
+		Type: Train
+		DisplayOrder: 6
+		LowPowerModifier: 300
+		ReadyAudio: UnitReady
+		ReadyTextNotification: Unit ready.
+		BlockedAudio: NoBuild
+		BlockedTextNotification: Unable to build more.
+		LimitedAudio: BuildingInProgress
+		LimitedTextNotification: Unable to comply. Building in progress.
+		QueuedAudio: Building
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+		SpeedUp: True
+
+^Building:
+	MultiModeProductionQueue@Train:
+		Type: Train
+		DisplayOrder: 6
+		LowPowerModifier: 300
+		ReadyAudio: UnitReady
+		ReadyTextNotification: Unit ready.
+		BlockedAudio: NoBuild
+		BlockedTextNotification: Unable to build more.
+		LimitedAudio: BuildingInProgress
+		LimitedTextNotification: Unable to comply. Building in progress.
+		QueuedAudio: Building
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+
+# Bonus logistique : 100 / 110 = 91 % du temps de production des véhicules.
+^ExistsInWorld:
+	ProductionTimeMultiplier@FERROVIAIRE:
+		Multiplier: 91
+		Prerequisites: reseau.ferroviaire
+		Queue: Vehicle
+
+# ---------------------------------------------------------------------
+# Voie ferrée
+# ---------------------------------------------------------------------
+RAIL:
+	Inherits: ^Wall
+	RenderSprites:
+		Image: rail
+	Buildable:
+		Queue: Defense
+		BuildPaletteOrder: 6
+		Prerequisites: ~reseau.rails, ~techlevel.low
+		Description: Voie pour les trains. Se pose en ligne, à partir d'une gare,\nd'un chantier ferroviaire ou d'une voie déjà posée.\nLes unités la traversent sans s'y arrêter.\nSolide et bon marché à réparer.
+	Valued:
+		Cost: 25
+	CustomSellValue:
+		Value: 0
+	Tooltip:
+		Name: Voie ferrée
+	Building:
+		Footprint: +
+		TerrainTypes: Clear, Road, Rough, Beach
+	HitShape:
+		UseTargetableCellsOffsets: false
+	Health:
+		HP: 40000
+	Armor:
+		Type: Concrete
+	-Crushable:
+	Targetable:
+		TargetTypes: GroundActor, DetonateAttack, Wall, NoAutoTarget, Rail
+	RequiresBuildableArea:
+		AreaTypes: rail
+		Adjacent: 7
+	GivesBuildableArea:
+		AreaTypes: rail
+	LineBuild:
+		Range: 8
+		NodeTypes: rail
+	LineBuildNode:
+		Types: rail
+	WithWallSpriteBody:
+		Type: rail
+	RailTrack:
+	RepairableBuilding:
+		RepairStep: 2000
+		PlayerExperience: 5
+		RepairingNotification: Repairing
+	WithBuildingRepairDecoration:
+		Image: allyrepair
+		Sequence: repair
+		Position: Center
+		Palette: player
+		IsPlayerPalette: True
+	-SoundOnDamageTransition:
+	RadarColorFromTerrain:
+		Terrain: Road
+	AppearsOnMapPreview:
+		Terrain: Road
+
+# ---------------------------------------------------------------------
+# Bâtiments : chantier ferroviaire (4×3, voie au sud) et gare (4×3 :
+# bâtiment au nord, voie au milieu, quai au sud).
+# ---------------------------------------------------------------------
+^BatimentFerroviaire:
+	Inherits: ^Building
+	HitShape:
+		UseTargetableCellsOffsets: true
+		Type: Rectangle
+			TopLeft: -2048, -1536
+			BottomRight: 2048, 1536
+	Selectable:
+		Bounds: 4096, 3072
+	Building:
+		Dimensions: 4,3
+		TerrainTypes: Clear, Road
+	ProvidesPrerequisite@buildingname:
+	ProvidesPrerequisite@rails:
+		Prerequisite: reseau.rails
+	GivesBuildableArea:
+		AreaTypes: building, rail
+	LineBuildNode@RAIL:
+		Types: rail
+	RevealsShroud:
+		Range: 5c0
+	Armor:
+		Type: Wood
+
+CHANTIER.FERROVIAIRE:
+	Inherits: ^BatimentFerroviaire
+	RenderSprites:
+		Image: chantier.ferroviaire
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 85
+		Prerequisites: weap, ~techlevel.low
+		Description: Produit la locomotive diesel et les wagons (onglet Trains).\nLes voies ferrées partent du chantier.\nRelié par les voies à une gare : +10 % de vitesse\nde production des véhicules.
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Chantier ferroviaire
+	Building:
+		Footprint: xxxx xxxx ++++
+	Health:
+		HP: 120000
+	Power:
+		Amount: -40
+	RailProduction:
+		Produces: Train
+	Exit@1:
+		ExitCell: 1,2
+		SpawnOffset: -512,1024,0
+		Facing: 768
+	Exit@2:
+		ExitCell: 2,2
+		SpawnOffset: 512,1024,0
+		Facing: 768
+	Exit@3:
+		ExitCell: 0,2
+		SpawnOffset: -1536,1024,0
+		Facing: 768
+	Exit@4:
+		ExitCell: 3,2
+		SpawnOffset: 1536,1024,0
+		Facing: 768
+	RailTrack:
+		Cells: 0,2, 1,2, 2,2, 3,2
+		Depot: true
+		ConnectedCondition: reseau-relie
+	ProvidesPrerequisite@bonus:
+		Prerequisite: reseau.ferroviaire
+		RequiresCondition: reseau-relie
+	WithTextDecoration@RELIE:
+		Text: +10 % véhicules
+		Position: Top
+		Color: 40E060
+		ValidRelationships: Ally
+		RequiresCondition: reseau-relie
+	WithTextDecoration@NONRELIE:
+		Text: Aucune gare reliée
+		Position: Top
+		Color: C0C0C0
+		ValidRelationships: Ally
+		RequiresSelection: true
+		RequiresCondition: !reseau-relie
+
+GARE:
+	Inherits: ^BatimentFerroviaire
+	RenderSprites:
+		Image: gare
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 86
+		Prerequisites: chantier.ferroviaire, ~techlevel.low
+		Description: Chargement et déchargement rapides des trains,\ndételage des wagons. Les unités descendent sur le quai.\nHors gare, sur la voie : 4 fois plus lent.\nReliée par les voies au chantier ferroviaire :\n+10 % de vitesse de production des véhicules.
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Gare
+	Building:
+		Footprint: xxxx ++++ ====
+	Health:
+		HP: 100000
+	Power:
+		Amount: -30
+	RailTrack:
+		Cells: 0,1, 1,1, 2,1, 3,1
+		Station: true
+		ConnectedCondition: reseau-relie
+	WithTextDecoration@RELIE:
+		Text: Réseau relié
+		Position: Top
+		Color: 40E060
+		ValidRelationships: Ally
+		RequiresSelection: true
+		RequiresCondition: reseau-relie
+
+# ---------------------------------------------------------------------
+# Trains : locomotive diesel, wagon de transport lourd (véhicules),
+# wagon de transport léger (infanterie). 4 wagons par locomotive.
+# ---------------------------------------------------------------------
+^Train:
+	Inherits@1: ^ExistsInWorld
+	Inherits@2: ^IronCurtainable
+	Inherits@3: ^ClassicFacingSpriteActor
+	Inherits@bounty: ^GlobalBounty
+	Inherits@selection: ^SelectableSupportUnit
+	Inherits@handicaps: ^PlayerHandicaps
+	Huntable:
+	OwnerLostAction:
+		Action: Kill
+	UpdatesPlayerStatistics:
+	Selectable:
+		Bounds: 1536, 1536
+	Targetable:
+		TargetTypes: GroundActor, Vehicle
+	HiddenUnderFog:
+	ActorLostNotification:
+		TextNotification: Unit lost.
+	GpsDot:
+		String: Vehicle
+	WithDamageOverlay:
+	Guardable:
+	Tooltip:
+		GenericName: Train
+	Voiced:
+		VoiceSet: VehicleVoice
+	Explodes:
+		Weapon: UnitExplodeSmall
+		EmptyWeapon: UnitExplodeSmall
+	WithFacingSpriteBody:
+	HitShape:
+	RevealsShroud:
+		Range: 5c0
+	Armor:
+		Type: Heavy
+	MapEditorData:
+		Categories: Vehicle
+
+LOCOMOTIVE.DIESEL:
+	Inherits: ^Train
+	RenderSprites:
+		Image: locomotive.diesel
+	Buildable:
+		Queue: Train
+		BuildPaletteOrder: 300
+		Prerequisites: chantier.ferroviaire, ~techlevel.low
+		Description: Tire jusqu'à 4 wagons sur les voies ferrées, presque aussi vite qu'un avion.\nClic droit : rouler jusqu'à la voie. Clic droit sur un wagon : l'atteler\n(en gare : sur un wagon du train, le dételer). Déployer : tout décharger.\nBloquée par les autres trains.
+	Valued:
+		Cost: 800
+	Tooltip:
+		Name: Locomotive diesel
+	Health:
+		HP: 60000
+	RailCar:
+		Cells: 2
+		Locomotive: true
+		Speed: 190
+		MaxWagons: 4
+	RevealsShroud:
+		Range: 6c0
+
+^Wagon:
+	Inherits: ^Train
+	Inherits@pips: ^CargoPips
+	Buildable:
+		Queue: Train
+		Prerequisites: chantier.ferroviaire, ~techlevel.low
+	RailCar:
+		PauseOnCondition: train-chargement
+	Cargo:
+		UnloadTerrainTypes: Aucun
+		LoadingCondition: train-chargement
+		EjectOnDeath: true
+	TrainCargo:
+
+WAGON.LOURD:
+	Inherits: ^Wagon
+	RenderSprites:
+		Image: wagon.lourd
+	Buildable:
+		BuildPaletteOrder: 301
+		Description: Transporte 3 véhicules (chars compris ; les chars lourds\ncomptent pour 3). À atteler à une locomotive.\nDéploiement : décharger (rapide en gare).
+	Valued:
+		Cost: 400
+	Tooltip:
+		Name: Wagon de transport lourd
+	Health:
+		HP: 40000
+	Cargo:
+		Types: Vehicle, Char
+		MaxWeight: 3
+	RailCar:
+		Cells: 3
+
+WAGON.LEGER:
+	Inherits: ^Wagon
+	RenderSprites:
+		Image: wagon.leger
+	Buildable:
+		BuildPaletteOrder: 302
+		Description: Transporte 10 fantassins. À atteler à une locomotive.\nDéploiement : décharger (rapide en gare).
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: Wagon de transport léger
+	Health:
+		HP: 30000
+	Armor:
+		Type: Light
+	Cargo:
+		Types: Infantry
+		MaxWeight: 10
+	RailCar:
+		Cells: 2
+
+# ---------------------------------------------------------------------
+# Trains blindés des pays (rubenie/, elielistan/, ananthanie/trains.yaml) :
+# une locomotive blindée armée qui roule seule, tire, transporte quelques
+# fantassins et peut tirer quelques wagons ordinaires.
+# ---------------------------------------------------------------------
+^TrainBlinde:
+	Inherits: ^Train
+	Inherits@pips: ^CargoPips
+	Inherits@auto: ^AutoTargetGround
+	Inherits@xp: ^GainsExperience
+	Buildable:
+		Queue: Train
+	Selectable:
+		Priority: 3
+	RailCar:
+		Locomotive: true
+		PauseOnCondition: train-chargement
+	Cargo:
+		Types: Infantry
+		UnloadTerrainTypes: Aucun
+		LoadingCondition: train-chargement
+		EjectOnDeath: true
+	TrainCargo:
+	Turreted:
+		TurnSpeed: 24
+	AttackTurreted:
+	WithSpriteTurret:
+	Explodes:
+		Weapon: UnitExplode
+		EmptyWeapon: UnitExplode
+	RevealsShroud:
+		Range: 6c0
+
+# Wagon armé d'un train blindé (créé avec sa locomotive, voir SpawnsConsist) :
+# tourelle et tir automatique, pas dans la barre de construction.
+^WagonArme:
+	Inherits: ^Train
+	Inherits@auto: ^AutoTargetGround
+	Inherits@xp: ^GainsExperience
+	Selectable:
+		Priority: 3
+	RailCar:
+	Turreted:
+		TurnSpeed: 24
+	AttackTurreted:
+	WithSpriteTurret:
+	Explodes:
+		Weapon: UnitExplode
+		EmptyWeapon: UnitExplode

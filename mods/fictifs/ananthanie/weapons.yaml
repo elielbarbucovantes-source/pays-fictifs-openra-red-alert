@@ -544,3 +544,36 @@ AmbarothFlak:
 	Inherits: FLAK-23-AA
 	Range: 8c0
 	ReloadDelay: 8
+
+# ---------------------------------------------------------------------
+# Schwerer Gustav (ananthanie/trains.yaml) : obus de 800 mm, 40 cases,
+# un tir par minute.
+# ---------------------------------------------------------------------
+GustavObus:
+	Inherits: 8Inch
+	MinRange: 6c0
+	Range: 40c0
+	ReloadDelay: 1500
+	Burst: 1
+	Report: turret1.aud
+	Projectile: Bullet
+		Speed: 400
+		Inaccuracy: 1c0
+		ContrailLength: 60
+	Warhead@1Dam: SpreadDamage
+		Spread: 512
+		Damage: 45000
+		Falloff: 1000, 650, 350, 150, 50, 0
+		Versus:
+			None: 100
+			Wood: 100
+			Light: 100
+			Heavy: 80
+			Concrete: 100
+	Warhead@3Eff: CreateEffect
+		Explosions: large_napalm, large_explosion
+		ImpactSounds: kaboom1.aud
+	Warhead@Shake: ShakeScreen
+		Duration: 15
+		Intensity: 4
+		Multiplier: 1,1

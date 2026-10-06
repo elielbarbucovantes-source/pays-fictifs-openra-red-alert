@@ -1,0 +1,22 @@
+World:
+	LuaScript:
+		Scripts: test.lua
+	-SpawnStartingUnits:
+	-CrateSpawner:
+	MapOptions:
+		GameSpeed: fastest
+Player:
+	-ConquestVictoryConditions:
+	Shroud:
+		FogCheckboxEnabled: false
+		ExploredMapCheckboxEnabled: true
+		FogCheckboxLocked: true
+		ExploredMapCheckboxLocked: true
+
+# Voitures longues (le test vérifie le moteur, pas les sprites)
+LOCOMOTIVE.DIESEL:
+	RailCar:
+		Cells: 2
+WAGON.LOURD:
+	RailCar:
+		Cells: 3

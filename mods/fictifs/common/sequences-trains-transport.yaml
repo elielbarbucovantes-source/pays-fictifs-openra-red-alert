@@ -1,0 +1,128 @@
+# Trains de transport par pays (rules : <pays>/trains-transport.yaml).
+# Sprites : tools/sprites_hd.py, modèles tools/modeles/convois.py (une voiture de N cases = N × 24 − 2 px).
+
+locomotive.rub:
+	idle:
+		Filename: fictifs|bits/locomotive.rub.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/locomotive.rubicon.png
+
+wagon.lourd.rub:
+	idle:
+		Filename: fictifs|bits/wagon.lourd.rub.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.lourd.rubicon.png
+
+wagon.leger.rub:
+	idle:
+		Filename: fictifs|bits/wagon.leger.rub.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.leger.rubicon.png
+
+locomotive.eli:
+	idle:
+		Filename: fictifs|bits/locomotive.eli.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/locomotive.eliicon.png
+
+wagon.lourd.eli:
+	idle:
+		Filename: fictifs|bits/wagon.lourd.eli.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.lourd.eliicon.png
+
+wagon.leger.eli:
+	idle:
+		Filename: fictifs|bits/wagon.leger.eli.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.leger.eliicon.png
+
+locomotive.aerienne:
+	idle:
+		Filename: fictifs|bits/locomotive.aerienne.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/locomotive.aerienneicon.png
+
+wagon.munitions:
+	idle:
+		Filename: fictifs|bits/wagon.munitions.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.munitionsicon.png
+
+wagon.carburant:
+	idle:
+		Filename: fictifs|bits/wagon.carburant.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.carburanticon.png
+
+wagon.atelier.aerien:
+	idle:
+		Filename: fictifs|bits/wagon.atelier.aerien.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.atelier.aerienicon.png
+
+locomotive.ana:
+	idle:
+		Filename: fictifs|bits/locomotive.ana.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/locomotive.anaicon.png
+
+wagon.industriel:
+	idle:
+		Filename: fictifs|bits/wagon.industriel.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.industrielicon.png
+
+wagon.leger.ana:
+	idle:
+		Filename: fictifs|bits/wagon.leger.ana.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.leger.anaicon.png
+
+locomotive.aus:
+	idle:
+		Filename: fictifs|bits/locomotive.aus.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/locomotive.ausicon.png
+
+wagon.lourd.aus:
+	idle:
+		Filename: fictifs|bits/wagon.lourd.aus.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.lourd.ausicon.png
+
+wagon.leger.aus:
+	idle:
+		Filename: fictifs|bits/wagon.leger.aus.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.leger.ausicon.png
+
+wagon.bateaux:
+	idle:
+		Filename: fictifs|bits/wagon.bateaux.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/wagon.bateauxicon.png
+
+locomotive.nucleaire:
+	idle:
+		Filename: fictifs|bits/locomotive.nucleaire.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/locomotive.nucleaireicon.png
