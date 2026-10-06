@@ -135,3 +135,48 @@ Player:
 		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
+
+# Barre bleue de production sur les usines : celle de RA se liait à une
+# file inerte (file d'usine en mode Normal, file RA d'origine sur le
+# joueur) et restait vide. ModeProductionBar prend la file active.
+# Les bâtiments des pays héritent de ceux-ci (AFLD, SYRD…).
+SPEN:
+	-ProductionBar:
+	ModeProductionBar:
+		ProductionType: Ship
+SYRD:
+	-ProductionBar:
+	ModeProductionBar:
+		ProductionType: Ship
+WEAP:
+	-ProductionBar:
+	ModeProductionBar:
+		ProductionType: Vehicle
+FACT:
+	-ProductionBar@Building:
+	ModeProductionBar@Building:
+		ProductionType: Building
+	-ProductionBar@Defense:
+	ModeProductionBar@Defense:
+		ProductionType: Defense
+		Color: 8A8A8A
+HPAD:
+	-ProductionBar:
+	ModeProductionBar:
+		ProductionType: Aircraft
+AFLD:
+	-ProductionBar:
+	ModeProductionBar:
+		ProductionType: Aircraft
+BARR:
+	-ProductionBar:
+	ModeProductionBar:
+		ProductionType: Infantry
+KENN:
+	-ProductionBar:
+	ModeProductionBar:
+		ProductionType: Infantry
+TENT:
+	-ProductionBar:
+	ModeProductionBar:
+		ProductionType: Infantry
