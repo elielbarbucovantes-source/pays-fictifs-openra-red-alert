@@ -295,8 +295,18 @@ GARE:
 		Categories: Vehicle
 	Navette:
 
+# Locomotives : réparables par le mécanicien (cible « Repair » quand endommagées).
+^LocomotiveReparable:
+	Targetable@REPAIR:
+		RequiresCondition: damaged
+		TargetTypes: Repair
+	GrantConditionOnDamageState@DAMAGED:
+		Condition: damaged
+		ValidDamageStates: Light, Medium, Heavy, Critical
+
 LOCOMOTIVE.DIESEL:
 	Inherits: ^Train
+	Inherits@REPARABLE: ^LocomotiveReparable
 	RenderSprites:
 		Image: locomotive.diesel
 	Buildable:
@@ -338,7 +348,7 @@ WAGON.LOURD:
 		Image: wagon.lourd
 	Buildable:
 		BuildPaletteOrder: 301
-		Description: Transporte 3 véhicules (chars compris ; les chars lourds\ncomptent pour 3). À atteler à une locomotive.\nDéploiement : décharger (rapide en gare).
+		Description: Transporte 4 véhicules (chars compris ; les chars lourds\ncomptent pour 3). À atteler à une locomotive.\nDéploiement : décharger (rapide en gare).
 	Valued:
 		Cost: 400
 	Tooltip:
@@ -347,7 +357,7 @@ WAGON.LOURD:
 		HP: 40000
 	Cargo:
 		Types: Vehicle, Char
-		MaxWeight: 3
+		MaxWeight: 4
 	RailCar:
 		Cells: 3
 
@@ -379,6 +389,7 @@ WAGON.LEGER:
 # ---------------------------------------------------------------------
 ^TrainBlinde:
 	Inherits: ^Train
+	Inherits@REPARABLE: ^LocomotiveReparable
 	-Navette:
 	Inherits@pips: ^CargoPips
 	Inherits@auto: ^AutoTargetGround

@@ -38,11 +38,11 @@ WAGON.LOURD.AUS:
 	Buildable:
 		BuildPaletteOrder: 301
 		Prerequisites: chantier.ferroviaire, ~vehicles.australouis, ~techlevel.low
-		Description: Wagon lourd : 2 véhicules.\nReçoit directement les véhicules des transports\nnavals à la gare portuaire.\nÀ atteler à une locomotive. Déploiement : décharger.
+		Description: Wagon lourd : 4 véhicules.\nReçoit directement les véhicules des transports\nnavals à la gare portuaire.\nÀ atteler à une locomotive. Déploiement : décharger.
 	Tooltip:
 		Name: Wagon côtier lourd
 	Cargo:
-		MaxWeight: 2
+		MaxWeight: 4
 	RailCar:
 		Cells: 2
 

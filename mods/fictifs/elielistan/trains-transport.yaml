@@ -64,6 +64,8 @@ WAGON.LOURD.ELI:
 		Name: Wagon rapide lourd
 	Health:
 		HP: 30000
+	Cargo:
+		MaxWeight: 3
 	RailCar:
 		Cells: 3
 
@@ -211,18 +213,18 @@ WAGON.CARBURANT:
 	Buildable:
 		BuildPaletteOrder: 305
 		BuildLimit: 1
-		Description: Wagon-citerne du train aérien (1 au maximum).\nLes avions alliés qui passent à 3 cases font le plein :\n+20 % de vitesse, encore 20 s après.
+		Description: Wagon-citerne du train aérien (1 au maximum).\nLes avions alliés qui passent à 6 cases font le plein :\n+20 % de vitesse, encore 20 s après.
 	Valued:
 		Cost: 1000
 	Tooltip:
 		Name: Wagon-citerne de kérosène
 	ProximityExternalCondition@CARBURANT:
 		Condition: carburant
-		Range: 3c0
+		Range: 6c0
 		MaximumVerticalOffset: 5c0
 	WithRangeCircle@AERIEN:
 		Type: aerien
-		Range: 3c0
+		Range: 6c0
 		Color: 4080FF60
 		Visible: WhenSelected
 	Explodes:

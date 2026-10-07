@@ -8,6 +8,7 @@
 
 GUSTAV:
 	Inherits: ^Train
+	Inherits@REPARABLE: ^LocomotiveReparable
 	Inherits@auto: ^AutoTargetGround
 	RenderSprites:
 		Image: gustav

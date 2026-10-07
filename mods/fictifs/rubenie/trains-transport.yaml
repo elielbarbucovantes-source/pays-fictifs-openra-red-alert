@@ -1,7 +1,7 @@
 # =====================================================================
 # RUBÉNIE — train logistique lourd (voir common/trains-transport.yaml)
-#   La plus grande capacité du jeu : 3 wagons, soit 6 véhicules ou
-#   18 fantassins par train (2 véhicules ou 6 fantassins par wagon).
+#   La plus grande capacité du jeu : 3 wagons, soit 12 véhicules ou
+#   18 fantassins par train (4 véhicules ou 6 fantassins par wagon).
 #   Rapide, peu blindé, bon marché.
 #   Locomotive et wagons ravitaillent les unités rubéniennes à 6 cases :
 #   le train porte la logistique jusqu'aux fronts éloignés.
@@ -15,7 +15,7 @@ LOCOMOTIVE.RUB:
 	Buildable:
 		BuildPaletteOrder: 300
 		Prerequisites: chantier.ferroviaire, ~vehicles.rubenie, ~techlevel.low
-		Description: Train logistique lourd : tire 3 wagons (6 véhicules ou 18 fantassins), rapide.\nRavitaille les unités terrestres rubéniennes à 6 cases.\nPeu blindée.\nClic droit : rouler jusqu'à la voie. Clic droit sur un wagon : l'atteler.\nDéployer : tout décharger.
+		Description: Train logistique lourd : tire 3 wagons (12 véhicules ou 18 fantassins), rapide.\nRavitaille les unités terrestres rubéniennes à 6 cases.\nPeu blindée.\nClic droit : rouler jusqu'à la voie. Clic droit sur un wagon : l'atteler.\nDéployer : tout décharger.
 	Valued:
 		Cost: 600
 	Tooltip:
@@ -41,7 +41,7 @@ WAGON.LOURD.RUB:
 	Buildable:
 		BuildPaletteOrder: 301
 		Prerequisites: chantier.ferroviaire, ~vehicles.rubenie, ~techlevel.low
-		Description: Wagon logistique lourd : 2 véhicules. Ravitaille à 6 cases.\nÀ atteler à une locomotive. Déploiement : décharger.
+		Description: Wagon logistique lourd : 4 véhicules. Ravitaille à 6 cases.\nÀ atteler à une locomotive. Déploiement : décharger.
 	Valued:
 		Cost: 300
 	Tooltip:
@@ -51,7 +51,7 @@ WAGON.LOURD.RUB:
 	Armor:
 		Type: Light
 	Cargo:
-		MaxWeight: 2
+		MaxWeight: 4
 	ProximityExternalCondition@RAVITAILLE:
 		Range: 6c0
 	WithRangeCircle@RAVITAILLE:

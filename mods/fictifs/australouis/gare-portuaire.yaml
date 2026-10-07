@@ -15,14 +15,11 @@ GARE.PORTUAIRE:
 	Buildable:
 		Description: Gare au bord de l'eau : quai à terre et voie côté terre,\nquai sur l'eau (au moins 2 cases d'eau).\nTouche R pendant la pose : tourner la gare (eau au sud, à l'ouest,\nau nord ou à l'est).\nUn transport naval à l'arrêt au quai passe ses passagers\ndirectement dans les wagons en gare.\nLes navires montent dans le wagon porte-bateaux depuis le quai.
 
-^GarePortuaireVariante:
+# Eau au nord : quai en haut, voie au milieu, quai à terre en bas.
+GARE.PORTUAIRE.N:
 	Inherits: GARE.PORTUAIRE
 	-Buildable:
 	-PlaceBuildingVariants:
-
-# Eau au nord : quai en haut, voie au milieu, quai à terre en bas.
-GARE.PORTUAIRE.N:
-	Inherits: ^GarePortuaireVariante
 	RenderSprites:
 		Image: gare.portuaire.n
 	PortBuilding:
@@ -31,7 +28,9 @@ GARE.PORTUAIRE.N:
 
 # Eau à l'est : quai à terre à l'ouest, voie nord-sud, quai sur l'eau à l'est.
 GARE.PORTUAIRE.E:
-	Inherits: ^GarePortuaireVariante
+	Inherits: GARE.PORTUAIRE
+	-Buildable:
+	-PlaceBuildingVariants:
 	RenderSprites:
 		Image: gare.portuaire.e
 	HitShape:
@@ -49,7 +48,9 @@ GARE.PORTUAIRE.E:
 
 # Eau à l'ouest.
 GARE.PORTUAIRE.O:
-	Inherits: ^GarePortuaireVariante
+	Inherits: GARE.PORTUAIRE
+	-Buildable:
+	-PlaceBuildingVariants:
 	RenderSprites:
 		Image: gare.portuaire.o
 	HitShape:

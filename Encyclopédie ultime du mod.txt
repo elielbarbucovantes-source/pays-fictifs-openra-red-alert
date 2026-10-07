@@ -2152,7 +2152,7 @@ SOMMAIRE
   Pays : Rubénie
   Lore :
     Locomotive du train logistique lourd : la plus grande capacité du jeu.
-    Elle tire 3 wagons (6 véhicules ou 18 fantassins), roule vite et ravitaille les unités rubéniennes à 6 cases.
+    Elle tire 3 wagons (12 véhicules ou 18 fantassins), roule vite et ravitaille les unités rubéniennes à 6 cases.
     Peu blindée et bon marché : un camion sur rails, pas un char.
   Statistiques :
     Coût 600 $ · PV 45 000 · Blindage léger · Vision 6 cases
@@ -2164,7 +2164,7 @@ SOMMAIRE
 ■ WAGON LOGISTIQUE LOURD
   Pays : Rubénie
   Lore :
-    Wagon plat à véhicules : 2 places.
+    Wagon plat à véhicules : 4 places.
     Il ravitaille lui aussi les unités rubéniennes à 6 cases.
   Statistiques :
     Coût 300 $ · PV 30 000 · Blindage léger · Vision 5 cases
@@ -2219,7 +2219,7 @@ SOMMAIRE
 ■ WAGON CÔTIER LOURD
   Pays : Australouis
   Lore :
-    Wagon plat à véhicules : 2 places.
+    Wagon plat à véhicules : 4 places.
     À la gare portuaire, il reçoit directement les véhicules des transports navals.
   Statistiques :
     Coût 400 $ · PV 40 000 · Blindage lourd · Vision 5 cases

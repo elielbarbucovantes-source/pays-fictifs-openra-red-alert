@@ -116,7 +116,7 @@ namespace OpenRA.Mods.Fictifs.Activities
 
 			List<CPos> best = null;
 			var bestFront = true;
-			foreach (var front in train.Cars.Count > 1 ? new[] { true, false } : new[] { true })
+			foreach (var front in train.Chain.Count > 1 ? new[] { true, false } : new[] { true })
 			{
 				var start = front ? train.Front : train.Back;
 				var trailing = front ? train.Back : train.Front;
