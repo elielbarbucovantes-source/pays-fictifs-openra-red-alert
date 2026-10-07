@@ -57,7 +57,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 			ticks = Info.Interval;
 
 			var wagons = track.Cells
-				.Select(c => network.TrainAt(c)?.CarAt(c))
+				.SelectMany(c => network.TrainsAt(c).Select(t => t.CarAt(c)))
 				.Distinct()
 				.Where(car => car != null && car.Self.Owner == self.Owner && !car.Self.IsDead && (car.Train == null || !car.Train.Moving)
 					&& (Info.WagonTypes.Count == 0 || Info.WagonTypes.Contains(car.Self.Info.Name)))

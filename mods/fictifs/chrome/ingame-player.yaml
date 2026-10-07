@@ -284,6 +284,32 @@ Container@PLAYER_WIDGETS:
 							Y: 5
 							ImageCollection: stance-icons
 							ImageName: hold-fire
+		Container@NAVETTE_BAR:
+			Logic: NavetteButtonsLogic
+			X: 5
+			Y: WINDOW_BOTTOM - 44 - 5 - HEIGHT - 4
+			Width: 280
+			Height: 26
+			Children:
+				Button@NAVETTE:
+					Width: 130
+					Height: 26
+					Font: Bold
+					Text: Navette (L)
+					Key: Navette
+					TooltipText: Navette automatique
+					TooltipDesc: Cliquez sur la gare de chargement, puis sur la gare de déchargement.\nLe train se remplit avec le stock de la première gare (départ quand il est plein,\nou 30 s sans nouvelle unité), dépose tout à la seconde, puis revient. En boucle.\nTout ordre manuel arrête la navette ; ce bouton la relance.
+					TooltipContainer: TOOLTIP_CONTAINER
+					TooltipTemplate: BUTTON_WITH_DESC_HIGHLIGHT_TOOLTIP
+				Button@VIDER_GARE:
+					Width: 130
+					Height: 26
+					Font: Bold
+					Text: Vider la gare
+					TooltipText: Vider la gare
+					TooltipDesc: Toutes les unités stockées sortent et vont\nau point de ralliement de la gare (touche de déploiement).
+					TooltipContainer: TOOLTIP_CONTAINER
+					TooltipTemplate: BUTTON_WITH_DESC_HIGHLIGHT_TOOLTIP
 		Container@MUTE_INDICATOR:
 			Logic: MuteIndicatorLogic
 			X: WINDOW_RIGHT - WIDTH - 260

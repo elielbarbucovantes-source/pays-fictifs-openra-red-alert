@@ -1,0 +1,17 @@
+World:
+	LuaScript:
+		Scripts: test.lua
+	-SpawnStartingUnits:
+	-CrateSpawner:
+	MapOptions:
+		GameSpeed: fastest
+Player:
+	-ConquestVictoryConditions:
+	Shroud:
+		FogCheckboxEnabled: false
+		ExploredMapCheckboxEnabled: true
+		FogCheckboxLocked: true
+		ExploredMapCheckboxLocked: true
+LOCOMOTIVE.DIESEL:
+	Navette:
+		MaxWait: 150

@@ -129,8 +129,9 @@ LOCOMOTIVE.AERIENNE:
 	Reservable:
 	AircraftCarrier:
 		Types: harpia, blackhawk, condor, pico, garra
-		MaxAircraft: 1
+		MaxAircraft: 3
 		RearmDelay: 375
+		AutoLaunch: true
 		StowedConditions:
 			harpia: pose-harpia
 			blackhawk: pose-blackhawk
@@ -175,7 +176,7 @@ WAGON.MUNITIONS:
 	Buildable:
 		BuildPaletteOrder: 304
 		BuildLimit: 1
-		Description: Wagon-plateforme de munitions du train aérien (1 au maximum).\nRéarme les avions alliés à 3 cases, même en vol\net même si le train roule. Stock de 30 munitions,\nrefait lentement sur la voie, vite en gare.\nUn appareil elielistanais peut s'y poser (clic droit) :\nréarmé et réparé à bord. Déployer : décollage.
+		Description: Wagon-plateforme de munitions du train aérien (1 au maximum).\nRéarme les avions alliés à 3 cases, même en vol\net même si le train roule. Stock de 30 munitions,\nrefait lentement sur la voie, vite en gare.\nJusqu'à 3 appareils elielistanais peuvent s'y poser (clic droit) :\nréarmés et réparés à bord, ils redécollent dès qu'ils sont prêts.\nDéployer : décollage immédiat.
 	Valued:
 		Cost: 1500
 	Tooltip:
@@ -238,7 +239,7 @@ WAGON.ATELIER.AERIEN:
 	Buildable:
 		BuildPaletteOrder: 306
 		BuildLimit: 2
-		Description: Wagon-plateforme atelier du train aérien (2 au maximum).\nRépare lentement les avions alliés à 3 cases (1 %/s),\nmême en vol ; deux ateliers : 2 %/s.\nUn appareil elielistanais peut s'y poser (clic droit) :\nréarmé et réparé à bord. Déployer : décollage.
+		Description: Wagon-plateforme atelier du train aérien (2 au maximum).\nRépare lentement les avions alliés à 3 cases (1 %/s),\nmême en vol ; deux ateliers : 2 %/s.\nJusqu'à 3 appareils elielistanais peuvent s'y poser (clic droit) :\nréarmés et réparés à bord, ils redécollent dès qu'ils sont prêts.\nDéployer : décollage immédiat.
 	Valued:
 		Cost: 1200
 	Tooltip:

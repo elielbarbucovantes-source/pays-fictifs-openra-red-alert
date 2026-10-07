@@ -45,4 +45,17 @@ namespace OpenRA.Mods.Fictifs.Scripting
 			carrier.Deploy(false);
 		}
 	}
+
+	[ScriptPropertyGroup("Movement")]
+	public class CarrierAircraftProperties : ScriptActorProperties, Requires<CarrierAircraftInfo>
+	{
+		public CarrierAircraftProperties(ScriptContext context, Actor self)
+			: base(context, self) { }
+
+		[Desc("Land on the carrier (same order as a right click on it).")]
+		public void LandOn(Actor carrier)
+		{
+			Self.World.IssueOrder(new Order("EnterCarrier", Self, Target.FromActor(carrier), false));
+		}
+	}
 }

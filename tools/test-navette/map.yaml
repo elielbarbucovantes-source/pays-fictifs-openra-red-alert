@@ -2,7 +2,7 @@ MapFormat: 12
 
 RequiresMod: ra
 
-Title: Test Ferroviaire
+Title: Test Navette
 
 Author: Sprog
 
@@ -26,7 +26,7 @@ Players:
 		Name: Multi0
 		Playable: True
 		LockFaction: True
-		Faction: allies
+		Faction: rubenie
 		Enemies: Ennemi
 	PlayerReference@Ennemi:
 		Name: Ennemi

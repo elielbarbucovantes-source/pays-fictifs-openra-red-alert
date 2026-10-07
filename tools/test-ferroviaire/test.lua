@@ -192,8 +192,8 @@ WorldLoaded = function()
 		end
 	end
 
-	-- 8. Blocage : le train A stationne sur la voie principale en x=13 ; la locomotive B (x=20)
-	--    doit aller en x=5 : bloquée, elle passe par l'évitement.
+	-- 8. Voie double : le train A stationne sur la voie principale en x=13 ; la locomotive B (x=19)
+	--    va en x=5 tout droit, en le croisant (sans être bloquée).
 	Blocking = function()
 		Loco.RailMove(C(13, 2))
 		Trigger.AfterDelay(250, function()
@@ -201,12 +201,12 @@ WorldLoaded = function()
 			LocoB = MakeAt("locomotive.diesel", Me, 19, 2)
 			LocoB.RailMove(C(5, 2))
 			Trigger.AfterDelay(400, function()
-				Check("locomotive B arrivée en x=5 par l'évitement (" .. Pos(LocoB) .. ")", LocoB.Location == C(5, 2))
+				Check("locomotive B arrivée en x=5 en croisant le train A (" .. Pos(LocoB) .. ")", LocoB.Location == C(5, 2))
 				Overlap()
 				Uncouple()
 			end)
 		end)
-		-- vérifie à chaque tick que deux trains ne partagent jamais une case
+		-- voie double : les deux trains partagent des cases en se croisant
 		Overlap = function()
 			if Overlapped then return end
 			if LocoB and not LocoB.IsDead then
@@ -222,7 +222,7 @@ WorldLoaded = function()
 
 	-- 9. Dételage en gare, train qui perd un wagon détruit
 	Uncouple = function()
-		Check("jamais deux trains sur la même case", not Overlapped)
+		Check("les deux trains se sont croisés sur la même voie", Overlapped)
 		Loco.RailMove(C(24, 2))
 		Trigger.AfterDelay(200, function()
 			Log("train A en gare : " .. Pos(Loco.TrainCars[1]) .. " → " .. Pos(Loco.TrainCars[#Loco.TrainCars]))
@@ -243,7 +243,7 @@ WorldLoaded = function()
 					w.Kill()
 				end)
 				Trigger.AfterDelay(400, function()
-					Check("wagon détruit retiré du train (" .. Loco.TrainLength .. " : le wagon dételé en gare est ré-attelé au passage)", Loco.TrainLength == 2 and w.IsDead)
+					Check("wagon détruit retiré du train (" .. Loco.TrainLength .. " : le wagon dételé reste en gare, le train le croise)", Loco.TrainLength == 1 and w.IsDead)
 					Log("locomotive en " .. Pos(Loco))
 					Crossing()
 				end)

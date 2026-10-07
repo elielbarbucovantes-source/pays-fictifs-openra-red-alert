@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using OpenRA.Mods.Common.Activities;
 using OpenRA.Mods.Common.Orders;
 using OpenRA.Mods.Common.Traits;
+using OpenRA.Mods.Fictifs.Activities;
 using OpenRA.Traits;
 
 namespace OpenRA.Mods.Fictifs.Traits
@@ -86,7 +87,11 @@ namespace OpenRA.Mods.Fictifs.Traits
 			if (carrier == null)
 				return;
 
-			self.QueueActivity(order.Queued, new ReturnToBase(self, order.Target.Actor, true));
+			// Porteur mobile sur rails (train aérien) : poursuite du wagon ; sinon approche classique.
+			if (order.Target.Actor.Info.HasTraitInfo<RailCarInfo>())
+				self.QueueActivity(order.Queued, new RejoindrePorteur(self, order.Target.Actor));
+			else
+				self.QueueActivity(order.Queued, new ReturnToBase(self, order.Target.Actor, true));
 			self.ShowTargetLines();
 		}
 

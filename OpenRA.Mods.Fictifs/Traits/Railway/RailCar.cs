@@ -53,8 +53,8 @@ namespace OpenRA.Mods.Fictifs.Traits
 		[Desc("Crush classes of the actors run over by the train.")]
 		public readonly BitSet<CrushClass> Crushes = new("infantry");
 
-		[Desc("Ticks to wait behind another train before looking for another route.")]
-		public readonly int RepathDelay = 40;
+		[Desc("Speed (percent) while sharing track cells with another train (all tracks are double).")]
+		public readonly int CrossingSpeedPercent = 50;
 
 		[Desc("Range (in cells) searched for a track around a clicked cell.")]
 		public readonly int TrackSearchRange = 6;

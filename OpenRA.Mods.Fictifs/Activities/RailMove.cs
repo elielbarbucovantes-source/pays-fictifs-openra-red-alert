@@ -10,6 +10,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Linq;
 using OpenRA.Activities;
 using OpenRA.Mods.Fictifs.Traits;
 using OpenRA.Traits;
@@ -18,7 +19,7 @@ namespace OpenRA.Mods.Fictifs.Activities
 {
 	// La locomotive emmène son train jusqu'à une case de voie (ou jusqu'à un wagon à atteler).
 	// Le train part par le bout le plus proche du but (tête ou queue : il peut rouler dans les deux sens).
-	// Un autre train sur le chemin bloque : on attend, puis on cherche un autre itinéraire.
+	// Voies doubles : les autres trains ne bloquent pas, le train ralentit quand il en croise un.
 	public class RailMove : Activity
 	{
 		readonly RailCar loco;
@@ -28,7 +29,6 @@ namespace OpenRA.Mods.Fictifs.Activities
 
 		List<CPos> path;
 		bool atFront;
-		int waited;
 
 		public RailMove(Actor self, CPos destination)
 		{
@@ -67,7 +67,7 @@ namespace OpenRA.Mods.Fictifs.Activities
 			if (train.Held)
 				return false;
 
-			if (path == null && !Plan(train, false))
+			if (path == null && !Plan(train))
 				return true;
 
 			// Arrivé : le bout du train qui menait est sur le but.
@@ -75,47 +75,37 @@ namespace OpenRA.Mods.Fictifs.Activities
 				return true;
 
 			var next = path[0];
-			var other = network.TrainAt(next);
 
 			// La rame visée (le wagon et ceux qui lui sont attelés) : on l'attelle par le bout touché.
-			if (wagon != null && other == wagon.Train)
+			if (wagon != null && network.TrainsAt(next).Contains(wagon.Train))
 			{
-				if (train.WagonCount + other.Cars.Count <= loco.Info.MaxWagons)
-					train.Couple(other, next, atFront);
+				var rake = wagon.Train;
+				if (train.WagonCount + rake.Cars.Count <= loco.Info.MaxWagons)
+					train.Couple(rake, next, atFront);
 
 				return true;
 			}
 
 			if (!network.IsTrack(next))
-				return !Plan(train, false);
+				return !Plan(train);
 
-			// Une rame du même joueur sur le chemin : on l'attelle et on la pousse.
-			if (other != null && other != train && train.CanCouple(other, next)
-				&& other.Cars[0].Self.Owner == loco.Self.Owner && train.WagonCount + other.Cars.Count <= loco.Info.MaxWagons)
-			{
-				train.Couple(other, next, atFront);
-				path.RemoveAt(0);
-				return false;
-			}
-
+			// Le train ne rentre pas dans lui-même (sauf dans la case que libère sa queue).
 			var trailing = atFront ? train.Back : train.Front;
-			if (other != null && (other != train || next != trailing))
-			{
-				if (++waited % loco.Info.RepathDelay == 0)
-					Plan(train, true);
+			if (train.Contains(next) && next != trailing)
+				return !Plan(train);
 
-				return false;
-			}
+			// Voies doubles : les autres trains ne bloquent pas, mais on ralentit en les croisant.
+			var speed = loco.CurrentSpeed;
+			if (network.Shared(next, train) || train.Chain.Any(c => network.Shared(c, train)))
+				speed = speed * loco.Info.CrossingSpeedPercent / 100;
 
-			waited = 0;
 			path.RemoveAt(0);
-			train.BeginStep(next, atFront, loco.CurrentSpeed);
+			train.BeginStep(next, atFront, speed);
 			return false;
 		}
 
-		// Chemin depuis la tête et depuis la queue ; on garde le plus court.
-		// avoidTrains : les autres trains comptent comme obstacles (après une attente).
-		bool Plan(Train train, bool avoidTrains)
+		// Chemin depuis la tête et depuis la queue ; on garde le plus court. Seul le train lui-même fait obstacle.
+		bool Plan(Train train)
 		{
 			var goal = Goal;
 			if (train.Front == goal || train.Back == goal)
@@ -130,15 +120,8 @@ namespace OpenRA.Mods.Fictifs.Activities
 			{
 				var start = front ? train.Front : train.Back;
 				var trailing = front ? train.Back : train.Front;
-				var p = network.FindPath(start, goal, c =>
-				{
-					var t = network.TrainAt(c);
-					if (t == null)
-						return false;
-
-					// Le train peut entrer dans la case que sa propre queue libère ; un autre train bloque si avoidTrains.
-					return t == train ? c != trailing : avoidTrains;
-				});
+				// Le train peut entrer dans la case que sa propre queue libère.
+				var p = network.FindPath(start, goal, c => c != trailing && train.Contains(c));
 
 				if (p != null && (best == null || p.Count < best.Count))
 				{

@@ -14,6 +14,7 @@ using System.Linq;
 using OpenRA.Mods.Common.Activities;
 using OpenRA.Mods.Common.Orders;
 using OpenRA.Mods.Common.Traits;
+using OpenRA.Mods.Fictifs.Activities;
 using OpenRA.Primitives;
 using OpenRA.Traits;
 
@@ -46,6 +47,9 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		[Desc("Ticks between two consecutive launches.")]
 		public readonly int LaunchInterval = 15;
+
+		[Desc("Aircraft take off on their own as soon as they are rearmed and repaired.")]
+		public readonly bool AutoLaunch = false;
 
 		[Desc("An aircraft that reserved the carrier is stowed when closer than this (horizontally)...")]
 		public readonly WDist StowRange = new(1536);
@@ -164,9 +168,14 @@ namespace OpenRA.Mods.Fictifs.Traits
 		void ITick.Tick(Actor self)
 		{
 			ticks++;
+			var onRails = self.Info.HasTraitInfo<RailCarInfo>();
 
 			if (Info.BotLaunchInterval > 0 && self.Owner.IsBot && ticks % Info.BotLaunchInterval == 0)
 				LaunchAll();
+
+			// Train aérien : un appareil réarmé et réparé redécolle aussitôt.
+			if (Info.AutoLaunch && launchesPending == 0 && stowed.Any(IsReady))
+				launchesPending = stowed.Count(IsReady);
 
 			if (Info.PassengerRepairInterval > 0 && ticks % Info.PassengerRepairInterval == 0)
 				RepairPassengers();
@@ -195,8 +204,19 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 				// Either it reserved our deck, or it is waiting to land somewhere and flies over us.
 				var aircraft = tp.Trait.Aircraft;
-				if (aircraft.ReservedActor != self && a.CurrentActivity is not ReturnToBase)
+				var chasing = a.CurrentActivity is RejoindrePorteur r && r.Carrier == self;
+				if (aircraft.ReservedActor != self && a.CurrentActivity is not ReturnToBase && !chasing)
 					continue;
+
+				// Wagon du train aérien : un appareil qui revient s'y poser (munitions épuisées...) le poursuit
+				// au lieu de viser l'endroit où le wagon se trouvait.
+				if (onRails && aircraft.ReservedActor == self && a.CurrentActivity is ReturnToBase)
+				{
+					aircraft.UnReserve();
+					a.CancelActivity();
+					a.QueueActivity(new RejoindrePorteur(a, self));
+					continue;
+				}
 
 				var delta = a.CenterPosition - self.CenterPosition;
 				if (delta.HorizontalLengthSquared > Info.StowRange.LengthSquared)

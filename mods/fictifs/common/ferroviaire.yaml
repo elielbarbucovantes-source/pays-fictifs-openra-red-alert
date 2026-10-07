@@ -23,6 +23,7 @@
 
 World:
 	RailNetwork:
+	LivraisonGare:
 
 # Les trains ont leur propre file et leur onglet (sous l'onglet naval) :
 # seul le chantier ferroviaire (Production de type Train) les produit.
@@ -43,6 +44,14 @@ Player:
 		SpeedUp: True
 
 ^Building:
+	RallyPointGare:
+
+# Unités sélectionnées + clic droit sur une gare : garnison dans son stock.
+^Infantry:
+	EntreEnGare:
+
+^Vehicle:
+	EntreEnGare:
 	MultiModeProductionQueue@Train:
 		Type: Train
 		DisplayOrder: 6
@@ -217,7 +226,7 @@ GARE:
 		Queue: Building
 		BuildPaletteOrder: 86
 		Prerequisites: chantier.ferroviaire, ~techlevel.low
-		Description: Chargement et déchargement rapides des trains,\ndételage des wagons. Les unités descendent sur le quai.\nHors gare, sur la voie : 4 fois plus lent.\nReliée par les voies au chantier ferroviaire :\n+10 % de vitesse de production des véhicules.
+		Description: Chargement et déchargement rapides des trains,\ndételage des wagons. Les unités descendent sur le quai.\nStocke 20 fantassins et 6 véhicules : unités sélectionnées\n+ clic droit, ou point de ralliement d'une usine sur la gare.\nLes trains en navette (bouton Navette) y chargent leur cargaison.\nHors gare, sur la voie : 4 fois plus lent.\nReliée par les voies au chantier ferroviaire :\n+10 % de vitesse de production des véhicules.
 	Valued:
 		Cost: 1000
 	Tooltip:
@@ -239,6 +248,9 @@ GARE:
 		ValidRelationships: Ally
 		RequiresSelection: true
 		RequiresCondition: reseau-relie
+	GareStock:
+	RallyPoint:
+		Path: 1,4
 
 # ---------------------------------------------------------------------
 # Trains : locomotive diesel, wagon de transport lourd (véhicules),
@@ -281,6 +293,7 @@ GARE:
 		Type: Heavy
 	MapEditorData:
 		Categories: Vehicle
+	Navette:
 
 LOCOMOTIVE.DIESEL:
 	Inherits: ^Train
@@ -290,7 +303,7 @@ LOCOMOTIVE.DIESEL:
 		Queue: Train
 		BuildPaletteOrder: 300
 		Prerequisites: chantier.ferroviaire, ~techlevel.low
-		Description: Tire jusqu'à 4 wagons sur les voies ferrées, presque aussi vite qu'un avion.\nClic droit : rouler jusqu'à la voie. Clic droit sur un wagon : l'atteler\n(en gare : sur un wagon du train, le dételer). Déployer : tout décharger.\nBloquée par les autres trains.
+		Description: Tire jusqu'à 4 wagons sur les voies ferrées, presque aussi vite qu'un avion.\nClic droit : rouler jusqu'à la voie. Clic droit sur un wagon : l'atteler\n(en gare : sur un wagon du train, le dételer). Déployer : tout décharger.\nVoies doubles : croise les autres trains en ralentissant.
 	Valued:
 		Cost: 800
 	Tooltip:
@@ -366,6 +379,7 @@ WAGON.LEGER:
 # ---------------------------------------------------------------------
 ^TrainBlinde:
 	Inherits: ^Train
+	-Navette:
 	Inherits@pips: ^CargoPips
 	Inherits@auto: ^AutoTargetGround
 	Inherits@xp: ^GainsExperience
@@ -396,6 +410,7 @@ WAGON.LEGER:
 # tourelle et tir automatique, pas dans la barre de construction.
 ^WagonArme:
 	Inherits: ^Train
+	-Navette:
 	Inherits@auto: ^AutoTargetGround
 	Inherits@xp: ^GainsExperience
 	Selectable:

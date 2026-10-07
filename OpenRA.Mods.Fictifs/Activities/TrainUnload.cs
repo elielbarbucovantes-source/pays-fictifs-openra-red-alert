@@ -62,6 +62,10 @@ namespace OpenRA.Mods.Fictifs.Activities
 			var inStation = car.InStation;
 			var scatter = inStation ? exit.Cell : trainCargo.ScatterCell(self, exit.Cell);
 			var spawn = self.CenterPosition;
+
+			// En gare : les unités suivent ensuite le point de ralliement de la gare (voir GareStock).
+			var gare = inStation ? car.Network.TrackAt(car.Cell)?.Self : null;
+			var stock = gare != null && !gare.IsDead && gare.Owner == self.Owner ? gare.TraitOrDefault<GareStock>() : null;
 			cargo.Unload(self);
 			self.World.AddFrameEndTask(w =>
 			{
@@ -76,6 +80,8 @@ namespace OpenRA.Mods.Fictifs.Activities
 				var move = passenger.TraitOrDefault<IMove>();
 				if (move != null && scatter != exit.Cell)
 					passenger.QueueActivity(move.MoveTo(scatter, 1));
+
+				stock?.SendToRally(passenger);
 			});
 
 			delay = inStation ? trainCargo.Info.StationUnloadDelay : trainCargo.Info.TrackUnloadDelay;

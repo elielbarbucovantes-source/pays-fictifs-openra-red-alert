@@ -9,3 +9,8 @@ TogglePlacementVariant: R
 	Description: Rotate building (placement)
 	Types: OrderGenerator
 	Contexts: Player
+
+Navette: L
+	Description: Program train shuttle
+	Types: Unit
+	Contexts: Player

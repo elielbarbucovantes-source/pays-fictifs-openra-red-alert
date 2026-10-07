@@ -103,3 +103,7 @@ GARE.PORTUAIRE:
 		WaterCells: 0,2, 1,2, 2,2, 3,2
 	PortTransfer:
 		Range: 4c0
+	# Créé après PortBuilding (sa position en dépend) ; côté terre, au-dessus du bâtiment.
+	-RallyPoint:
+	RallyPoint@QUAI:
+		Path: 1,-1

@@ -19,7 +19,8 @@ namespace OpenRA.Mods.Fictifs.Traits
 {
 	// Réseau ferroviaire : les rails, les voies des gares et des chantiers forment un ensemble de cases
 	// reliées par les côtés (comme les pipelines). Les trains (RailCar) ne roulent que sur ces cases et
-	// se bloquent entre eux : une case n'appartient qu'à un seul train à la fois.
+	// ne se bloquent pas : toutes les voies sont doubles, plusieurs trains peuvent partager une case
+	// (ils ralentissent quand ils se croisent, voir RailMove).
 	// Le bonus logistique (chantier et gare du même joueur sur un même réseau) est recalculé ici.
 
 	[TraitLocation(SystemActors.World)]
@@ -38,7 +39,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		readonly RailNetworkInfo info;
 		readonly Dictionary<CPos, RailTrack> tracks = new();
-		readonly Dictionary<CPos, Train> occupancy = new();
+		readonly Dictionary<CPos, List<Train>> occupancy = new();
 		readonly List<Train> trains = new();
 		int bonusTicks;
 
@@ -48,7 +49,16 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		public RailTrack TrackAt(CPos cell) { return tracks.TryGetValue(cell, out var t) ? t : null; }
 
-		public Train TrainAt(CPos cell) { return occupancy.TryGetValue(cell, out var t) ? t : null; }
+		// Premier train sur la case (null si aucun).
+		public Train TrainAt(CPos cell) { return occupancy.TryGetValue(cell, out var t) ? t[0] : null; }
+
+		static readonly Train[] NoTrains = System.Array.Empty<Train>();
+
+		// Tous les trains sur la case (voie double : un train peut en croiser un autre).
+		public IReadOnlyList<Train> TrainsAt(CPos cell) { return occupancy.TryGetValue(cell, out var t) ? t : NoTrains; }
+
+		// Le train partage-t-il la case avec un autre ?
+		public bool Shared(CPos cell, Train train) { return TrainsAt(cell).Any(t => t != train); }
 
 		// Voie d'une gare (ou d'un chantier) du joueur ou d'un allié : chargement rapide, dételage permis.
 		public bool IsStationFor(CPos cell, Player player)
@@ -76,14 +86,21 @@ namespace OpenRA.Mods.Fictifs.Traits
 		internal void SetOccupancy(Train train, IEnumerable<CPos> cells)
 		{
 			foreach (var c in train.Occupied)
-				if (occupancy.TryGetValue(c, out var t) && t == train)
+			{
+				if (occupancy.TryGetValue(c, out var list) && list.Remove(train) && list.Count == 0)
 					occupancy.Remove(c);
+			}
 
 			train.Occupied.Clear();
 			foreach (var c in cells)
 			{
-				train.Occupied.Add(c);
-				occupancy[c] = train;
+				if (!train.Occupied.Add(c))
+					continue;
+
+				if (!occupancy.TryGetValue(c, out var list))
+					occupancy[c] = list = new List<Train>();
+
+				list.Add(train);
 			}
 		}
 
