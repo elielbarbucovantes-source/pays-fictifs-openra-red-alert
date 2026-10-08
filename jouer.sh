@@ -27,6 +27,17 @@ notify() {
 	[ -z "$INTERACTIVE" ] && command -v notify-send >/dev/null 2>&1 && notify-send -i "$PWD/mods/fictifs/icon.png" "Pays fictifs" "$1"
 }
 
+# Tous les joueurs doivent tourner sur le même .NET (8) : un Mac resté en .NET 6
+# a calculé la partie autrement et provoqué des « out of sync ».
+if [ "$(uname)" = Darwin ] && ! { "$HOME/.dotnet/dotnet" --list-runtimes 2>/dev/null | grep -q "^Microsoft.NETCore.App 8\." \
+	&& "$HOME/.dotnet/dotnet" --list-sdks 2>/dev/null | grep -q "^8\."; }; then
+	notify "Installation de .NET 8 (une seule fois, quelques minutes)…"
+	curl -fsSL https://dot.net/v1/dotnet-install.sh -o /tmp/dotnet-install.sh \
+		&& bash /tmp/dotnet-install.sh --channel 8.0 --install-dir "$HOME/.dotnet"
+	export DOTNET_ROOT="$HOME/.dotnet"
+	export PATH="$HOME/.dotnet:$PATH"
+fi
+
 local_commit() {
 	if [ -d .git ]; then git rev-parse HEAD 2>/dev/null; else cat .version-commit 2>/dev/null; fi
 }
@@ -105,4 +116,6 @@ else
 fi
 
 # --- 4. Lancement -----------------------------------------------------------
-exec /bin/bash ./launch-game.sh "$@"
+# Rapports de désynchronisation : en cas d'« out of sync », chaque joueur obtient un
+# syncreport-*.log détaillé (Logs/) ; comparer les deux montre l'unité fautive.
+exec /bin/bash ./launch-game.sh Server.EnableSyncReports=True "$@"

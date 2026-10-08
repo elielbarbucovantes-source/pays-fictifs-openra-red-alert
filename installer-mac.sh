@@ -22,8 +22,9 @@ if ! xcode-select -p >/dev/null 2>&1; then
 fi
 
 # .NET 8, installé dans ~/.dotnet (pas besoin du mot de passe administrateur).
-if ! { command -v dotnet >/dev/null 2>&1 && [ -n "$(dotnet --list-sdks 2>/dev/null)" ]; } \
-	&& [ ! -x "$HOME/.dotnet/dotnet" ]; then
+# Toujours le 8 dans ~/.dotnet, même si un autre .NET est déjà installé : tous les joueurs
+# doivent avoir le même, sinon les parties se désynchronisent.
+if ! "$HOME/.dotnet/dotnet" --list-sdks 2>/dev/null | grep -q "^8\."; then
 	echo "== Installation de .NET 8"
 	curl -fsSL https://dot.net/v1/dotnet-install.sh -o /tmp/dotnet-install.sh
 	bash /tmp/dotnet-install.sh --channel 8.0 --install-dir "$HOME/.dotnet"
