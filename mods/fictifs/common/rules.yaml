@@ -29,6 +29,9 @@
 		RandomFactionMembers: RandomAllies, RandomSoviet, elielistan, rubenie, australouis, ananthanie
 
 World:
+	# Pathfinder qui abandonne tout de suite une cible inatteignable (autre île) : évite les ralentissements.
+	-PathFinder:
+	PathFinderFictifs:
 	UnitInfoPanel:
 	# Classement Elo : enregistre chaque partie terminée (IA comprises, Elo fixe par type).
 	ClassementElo:

@@ -45,13 +45,6 @@ Player:
 
 ^Building:
 	RallyPointGare:
-
-# Unités sélectionnées + clic droit sur une gare : garnison dans son stock.
-^Infantry:
-	EntreEnGare:
-
-^Vehicle:
-	EntreEnGare:
 	MultiModeProductionQueue@Train:
 		Type: Train
 		DisplayOrder: 6
@@ -65,6 +58,13 @@ Player:
 		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
+
+# Unités sélectionnées + clic droit sur une gare : garnison dans son stock.
+^Infantry:
+	EntreEnGare:
+
+^Vehicle:
+	EntreEnGare:
 
 # Bonus logistique : 100 / 110 = 91 % du temps de production des véhicules.
 ^ExistsInWorld:
