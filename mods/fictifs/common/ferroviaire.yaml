@@ -97,7 +97,7 @@ RAIL:
 	HitShape:
 		UseTargetableCellsOffsets: false
 	Health:
-		HP: 40000
+		HP: 48000
 	Armor:
 		Type: Concrete
 	-Crushable:
@@ -170,7 +170,7 @@ CHANTIER.FERROVIAIRE:
 		Prerequisites: weap, ~techlevel.low
 		Description: Produit la locomotive diesel et les wagons (onglet Trains).\nLes voies ferrées partent du chantier.\nRelié par les voies à une gare : +10 % de vitesse\nde production des véhicules.
 	Valued:
-		Cost: 1500
+		Cost: 1200
 	Tooltip:
 		Name: Chantier ferroviaire
 	Building:
@@ -228,7 +228,7 @@ GARE:
 		Prerequisites: chantier.ferroviaire, ~techlevel.low
 		Description: Chargement et déchargement rapides des trains,\ndételage des wagons. Les unités descendent sur le quai.\nStocke 20 fantassins et 6 véhicules : unités sélectionnées\n+ clic droit, ou point de ralliement d'une usine sur la gare.\nLes trains en navette (bouton Navette) y chargent leur cargaison.\nHors gare, sur la voie : 4 fois plus lent.\nReliée par les voies au chantier ferroviaire :\n+10 % de vitesse de production des véhicules.
 	Valued:
-		Cost: 1000
+		Cost: 800
 	Tooltip:
 		Name: Gare
 	Building:
@@ -294,6 +294,9 @@ GARE:
 	MapEditorData:
 		Categories: Vehicle
 	Navette:
+	# +20 % de vitesse pour tous les trains.
+	SpeedMultiplier@TRAINS:
+		Modifier: 120
 
 # Locomotives : réparables par le mécanicien (cible « Repair » quand endommagées).
 ^LocomotiveReparable:
@@ -348,7 +351,7 @@ WAGON.LOURD:
 		Image: wagon.lourd
 	Buildable:
 		BuildPaletteOrder: 301
-		Description: Transporte 4 véhicules (chars compris ; les chars lourds\ncomptent pour 3). À atteler à une locomotive.\nDéploiement : décharger (rapide en gare).
+		Description: Transporte 7 véhicules (chars compris ; les chars lourds\ncomptent pour 3). À atteler à une locomotive.\nDéploiement : décharger (rapide en gare).
 	Valued:
 		Cost: 400
 	Tooltip:
@@ -357,7 +360,7 @@ WAGON.LOURD:
 		HP: 40000
 	Cargo:
 		Types: Vehicle, Char
-		MaxWeight: 4
+		MaxWeight: 7
 	RailCar:
 		Cells: 3
 
@@ -367,7 +370,7 @@ WAGON.LEGER:
 		Image: wagon.leger
 	Buildable:
 		BuildPaletteOrder: 302
-		Description: Transporte 10 fantassins. À atteler à une locomotive.\nDéploiement : décharger (rapide en gare).
+		Description: Transporte 17 fantassins. À atteler à une locomotive.\nDéploiement : décharger (rapide en gare).
 	Valued:
 		Cost: 300
 	Tooltip:
@@ -378,7 +381,7 @@ WAGON.LEGER:
 		Type: Light
 	Cargo:
 		Types: Infantry
-		MaxWeight: 10
+		MaxWeight: 17
 	RailCar:
 		Cells: 2
 

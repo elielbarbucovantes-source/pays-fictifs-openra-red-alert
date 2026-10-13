@@ -128,14 +128,14 @@ La terreur des flottes lentes.""",
 Cinq Harpía à bord, et quinze fantassins ou cinq chars ou canons à débarquer.
 Frappe aérienne et projection terrestre au même endroit.""",
 "Approchez de la côte ennemie sous escorte, faites décoller les Harpía, puis collez-vous au rivage pour débarquer les troupes. La touche F fait les deux."),
-"LOCOMOTIVE.ELI": ("Locomotive rapide", """Locomotive du train rapide : la plus rapide du jeu ; 2 wagons (6 véhicules ou 8 fantassins).
+"LOCOMOTIVE.ELI": ("Locomotive rapide", """Locomotive du train rapide : la plus rapide du jeu ; 2 wagons (10 véhicules ou 14 fantassins).
 Base, front, récupération, nouvelle position : tout en quelques secondes.
 Peu blindée.""",
 "Ne la laissez jamais à l'arrêt sous le feu : chargez, partez."),
-"WAGON.LOURD.ELI": ("Wagon rapide lourd", """Wagon plat à véhicules : 3 places (un char lourd en prend 3).
+"WAGON.LOURD.ELI": ("Wagon rapide lourd", """Wagon plat à véhicules : 5 places (un char lourd en prend 3).
 Chargement et déchargement deux fois plus rapides en gare, trois fois sur la voie.""",
 "Idéal pour déposer des chars hors gare, en pleine campagne, sans perdre de temps."),
-"WAGON.LEGER.ELI": ("Wagon rapide léger", """Wagon de troupes : 4 fantassins, débarquement éclair.""",
+"WAGON.LEGER.ELI": ("Wagon rapide léger", """Wagon de troupes : 7 fantassins, débarquement éclair.""",
 "Lâchez l'infanterie derrière la ligne ennemie et repartez avant la riposte."),
 "LOCOMOTIVE.AERIENNE": ("Locomotive du train aérien", """Locomotive du train aérien mobile, une base aérienne sur rails.
 Elle tire les quatre wagons aériens : munitions, kérosène et deux ateliers.

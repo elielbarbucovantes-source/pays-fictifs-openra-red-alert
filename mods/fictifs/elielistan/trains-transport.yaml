@@ -57,7 +57,7 @@ WAGON.LOURD.ELI:
 		Image: wagon.lourd.eli
 	Buildable:
 		BuildPaletteOrder: 301
-		Description: Wagon rapide lourd : 3 véhicules (chars lourds : 3 places).\nChargement et déchargement éclair.\nÀ atteler à une locomotive. Déploiement : décharger.
+		Description: Wagon rapide lourd : 5 véhicules (chars lourds : 3 places).\nChargement et déchargement éclair.\nÀ atteler à une locomotive. Déploiement : décharger.
 	Valued:
 		Cost: 400
 	Tooltip:
@@ -65,7 +65,7 @@ WAGON.LOURD.ELI:
 	Health:
 		HP: 30000
 	Cargo:
-		MaxWeight: 3
+		MaxWeight: 5
 	RailCar:
 		Cells: 3
 
@@ -76,7 +76,7 @@ WAGON.LEGER.ELI:
 		Image: wagon.leger.eli
 	Buildable:
 		BuildPaletteOrder: 302
-		Description: Wagon rapide léger : 4 fantassins.\nChargement et déchargement éclair.\nÀ atteler à une locomotive. Déploiement : décharger.
+		Description: Wagon rapide léger : 7 fantassins.\nChargement et déchargement éclair.\nÀ atteler à une locomotive. Déploiement : décharger.
 	Valued:
 		Cost: 250
 	Tooltip:
@@ -84,7 +84,7 @@ WAGON.LEGER.ELI:
 	Health:
 		HP: 24000
 	Cargo:
-		MaxWeight: 4
+		MaxWeight: 7
 	RailCar:
 		Cells: 1
 

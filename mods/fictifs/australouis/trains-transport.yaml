@@ -38,11 +38,11 @@ WAGON.LOURD.AUS:
 	Buildable:
 		BuildPaletteOrder: 301
 		Prerequisites: chantier.ferroviaire, ~vehicles.australouis, ~techlevel.low
-		Description: Wagon lourd : 4 véhicules.\nReçoit directement les véhicules des transports\nnavals à la gare portuaire.\nÀ atteler à une locomotive. Déploiement : décharger.
+		Description: Wagon lourd : 7 véhicules.\nReçoit directement les véhicules des transports\nnavals à la gare portuaire.\nÀ atteler à une locomotive. Déploiement : décharger.
 	Tooltip:
 		Name: Wagon côtier lourd
 	Cargo:
-		MaxWeight: 4
+		MaxWeight: 7
 	RailCar:
 		Cells: 2
 
@@ -53,11 +53,11 @@ WAGON.LEGER.AUS:
 	Buildable:
 		BuildPaletteOrder: 302
 		Prerequisites: chantier.ferroviaire, ~vehicles.australouis, ~techlevel.low
-		Description: Wagon léger : 6 fantassins.\nReçoit directement l'infanterie des transports\nnavals à la gare portuaire.\nÀ atteler à une locomotive. Déploiement : décharger.
+		Description: Wagon léger : 10 fantassins.\nReçoit directement l'infanterie des transports\nnavals à la gare portuaire.\nÀ atteler à une locomotive. Déploiement : décharger.
 	Tooltip:
 		Name: Wagon côtier léger
 	Cargo:
-		MaxWeight: 6
+		MaxWeight: 10
 	RailCar:
 		Cells: 2
 
@@ -88,7 +88,7 @@ GARE.PORTUAIRE:
 		Prerequisites: chantier.ferroviaire, ~structures.australouis, ~techlevel.low
 		Description: Gare au bord de l'eau : quai à terre et voie en haut,\nquai sur l'eau en bas (au moins 2 cases d'eau).\nUn transport naval à l'arrêt au quai passe ses passagers\ndirectement dans les wagons en gare.\nLes navires montent dans le wagon porte-bateaux depuis le quai.\nChargement et déchargement rapides, comme une gare.
 	Valued:
-		Cost: 1200
+		Cost: 960
 	Tooltip:
 		Name: Gare portuaire
 	-Building:

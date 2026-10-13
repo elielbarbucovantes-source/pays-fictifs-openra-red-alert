@@ -87,13 +87,13 @@ World:
 		SupportActors: thal,thal,thal,thal,khesh.thal,khesh.thal,vidra,vidra,lunkra,ratha,ambarkesh
 		InnerSupportRadius: 3
 		OuterSupportRadius: 5
-	# Australouis : unités alliées en attendant ses forces terrestres.
+	# Australouis : unités alliées, Cheaper à la place du char léger.
 	StartingUnits@lightaustralouis:
 		Class: light
 		ClassName: options-starting-units.light-support
 		Factions: australouis
 		BaseActor: mcv
-		SupportActors: e1,e1,e1,e3,e3,jeep,1tnk
+		SupportActors: e1,e1,e1,e3,e3,jeep,cheaper
 		InnerSupportRadius: 3
 		OuterSupportRadius: 5
 	StartingUnits@heavyaustralouis:
@@ -101,7 +101,7 @@ World:
 		ClassName: options-starting-units.heavy-support
 		Factions: australouis
 		BaseActor: mcv
-		SupportActors: e1,e1,e1,e3,e3,jeep,1tnk,1tnk,2tnk,2tnk
+		SupportActors: e1,e1,e1,e3,e3,jeep,cheaper,cheaper,2tnk,2tnk
 		InnerSupportRadius: 3
 		OuterSupportRadius: 5
 
@@ -386,11 +386,15 @@ MECH:
 	Buildable:
 		Prerequisites: ~tent, fix, ~techlevel.medium, ~!infantry.australouis
 
-# Usine : chars de base alliés + Cheaper. Chantier naval : L-0U15.
+# Usine : véhicules de base alliés + Cheaper, qui remplace le char léger.
+# Chantier naval : L-0U15.
 WEAP:
 	ProvidesPrerequisite@australouis:
 		Factions: australouis
 		Prerequisite: vehicles.australouis
+1TNK:
+	Buildable:
+		Prerequisites: ~vehicles.allies, ~techlevel.low, ~!vehicles.australouis
 SYRD:
 	ProvidesPrerequisite@australouis:
 		Factions: australouis

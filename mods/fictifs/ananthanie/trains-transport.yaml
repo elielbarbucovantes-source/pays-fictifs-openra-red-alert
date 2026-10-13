@@ -34,7 +34,7 @@ WAGON.INDUSTRIEL:
 	Buildable:
 		BuildPaletteOrder: 301
 		Prerequisites: chantier.ferroviaire, ~vehicles.ananthanie, ~techlevel.low
-		Description: Wagon industriel : un véhicule super-lourd\n(Vidrakarn, Ananta, Bastion roulant) ou 3 véhicules.\nÀ la descente : 20 s de réparation rapide (2 %/s)\net −10 % de dégâts reçus.\nÀ atteler à une locomotive. Déploiement : décharger.
+		Description: Wagon industriel : un véhicule super-lourd\n(Vidrakarn, Ananta, Bastion roulant) ou 5 véhicules.\nÀ la descente : 20 s de réparation rapide (2 %/s)\net −10 % de dégâts reçus.\nÀ atteler à une locomotive. Déploiement : décharger.
 	Valued:
 		Cost: 600
 	Tooltip:
@@ -43,7 +43,7 @@ WAGON.INDUSTRIEL:
 		HP: 55000
 	Cargo:
 		Types: Vehicle, Char, SuperLourd
-		MaxWeight: 3
+		MaxWeight: 5
 	GrantConditionOnPassengerExit:
 		Condition: industriel
 		Duration: 500
@@ -57,7 +57,7 @@ WAGON.LEGER.ANA:
 	Buildable:
 		BuildPaletteOrder: 302
 		Prerequisites: chantier.ferroviaire, ~vehicles.ananthanie, ~techlevel.low
-		Description: Wagon de personnel : 7 fantassins.\nÀ atteler à une locomotive. Déploiement : décharger.
+		Description: Wagon de personnel : 12 fantassins.\nÀ atteler à une locomotive. Déploiement : décharger.
 	Valued:
 		Cost: 300
 	Tooltip:
@@ -67,7 +67,7 @@ WAGON.LEGER.ANA:
 	Armor:
 		Type: Heavy
 	Cargo:
-		MaxWeight: 7
+		MaxWeight: 12
 
 	RailCar:
 		Cells: 2

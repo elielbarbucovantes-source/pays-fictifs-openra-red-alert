@@ -150,13 +150,13 @@ Elle creuse des tranchées case par case ; dès qu'une tranchée touche la mer, 
 et la transforme en canal navigable. Ceux qui se trouvent au fond se noient.""",
 "Tracez le canal depuis l'intérieur vers la côte : la tranchée reste sèche jusqu'au dernier coup de pelle, puis la mer envahit tout d'un coup. De quoi couper une route, isoler une base ou ouvrir un passage à la flotte."),
 "LOCOMOTIVE.RUB": ("Locomotive logistique", """Locomotive du train logistique lourd : la plus grande capacité du jeu.
-Elle tire 3 wagons (6 véhicules ou 18 fantassins), roule vite et ravitaille les unités rubéniennes à 6 cases.
+Elle tire 3 wagons (21 véhicules ou 30 fantassins), roule vite et ravitaille les unités rubéniennes à 6 cases.
 Peu blindée et bon marché : un camion sur rails, pas un char.""",
 "Faites-en la colonne vertébrale du front : elle amène renforts et ravitaillement au même endroit. Escortez-la d'un train blindé."),
-"WAGON.LOURD.RUB": ("Wagon logistique lourd", """Wagon plat à véhicules : 2 places.
+"WAGON.LOURD.RUB": ("Wagon logistique lourd", """Wagon plat à véhicules : 7 places.
 Il ravitaille lui aussi les unités rubéniennes à 6 cases.""",
 "Garé au bout de la ligne, il sert de dépôt de ravitaillement avancé."),
-"WAGON.LEGER.RUB": ("Wagon logistique léger", """Wagon de troupes : 6 fantassins.
+"WAGON.LEGER.RUB": ("Wagon logistique léger", """Wagon de troupes : 10 fantassins.
 Fragile : un obus bien placé coûte une compagnie.""",
 "Débarquez en gare, à l'abri : hors gare, la descente est lente et désordonnée."),
 "BP42": ("BP-42", """Train blindé polyvalent de 4 voitures : locomotive blindée PR-35 (mitrailleuse, cinq fantassins),

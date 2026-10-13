@@ -294,7 +294,7 @@ SOMMAIRE
     Un transport naval à l'arrêt au quai passe ses passagers directement dans les wagons en gare.
     Les navires montent dans le wagon porte-bateaux depuis le quai.
   Statistiques :
-    Coût 1 200 $ · PV 100 000 · Blindage léger de bâtiment (bois) · Vision 5 cases
+    Coût 960 $ · PV 100 000 · Blindage léger de bâtiment (bois) · Vision 5 cases
     Énergie -30
     Prérequis : Chantier ferroviaire · Niveau technologique : bas
   Stratégie :
@@ -2110,7 +2110,7 @@ SOMMAIRE
 ■ LOCOMOTIVE RAPIDE
   Pays : Elielistan
   Lore :
-    Locomotive du train rapide : la plus rapide du jeu ; 2 wagons (6 véhicules ou 8 fantassins).
+    Locomotive du train rapide : la plus rapide du jeu ; 2 wagons (10 véhicules ou 14 fantassins).
     Base, front, récupération, nouvelle position : tout en quelques secondes.
     Peu blindée.
   Statistiques :
@@ -2135,11 +2135,11 @@ SOMMAIRE
 ■ WAGON RAPIDE LOURD
   Pays : Elielistan
   Lore :
-    Wagon plat à véhicules : 3 places (un char lourd en prend 3).
+    Wagon plat à véhicules : 5 places (un char lourd en prend 3).
     Chargement et déchargement deux fois plus rapides en gare, trois fois sur la voie.
   Statistiques :
     Coût 400 $ · PV 30 000 · Blindage léger · Vision 5 cases
-    Transport 3 places
+    Transport 5 places
     Prérequis : Chantier ferroviaire · Niveau technologique : bas
   Stratégie :
     Idéal pour déposer des chars hors gare, en pleine campagne, sans perdre de temps.
@@ -2147,10 +2147,10 @@ SOMMAIRE
 ■ WAGON RAPIDE LÉGER
   Pays : Elielistan
   Lore :
-    Wagon de troupes : 4 fantassins, débarquement éclair.
+    Wagon de troupes : 7 fantassins, débarquement éclair.
   Statistiques :
     Coût 250 $ · PV 24 000 · Blindage léger · Vision 5 cases
-    Transport 4 places
+    Transport 7 places
     Prérequis : Chantier ferroviaire · Niveau technologique : bas
   Stratégie :
     Lâchez l'infanterie derrière la ligne ennemie et repartez avant la riposte.
@@ -2217,7 +2217,7 @@ SOMMAIRE
   Pays : Rubénie
   Lore :
     Locomotive du train logistique lourd : la plus grande capacité du jeu.
-    Elle tire 3 wagons (6 véhicules ou 18 fantassins), roule vite et ravitaille les unités rubéniennes à 6 cases.
+    Elle tire 3 wagons (21 véhicules ou 30 fantassins), roule vite et ravitaille les unités rubéniennes à 6 cases.
     Peu blindée et bon marché : un camion sur rails, pas un char.
   Statistiques :
     Coût 600 $ · PV 45 000 · Blindage léger · Vision 6 cases
@@ -2229,11 +2229,11 @@ SOMMAIRE
 ■ WAGON LOGISTIQUE LOURD
   Pays : Rubénie
   Lore :
-    Wagon plat à véhicules : 2 places.
+    Wagon plat à véhicules : 7 places.
     Il ravitaille lui aussi les unités rubéniennes à 6 cases.
   Statistiques :
     Coût 300 $ · PV 30 000 · Blindage léger · Vision 5 cases
-    Transport 4 places
+    Transport 7 places
     Prérequis : Chantier ferroviaire · Niveau technologique : bas
   Stratégie :
     Garé au bout de la ligne, il sert de dépôt de ravitaillement avancé.
@@ -2241,11 +2241,11 @@ SOMMAIRE
 ■ WAGON LOGISTIQUE LÉGER
   Pays : Rubénie
   Lore :
-    Wagon de troupes : 6 fantassins.
+    Wagon de troupes : 10 fantassins.
     Fragile : un obus bien placé coûte une compagnie.
   Statistiques :
     Coût 200 $ · PV 22 000 · Blindage léger · Vision 5 cases
-    Transport 6 places
+    Transport 10 places
     Prérequis : Chantier ferroviaire · Niveau technologique : bas
   Stratégie :
     Débarquez en gare, à l'abri : hors gare, la descente est lente et désordonnée.
@@ -2284,11 +2284,11 @@ SOMMAIRE
 ■ WAGON CÔTIER LOURD
   Pays : Australouis
   Lore :
-    Wagon plat à véhicules : 2 places.
+    Wagon plat à véhicules : 7 places.
     À la gare portuaire, il reçoit directement les véhicules des transports navals.
   Statistiques :
     Coût 400 $ · PV 40 000 · Blindage lourd · Vision 5 cases
-    Transport 4 places
+    Transport 7 places
     Prérequis : Chantier ferroviaire · Niveau technologique : bas
   Stratégie :
     Garez-le en gare portuaire avant l'arrivée du convoi naval.
@@ -2296,11 +2296,11 @@ SOMMAIRE
 ■ WAGON CÔTIER LÉGER
   Pays : Australouis
   Lore :
-    Wagon de troupes : 6 fantassins.
+    Wagon de troupes : 10 fantassins.
     À la gare portuaire, il reçoit directement l'infanterie des transports navals.
   Statistiques :
     Coût 300 $ · PV 30 000 · Blindage léger · Vision 5 cases
-    Transport 6 places
+    Transport 10 places
     Prérequis : Chantier ferroviaire · Niveau technologique : bas
   Stratégie :
     Même usage que le wagon lourd, pour l'infanterie.
@@ -2351,10 +2351,10 @@ SOMMAIRE
 ■ WAGON DE PERSONNEL
   Pays : Ananthanie
   Lore :
-    Wagon de troupes blindé : 7 fantassins.
+    Wagon de troupes blindé : 12 fantassins.
   Statistiques :
     Coût 300 $ · PV 35 000 · Blindage lourd · Vision 5 cases
-    Transport 7 places
+    Transport 12 places
     Prérequis : Chantier ferroviaire · Niveau technologique : bas
   Stratégie :
     Plus solide que les wagons des autres pays : il survit à une embuscade.
@@ -2362,11 +2362,11 @@ SOMMAIRE
 ■ WAGON INDUSTRIEL
   Pays : Ananthanie
   Lore :
-    Porte un véhicule super-lourd (Vidrakarn, Ananta, Bastion roulant), un char lourd ou 3 véhicules.
+    Porte un véhicule super-lourd (Vidrakarn, Ananta, Bastion roulant), un char lourd ou 5 véhicules.
     Les véhicules qui en descendent sont réparés vite (2 % par seconde) et encaissent mieux (−10 %) pendant 20 secondes.
   Statistiques :
     Coût 600 $ · PV 55 000 · Blindage lourd · Vision 5 cases
-    Transport 3 places
+    Transport 5 places
     Prérequis : Chantier ferroviaire · Niveau technologique : bas
   Stratégie :
     Débarquez juste avant l'assaut : les chars arrivent réparés et plus solides.

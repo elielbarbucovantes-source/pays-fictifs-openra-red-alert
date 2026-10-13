@@ -15,7 +15,7 @@ LOCOMOTIVE.RUB:
 	Buildable:
 		BuildPaletteOrder: 300
 		Prerequisites: chantier.ferroviaire, ~vehicles.rubenie, ~techlevel.low
-		Description: Train logistique lourd : tire 3 wagons (12 véhicules ou 18 fantassins), rapide.\nRavitaille les unités terrestres rubéniennes à 6 cases.\nPeu blindée.\nClic droit : rouler jusqu'à la voie. Clic droit sur un wagon : l'atteler.\nDéployer : tout décharger.
+		Description: Train logistique lourd : tire 3 wagons (21 véhicules ou 30 fantassins), rapide.\nRavitaille les unités terrestres rubéniennes à 6 cases.\nPeu blindée.\nClic droit : rouler jusqu'à la voie. Clic droit sur un wagon : l'atteler.\nDéployer : tout décharger.
 	Valued:
 		Cost: 600
 	Tooltip:
@@ -41,7 +41,7 @@ WAGON.LOURD.RUB:
 	Buildable:
 		BuildPaletteOrder: 301
 		Prerequisites: chantier.ferroviaire, ~vehicles.rubenie, ~techlevel.low
-		Description: Wagon logistique lourd : 4 véhicules. Ravitaille à 6 cases.\nÀ atteler à une locomotive. Déploiement : décharger.
+		Description: Wagon logistique lourd : 7 véhicules. Ravitaille à 6 cases.\nÀ atteler à une locomotive. Déploiement : décharger.
 	Valued:
 		Cost: 300
 	Tooltip:
@@ -51,7 +51,7 @@ WAGON.LOURD.RUB:
 	Armor:
 		Type: Light
 	Cargo:
-		MaxWeight: 4
+		MaxWeight: 7
 	ProximityExternalCondition@RAVITAILLE:
 		Range: 6c0
 	WithRangeCircle@RAVITAILLE:
@@ -66,7 +66,7 @@ WAGON.LEGER.RUB:
 	Buildable:
 		BuildPaletteOrder: 302
 		Prerequisites: chantier.ferroviaire, ~vehicles.rubenie, ~techlevel.low
-		Description: Wagon logistique léger : 6 fantassins.\nÀ atteler à une locomotive. Déploiement : décharger.
+		Description: Wagon logistique léger : 10 fantassins.\nÀ atteler à une locomotive. Déploiement : décharger.
 	Valued:
 		Cost: 200
 	Tooltip:
@@ -74,7 +74,7 @@ WAGON.LEGER.RUB:
 	Health:
 		HP: 22000
 	Cargo:
-		MaxWeight: 6
+		MaxWeight: 10
 
 	RailCar:
 		Cells: 2

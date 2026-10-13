@@ -63,10 +63,10 @@ Fragile : l'ennemi voudra l'abattre avant qu'il ne parle.""",
 "LOCOMOTIVE.AUS": ("Locomotive côtière", """Locomotive du train logistique côtier : marine, port, rail, front.
 Elle tire 3 wagons, dont le wagon porte-bateaux.""",
 "Reliez une gare portuaire au front : ce que la flotte débarque part aussitôt par le rail."),
-"WAGON.LOURD.AUS": ("Wagon côtier lourd", """Wagon plat à véhicules : 2 places.
+"WAGON.LOURD.AUS": ("Wagon côtier lourd", """Wagon plat à véhicules : 7 places.
 À la gare portuaire, il reçoit directement les véhicules des transports navals.""",
 "Garez-le en gare portuaire avant l'arrivée du convoi naval."),
-"WAGON.LEGER.AUS": ("Wagon côtier léger", """Wagon de troupes : 6 fantassins.
+"WAGON.LEGER.AUS": ("Wagon côtier léger", """Wagon de troupes : 10 fantassins.
 À la gare portuaire, il reçoit directement l'infanterie des transports navals.""",
 "Même usage que le wagon lourd, pour l'infanterie."),
 "WAGON.BATEAUX": ("Wagon porte-bateaux", """Transporte des navires d'un plan d'eau à l'autre : 2 places
