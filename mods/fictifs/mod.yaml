@@ -104,6 +104,10 @@ Rules:
 	fictifs|ananthanie/trains-transport.yaml
 	fictifs|australouis/trains-transport.yaml
 	fictifs|australouis/gare-portuaire.yaml
+	# Logistique amphibie (après les pays : modifie leurs transports).
+	fictifs|common/amphibie.yaml
+	fictifs|elielistan/amphibie.yaml
+	fictifs|rubenie/amphibie.yaml
 
 Sequences:
 	ra|sequences/ships.yaml
@@ -119,6 +123,7 @@ Sequences:
 	fictifs|australouis/sequences.yaml
 	fictifs|ananthanie/sequences.yaml
 	fictifs|common/sequences-trains-transport.yaml
+	fictifs|common/sequences-amphibie.yaml
 TileSets:
 	ra|tilesets/snow.yaml
 	ra|tilesets/interior.yaml

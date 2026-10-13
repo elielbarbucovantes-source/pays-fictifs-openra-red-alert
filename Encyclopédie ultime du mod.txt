@@ -17,14 +17,23 @@ Repères :
   • Les durées sont données à la vitesse de jeu normale (25 images par seconde).
   • Blindage : aucun (infanterie), léger, lourd, béton, léger de bâtiment (bois).
 
+Débarquement amphibie (tous les pays) : transports chargés ou Base logistique amphibie
+sélectionnés, bouton Débarquement (touche K), puis rectangle glissé sur la côte
+(débarquement étendu : les transports se répartissent le long de la zone et chaque unité
+part vers sa propre case) ou simple clic (débarquement concentré autour du point). Les cases
+inaccessibles sont évitées ; une zone sans case accessible est refusée. Navette amphibie
+(touche J) : transport sélectionné, escale de chargement puis de déchargement (Base
+logistique amphibie ou rectangle sur une plage) ; il fait la boucle seul, comme les navettes
+ferroviaires.
+
 SOMMAIRE
   0. LES PAYS (4)
-  1. BÂTIMENTS (16)
+  1. BÂTIMENTS (17)
   2. DÉFENSES (12)
   3. INFANTERIE (16)
   4. VÉHICULES (33)
   5. AVIATION (27)
-  6. MARINE (17)
+  6. MARINE (19)
   7. TRAINS (23)
   8. POUVOIRS DE SOUTIEN (20)
 
@@ -366,6 +375,30 @@ SOMMAIRE
     Prérequis : Usine d'armement, Radar Dome · Niveau technologique : moyen
   Stratégie :
     Un seul exemplaire, mais indispensable pour la fin de partie : protégez-le.
+
+  ▶ PAYS : TOUS LES PAYS
+
+--------------------------------------------------------------------------------------------
+■ BASE LOGISTIQUE AMPHIBIE
+  Pays : Tous les pays
+  Lore :
+    Quai, hangar et tour de contrôle des opérations, à cheval sur la côte.
+    Elle produit les transports amphibies du pays, abrite les troupes et remplit d'elle-même dix transports à quai.
+    Une seule commande, et toute la flotte de débarquement part vers la plage.
+  Statistiques :
+    Coût 1 500 $ · PV 110 000 · Blindage léger de bâtiment (bois) · Vision 6 cases
+    Énergie -40
+    Prérequis : une centrale, Usine d'armement · Niveau technologique : bas
+  Stratégie :
+    Envoyez vos unités dans la base (clic droit, ou point de ralliement d'une caserne ou
+    d'une usine posé sur la base) : elle en stocke 30 à pied et 15 véhicules. Jusqu'à 10
+    transports à quai sont remplis automatiquement avec ce stock. Base sélectionnée,
+    Débarquement (K) : glissez un rectangle sur la côte ennemie, tous les transports chargés
+    partent, débarquent chacun sur leur part de la zone, puis reviennent à quai pour la
+    vague suivante. Navette amphibie (J) : un transport fait la boucle entre deux escales
+    (base ou plage) ; il part plein, ou après 30 s sans nouvelle unité, décharge dans le
+    stock de la base ou débarque sur la plage, puis revient. Les troupes embarquées par la
+    base subissent 25 % de dégâts en moins pendant 20 s après le débarquement.
 
 ============================================================================================
                                         2. DÉFENSES                                         
@@ -1727,6 +1760,22 @@ SOMMAIRE
   ▶ PAYS : ELIELISTAN
 
 --------------------------------------------------------------------------------------------
+■ BARCAZA
+  Pays : Elielistan
+  Lore :
+    Péniche de débarquement rapide, à peine blindée, construite à la Base logistique amphibie.
+    Six places : une section d'infanterie ou deux chars, débarqués en un éclair.
+    L'outil des raids côtiers : toucher la plage, vider, repartir.
+  Statistiques :
+    Coût 550 $ · PV 24 000 · Blindage lourd · Vitesse 170 · Vision 6 cases
+    Arme : aucune
+    Transport 6 places
+    Prérequis : transports.elielistan · Niveau technologique : bas
+  Stratégie :
+    Lancez plusieurs Barcaza ensemble avec le Débarquement (K) en rectangle : elles se
+    répartissent le long de la plage et déchargent toutes en même temps. Ne les laissez pas
+    à portée des défenses côtières une fois vides.
+--------------------------------------------------------------------------------------------
 ■ CENTINELA
   Pays : Elielistan
   Lore :
@@ -1790,6 +1839,22 @@ SOMMAIRE
 
   ▶ PAYS : RUBÉNIE
 
+--------------------------------------------------------------------------------------------
+■ CHALAND LOURD
+  Pays : Rubénie
+  Lore :
+    Grand bâtiment de débarquement blindé, sorti de la Base logistique amphibie.
+    Douze places et deux mitrailleuses pour nettoyer la plage pendant que la rampe s'abaisse.
+    Lent, mais il arrive presque toujours.
+  Statistiques :
+    Coût 1 100 $ · PV 60 000 · Blindage lourd · Vitesse 90 · Vision 6 cases
+    Arme : M60mg : 1 000 dégâts, rafale de 5, portée 4 cases, recharge 1,2 s
+    Transport 12 places
+    Prérequis : transports.rubenie · Niveau technologique : bas
+  Stratégie :
+    Chargez-le à la base logistique pour que les troupes débarquent préparées (−25 % de
+    dégâts pendant 20 s), puis débarquez en rectangle avec les autres chalands : chaque
+    transport prend sa part de la plage.
 --------------------------------------------------------------------------------------------
 ■ ESCORTEUR
   Pays : Rubénie
@@ -1956,7 +2021,7 @@ SOMMAIRE
     Coût 1 250 $ · PV 45 000 · Blindage lourd · Vitesse 120 · Vision 6 cases
     Arme : M60mg : 1 000 dégâts, rafale de 5, portée 4 cases, recharge 1,2 s
     Transport 8 places
-    Prérequis : aucun · Niveau technologique : bas
+    Prérequis : transports.ananthanie · Niveau technologique : bas
   Stratégie :
     Chargez Vidra, Lunkra et Ratha, débarquez sous la couverture de la flotte, et frappez là
     où l'ennemi ne vous attend pas.
@@ -2152,7 +2217,7 @@ SOMMAIRE
   Pays : Rubénie
   Lore :
     Locomotive du train logistique lourd : la plus grande capacité du jeu.
-    Elle tire 3 wagons (12 véhicules ou 18 fantassins), roule vite et ravitaille les unités rubéniennes à 6 cases.
+    Elle tire 3 wagons (6 véhicules ou 18 fantassins), roule vite et ravitaille les unités rubéniennes à 6 cases.
     Peu blindée et bon marché : un camion sur rails, pas un char.
   Statistiques :
     Coût 600 $ · PV 45 000 · Blindage léger · Vision 6 cases
@@ -2164,11 +2229,11 @@ SOMMAIRE
 ■ WAGON LOGISTIQUE LOURD
   Pays : Rubénie
   Lore :
-    Wagon plat à véhicules : 4 places.
+    Wagon plat à véhicules : 2 places.
     Il ravitaille lui aussi les unités rubéniennes à 6 cases.
   Statistiques :
     Coût 300 $ · PV 30 000 · Blindage léger · Vision 5 cases
-    Transport 2 places
+    Transport 4 places
     Prérequis : Chantier ferroviaire · Niveau technologique : bas
   Stratégie :
     Garé au bout de la ligne, il sert de dépôt de ravitaillement avancé.
@@ -2219,11 +2284,11 @@ SOMMAIRE
 ■ WAGON CÔTIER LOURD
   Pays : Australouis
   Lore :
-    Wagon plat à véhicules : 4 places.
+    Wagon plat à véhicules : 2 places.
     À la gare portuaire, il reçoit directement les véhicules des transports navals.
   Statistiques :
     Coût 400 $ · PV 40 000 · Blindage lourd · Vision 5 cases
-    Transport 2 places
+    Transport 4 places
     Prérequis : Chantier ferroviaire · Niveau technologique : bas
   Stratégie :
     Garez-le en gare portuaire avant l'arrivée du convoi naval.

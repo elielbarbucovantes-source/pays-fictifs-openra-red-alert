@@ -20,11 +20,14 @@ from textes_rubenie import TEXTES as T_RUB  # noqa: E402
 from textes_australouis import TEXTES as T_AUS  # noqa: E402
 from textes_ananthanie import TEXTES as T_ANA  # noqa: E402
 from textes_pouvoirs import TEXTES as T_POW  # noqa: E402
+from textes_communs import TEXTES as T_COM  # noqa: E402
 
 SORTIE = os.path.join(regles.ROOT, "Encyclopédie ultime du mod.txt")
 LARGEUR = 92
-TEXTES = {**T_ELI, **T_RUB, **T_AUS, **T_ANA}
-ORDRE_PAYS = ["Elielistan", "Rubénie", "Australouis", "Ananthanie"]
+TEXTES = {**T_ELI, **T_RUB, **T_AUS, **T_ANA, **T_COM}
+ORDRE_PAYS = ["Elielistan", "Rubénie", "Australouis", "Ananthanie", "Tous les pays"]
+# Éléments communs décrits quand même (créés dans mods/fictifs/common/).
+COMMUNS = set(T_COM)
 
 SECTIONS = [
     ("BÂTIMENTS", lambda s: s["queue"] == "Building"),
@@ -172,6 +175,7 @@ def main():
     R = regles.load_rules()
     W = regles.load_weapons()
     pays = regles.pays_des_acteurs()
+    pays.update({k: "Tous les pays" for k in COMMUNS})
     tous = []
     for k in stats.buildable(R):
         if k in pays:
@@ -199,6 +203,14 @@ def main():
            "  • PV : points de vie. Une case = une case de la carte.",
            "  • Les durées sont données à la vitesse de jeu normale (25 images par seconde).",
            "  • Blindage : aucun (infanterie), léger, lourd, béton, léger de bâtiment (bois).",
+           "",
+           para("Débarquement amphibie (tous les pays) : transports chargés ou Base logistique amphibie "
+                "sélectionnés, bouton Débarquement (touche K), puis rectangle glissé sur la côte (débarquement "
+                "étendu : les transports se répartissent le long de la zone et chaque unité part vers sa propre "
+                "case) ou simple clic (débarquement concentré autour du point). Les cases inaccessibles sont "
+                "évitées ; une zone sans case accessible est refusée. Navette amphibie (touche J) : transport "
+                "sélectionné, escale de chargement puis de déchargement (Base logistique amphibie ou rectangle "
+                "sur une plage) ; il fait la boucle seul, comme les navettes ferroviaires.", ""),
            ""]
     sommaire = [f"  0. LES PAYS ({len(PAYS)})"]
     corps = ["", "=" * LARGEUR, "0. LES PAYS".center(LARGEUR), "=" * LARGEUR]

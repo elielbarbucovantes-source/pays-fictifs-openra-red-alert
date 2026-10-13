@@ -43,7 +43,8 @@ namespace OpenRA.Mods.Fictifs.Orders
 		static Actor GareAt(World world, CPos cell)
 		{
 			return world.ActorMap.GetActorsAt(cell)
-				.FirstOrDefault(a => !a.IsDead && a.Owner == world.LocalPlayer && a.Info.HasTraitInfo<GareStockInfo>());
+				.FirstOrDefault(a => !a.IsDead && a.Owner == world.LocalPlayer && a.Info.HasTraitInfo<GareStockInfo>()
+				&& a.Info.HasTraitInfo<RailTrackInfo>());
 		}
 
 		IEnumerable<Order> IOrderGenerator.Order(World world, CPos cell, int2 worldPixel, MouseInput mi)

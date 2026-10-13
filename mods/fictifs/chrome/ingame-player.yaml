@@ -305,9 +305,37 @@ Container@PLAYER_WIDGETS:
 					Width: 130
 					Height: 26
 					Font: Bold
-					Text: Vider la gare
-					TooltipText: Vider la gare
-					TooltipDesc: Toutes les unités stockées sortent et vont\nau point de ralliement de la gare (touche de déploiement).
+					Text: Vider le stock
+					TooltipText: Vider le stock
+					TooltipDesc: Toutes les unités stockées dans la gare (ou la base logistique\namphibie) sortent et vont à son point de ralliement (touche de déploiement).
+					TooltipContainer: TOOLTIP_CONTAINER
+					TooltipTemplate: BUTTON_WITH_DESC_HIGHLIGHT_TOOLTIP
+		Container@DEBARQUEMENT_BAR:
+			Logic: DebarquementButtonsLogic
+			X: 5
+			Y: WINDOW_BOTTOM - 44 - 5 - HEIGHT - 4 - 30
+			Width: 380
+			Height: 26
+			Children:
+				Button@DEBARQUEMENT:
+					Width: 170
+					Height: 26
+					Font: Bold
+					Text: Débarquement (K)
+					Key: Debarquement
+					TooltipText: Débarquement amphibie
+					TooltipDesc: Glissez un rectangle sur la côte : débarquement étendu, les transports\nse répartissent le long de la zone et chaque unité part vers sa propre case.\nSimple clic : débarquement concentré autour du point. Clic droit : annuler.\nAvec une Base logistique amphibie sélectionnée : tous ses transports chargés\npartent, puis reviennent à quai pour la vague suivante.
+					TooltipContainer: TOOLTIP_CONTAINER
+					TooltipTemplate: BUTTON_WITH_DESC_HIGHLIGHT_TOOLTIP
+				Button@NAVETTE_AMPHIBIE:
+					X: 175
+					Width: 200
+					Height: 26
+					Font: Bold
+					Text: Navette amphibie (J)
+					Key: NavetteAmphibie
+					TooltipText: Navette amphibie automatique
+					TooltipDesc: Escale de chargement, puis escale de déchargement : clic sur une Base\nlogistique amphibie, ou rectangle glissé sur une plage.\nLe transport se remplit (stock de la base, ou vos unités sur la plage), part\nquand il est plein ou après 30 s sans nouvelle unité, décharge (dans le stock\nde la base, ou débarquement sur la plage), puis revient. En boucle.\nTout ordre manuel arrête la navette ; ce bouton la relance.
 					TooltipContainer: TOOLTIP_CONTAINER
 					TooltipTemplate: BUTTON_WITH_DESC_HIGHLIGHT_TOOLTIP
 		Container@MUTE_INDICATOR:

@@ -1,0 +1,82 @@
+# Logistique amphibie (common/amphibie.yaml)
+base.amphibie:
+	Defaults:
+		Filename: fictifs|bits/base.amphibie.png
+		ZOffset: -1024
+	idle:
+		Length: 1
+	damaged-idle:
+		Start: 1
+		Length: 1
+	make:
+		Start: 2
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/base.amphibieicon.png
+		ZOffset: 0
+
+base.amphibie.n:
+	Defaults:
+		Filename: fictifs|bits/base.amphibie.n.png
+		ZOffset: 512
+	idle:
+		Length: 1
+	damaged-idle:
+		Start: 1
+		Length: 1
+	make:
+		Start: 2
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/base.amphibieicon.png
+		ZOffset: 0
+
+base.amphibie.e:
+	Defaults:
+		Filename: fictifs|bits/base.amphibie.e.png
+		ZOffset: -1024
+	idle:
+		Length: 1
+	damaged-idle:
+		Start: 1
+		Length: 1
+	make:
+		Start: 2
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/base.amphibieicon.png
+		ZOffset: 0
+
+base.amphibie.o:
+	Defaults:
+		Filename: fictifs|bits/base.amphibie.o.png
+		ZOffset: -1024
+	idle:
+		Length: 1
+	damaged-idle:
+		Start: 1
+		Length: 1
+	make:
+		Start: 2
+		Length: 12
+		Tick: 60
+	icon:
+		Filename: fictifs|bits/base.amphibieicon.png
+		ZOffset: 0
+
+barcaza:
+	idle:
+		Filename: fictifs|bits/barcaza.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/barcazaicon.png
+
+chaland.rub:
+	idle:
+		Filename: fictifs|bits/chaland.rub.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/chaland.rubicon.png

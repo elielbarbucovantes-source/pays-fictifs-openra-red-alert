@@ -14,3 +14,13 @@ Navette: L
 	Description: Program train shuttle
 	Types: Unit
 	Contexts: Player
+
+Debarquement: K
+	Description: Amphibious landing (zone or point)
+	Types: Unit
+	Contexts: Player
+
+NavetteAmphibie: J
+	Description: Program amphibious shuttle
+	Types: Unit
+	Contexts: Player

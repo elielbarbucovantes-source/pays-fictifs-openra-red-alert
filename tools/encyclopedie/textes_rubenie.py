@@ -171,4 +171,8 @@ Il tient les lignes et protège les infrastructures ferroviaires.""",
 de T-34-85 et deux plates-formes antiaériennes. Plus lent et plus cher que le BP-42,
 il fait d'une voie ferrée un axe d'attaque. Deux fantassins seulement à bord.""",
 "Poussez la voie vers le front, puis bombardez les positions ennemies depuis les rails, à l'abri derrière vos lignes."),
+"CHALAND.RUB": ("Chaland lourd", """Grand bâtiment de débarquement blindé, sorti de la Base logistique amphibie.
+Douze places et deux mitrailleuses pour nettoyer la plage pendant que la rampe s'abaisse.
+Lent, mais il arrive presque toujours.""",
+"Chargez-le à la base logistique pour que les troupes débarquent préparées (−25 % de dégâts pendant 20 s), puis débarquez en rectangle avec les autres chalands : chaque transport prend sa part de la plage."),
 }

@@ -74,7 +74,8 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		public bool ValidGare(Actor gare)
 		{
-			return gare != null && !gare.IsDead && gare.IsInWorld && gare.Owner == self.Owner && gare.Info.HasTraitInfo<GareStockInfo>();
+			return gare != null && !gare.IsDead && gare.IsInWorld && gare.Owner == self.Owner && gare.Info.HasTraitInfo<GareStockInfo>()
+				&& gare.Info.HasTraitInfo<RailTrackInfo>();
 		}
 
 		void IResolveOrder.ResolveOrder(Actor self, Order order)

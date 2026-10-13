@@ -1,0 +1,32 @@
+# Transport amphibie de l'Elielistan (voir common/amphibie.yaml).
+
+# ---------------------------------------------------------------------
+# Elielistan : Barcaza, péniche de débarquement rapide (projection).
+# ---------------------------------------------------------------------
+BARCAZA:
+	Inherits: LST
+	Inherits@DOCTRINE: ^ElielistanDoctrine
+	RenderSprites:
+		Image: barcaza
+	Buildable:
+		BuildPaletteOrder: 5
+		BuildAtProductionType: Amphibie
+		Prerequisites: ~transports.elielistan, ~techlevel.low
+		Description: Péniche de débarquement rapide (Base logistique amphibie).\n6 places : 6 fantassins ou 2 chars. Déchargement très rapide.\nDébarquement (K) : rectangle = zone, clic = point.\n  Non armée, peu blindée
+	Valued:
+		Cost: 550
+	Tooltip:
+		Name: Barcaza
+	Health:
+		HP: 24000
+	Mobile:
+		Speed: 170
+	Cargo:
+		MaxWeight: 6
+		BeforeUnloadDelay: 4
+		AfterUnloadDelay: 4
+	WithCargoPipsDecoration:
+		PipCount: 6
+	ExtendedLanding:
+		UnloadInterval: 2
+	-WithLandingCraftAnimation:

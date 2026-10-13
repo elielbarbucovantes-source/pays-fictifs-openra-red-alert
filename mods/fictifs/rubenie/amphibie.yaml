@@ -1,0 +1,34 @@
+# Transport amphibie de la Rubénie (voir common/amphibie.yaml).
+
+# ---------------------------------------------------------------------
+# Rubénie : chaland de débarquement lourd, armé et blindé.
+# ---------------------------------------------------------------------
+CHALAND.RUB:
+	Inherits: LST
+	Inherits@DOCTRINE: ^RubenieDoctrine
+	Inherits@AUTOTARGET: ^AutoTargetGround
+	RenderSprites:
+		Image: chaland.rub
+	Buildable:
+		BuildPaletteOrder: 5
+		BuildAtProductionType: Amphibie
+		Prerequisites: ~transports.rubenie, ~techlevel.low
+		Description: Grand chaland de débarquement (Base logistique amphibie).\n12 places : 12 fantassins ou 4 chars. Blindé,\nmitrailleuses de couverture pour la plage.\nDébarquement (K) : rectangle = zone, clic = point.\n  Lent
+	Valued:
+		Cost: 1100
+	Tooltip:
+		Name: Chaland lourd
+	Health:
+		HP: 60000
+	Mobile:
+		Speed: 90
+	Cargo:
+		MaxWeight: 12
+	WithCargoPipsDecoration:
+		PipCount: 12
+	Armament:
+		Weapon: M60mg
+		LocalOffset: 300,0,200
+	AttackFrontal:
+		FacingTolerance: 512
+	-WithLandingCraftAnimation:

@@ -1,0 +1,252 @@
+# =====================================================================
+# LOGISTIQUE AMPHIBIE (tous les pays)
+#  - Débarquement étendu : transports chargés sélectionnés (ou une Base
+#    logistique amphibie), bouton « Débarquement » (touche K), puis
+#    rectangle glissé sur la côte (étendu) ou simple clic (concentré).
+#    Les transports se répartissent le long de la zone et déchargent
+#    chacun de leur côté ; chaque unité part vers sa propre case.
+#  - Base logistique amphibie : produit les transports amphibies du pays,
+#    stocke les unités qu'on lui envoie (clic droit sur la base, ou point
+#    de ralliement d'une usine posé sur elle : 30 fantassins + 15 véhicules),
+#    range jusqu'à 10 transports à quai, les remplit avec son stock et lance
+#    l'opération ; les transports reviennent ensuite à quai.
+#  - Navette amphibie (touche J) : un transport fait la boucle entre une
+#    escale de chargement et une de déchargement (base ou plage), comme
+#    les navettes ferroviaires.
+#    Les troupes embarquées par la base débarquent « préparées » :
+#    -25 % de dégâts subis pendant 20 secondes (assaut amphibie).
+# =====================================================================
+
+World:
+	ExtendedLandingManager:
+
+# ---------------------------------------------------------------------
+# Unités terrestres : bonus d'assaut à la sortie d'un transport préparé.
+# (Entrée dans le stock de la base : EntreEnGare, voir ferroviaire.yaml.)
+# ---------------------------------------------------------------------
+^Infantry:
+	ExternalCondition@ASSAUT:
+		Condition: assaut.amphibie
+	DamageMultiplier@ASSAUT:
+		Modifier: 75
+		RequiresCondition: assaut.amphibie
+	WithTextDecoration@ASSAUT:
+		Text: Assaut
+		Position: Top
+		Color: FFA040
+		ValidRelationships: Ally
+		RequiresCondition: assaut.amphibie
+
+^Vehicle:
+	ExternalCondition@ASSAUT:
+		Condition: assaut.amphibie
+	DamageMultiplier@ASSAUT:
+		Modifier: 75
+		RequiresCondition: assaut.amphibie
+	WithTextDecoration@ASSAUT:
+		Text: Assaut
+		Position: Top
+		Color: FFA040
+		ValidRelationships: Ally
+		RequiresCondition: assaut.amphibie
+
+# ---------------------------------------------------------------------
+# Transports compatibles avec le débarquement étendu.
+# ---------------------------------------------------------------------
+LST:
+	ExtendedLanding:
+	NavetteAmphibie:
+	Cargo:
+		Types: Infantry, Vehicle, Char
+	Buildable:
+		Prerequisites: ~techlevel.low, ~!ships.elielistan, ~!ships.rubenie, ~!ships.ananthanie, ~!transports.elielistan, ~!transports.rubenie, ~!transports.ananthanie
+		Description: Transport naval polyvalent : infanterie et blindés.\nAussi produit par la Base logistique amphibie.\nDébarquement (K) : rectangle sur la côte = débarquement étendu,\nclic = débarquement concentré.\nNavette amphibie (J) : boucle automatique entre bases et plages.\n  Non armé
+
+RATHAMBAR:
+	ExtendedLanding:
+	NavetteAmphibie:
+	Buildable:
+		-BuildAtProductionType:
+		Prerequisites: ~transports.ananthanie, ~techlevel.low
+
+PORTA.AGUILA:
+	ExtendedLanding:
+	NavetteAmphibie:
+	Buildable:
+		BuildAtProductionType: Boat
+
+CHANTIER.ANA:
+	ProvidesPrerequisite@transports:
+		Factions: ananthanie
+		Prerequisite: transports.ananthanie
+
+# ---------------------------------------------------------------------
+# Base logistique amphibie : à cheval sur la côte (quai sur l'eau au
+# sud ; touche R pendant la pose pour tourner).
+# ---------------------------------------------------------------------
+BASE.AMPHIBIE:
+	Inherits: ^Building
+	Inherits@PRIMARY: ^PrimaryBuilding
+	RenderSprites:
+		Image: base.amphibie
+	PlaceBuildingVariants:
+		Actors: base.amphibie.o, base.amphibie.n, base.amphibie.e
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 88
+		Prerequisites: anypower, weap, ~techlevel.low
+		Description: Base logistique amphibie, au bord de l'eau (quai sur l'eau ;\ntouche R pendant la pose pour tourner).\nProduit les transports amphibies du pays.\nStock : 30 fantassins + 15 véhicules (clic droit d'unités sur la base,\nou point de ralliement d'une usine posé sur la base).\nJusqu'à 10 transports à quai, remplis automatiquement avec le stock.\nBase sélectionnée, bouton Débarquement (K) : tous ses transports\nchargés débarquent (rectangle = zone, clic = point), puis reviennent.\nNavettes amphibies (J) : escale de chargement ou de déchargement.\nTroupes embarquées par la base : -25 % de dégâts subis\npendant 20 s après le débarquement.
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Base logistique amphibie
+	-Building:
+	PortBuilding:
+		Dimensions: 3,3
+		Footprint: xxx xxx ___
+		TerrainTypes: Clear, Road, Rough, Beach
+		WaterCells: 0,2, 1,2, 2,2
+		BuildSounds: placbldg.aud
+		UndeploySounds: cashturn.aud
+	HitShape:
+		UseTargetableCellsOffsets: true
+		Type: Rectangle
+			TopLeft: -1536, -1536
+			BottomRight: 1536, 512
+	Selectable:
+		Bounds: 3072, 3072
+	Health:
+		HP: 110000
+	Armor:
+		Type: Wood
+	RevealsShroud:
+		Range: 6c0
+	Power:
+		Amount: -40
+	Exit@1:
+		SpawnOffset: 0,1024,0
+		Facing: 512
+		ExitCell: 1,2
+		ProductionTypes: Ship, Amphibie
+	Exit@2:
+		SpawnOffset: -1024,1024,0
+		Facing: 512
+		ExitCell: 0,2
+		ProductionTypes: Ship, Amphibie
+	Exit@3:
+		SpawnOffset: 1024,1024,0
+		Facing: 512
+		ExitCell: 2,2
+		ProductionTypes: Ship, Amphibie
+	Production:
+		Produces: Ship, Amphibie
+	ProductionBar:
+		ProductionType: Ship
+	RallyPoint:
+		Path: 1,4
+		ForceSetType: Ship
+	AmphibiousBase:
+	GareStock:
+		InfantryCapacity: 30
+		VehicleCapacity: 15
+	ProvidesPrerequisite@elielistan:
+		Factions: elielistan
+		Prerequisite: transports.elielistan
+	ProvidesPrerequisite@rubenie:
+		Factions: rubenie
+		Prerequisite: transports.rubenie
+	ProvidesPrerequisite@ananthanie:
+		Factions: ananthanie
+		Prerequisite: transports.ananthanie
+	ProvidesPrerequisite@australouis:
+		Factions: australouis
+		Prerequisite: transports.australouis
+	ProvidesPrerequisite@buildingname:
+		Prerequisite: base.amphibie
+
+# Quai au nord.
+BASE.AMPHIBIE.N:
+	Inherits: BASE.AMPHIBIE
+	-Buildable:
+	-PlaceBuildingVariants:
+	RenderSprites:
+		Image: base.amphibie.n
+	PortBuilding:
+		Footprint: ___ xxx xxx
+		WaterCells: 0,0, 1,0, 2,0
+	HitShape:
+		Type: Rectangle
+			TopLeft: -1536, -512
+			BottomRight: 1536, 1536
+	Exit@1:
+		SpawnOffset: 0,-1024,0
+		Facing: 0
+		ExitCell: 1,0
+	Exit@2:
+		SpawnOffset: -1024,-1024,0
+		Facing: 0
+		ExitCell: 0,0
+	Exit@3:
+		SpawnOffset: 1024,-1024,0
+		Facing: 0
+		ExitCell: 2,0
+	RallyPoint:
+		Path: 1,-2
+
+# Quai à l'est.
+BASE.AMPHIBIE.E:
+	Inherits: BASE.AMPHIBIE
+	-Buildable:
+	-PlaceBuildingVariants:
+	RenderSprites:
+		Image: base.amphibie.e
+	PortBuilding:
+		Footprint: xx_ xx_ xx_
+		WaterCells: 2,0, 2,1, 2,2
+	HitShape:
+		Type: Rectangle
+			TopLeft: -1536, -1536
+			BottomRight: 512, 1536
+	Exit@1:
+		SpawnOffset: 1024,0,0
+		Facing: 768
+		ExitCell: 2,1
+	Exit@2:
+		SpawnOffset: 1024,-1024,0
+		Facing: 768
+		ExitCell: 2,0
+	Exit@3:
+		SpawnOffset: 1024,1024,0
+		Facing: 768
+		ExitCell: 2,2
+	RallyPoint:
+		Path: 4,1
+
+# Quai à l'ouest.
+BASE.AMPHIBIE.O:
+	Inherits: BASE.AMPHIBIE
+	-Buildable:
+	-PlaceBuildingVariants:
+	RenderSprites:
+		Image: base.amphibie.o
+	PortBuilding:
+		Footprint: _xx _xx _xx
+		WaterCells: 0,0, 0,1, 0,2
+	HitShape:
+		Type: Rectangle
+			TopLeft: -512, -1536
+			BottomRight: 1536, 1536
+	Exit@1:
+		SpawnOffset: -1024,0,0
+		Facing: 256
+		ExitCell: 0,1
+	Exit@2:
+		SpawnOffset: -1024,-1024,0
+		Facing: 256
+		ExitCell: 0,0
+	Exit@3:
+		SpawnOffset: -1024,1024,0
+		Facing: 256
+		ExitCell: 0,2
+	RallyPoint:
+		Path: -2,1

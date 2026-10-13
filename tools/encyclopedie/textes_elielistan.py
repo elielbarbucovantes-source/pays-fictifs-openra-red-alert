@@ -160,4 +160,8 @@ Arriver vite, frapper fort, repartir avant la réaction ennemie.""",
 Une seule à la fois. Son réacteur est son point faible : détruite, elle explose violemment
 (gros dégâts sur 6 cases, alliés compris) et laisse une zone contaminée.""",
 "Le convoi géant de l'Elielistan : toute une armée d'un coup sur le front. Mais ne la faites jamais entrer dans votre base ni la garer près de vos troupes."),
+"BARCAZA": ("Barcaza", """Péniche de débarquement rapide, à peine blindée, construite à la Base logistique amphibie.
+Six places : une section d'infanterie ou deux chars, débarqués en un éclair.
+L'outil des raids côtiers : toucher la plage, vider, repartir.""",
+"Lancez plusieurs Barcaza ensemble avec le Débarquement (K) en rectangle : elles se répartissent le long de la plage et déchargent toutes en même temps. Ne les laissez pas à portée des défenses côtières une fois vides."),
 }

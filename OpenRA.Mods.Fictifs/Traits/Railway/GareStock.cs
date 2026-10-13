@@ -30,9 +30,10 @@ namespace OpenRA.Mods.Fictifs.Traits
 	// Déploiement (ou bouton « Vider la gare ») : tout le stock sort et va au point de ralliement de la gare.
 	// Toute unité qui sort d'une gare (stock, navette, train déchargé en gare) suit ce point de ralliement ;
 	// posé sur une autre gare (clic droit sur elle, gare sélectionnée), elle va y entrer.
+	// Le même stock sert à la Base logistique amphibie (sans voies) : les transports à quai y puisent.
 
 	[Desc("Station storage fed by factories whose rally point is on the station; shuttle trains load from it.")]
-	public class GareStockInfo : TraitInfo, Requires<RailTrackInfo>
+	public class GareStockInfo : TraitInfo
 	{
 		[Desc("Passenger cargo types stored as infantry.")]
 		public readonly HashSet<string> InfantryTypes = new() { "Infantry" };
@@ -80,7 +81,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 		{
 			Info = info;
 			this.self = self;
-			network = self.World.WorldActor.Trait<RailNetwork>();
+			network = self.World.WorldActor.TraitOrDefault<RailNetwork>();
 		}
 
 		public IReadOnlyList<Actor> Units => units;
@@ -138,6 +139,16 @@ namespace OpenRA.Mods.Fictifs.Traits
 			return true;
 		}
 
+		// Une unité hors du monde (déchargée d'un transport) entre directement dans le stock.
+		public bool Receive(Actor unit)
+		{
+			if (!Usable || unit.IsDead || unit.IsInWorld || units.Contains(unit) || !HasRoomFor(unit))
+				return false;
+
+			units.Add(unit);
+			return true;
+		}
+
 		// Retire du stock la première unité acceptée (elle reste hors du monde : un wagon la prend).
 		public Actor Take(Func<Actor, bool> accepts)
 		{
@@ -174,7 +185,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 				for (var x = minX; x <= maxX; x++)
 					cells.Add(new CPos(x, y));
 
-			foreach (var c in cells.Where(c => map.Contains(c) && !network.IsTrack(c))
+			foreach (var c in cells.Where(c => map.Contains(c) && network?.IsTrack(c) != true)
 				.OrderBy(c => (c - towards).LengthSquared).ThenBy(c => c.Bits))
 			{
 				var sub = pos.GetAvailableSubCell(c);

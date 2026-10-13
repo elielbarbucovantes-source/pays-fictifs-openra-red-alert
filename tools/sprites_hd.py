@@ -18,6 +18,7 @@ from modeles import rubenie as U  # noqa: E402
 from modeles import ananthanie as N  # noqa: E402
 from modeles import ferroviaire as F  # noqa: E402
 from modeles import convois as V  # noqa: E402
+from modeles import amphibie as M  # noqa: E402
 
 AIR = dict(shadow=False)
 MER = dict(shadow=False, waterline=0.0)
@@ -95,6 +96,9 @@ UNITES = {
     "ananta": (N.ananta_caisse, N.ananta_tourelle, 48, 32, {}, dict(zoom=1.9, dz=3)),
     "ambaroth": (N.ambaroth, None, 96, 32, AIR, dict(zoom=0.85, air=True, facing=150, dz=-6)),
     "pont.aerien": (N.pont_aerien, None, 56, 32, AIR, dict(zoom=1.4, air=True, facing=150, dz=-6)),
+    # logistique amphibie
+    "barcaza": (M.barcaza, None, 48, 32, MER, dict(zoom=1.9, water=True, facing=215, dz=2)),
+    "chaland.rub": (M.chaland, None, 64, 32, MER, dict(zoom=1.3, water=True, facing=215, dz=2)),
 }
 
 # Position du pivot de tourelle dans le modèle de la caisse (px, voir Turreted.Offset en yaml).
@@ -346,6 +350,11 @@ def _bat_jobs():
     simple("gare.portuaire.n", lambda t=0.0: F.gare(t).rot_z(180), (4, 3), (0, 18), 1, feux=[(20, -24, 16, 2.0)])
     simple("gare.portuaire.e", lambda t=0.0: F.gare(t).rot_z(90), (3, 4), (0, 18), 1, feux=[(-24, -20, 16, 2.0)])
     simple("gare.portuaire.o", lambda t=0.0: F.gare(t).rot_z(-90), (3, 4), (0, 18), 1, feux=[(24, 20, 16, 2.0)])
+    # base logistique amphibie (quai au sud) et ses variantes tournées
+    simple("base.amphibie", M.base_amphibie, (3, 3), (0, 22), 1, feux=[(-16, 22, 14, 2.0), (20, 6, 8, 1.6)])
+    simple("base.amphibie.n", lambda t=0.0: M.base_amphibie(t).rot_z(180), (3, 3), (0, 22), 1, feux=[(16, -22, 14, 2.0)])
+    simple("base.amphibie.e", lambda t=0.0: M.base_amphibie(t).rot_z(90), (3, 3), (0, 22), 1, feux=[(-22, -16, 14, 2.0)])
+    simple("base.amphibie.o", lambda t=0.0: M.base_amphibie(t).rot_z(-90), (3, 3), (0, 22), 1, feux=[(22, 16, 14, 2.0)])
     j["rail"] = dict(cel=(1, 1), marge=(0, 2), eau=False,
                      frames=[((lambda phase=0.0, m=m, d=d: F.rail(m, d)), {}, {}) for d in (False, True) for m in range(16)])
     # pipeline : 16 raccordements, intact puis endommagé
@@ -384,7 +393,7 @@ def generer_batiments(noms, pool):
         R.save(frames, nom)
         if nom == "rail":
             R.save([R.icon(F.rail_icone(), zoom=1.0, facing=200, dz=4)], "railicon")
-        elif nom not in ("pipeline", "zone.industrielle") and not nom.startswith("gare.portuaire."):
+        elif nom not in ("pipeline", "zone.industrielle") and not nom.startswith(("gare.portuaire.", "base.amphibie.")):
             R.save([_bat_icone(nom)], nom + "icon")
         print(f"{nom} : {n} images de {frames[0].size[0]}×{frames[0].size[1]}")
 
