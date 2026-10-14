@@ -1,0 +1,259 @@
+World:
+	LuaScript:
+		Scripts: test.lua
+	-SpawnStartingUnits:
+	-CrateSpawner:
+Player:
+	-ConquestVictoryConditions:
+	SupportPowerBotModule:
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai || enable-ancien-ai
+	ModularBot@AncienAI:
+		Name: Ancienne IA
+		Type: ancien
+	GrantConditionOnBotOwner@ancien:
+		Condition: enable-ancien-ai
+		Bots: ancien
+	HarvesterBotModule@ancien:
+		RequiresCondition: enable-ancien-ai
+		HarvesterTypes: harv
+		RefineryTypes: proc
+	BaseBuilderBotModule@ancien:
+		RequiresCondition: enable-ancien-ai
+		MinimumExcessPower: 60
+		MaximumExcessPower: 200
+		ExcessPowerIncrement: 40
+		ExcessPowerIncreaseThreshold: 4
+		ConstructionYardTypes: fact
+		RefineryTypes: proc
+		PowerTypes: powr,apwr
+		BarracksTypes: barr,tent
+		VehiclesFactoryTypes: weap
+		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
+		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		SiloTypes: silo
+		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
+		BuildingLimits:
+			proc: 4
+			barr: 1
+			tent: 1
+			dome: 1
+			weap: 1
+			spen: 1
+			syrd: 1
+			hpad: 4
+			afld: 4
+			afld.ukraine: 4
+			atek: 1
+			stek: 1
+			fix: 1
+			palacio: 1
+			aerodromo: 3
+			qg.rub: 1
+			centre.logistique: 2
+			base.aerienne: 4
+			chantier.rub: 1
+			base.aeronavale: 4
+			chantier.avance: 1
+			haut.commandement: 1
+			fabrique.drones: 1
+			institut: 1
+			base.ananthanie: 3
+			chantier.ana: 1
+		BuildingFractions:
+			proc: 15
+			tent: 1
+			barr: 1
+			kenn: 1
+			dome: 1
+			weap: 6
+			hpad: 4
+			spen: 1
+			syrd: 1
+			afld: 4
+			afld.ukraine: 4
+			pbox: 7
+			gun: 7
+			ftur: 10
+			tsla: 5
+			gap: 2
+			fix: 1
+			agun: 5
+			sam: 1
+			atek: 1
+			stek: 1
+			mslo: 1
+			palacio: 1
+			aerodromo: 3
+			qg.rub: 1
+			centre.logistique: 3
+			base.aerienne: 4
+			chantier.rub: 1
+			bunker.rub: 7
+			casemate.at: 7
+			tourelle.aa: 5
+			sam.rub: 2
+			base.aeronavale: 5
+			chantier.avance: 1
+			centrale.enrichissement: 1
+			haut.commandement: 1
+			fabrique.drones: 2
+			institut: 1
+			base.ananthanie: 4
+			chantier.ana: 1
+			kheshkarn: 4
+			batterie.ambar: 2
+			ruche: 3
+		BuildingDelays:
+			kenn: 3000
+			base.aeronavale: 4500
+			chantier.avance: 9000
+			centrale.enrichissement: 7500
+			haut.commandement: 6000
+			institut: 9000
+			chantier.ana: 7500
+			base.ananthanie: 6000
+			fabrique.drones: 4500
+			kheshkarn: 6000
+			batterie.ambar: 7500
+			ruche: 7500
+	BuildingRepairBotModule@ancien:
+		RequiresCondition: enable-ancien-ai
+	McvManagerBotModule@ancien:
+		RequiresCondition: enable-ancien-ai
+		McvTypes: mcv
+		ConstructionYardTypes: fact
+		McvFactoryTypes: weap
+	SquadManagerBotModule@ancien:
+		RequiresCondition: enable-ancien-ai
+		SquadSize: 40
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar, l0u15, porte.drone, sousmarin.icbm
+		ExcludeFromSquadsTypes: harv, mcv, dog, badr.bomber, u2
+		ConstructionYardTypes: fact
+		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta, moustique
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche, base.aeronavale, chantier.avance, centrale.enrichissement
+		IgnoredEnemyTargetTypes: AirborneActor
+	UnitBuilderBotModule@ancien:
+		RequiresCondition: enable-ancien-ai
+		UnitsToBuild:
+			e1: 65
+			e2: 15
+			e3: 30
+			e4: 15
+			dog: 15
+			shok: 15
+			harv: 15
+			apc: 30
+			jeep: 20
+			arty: 15
+			v2rl: 40
+			ftrk: 30
+			1tnk: 40
+			2tnk: 50
+			3tnk: 50
+			4tnk: 25
+			ttnk: 25
+			stnk: 5
+			heli: 30
+			mh60: 30
+			mig: 30
+			yak: 30
+			ss: 10
+			msub: 10
+			dd: 10
+			ca: 10
+			pt: 10
+			aguila: 65
+			cazador: 30
+			explorador: 5
+			nathan: 5
+			gavilan: 20
+			halcon: 30
+			jaguar: 50
+			trueno: 20
+			vigia: 25
+			carro.aguila: 40
+			aguila.nuclear: 15
+			lanzador: 10
+			avispa: 10
+			pico: 10
+			garra: 10
+			harpia: 20
+			bombardier.tactique: 10
+			b2.spirit: 5
+			kirov: 5
+			centinela: 10
+			tormenta: 10
+			tiburon: 10
+			bastion: 10
+			fusilier: 65
+			grenadier: 20
+			chasseur.at: 30
+			eclaireur: 5
+			second.galactique: 5
+			reco.rub: 15
+			vehicule.logistique: 10
+			contreattaque: 45
+			sicatient: 50
+			forteresse: 20
+			aa.rub: 25
+			canon.auto: 20
+			lrm: 15
+			artillerie.lourde: 10
+			lancemissile: 10
+			chasseur.poly: 30
+			intercepteur: 20
+			avion.attaque: 25
+			escorteur: 10
+			fregate: 10
+			sous.marin: 10
+			cheaper: 60
+			albatros: 30
+			warthog: 15
+			manta: 8
+			moustique: 30
+			l0u15: 15
+			porte.drone: 8
+			sousmarin.icbm: 8
+			thal: 70
+			khesh.thal: 35
+			nayrak: 20
+			lunkar: 4
+			karnthal: 15
+			vidra: 35
+			lunkra: 55
+			karnvasha: 20
+			ratha: 20
+			mukhar: 12
+			agnar: 10
+			ambarkesh: 20
+			vidrakarn: 5
+			ananta: 5
+			lunkravyn: 30
+			vidravyn: 20
+			agnivyn: 15
+			ulkar: 20
+			kheshar: 20
+			ambaroth: 5
+			vasha: 15
+			ambarkarn: 12
+			agnikhesh: 10
+			ulmar: 12
+		UnitLimits:
+			dog: 4
+			harv: 8
+			jeep: 4
+			ftrk: 4
+			explorador: 2
+			nathan: 2
+			eclaireur: 2
+			vehicule.logistique: 2
+			reco.rub: 4
+			aa.rub: 6
+			artillerie.lourde: 3
+			moustique: 10
+			porte.drone: 3
+			lunkar: 2
+			mukhar: 3
+			agnar: 3
+			ambarkesh: 6

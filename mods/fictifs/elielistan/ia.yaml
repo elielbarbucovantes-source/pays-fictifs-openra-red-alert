@@ -11,33 +11,33 @@
 # =====================================================================
 
 Player:
-	BaseBuilderBotModule@rush:
+	BaseBuilderBotModuleCA@rush:
 		BuildingLimits:
 			palacio: 1
 		BuildingFractions:
 			palacio: 1
-	BaseBuilderBotModule@normal:
+	BaseBuilderBotModuleCA@normal:
 		BuildingLimits:
 			palacio: 1
 			aerodromo: 3
 		BuildingFractions:
 			palacio: 1
 			aerodromo: 3
-	BaseBuilderBotModule@turtle:
+	BaseBuilderBotModuleCA@turtle:
 		BuildingLimits:
 			palacio: 1
 			aerodromo: 2
 		BuildingFractions:
 			palacio: 1
 			aerodromo: 2
-	BaseBuilderBotModule@naval:
+	BaseBuilderBotModuleCA@naval:
 		BuildingLimits:
 			palacio: 1
 			aerodromo: 8
 		BuildingFractions:
 			palacio: 1
 			aerodromo: 15
-	UnitBuilderBotModule@rush:
+	UnitBuilderBotModuleCA@rush:
 		UnitsToBuild:
 			aguila: 65
 			cazador: 30
@@ -49,7 +49,7 @@ Player:
 			carro.aguila: 30
 			aguila.nuclear: 10
 			nathan: 5
-	UnitBuilderBotModule@normal:
+	UnitBuilderBotModuleCA@normal:
 		UnitsToBuild:
 			aguila: 65
 			cazador: 30
@@ -76,7 +76,7 @@ Player:
 		UnitLimits:
 			explorador: 2
 			nathan: 2
-	UnitBuilderBotModule@turtle:
+	UnitBuilderBotModuleCA@turtle:
 		UnitsToBuild:
 			aguila: 65
 			cazador: 30
@@ -98,7 +98,7 @@ Player:
 			tiburon: 10
 		UnitLimits:
 			nathan: 2
-	UnitBuilderBotModule@naval:
+	UnitBuilderBotModuleCA@naval:
 		UnitsToBuild:
 			harpia: 30
 			garra: 15

@@ -64,7 +64,7 @@ Faction alliée d'un archipel, dont la puissance tient à l'aviation et à la ma
 - **Chars** : char léger et char moyen alliés, plus le **Cheaper**, char produit en masse, pas cher et faible.
 - **Pouvoirs** : **Raffinerie boost** (centrale d'enrichissement + silo : +20 % de revenus du minerai pendant 40 secondes) et **Radar blink** (chantier naval avancé : pendant 1 minute, vision de tous les sous-marins de la carte, sous-marins ennemis révélés).
 
-L'IA ne sait pas encore utiliser les unités et pouvoirs propres à l'Australouis.
+L'IA sait jouer l'Australouis : le Cheaper en masse au sol, l'aviation (Albatros, Warthog, Manta, Moustique) en force principale, la marine (L-0U15, Porte-Drone, sous-marin ICBM) dès qu'il y a de l'eau, et l'Engineered Tsunami. Le Révolutionnaire, le Mothership, le Cormoran, la Baleine et le Radar blink restent réservés aux joueurs humains.
 
 ### Ananthanie : « L'Ananthanie gagne une bataille en 7 minutes »
 
@@ -121,6 +121,19 @@ Cartes générées ou personnelles : elles ne sont pas sur le Resource Center d'
 
 La version du mod contient le commit installé (`release-20231010+8f4e95b`, par exemple). Si les deux joueurs n'ont pas la même, la connexion est refusée avec un message qui demande de se mettre à jour, au lieu d'une désynchronisation en cours de partie. Les sauvegardes et les replays sont rangés par version : ceux d'une ancienne version n'apparaissent plus après une mise à jour (ils ne se rejoueraient de toute façon pas correctement avec des règles différentes).
 
+## Intelligence artificielle
+
+Les quatre IA (Rush, Normale, Turtle, Naval) utilisent les modules d'IA de **Combined Arms** (portés de CA 1.08.2), plus forts que ceux de Red Alert :
+
+- **Attaques en escouades de valeur** : l'IA attaque quand son armée au repos vaut assez cher (et non à un nombre fixe d'unités) ; ce seuil grandit pendant les 20 premières minutes. Les escouades fuient un combat perdu et prennent parfois des **itinéraires de contournement**.
+- **Harcèlement** : les unités rapides (jeep, Gavilán, véhicule de reconnaissance rubénien, Vidra) forment de petites escouades qui contournent l'ennemi pour frapper les cibles prioritaires (récolteurs, raffineries…).
+- **Cibles prioritaires** : chantier de construction, raffineries, récolteurs, centres techniques et bâtiments de pouvoir.
+- **Aviation** : les chasseurs (Chasseur polyvalent, Intercepteur, Albatros, Vidravyn, Ambaroth) traquent les avions ennemis et l'IA en produit autant qu'il en faut pour garder la supériorité aérienne ; les escadrilles renoncent aux cibles trop bien couvertes par la DCA.
+- **Base** : plusieurs casernes et usines, un deuxième chantier de construction (VCM), défenses tournées vers l'ennemi, coupure de l'énergie des bâtiments secondaires en cas de manque, réparations automatiques.
+- **Économie** : jusqu'à 2 récolteurs par raffinerie, qui évitent les zones ennemies ; des ingénieurs capturent les derricks et les bâtiments neutres.
+
+Les IA ne trichent pas (pas de bonus d'argent ni de production). Le code est dans `OpenRA.Mods.Fictifs/Traits/BotModulesCA/`, les réglages dans `mods/fictifs/common/ia.yaml` et `mods/fictifs/<pays>/ia.yaml`.
+
 ## Classement Elo et grades
 
 Chaque escarmouche ou partie en ligne terminée (avec un gagnant) compte pour le classement Elo. Tout le monde commence à 1000. Les parties contre l'IA comptent aussi : chaque IA a un Elo fixe (Turtle 900, Naval 1000, Normal 1100, Rush 1200) et ne gagne ni ne perd de points. Chaque camp est comparé à tous les autres réunis, dont les forces s'additionnent : seul contre deux joueurs de son niveau, on a une chance sur trois. Plus il y a d'adversaires, plus une victoire rapporte et moins une défaite coûte. Les points gagnés augmentent en plus de 10 % par adversaire au-delà du premier. Dans un camp, chaque joueur reçoit la même variation. Exemple à 1000 : contre la seule IA Rush, +30 ou −10 ; contre les IA Rush et Normale, +37 ou −7. Les 10 premières parties bougent plus vite (K = 40, puis 24). Les missions et les replays ne comptent pas.
@@ -161,6 +174,7 @@ Pour tester sans lancer le jeu : `./utility.sh --generate-random-maps 20 /tmp/ca
 - Sprites du tireur d'élite, du B-2, du bombardier tactique, du Kirov et des bombes : carte « Europe: WW3 » de Trump, H, Therapist, Leile, Ruben et d'autres ; merci à Frenzy, Widow, Pinkthoth, SirCake, MedalMonkey, Inq8, Zypres et bien d'autres pour les graphismes, le code et l'aide.
 - Générateur de cartes aléatoires : code et données d'[OpenRA](https://github.com/OpenRA/OpenRA) (playtest-20260222, licence GPL v3) par les développeurs et contributeurs d'OpenRA, adaptés au moteur release-20231010.
 - Régions du monde réel du générateur (`mods/fictifs/mapgen/monde/`, produites par `tools/monde.py`) : côtes et lacs de [Natural Earth](https://www.naturalearthdata.com/) (domaine public) ; relief des [Terrain Tiles](https://registry.opendata.aws/terrain-tiles/) d'AWS (SRTM, GMTED2010, ETOPO1 et autres sources publiques, voir leur page d'attribution).
+- Intelligence artificielle : modules d'IA de [Combined Arms](https://github.com/Inq8/CAmod) 1.08.2 (licence GPL v3) par Inq8 et les développeurs de Combined Arms, adaptés au moteur release-20231010.
 - Basé sur l'[OpenRA Mod SDK](https://github.com/OpenRA/OpenRAModSDK).
 
 ## Licence

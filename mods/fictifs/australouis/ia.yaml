@@ -23,7 +23,7 @@
 # =====================================================================
 
 Player:
-	BaseBuilderBotModule@rush:
+	BaseBuilderBotModuleCA@rush:
 		BuildingDelays:
 			base.aeronavale: 4500
 			chantier.avance: 9000
@@ -35,7 +35,7 @@ Player:
 			base.aeronavale: 3
 			chantier.avance: 1
 			centrale.enrichissement: 1
-	BaseBuilderBotModule@normal:
+	BaseBuilderBotModuleCA@normal:
 		BuildingDelays:
 			base.aeronavale: 4500
 			chantier.avance: 9000
@@ -47,7 +47,7 @@ Player:
 			base.aeronavale: 5
 			chantier.avance: 1
 			centrale.enrichissement: 1
-	BaseBuilderBotModule@turtle:
+	BaseBuilderBotModuleCA@turtle:
 		BuildingDelays:
 			base.aeronavale: 6000
 			chantier.avance: 9000
@@ -59,7 +59,7 @@ Player:
 			base.aeronavale: 3
 			chantier.avance: 1
 			centrale.enrichissement: 1
-	BaseBuilderBotModule@naval:
+	BaseBuilderBotModuleCA@naval:
 		BuildingDelays:
 			base.aeronavale: 4500
 			chantier.avance: 6000
@@ -71,7 +71,7 @@ Player:
 			base.aeronavale: 10
 			chantier.avance: 3
 			centrale.enrichissement: 1
-	UnitBuilderBotModule@rush:
+	UnitBuilderBotModuleCA@rush:
 		UnitsToBuild:
 			cheaper: 70
 			albatros: 20
@@ -80,7 +80,7 @@ Player:
 			moustique: 25
 		UnitLimits:
 			moustique: 8
-	UnitBuilderBotModule@normal:
+	UnitBuilderBotModuleCA@normal:
 		UnitsToBuild:
 			cheaper: 60
 			albatros: 30
@@ -93,7 +93,7 @@ Player:
 		UnitLimits:
 			moustique: 10
 			porte.drone: 3
-	UnitBuilderBotModule@turtle:
+	UnitBuilderBotModuleCA@turtle:
 		UnitsToBuild:
 			cheaper: 60
 			albatros: 30
@@ -106,7 +106,7 @@ Player:
 		UnitLimits:
 			moustique: 10
 			porte.drone: 3
-	UnitBuilderBotModule@naval:
+	UnitBuilderBotModuleCA@naval:
 		UnitsToBuild:
 			albatros: 35
 			warthog: 15

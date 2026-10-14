@@ -1,0 +1,262 @@
+#region Copyright & License Information
+/**
+ * Copyright (c) The OpenRA Combined Arms Developers (see CREDITS).
+ * This file is part of OpenRA Combined Arms, which is free software.
+ * It is made available to you under the terms of the GNU General Public License
+ * as published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version. For more information, see COPYING.
+ */
+#endregion
+
+using System.Collections.Generic;
+using System.Linq;
+using OpenRA.Mods.Common.Traits;
+using OpenRA.Support;
+using OpenRA.Traits;
+
+namespace OpenRA.Mods.Fictifs.Traits.BotModules.Squads
+{
+	public enum SquadCAType { Assault, Air, Rush, Protection, Naval, Harass }
+
+	public class SquadCA
+	{
+		public HashSet<Actor> Units = new();
+		public SquadCAType Type;
+
+		internal IBot Bot;
+		internal World World;
+		internal SquadManagerBotModuleCA SquadManager;
+		internal MersenneTwister Random;
+		internal StateMachineCA FuzzyStateMachine;
+
+		/// <summary>
+		/// Target location to attack. This will be either the targeted actor,
+		/// or a position close to that actor sufficient to get within weapons range.
+		/// </summary>
+		internal Target Target { get; set; }
+
+		/// PAYS FICTIFS : cible d'un ordre AttackMove. Notre moteur plante si la cible
+		/// d'un AttackMove est une unité morte avant le traitement de l'ordre :
+		/// on envoie donc toujours une position.
+		internal Target AttackMoveTarget
+		{
+			get
+			{
+				if (Target.Type != TargetType.Invalid)
+					return Target.FromPos(Target.CenterPosition);
+
+				var unit = Units.FirstOrDefault(u => !u.IsDead && u.IsInWorld);
+				return unit != null ? Target.FromPos(unit.CenterPosition) : Target.Invalid;
+			}
+		}
+
+		/// <summary>
+		/// Actor that is targeted, for any actor based checks. Use <see cref="Target"/> for a targeting location.
+		/// </summary>
+		internal Actor TargetActor;
+
+		// lists used for air squads to determine what members should be doing
+		public HashSet<Actor> NewUnits = new HashSet<Actor>();
+		public HashSet<Actor> WaitingUnits = new HashSet<Actor>();
+		public HashSet<Actor> RearmingUnits = new HashSet<Actor>();
+
+		// squad leader
+		Actor leader;
+		public Locomotor LeaderLocomotor { get; private set; }
+
+		/// <summary>
+		/// Elects a unit to lead the squad, other units in the squad will regroup to the leader if they start to spread out.
+		/// The leader remains the same unless a new one is forced or the leader is no longer part of the squad.
+		/// </summary>
+		public Actor GetLeader()
+		{
+			if (leader == null || !Units.Contains(leader))
+			{
+				leader = NewLeader(this);
+				LeaderLocomotor = leader?.TraitOrDefault<Mobile>()?.Locomotor;
+			}
+
+			return leader;
+		}
+
+		static Actor NewLeader(SquadCA owner)
+		{
+			IEnumerable<Actor> units = owner.Units;
+
+			// Identify the Locomotor with the most restrictive passable terrain list. For squads with mixed
+			// locomotors, we hope to choose the most restrictive option. This means we won't nominate a leader who has
+			// more options. This avoids situations where we would nominate a hovercraft as the leader and tanks would
+			// fail to follow it because they can't go over water. By forcing us to choose a unit with limited movement
+			// options, we maximise the chance other units will be able to follow it. We could still be screwed if the
+			// squad has a mix of units with disparate movement, e.g. land units and naval units. We must trust the
+			// squad has been formed from a set of units that don't suffer this problem.
+
+			// not really necessary for CA
+			/*
+			var leastCommonDenominator = units
+				.Select(a => a.TraitOrDefault<Mobile>()?.Locomotor)
+				.Where(l => l != null)
+				.MinByOrDefault(l => l.Info.TerrainSpeeds.Count)
+				?.Info.TerrainSpeeds.Count;
+
+			if (leastCommonDenominator != null)
+				units = units.Where(a => a.TraitOrDefault<Mobile>()?.Locomotor.Info.TerrainSpeeds.Count == leastCommonDenominator).ToList();
+			*/
+
+			var minSpeed = units
+				.Select(a => a.TraitOrDefault<Mobile>()?.Info.Speed)
+				.MinByOrDefault(s => s ?? int.MaxValue);
+
+			if (minSpeed != null)
+				units = units.Where(a => a.TraitOrDefault<Mobile>()?.Info.Speed == minSpeed).ToList();
+
+			// Choosing a unit in the center reduces the need for an immediate regroup.
+			var centerPosition = units.Select(a => a.CenterPosition).Average();
+			return units.MinBy(a => (a.CenterPosition - centerPosition).LengthSquared);
+		}
+
+		public SquadCA(IBot bot, SquadManagerBotModuleCA squadManager, SquadCAType type)
+			: this(bot, squadManager, type, default) { }
+
+		public SquadCA(IBot bot, SquadManagerBotModuleCA squadManager, SquadCAType type, (Actor Actor, WVec Offset) target)
+		{
+			Bot = bot;
+			SquadManager = squadManager;
+			World = bot.Player.PlayerActor.World;
+			Random = World.LocalRandom;
+			Type = type;
+			SetActorToTarget(target);
+			FuzzyStateMachine = new StateMachineCA();
+
+			switch (type)
+			{
+				case SquadCAType.Assault:
+				case SquadCAType.Rush:
+					FuzzyStateMachine.ChangeState(this, new GroundUnitsIdleStateCA(), true);
+					break;
+				case SquadCAType.Air:
+					FuzzyStateMachine.ChangeState(this, new AirIdleStateCA(), true);
+					break;
+				case SquadCAType.Protection:
+					FuzzyStateMachine.ChangeState(this, new UnitsForProtectionIdleState(), true);
+					break;
+				case SquadCAType.Naval:
+					FuzzyStateMachine.ChangeState(this, new NavyUnitsIdleState(), true);
+					break;
+				case SquadCAType.Harass:
+					FuzzyStateMachine.ChangeState(this, new HarasserUnitsIdleStateCA(), true);
+					break;
+			}
+		}
+
+		public void Update()
+		{
+			if (IsValid)
+				FuzzyStateMachine.Update(this);
+		}
+
+		public bool IsValid => Units.Count > 0;
+
+		public void SetActorToTarget((Actor Actor, WVec Offset) target)
+		{
+			TargetActor = target.Actor;
+			if (TargetActor == null)
+			{
+				Target = Target.Invalid;
+				return;
+			}
+
+			if (target.Offset == WVec.Zero)
+				Target = Target.FromActor(TargetActor);
+			else
+				Target = Target.FromPos(TargetActor.CenterPosition + target.Offset);
+		}
+
+		/// <summary>
+		/// Checks the target is still valid, and updates the <see cref="Target"/> location if it is still valid.
+		/// </summary>
+		public bool IsTargetValid(Actor squadUnit)
+		{
+			var valid =
+				TargetActor != null &&
+				TargetActor.IsInWorld &&
+				!TargetActor.IsDead &&
+				Units.Any(Target.IsValidFor) &&
+				!TargetActor.Info.HasTraitInfo<HuskInfo>();
+			if (!valid)
+				return false;
+
+			// Refresh the target location.
+			// If the actor moved out of reach then we'll mark it invalid.
+			// e.g. a ship targeting a land unit that moves inland out of weapons range.
+			// or the target crossed a bridge which is then destroyed.
+			// If it is still in range but we have to target a nearby location, we can update that location.
+			// e.g. a ship targeting a land unit, but the land unit moved north.
+			// We need to update our location to move north as well.
+			// If we can reach the actor directly, we'll just target it directly.
+			var target = SquadManager.FindEnemies(new[] { TargetActor }, squadUnit).FirstOrDefault();
+			SetActorToTarget(target);
+			return target.Actor != null;
+		}
+
+		public bool IsTargetVisible =>
+			TargetActor != null &&
+			TargetActor.CanBeViewedByPlayer(Bot.Player);
+
+		public WPos CenterPosition()
+		{
+			return Units.Select(u => u.CenterPosition).Average();
+		}
+
+		public Actor CenterUnit()
+		{
+			var centerPosition = CenterPosition();
+			return Units.MinByOrDefault(a => (a.CenterPosition - centerPosition).LengthSquared);
+		}
+
+		public MiniYaml Serialize()
+		{
+			var nodes = new List<MiniYamlNode>()
+			{
+				new("Type", FieldSaver.FormatValue(Type)),
+				new("Units", FieldSaver.FormatValue(Units.Select(a => a.ActorID).ToArray()))
+			};
+
+			if (Target.Type != TargetType.Invalid)
+			{
+				nodes.Add(new MiniYamlNode("ActorToTarget", FieldSaver.FormatValue(TargetActor.ActorID)));
+				nodes.Add(new MiniYamlNode("TargetOffset", FieldSaver.FormatValue(Target.CenterPosition - TargetActor.CenterPosition)));
+			}
+
+			return new MiniYaml("", nodes);
+		}
+
+		public static SquadCA Deserialize(IBot bot, SquadManagerBotModuleCA squadManager, MiniYaml yaml)
+		{
+			var type = SquadCAType.Rush;
+			var target = ((Actor)null, WVec.Zero);
+
+			var typeNode = yaml.NodeWithKeyOrDefault("Type");
+			if (typeNode != null)
+				type = FieldLoader.GetValue<SquadCAType>("Type", typeNode.Value.Value);
+
+			var actorToTargetNode = yaml.NodeWithKeyOrDefault("ActorToTarget");
+			var targetOffsetNode = yaml.NodeWithKeyOrDefault("TargetOffset");
+			if (actorToTargetNode != null && targetOffsetNode != null)
+			{
+				var actorToTarget = squadManager.World.GetActorById(FieldLoader.GetValue<uint>("ActorToTarget", actorToTargetNode.Value.Value));
+				var targetOffset = FieldLoader.GetValue<WVec>("TargetOffset", targetOffsetNode.Value.Value);
+				target = (actorToTarget, targetOffset);
+			}
+
+			var squad = new SquadCA(bot, squadManager, type, target);
+
+			var unitsNode = yaml.NodeWithKeyOrDefault("Units");
+			if (unitsNode != null)
+				squad.Units.UnionWith(FieldLoader.GetValue<uint[]>("Units", unitsNode.Value.Value)
+					.Select(a => squadManager.World.GetActorById(a)));
+
+			return squad;
+		}
+	}
+}

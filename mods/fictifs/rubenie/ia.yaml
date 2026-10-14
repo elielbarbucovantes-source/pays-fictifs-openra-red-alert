@@ -12,7 +12,7 @@
 # =====================================================================
 
 Player:
-	BaseBuilderBotModule@rush:
+	BaseBuilderBotModuleCA@rush:
 		BuildingLimits:
 			qg.rub: 1
 			centre.logistique: 2
@@ -23,7 +23,7 @@ Player:
 			casemate.at: 7
 			tourelle.aa: 5
 			sam.rub: 3
-	BaseBuilderBotModule@normal:
+	BaseBuilderBotModuleCA@normal:
 		BuildingLimits:
 			qg.rub: 1
 			centre.logistique: 2
@@ -38,7 +38,7 @@ Player:
 			casemate.at: 7
 			tourelle.aa: 5
 			sam.rub: 2
-	BaseBuilderBotModule@turtle:
+	BaseBuilderBotModuleCA@turtle:
 		BuildingLimits:
 			qg.rub: 1
 			centre.logistique: 3
@@ -53,7 +53,7 @@ Player:
 			casemate.at: 12
 			tourelle.aa: 6
 			sam.rub: 5
-	BaseBuilderBotModule@naval:
+	BaseBuilderBotModuleCA@naval:
 		BuildingLimits:
 			qg.rub: 1
 			centre.logistique: 2
@@ -68,7 +68,7 @@ Player:
 			casemate.at: 12
 			tourelle.aa: 5
 			sam.rub: 5
-	UnitBuilderBotModule@rush:
+	UnitBuilderBotModuleCA@rush:
 		UnitsToBuild:
 			bastion: 8
 			fusilier: 65
@@ -92,7 +92,7 @@ Player:
 			reco.rub: 4
 			aa.rub: 6
 			artillerie.lourde: 3
-	UnitBuilderBotModule@normal:
+	UnitBuilderBotModuleCA@normal:
 		UnitsToBuild:
 			bastion: 10
 			fusilier: 65
@@ -122,7 +122,7 @@ Player:
 			reco.rub: 4
 			aa.rub: 6
 			artillerie.lourde: 3
-	UnitBuilderBotModule@turtle:
+	UnitBuilderBotModuleCA@turtle:
 		UnitsToBuild:
 			bastion: 15
 			fusilier: 65
@@ -152,7 +152,7 @@ Player:
 			reco.rub: 4
 			aa.rub: 6
 			artillerie.lourde: 3
-	UnitBuilderBotModule@naval:
+	UnitBuilderBotModuleCA@naval:
 		UnitsToBuild:
 			chasseur.poly: 30
 			intercepteur: 20

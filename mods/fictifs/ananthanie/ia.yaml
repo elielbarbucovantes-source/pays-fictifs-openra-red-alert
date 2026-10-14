@@ -20,7 +20,7 @@
 # =====================================================================
 
 Player:
-	BaseBuilderBotModule@rush:
+	BaseBuilderBotModuleCA@rush:
 		BuildingDelays:
 			haut.commandement: 6000
 			institut: 9000
@@ -41,7 +41,7 @@ Player:
 			kheshkarn: 4
 			batterie.ambar: 2
 			ruche: 3
-	BaseBuilderBotModule@normal:
+	BaseBuilderBotModuleCA@normal:
 		BuildingDelays:
 			haut.commandement: 6000
 			institut: 9000
@@ -66,7 +66,7 @@ Player:
 			kheshkarn: 4
 			batterie.ambar: 2
 			ruche: 3
-	BaseBuilderBotModule@turtle:
+	BaseBuilderBotModuleCA@turtle:
 		BuildingDelays:
 			haut.commandement: 6000
 			institut: 9000
@@ -91,7 +91,7 @@ Player:
 			kheshkarn: 12
 			batterie.ambar: 6
 			ruche: 10
-	BaseBuilderBotModule@naval:
+	BaseBuilderBotModuleCA@naval:
 		BuildingDelays:
 			haut.commandement: 6000
 			institut: 9000
@@ -116,7 +116,7 @@ Player:
 			kheshkarn: 4
 			batterie.ambar: 2
 			ruche: 3
-	UnitBuilderBotModule@rush:
+	UnitBuilderBotModuleCA@rush:
 		UnitsToBuild:
 			thal: 70
 			khesh.thal: 35
@@ -137,38 +137,7 @@ Player:
 			mukhar: 3
 			agnar: 3
 			ambarkesh: 6
-	UnitBuilderBotModule@normal:
-		UnitsToBuild:
-			thal: 70
-			khesh.thal: 35
-			nayrak: 20
-			lunkar: 4
-			karnthal: 15
-			vidra: 35
-			lunkra: 55
-			karnvasha: 20
-			ratha: 20
-			mukhar: 12
-			agnar: 10
-			ambarkesh: 20
-			vidrakarn: 5
-			ananta: 5
-			lunkravyn: 30
-			vidravyn: 20
-			agnivyn: 15
-			ulkar: 20
-			kheshar: 20
-			ambaroth: 5
-			vasha: 15
-			ambarkarn: 12
-			agnikhesh: 10
-			ulmar: 12
-		UnitLimits:
-			lunkar: 2
-			mukhar: 3
-			agnar: 3
-			ambarkesh: 6
-	UnitBuilderBotModule@turtle:
+	UnitBuilderBotModuleCA@normal:
 		UnitsToBuild:
 			thal: 70
 			khesh.thal: 35
@@ -199,7 +168,38 @@ Player:
 			mukhar: 3
 			agnar: 3
 			ambarkesh: 6
-	UnitBuilderBotModule@naval:
+	UnitBuilderBotModuleCA@turtle:
+		UnitsToBuild:
+			thal: 70
+			khesh.thal: 35
+			nayrak: 20
+			lunkar: 4
+			karnthal: 15
+			vidra: 35
+			lunkra: 55
+			karnvasha: 20
+			ratha: 20
+			mukhar: 12
+			agnar: 10
+			ambarkesh: 20
+			vidrakarn: 5
+			ananta: 5
+			lunkravyn: 30
+			vidravyn: 20
+			agnivyn: 15
+			ulkar: 20
+			kheshar: 20
+			ambaroth: 5
+			vasha: 15
+			ambarkarn: 12
+			agnikhesh: 10
+			ulmar: 12
+		UnitLimits:
+			lunkar: 2
+			mukhar: 3
+			agnar: 3
+			ambarkesh: 6
+	UnitBuilderBotModuleCA@naval:
 		UnitsToBuild:
 			lunkravyn: 30
 			vidravyn: 20

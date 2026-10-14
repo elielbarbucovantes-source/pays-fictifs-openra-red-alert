@@ -1,54 +1,656 @@
 # =====================================================================
-# PAYS FICTIFS — listes partagées de l'IA
-# Ces clés sont des listes uniques : un fichier qui les redéfinit écrase
-# les autres. Elles sont donc tenues ici, pour tous les pays à la fois :
-# listes de Red Alert (engine/mods/ra/rules/ai.yaml) + ajouts des pays
-# (Elielistan, Rubénie, Australouis, Ananthanie).
-# Le reste de l'IA de chaque pays est dans <pays>/ia.yaml.
+# PAYS FICTIFS — intelligence artificielle commune
+#
+# L'IA reprend les modules de Combined Arms (C# dans
+# OpenRA.Mods.Fictifs/Traits/BotModulesCA, portés de CA 1.08.2) à la place
+# de ceux de Red Alert. Ce qu'ils apportent :
+#  - attaques en escouades de VALEUR (pas en nombre d'unités), qui
+#    grossissent au fil de la partie, et itinéraires de contournement ;
+#  - escouades de harcèlement (unités rapides) qui visent récolteurs et
+#    raffineries, cibles prioritaires (chantier, raffineries, technologie) ;
+#  - escadrilles qui chassent les avions ennemis et gardent la supériorité
+#    aérienne, cibles aériennes choisies (pas de suicide sur les SAM) ;
+#  - plusieurs casernes et usines, une 2e base (VCM), défenses tournées vers
+#    l'ennemi, récolteurs qui évitent l'ennemi, coupure d'énergie et
+#    réparations automatiques, ingénieurs qui capturent les derricks.
+#
+# Les 4 IA gardent leurs noms et leurs types (rush, normal, turtle, naval),
+# donc leur Elo (ClassementElo.cs). Les modules de Red Alert sont retirés
+# ici ; restent de ra|rules/ai.yaml les bots, leurs conditions et les
+# pouvoirs de soutien (SupportPowerBotModule).
+#
+# Les listes de types (clés uniques : un fichier qui les redéfinit écrase
+# les autres) sont tenues ici, pour tous les pays à la fois. Le reste de
+# l'IA de chaque pays (bâtiments et unités propres, pouvoirs) est dans
+# <pays>/ia.yaml.
+# Temps en ticks : 25 par seconde.
 # =====================================================================
 
 Player:
-	# Le chenil passait souvent avant la caserne (tirage au hasard parmi les
-	# bâtiments possibles) : 2 minutes de délai, pour toutes les IA.
-	BaseBuilderBotModule@rush:
-		BuildingDelays:
-			kenn: 3000
+	-HarvesterBotModule:
+	-BuildingRepairBotModule:
+	-McvManagerBotModule:
+	-BaseBuilderBotModule@rush:
+	-BaseBuilderBotModule@normal:
+	-BaseBuilderBotModule@turtle:
+	-BaseBuilderBotModule@naval:
+	-SquadManagerBotModule@rush:
+	-SquadManagerBotModule@normal:
+	-SquadManagerBotModule@turtle:
+	-SquadManagerBotModule@naval:
+	-UnitBuilderBotModule@rush:
+	-UnitBuilderBotModule@normal:
+	-UnitBuilderBotModule@turtle:
+	-UnitBuilderBotModule@naval:
+
+	# --- Économie et entretien -------------------------------------------
+	HarvesterBotModuleCA:
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
+		HarvesterTypes: harv
+		RefineryTypes: proc
+		HarvestersPerRefinery: 2
+		MaxHarvesters: 10
+	BuildingRepairBotModuleCA:
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
+	PowerDownBotModuleCA:
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
+	McvManagerBotModuleCA:
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
+		McvTypes: mcv
+		ConstructionYardTypes: fact
+		McvFactoryTypes: weap
+		ScanForNewMcvInterval: 80
+		MaxBaseRadius: 25
+		MinimumConstructionYardCount: 2
+	# Ingénieurs : derricks (revenu, et pétrole par pipeline) et bâtiments
+	# neutres ou ennemis de valeur.
+	CaptureManagerBotModule:
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
+		CapturingActorTypes: e6
+		CapturableActorTypes: oilb, hosp, fcom, miss, bio, fact, proc, weap, barr, tent, dome, atek, stek
+		CheckCaptureTargetsForVisibility: false
+		MaximumCaptureTargetOptions: 15
+
+	# --- Construction de la base -----------------------------------------
+	BaseBuilderBotModuleCA@rush:
+		RequiresCondition: enable-rush-ai
+		MinimumExcessPower: 50
+		MaximumExcessPower: 200
+		ExcessPowerIncrement: 30
+		ExcessPowerIncreaseThreshold: 3
+		PlaceDefenseTowardsEnemyChance: 75
+		MaxBaseRadius: 24
+		BuildingProductionMinCashRequirement: 500
+		DefenseProductionMinCashRequirement: 1000
+		NewProductionCashThreshold: 3000
+		MaxExtraRefineries: 1
+		ConstructionYardTypes: fact
+		RefineryTypes: proc
+		PowerTypes: powr,apwr
+		BarracksTypes: barr,tent
+		VehiclesFactoryTypes: weap
+		SiloTypes: silo
+		AntiAirTypes: agun, sam, tourelle.aa, sam.rub, batterie.ambar, ruche
 		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
 		ProductionTypes: barr,tent,weap, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
-	BaseBuilderBotModule@normal:
+		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		BuildingIntervals:
+			proc: 1500
+			weap: 2250
 		BuildingDelays:
 			kenn: 3000
+			dome: 3000
+			fix: 3000
+			atek: 6000
+			stek: 6000
+			mslo: 9000
+			iron: 9000
+			pdox: 9000
+		BuildingLimits:
+			barr: 2
+			tent: 2
+			kenn: 1
+			dome: 1
+			weap: 3
+			atek: 1
+			stek: 1
+			fix: 1
+			gap: 1
+			mslo: 1
+			iron: 1
+			pdox: 1
+		BuildingFractions:
+			proc: 30
+			barr: 10
+			tent: 10
+			kenn: 1
+			weap: 12
+			pbox: 5
+			hbox: 5
+			gun: 5
+			tsla: 4
+			ftur: 6
+			agun: 4
+			sam: 4
+			atek: 1
+			stek: 1
+			fix: 5
+			dome: 5
+			mslo: 1
+	BaseBuilderBotModuleCA@normal:
+		RequiresCondition: enable-normal-ai
+		MinimumExcessPower: 50
+		MaximumExcessPower: 290
+		ExcessPowerIncrement: 30
+		ExcessPowerIncreaseThreshold: 3
+		PlaceDefenseTowardsEnemyChance: 75
+		MaxBaseRadius: 24
+		BuildingProductionMinCashRequirement: 500
+		DefenseProductionMinCashRequirement: 600
+		NewProductionCashThreshold: 4000
+		MaxExtraRefineries: 2
+		ConstructionYardTypes: fact
+		RefineryTypes: proc
+		PowerTypes: powr,apwr
+		BarracksTypes: barr,tent
+		VehiclesFactoryTypes: weap
+		SiloTypes: silo
+		AntiAirTypes: agun, sam, tourelle.aa, sam.rub, batterie.ambar, ruche
 		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
 		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
 		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
-	BaseBuilderBotModule@turtle:
+		BuildingIntervals:
+			proc: 1500
+			weap: 2250
 		BuildingDelays:
 			kenn: 3000
+			dome: 3000
+			fix: 3000
+			afld: 4500
+			hpad: 4500
+			spen: 4500
+			syrd: 4500
+			atek: 6000
+			stek: 6000
+			mslo: 9000
+			iron: 9000
+			pdox: 9000
+		BuildingLimits:
+			barr: 2
+			tent: 2
+			kenn: 1
+			dome: 1
+			weap: 3
+			hpad: 4
+			afld: 4
+			afld.ukraine: 4
+			spen: 1
+			syrd: 1
+			atek: 1
+			stek: 1
+			fix: 1
+			gap: 1
+			mslo: 1
+			iron: 1
+			pdox: 1
+		BuildingFractions:
+			proc: 30
+			barr: 10
+			tent: 10
+			kenn: 1
+			weap: 10
+			hpad: 6
+			afld: 6
+			afld.ukraine: 6
+			spen: 1
+			syrd: 1
+			pbox: 7
+			hbox: 7
+			gun: 7
+			tsla: 6
+			ftur: 8
+			agun: 6
+			sam: 6
+			gap: 1
+			atek: 1
+			stek: 1
+			fix: 5
+			dome: 10
+			mslo: 1
+			iron: 1
+			pdox: 1
+	BaseBuilderBotModuleCA@turtle:
+		RequiresCondition: enable-turtle-ai
+		MinimumExcessPower: 60
+		MaximumExcessPower: 300
+		ExcessPowerIncrement: 40
+		ExcessPowerIncreaseThreshold: 3
+		PlaceDefenseTowardsEnemyChance: 50
+		MaxBaseRadius: 24
+		BuildingProductionMinCashRequirement: 500
+		DefenseProductionMinCashRequirement: 300
+		NewProductionCashThreshold: 5000
+		MaxExtraRefineries: 2
+		ConstructionYardTypes: fact
+		RefineryTypes: proc
+		PowerTypes: powr,apwr
+		BarracksTypes: barr,tent
+		VehiclesFactoryTypes: weap
+		SiloTypes: silo
+		AntiAirTypes: agun, sam, tourelle.aa, sam.rub, batterie.ambar, ruche
 		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
 		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
 		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
-	BaseBuilderBotModule@naval:
+		BuildingIntervals:
+			proc: 1500
+			weap: 3000
 		BuildingDelays:
 			kenn: 3000
+			dome: 3000
+			fix: 3000
+			afld: 6000
+			hpad: 6000
+			spen: 6000
+			syrd: 6000
+			atek: 6000
+			stek: 6000
+			mslo: 9000
+			iron: 9000
+			pdox: 9000
+		BuildingLimits:
+			barr: 2
+			tent: 2
+			kenn: 1
+			dome: 1
+			weap: 2
+			hpad: 3
+			afld: 3
+			afld.ukraine: 3
+			spen: 1
+			syrd: 1
+			atek: 1
+			stek: 1
+			fix: 1
+			gap: 2
+			mslo: 1
+			iron: 1
+			pdox: 1
+		BuildingFractions:
+			proc: 30
+			barr: 6
+			tent: 6
+			kenn: 1
+			weap: 6
+			hpad: 3
+			afld: 3
+			afld.ukraine: 3
+			spen: 1
+			syrd: 1
+			pbox: 12
+			hbox: 12
+			gun: 12
+			tsla: 10
+			ftur: 12
+			agun: 8
+			sam: 8
+			gap: 3
+			atek: 1
+			stek: 1
+			fix: 5
+			dome: 10
+			mslo: 1
+			iron: 1
+			pdox: 1
+	BaseBuilderBotModuleCA@naval:
+		RequiresCondition: enable-naval-ai
+		MinimumExcessPower: 50
+		MaximumExcessPower: 300
+		ExcessPowerIncrement: 20
+		ExcessPowerIncreaseThreshold: 2
+		PlaceDefenseTowardsEnemyChance: 75
+		MaxBaseRadius: 24
+		BuildingProductionMinCashRequirement: 500
+		DefenseProductionMinCashRequirement: 600
+		NewProductionCashThreshold: 3000
+		MaxExtraRefineries: 2
+		ConstructionYardTypes: fact
+		RefineryTypes: proc
+		PowerTypes: powr,apwr
+		BarracksTypes: barr,tent
+		VehiclesFactoryTypes: weap
+		SiloTypes: silo
+		AntiAirTypes: agun, sam, tourelle.aa, sam.rub, batterie.ambar, ruche
 		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
 		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
 		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
-	SquadManagerBotModule@rush:
+		BuildingIntervals:
+			proc: 1500
+		BuildingDelays:
+			kenn: 3000
+			dome: 2500
+			fix: 3000
+			atek: 6000
+			stek: 6000
+			mslo: 9000
+			iron: 9000
+			pdox: 9000
+		BuildingLimits:
+			barr: 1
+			tent: 1
+			kenn: 1
+			dome: 1
+			weap: 1
+			hpad: 8
+			afld: 8
+			afld.ukraine: 8
+			spen: 3
+			syrd: 3
+			atek: 1
+			stek: 1
+			fix: 1
+			mslo: 1
+			iron: 1
+			pdox: 1
+		BuildingFractions:
+			proc: 30
+			barr: 1
+			tent: 1
+			weap: 1
+			dome: 5
+			hpad: 20
+			afld: 20
+			afld.ukraine: 20
+			spen: 6
+			syrd: 6
+			pbox: 10
+			gun: 10
+			ftur: 10
+			tsla: 10
+			agun: 6
+			sam: 6
+			atek: 1
+			stek: 1
+			fix: 1
+			mslo: 1
+
+	# --- Escouades --------------------------------------------------------
+	# SquadValue : valeur ($) d'unités au repos dans la base qui déclenche une
+	# attaque ; s'y ajoute un bonus au hasard qui grandit sur 20 minutes
+	# (de 0..MaxEarlyBonus vers MinLateBonus..MaxLateBonus).
+	SquadManagerBotModuleCA@rush:
+		RequiresCondition: enable-rush-ai
+		MinimumAttackForceDelay: 25
+		SquadValue: 5000
+		SquadValueMaxEarlyBonus: 2000
+		SquadValueMinLateBonus: 5000
+		SquadValueMaxLateBonus: 14000
+		IdleScanRadius: 18
+		AttackScanRadius: 9
+		MaxBaseRadius: 16
+		ProtectUnitScanRadius: 28
+		ProtectionScanRadius: 16
+		HighValueTargetPriority: 30
+		IndirectRouteChance: 50
+		AirToAirPriority: 60
 		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar, l0u15, porte.drone, sousmarin.icbm
 		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta, moustique
-		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche, base.aeronavale, chantier.avance, centrale.enrichissement
-	SquadManagerBotModule@normal:
-		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar, l0u15, porte.drone, sousmarin.icbm
-		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta, moustique
+		HarasserTypes: jeep, gavilan, reco.rub, vidra
+		ExcludeFromSquadsTypes: harv, mcv, dog, e6, badr, badr.bomber, u2, essaim.drone, raid.furtif, pont.aerien, rayo.flyby, rayo.strike, drone.ambaroth, rodeuse
+		ConstructionYardTypes: fact
 		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		StaticAntiAirTypes: agun, sam, tourelle.aa, sam.rub, batterie.ambar, ruche
+		BigAirThreats: kirov, b2.spirit
+		HighValueTargetTypes: fact, proc, harv, mcv, atek, stek, dome, raffinerie.petrole, palacio, qg.rub, haut.commandement, institut, centrale.enrichissement
+		IgnoredEnemyTargetTypes: Wall
 		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche, base.aeronavale, chantier.avance, centrale.enrichissement
-	SquadManagerBotModule@turtle:
+	SquadManagerBotModuleCA@normal:
+		RequiresCondition: enable-normal-ai
+		MinimumAttackForceDelay: 25
+		SquadValue: 8000
+		SquadValueMaxEarlyBonus: 3000
+		SquadValueMinLateBonus: 8000
+		SquadValueMaxLateBonus: 20000
+		IdleScanRadius: 18
+		AttackScanRadius: 9
+		MaxBaseRadius: 16
+		ProtectUnitScanRadius: 28
+		ProtectionScanRadius: 16
+		HighValueTargetPriority: 20
+		IndirectRouteChance: 50
+		AirToAirPriority: 60
 		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar, l0u15, porte.drone, sousmarin.icbm
 		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta, moustique
+		HarasserTypes: jeep, gavilan, reco.rub, vidra
+		ExcludeFromSquadsTypes: harv, mcv, dog, e6, badr, badr.bomber, u2, essaim.drone, raid.furtif, pont.aerien, rayo.flyby, rayo.strike, drone.ambaroth, rodeuse
+		ConstructionYardTypes: fact
 		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		StaticAntiAirTypes: agun, sam, tourelle.aa, sam.rub, batterie.ambar, ruche
+		BigAirThreats: kirov, b2.spirit
+		HighValueTargetTypes: fact, proc, harv, mcv, atek, stek, dome, raffinerie.petrole, palacio, qg.rub, haut.commandement, institut, centrale.enrichissement
+		IgnoredEnemyTargetTypes: Wall
 		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche, base.aeronavale, chantier.avance, centrale.enrichissement
-	SquadManagerBotModule@naval:
+	SquadManagerBotModuleCA@turtle:
+		RequiresCondition: enable-turtle-ai
+		MinimumAttackForceDelay: 25
+		SquadValue: 10000
+		SquadValueMaxEarlyBonus: 4000
+		SquadValueMinLateBonus: 10000
+		SquadValueMaxLateBonus: 25000
+		IdleScanRadius: 14
+		AttackScanRadius: 9
+		MaxBaseRadius: 16
+		ProtectUnitScanRadius: 28
+		ProtectionScanRadius: 16
+		HighValueTargetPriority: 15
+		IndirectRouteChance: 30
+		AirToAirPriority: 70
 		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar, l0u15, porte.drone, sousmarin.icbm
 		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta, moustique
+		ExcludeFromSquadsTypes: harv, mcv, dog, e6, badr, badr.bomber, u2, essaim.drone, raid.furtif, pont.aerien, rayo.flyby, rayo.strike, drone.ambaroth, rodeuse
+		ConstructionYardTypes: fact
 		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		StaticAntiAirTypes: agun, sam, tourelle.aa, sam.rub, batterie.ambar, ruche
+		BigAirThreats: kirov, b2.spirit
+		HighValueTargetTypes: fact, proc, harv, mcv, atek, stek, dome, raffinerie.petrole, palacio, qg.rub, haut.commandement, institut, centrale.enrichissement
+		IgnoredEnemyTargetTypes: Wall
 		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche, base.aeronavale, chantier.avance, centrale.enrichissement
+	SquadManagerBotModuleCA@naval:
+		RequiresCondition: enable-naval-ai
+		MinimumAttackForceDelay: 25
+		SquadValue: 5000
+		SquadValueMaxEarlyBonus: 2000
+		SquadValueMinLateBonus: 5000
+		SquadValueMaxLateBonus: 12000
+		IdleScanRadius: 18
+		AttackScanRadius: 9
+		MaxBaseRadius: 16
+		ProtectUnitScanRadius: 28
+		ProtectionScanRadius: 16
+		HighValueTargetPriority: 20
+		IndirectRouteChance: 40
+		AirToAirPriority: 60
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar, l0u15, porte.drone, sousmarin.icbm
+		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta, moustique
+		ExcludeFromSquadsTypes: harv, mcv, dog, e6, badr, badr.bomber, u2, essaim.drone, raid.furtif, pont.aerien, rayo.flyby, rayo.strike, drone.ambaroth, rodeuse
+		ConstructionYardTypes: fact
+		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		StaticAntiAirTypes: agun, sam, tourelle.aa, sam.rub, batterie.ambar, ruche
+		BigAirThreats: kirov, b2.spirit
+		HighValueTargetTypes: fact, proc, harv, mcv, atek, stek, dome, raffinerie.petrole, palacio, qg.rub, haut.commandement, institut, centrale.enrichissement, spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		IgnoredEnemyTargetTypes: Wall
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche, base.aeronavale, chantier.avance, centrale.enrichissement
+
+	# --- Production d'unités ----------------------------------------------
+	# Les parts (UnitsToBuild) des unités de Red Alert sont ici ; chaque pays
+	# ajoute les siennes dans <pays>/ia.yaml (les listes se fusionnent).
+	# MaxAircraft : avions hors chasseurs ; les chasseurs (AirToAirUnits)
+	# suivent le nombre d'avions ennemis (MaintainAirSuperiority).
+	# MaximiseProductionCashRequirement 0 : toutes les files produisent à chaque
+	# passage (CA n'en servait qu'une sous 10 000 $, trop lent avec l'économie RA).
+	UnitBuilderBotModuleCA@rush:
+		RequiresCondition: enable-rush-ai
+		UnitQueues: Vehicle, Infantry, Aircraft, Ship
+		IdleBaseUnitsMaximum: 150
+		ProductionMinCashRequirement: 300
+		MaximiseProductionCashRequirement: 0
+		MaxAircraft: 6
+		MaintainAirSuperiority: true
+		MaxAirSuperiority: 8
+		AirToAirUnits: chasseur.poly, intercepteur, albatros, vidravyn, ambaroth
+		AirThreatUnits: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta
+		UnitIntervals:
+			harv: 1500
+			mcv: 3000
+		UnitsToBuild:
+			e1: 65
+			e2: 15
+			e3: 30
+			e4: 15
+			e6: 5
+			dog: 10
+			shok: 15
+			apc: 30
+			jeep: 20
+			arty: 15
+			v2rl: 40
+			ftrk: 30
+			1tnk: 50
+			2tnk: 50
+			3tnk: 50
+			4tnk: 25
+			ttnk: 25
+			stnk: 5
+		UnitLimits:
+			dog: 2
+			e6: 1
+			harv: 8
+			jeep: 4
+			ftrk: 4
+			gavilan: 4
+			vidra: 5
+	UnitBuilderBotModuleCA@normal:
+		RequiresCondition: enable-normal-ai
+		UnitQueues: Vehicle, Infantry, Aircraft, Ship
+		IdleBaseUnitsMaximum: 150
+		ProductionMinCashRequirement: 300
+		MaximiseProductionCashRequirement: 0
+		MaxAircraft: 8
+		MaintainAirSuperiority: true
+		MaxAirSuperiority: 10
+		AirToAirUnits: chasseur.poly, intercepteur, albatros, vidravyn, ambaroth
+		AirThreatUnits: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta
+		UnitIntervals:
+			harv: 1500
+			mcv: 3000
+		UnitsToBuild:
+			e1: 65
+			e2: 15
+			e3: 30
+			e4: 15
+			e6: 5
+			dog: 10
+			shok: 15
+			apc: 30
+			jeep: 20
+			arty: 15
+			v2rl: 40
+			ftrk: 30
+			1tnk: 40
+			2tnk: 50
+			3tnk: 50
+			4tnk: 25
+			ttnk: 25
+			stnk: 5
+			heli: 30
+			mh60: 30
+			mig: 30
+			yak: 30
+			ss: 10
+			msub: 10
+			dd: 10
+			ca: 10
+			pt: 10
+		UnitLimits:
+			dog: 2
+			e6: 2
+			harv: 10
+			jeep: 4
+			ftrk: 4
+			gavilan: 4
+			vidra: 5
+	UnitBuilderBotModuleCA@turtle:
+		RequiresCondition: enable-turtle-ai
+		UnitQueues: Vehicle, Infantry, Aircraft, Ship
+		IdleBaseUnitsMaximum: 150
+		ProductionMinCashRequirement: 500
+		MaximiseProductionCashRequirement: 0
+		MaxAircraft: 6
+		MaintainAirSuperiority: true
+		MaxAirSuperiority: 10
+		AirToAirUnits: chasseur.poly, intercepteur, albatros, vidravyn, ambaroth
+		AirThreatUnits: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta
+		UnitIntervals:
+			harv: 1500
+			mcv: 3000
+		UnitsToBuild:
+			e1: 65
+			e2: 15
+			e3: 30
+			e4: 15
+			e6: 5
+			dog: 10
+			shok: 15
+			apc: 30
+			jeep: 20
+			arty: 15
+			v2rl: 40
+			ftrk: 50
+			1tnk: 50
+			2tnk: 50
+			3tnk: 50
+			4tnk: 25
+			ttnk: 25
+			stnk: 10
+			heli: 30
+			mh60: 30
+			mig: 30
+			yak: 30
+			ss: 10
+			msub: 10
+			dd: 10
+			ca: 10
+			pt: 10
+		UnitLimits:
+			dog: 2
+			e6: 2
+			harv: 10
+			jeep: 4
+			ftrk: 4
+	UnitBuilderBotModuleCA@naval:
+		RequiresCondition: enable-naval-ai
+		UnitQueues: Vehicle, Infantry, Aircraft, Ship
+		IdleBaseUnitsMaximum: 150
+		ProductionMinCashRequirement: 300
+		MaximiseProductionCashRequirement: 0
+		MaxAircraft: 12
+		MaintainAirSuperiority: true
+		MaxAirSuperiority: 12
+		AirToAirUnits: chasseur.poly, intercepteur, albatros, vidravyn, ambaroth
+		AirThreatUnits: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta
+		UnitIntervals:
+			harv: 1500
+			mcv: 3000
+		UnitsToBuild:
+			e6: 5
+			heli: 30
+			mh60: 30
+			mig: 30
+			yak: 30
+			ss: 10
+			msub: 30
+			dd: 30
+			ca: 20
+			pt: 10
+		UnitLimits:
+			e6: 1
+			harv: 10
