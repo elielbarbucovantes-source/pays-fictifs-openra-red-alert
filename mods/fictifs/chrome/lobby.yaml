@@ -111,6 +111,20 @@ Background@SERVER_LOBBY:
 					Font: Bold
 					TooltipText: Générer une carte aléatoire et la charger dans le salon
 					TooltipContainer: TOOLTIP_CONTAINER
+		Container@REPRISE:
+			Logic: LobbyRepriseLogic
+			X: PARENT_RIGHT - 20 - WIDTH
+			Y: 39
+			Width: 300
+			Height: 25
+			Children:
+				DropDownButton@REPRISE_BUTTON:
+					Width: PARENT_RIGHT
+					Height: PARENT_BOTTOM
+					Text: Reprendre une partie
+					Font: Bold
+					TooltipText: Reprendre une partie en ligne interrompue (déconnexion) à partir de son replay : chacun retrouve sa place
+					TooltipContainer: TOOLTIP_CONTAINER
 		Container@LOBBYCHAT:
 			X: 20
 			Y: PARENT_BOTTOM - HEIGHT - 20

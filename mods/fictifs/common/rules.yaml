@@ -37,6 +37,10 @@ World:
 	ClassementElo:
 	# Ctrl enfoncé avec un Pelícano chargé sélectionné : ciblage du largage.
 	ParaDropHotkey:
+	# Joueur déconnecté : une IA de l'hôte prend le relais, et ses ordres sont acceptés.
+	ReprisePartie:
+	-ValidateOrder:
+	ValidateOrderFictifs:
 	StartingUnits@mcvonly:
 		Factions: allies, england, france, germany, soviet, russia, ukraine, elielistan, rubenie, australouis, ananthanie
 	StartingUnits@lightelielistan:
@@ -320,6 +324,7 @@ SPEN:
 # ---------------------------------------------------------------------
 Player:
 	SuiviOrdres:
+	RepriseIA:
 	PresidentialMandate:
 		OrdersPerTerm: 10
 		TermLength: 22500

@@ -60,6 +60,10 @@ Le vacarme de sa salve s'entend à des kilomètres.""",
 Il prolonge la logistique loin de la base et répare vite les unités proches, même au combat.
 Aucune arme : sa perte isole toute une colonne.""",
 "Faites-le suivre chaque offensive pour éviter l'isolement (−25 % de dégâts et de cadence). Protégez-le."),
+"RAVITAILLEUR": ("Ravitailleur", """Camion de troupes bâché, robuste et bon marché.
+Il emmène huit fantassins au front et les garde ravitaillés autour de lui.
+Aucune arme : il dépose ses hommes et se met à l'abri.""",
+"Débarquez l'infanterie dans son rayon de 5 cases : elle reste ravitaillée tant que le camion est là. Gardez-le derrière la ligne de feu."),
 "TUNNELIER": ("Tunnelier", """Engin de sape qui avance sous terre, invisible et intouchable.
 Il emporte dix chasseurs antichars jusqu'au cœur du dispositif ennemi.
 En émergeant, il reste quelques secondes immobile et vulnérable.""",

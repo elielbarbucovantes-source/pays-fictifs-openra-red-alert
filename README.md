@@ -15,7 +15,7 @@ Faction européenne très rapide, fondée sur le hit-and-run : repérer, frapper
 - **Palacio Presidencial** et pouvoirs de soutien :
   - **Ordre prioritaire** : bonus de vitesse, de feu et de cadence sur une zone. 10 ordres par quinquennat (15 minutes).
   - **Ojo del Aguila** : révèle une zone, détecte le camouflage et désigne tous les ennemis.
-  - **Aguila Bridge** : pont temporaire au-dessus de n'importe quel obstacle, utilisable par tout le monde.
+  - **Aguila Bridge** : pont temporaire (10 minutes) au-dessus de n'importe quel obstacle, utilisable par tout le monde.
   - **Aguila Gate** : tunnel temporaire entre deux points de la carte.
   - **Frappe Aguila** (héliport) : trois avions Rayo bombardent puis repartent.
 
@@ -31,7 +31,7 @@ Faction défensive au drapeau blanc et vert frappé d'une montagne. Ses unités 
 - **Défenses** : tranchées, bunker à 5 places, casemate antichar, tourelle AA, SAM, artillerie côtière.
 - **Aviation** (base aérienne) : chasseur polyvalent (air-air, air-sol, antinavire ; seul à apponter sur le porte-avions), intercepteur, avion d'attaque au sol, avion de reconnaissance.
 - **Marine** (chantier naval rubénien) : escorteur (bouclier antiaérien du groupe), frégate lance-missiles, sous-marin, porte-avions (3 chasseurs polyvalents).
-- **Logistique** : le centre logistique, le QG, le chantier de construction, le véhicule logistique et le Bastion roulant ravitaillent les unités terrestres proches. Ravitaillées, elles sont les plus fortes du jeu (+10 % de dégâts, −10 % de dégâts reçus, réparation lente hors combat) ; sans ravitaillement, un peu en dessous de la moyenne (−10 % de dégâts, +10 % de dégâts reçus). Le bonus dure encore 10 secondes après la sortie du rayon. Le véhicule logistique répare aussi vite, même au combat, les unités qui l'entourent.
+- **Logistique** : le centre logistique, le QG, le chantier de construction, le véhicule logistique, le Ravitailleur (camion de troupes, 8 fantassins) et le Bastion roulant ravitaillent les unités terrestres proches. Ravitaillées, elles sont les plus fortes du jeu (+10 % de dégâts, −10 % de dégâts reçus, réparation lente hors combat) ; sans ravitaillement, un peu en dessous de la moyenne (−10 % de dégâts, +10 % de dégâts reçus). Le bonus dure encore 10 secondes après la sortie du rayon. Le véhicule logistique répare aussi vite, même au combat, les unités qui l'entourent.
 - **Bastion roulant** : la Battle Fortress à la rubénienne. Deux canons de 130 mm et des missiles qui ne tirent que si des fantassins sont à bord, ravitaillement embarqué (toujours ravitaillé lui-même, ravitaille les unités autour), réparation autonome.
 - **Tunnelier** : livré avec 10 chasseurs antichars, il roule sous terre à mi-vitesse, invisible sauf pour les détecteurs sismiques (Éclaireur, véhicule de reconnaissance, QG, dômes radar). À l'arrêt, il émerge : 3 secondes immobile et vulnérable.
 - **QG rubénien** et pouvoirs de soutien :
@@ -118,6 +118,17 @@ Au premier lancement, le jeu propose de télécharger les fichiers d'origine de 
 4. L'autre joueur colle l'adresse dans le champ à côté de **Rejoindre mon ami** dans l'écran Multijoueur, puis clique sur le bouton. L'adresse est mémorisée pour les fois suivantes.
 
 Cartes générées ou personnelles : elles ne sont pas sur le Resource Center d'OpenRA, alors l'hôte les partage lui-même. Quand l'hôte choisit une telle carte, le jeu de l'autre joueur la télécharge tout seul chez lui (port 1235, ouvert par le jeu de l'hôte pendant qu'il héberge) et l'enregistre dans ses Custom Maps.
+
+### Joueur déconnecté : reprendre la partie
+
+Si un joueur est déconnecté en cours de partie, une IA de l'hôte prend aussitôt sa place : sa base et son armée continuent de jouer. Pour qu'il revienne :
+
+1. Tout le monde quitte la partie.
+2. L'hôte crée un nouveau salon, l'autre joueur le rejoint **avec le même nom**.
+3. L'hôte clique sur **Reprendre une partie** (au-dessus de l'aperçu de la carte) et choisit la partie interrompue dans la liste (ses dernières parties en ligne, d'après leurs replays).
+4. Chacun retrouve sa place, son pays et son équipe ; les réglages sont verrouillés (changer de carte annule la reprise). Prêt, puis lancer : la partie est rejouée en accéléré jusqu'au moment où elle s'est arrêtée, puis continue normalement.
+
+Un joueur qui ne revient pas garde sa place, jouée par l'IA de l'hôte. La reprise ne marche qu'avec la même version du mod que la partie interrompue : ne pas publier de mise à jour entre les deux. Diagnostic : `./utility.sh --test-reprise <replay>` montre ce que le serveur rejouerait.
 
 La version du mod contient le commit installé (`release-20231010+8f4e95b`, par exemple). Si les deux joueurs n'ont pas la même, la connexion est refusée avec un message qui demande de se mettre à jour, au lieu d'une désynchronisation en cours de partie. Les sauvegardes et les replays sont rangés par version : ceux d'une ancienne version n'apparaissent plus après une mise à jour (ils ne se rejoueraient de toute façon pas correctement avec des règles différentes).
 

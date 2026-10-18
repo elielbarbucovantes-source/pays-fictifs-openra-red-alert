@@ -177,6 +177,48 @@ VEHICULE.LOGISTIQUE:
 		Range: 3c0
 
 # ---------------------------------------------------------------------
+# Ravitailleur : camion de troupes bâché. Emmène les fantassins au front
+# et les garde ravitaillés autour de lui (rayon court, pas d'atelier).
+# ---------------------------------------------------------------------
+RAVITAILLEUR:
+	Inherits: ^Vehicle
+	Inherits@DOCTRINE: ^RubenieTerrestre
+	Inherits@RAVITAILLEMENT: ^SourceRavitaillement
+	Inherits@CARGOPIPS: ^CargoPips
+	RenderSprites:
+		Image: ravitailleur
+	Buildable:
+		Queue: Vehicle
+		BuildPaletteOrder: 12
+		Prerequisites: ~vehicles.rubenie, ~techlevel.low
+		Description: Camion de troupes. Transporte 8 fantassins.\nRavitaille les unités terrestres rubéniennes à 5 cases.\nAucune arme.\n  Faible contre : tout
+	Selectable:
+		Class: ravitailleur
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Ravitailleur
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 16000
+	Armor:
+		Type: Light
+	Mobile:
+		Speed: 120
+		PauseOnCondition: notmobile || being-captured
+	RevealsShroud:
+		Range: 5c0
+	Cargo:
+		Types: Infantry
+		MaxWeight: 8
+		LoadingCondition: notmobile
+	ProximityExternalCondition@RAVITAILLE:
+		Range: 5c0
+	WithRangeCircle@RAVITAILLE:
+		Range: 5c0
+
+# ---------------------------------------------------------------------
 # Détection sismique : révèle le Tunnelier sous terre.
 # ---------------------------------------------------------------------
 DOME:

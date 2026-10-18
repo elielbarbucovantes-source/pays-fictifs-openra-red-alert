@@ -332,6 +332,13 @@ vehicule.logistique:
 	icon:
 		Filename: fictifs|bits/vehicule.logistiqueicon.png
 
+ravitailleur:
+	idle:
+		Filename: fictifs|bits/ravitailleur.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/ravitailleuricon.png
+
 tunnelier:
 	idle:
 		Filename: fictifs|bits/tunnelier.png

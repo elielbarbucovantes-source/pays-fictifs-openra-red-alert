@@ -90,7 +90,7 @@ PALACIO:
 		Icon: bridge
 		ChargeInterval: 6000
 		Name: Aguila Bridge
-		Description: Pose un pont temporaire de 10 cases au plus entre deux points\n(rivière, falaise, bras de mer...). 1er clic : départ, 2e clic : arrivée.\nDure 90 secondes. Destructible. Tout le monde peut l'emprunter !
+		Description: Pose un pont temporaire de 10 cases au plus entre deux points\n(rivière, falaise, bras de mer...). 1er clic : départ, 2e clic : arrivée.\nDure 10 minutes. Destructible. Tout le monde peut l'emprunter !
 		MaxDistance: 10
 		HorizontalSegment: aguila.puente.ew
 		VerticalSegment: aguila.puente.ns
@@ -215,7 +215,7 @@ AGUILA.GATE:
 	Targetable:
 		TargetTypes: GroundActor, Structure
 	KillsSelf:
-		Delay: 2250
+		Delay: 15000
 		RemoveInstead: true
 	Explodes:
 		Weapon: SmallBuildingExplode

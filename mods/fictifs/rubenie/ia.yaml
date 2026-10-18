@@ -78,6 +78,7 @@ Player:
 			second.galactique: 5
 			reco.rub: 15
 			vehicule.logistique: 10
+			ravitailleur: 10
 			contreattaque: 45
 			sicatient: 50
 			forteresse: 20
@@ -89,6 +90,7 @@ Player:
 		UnitLimits:
 			eclaireur: 2
 			vehicule.logistique: 2
+			ravitailleur: 2
 			reco.rub: 4
 			aa.rub: 6
 			artillerie.lourde: 3
@@ -102,6 +104,7 @@ Player:
 			second.galactique: 5
 			reco.rub: 15
 			vehicule.logistique: 10
+			ravitailleur: 10
 			contreattaque: 45
 			sicatient: 50
 			forteresse: 20
@@ -119,6 +122,7 @@ Player:
 		UnitLimits:
 			eclaireur: 2
 			vehicule.logistique: 2
+			ravitailleur: 2
 			reco.rub: 4
 			aa.rub: 6
 			artillerie.lourde: 3
@@ -132,6 +136,7 @@ Player:
 			second.galactique: 5
 			reco.rub: 15
 			vehicule.logistique: 10
+			ravitailleur: 10
 			contreattaque: 45
 			sicatient: 50
 			forteresse: 20
@@ -149,6 +154,7 @@ Player:
 		UnitLimits:
 			eclaireur: 2
 			vehicule.logistique: 2
+			ravitailleur: 2
 			reco.rub: 4
 			aa.rub: 6
 			artillerie.lourde: 3

@@ -9,7 +9,7 @@ Les furtifs sont révélés et tous les ennemis de la zone sont désignés (+25 
 Trouver la faiblesse, première étape de toute opération elielistanaise.""",
 "Lancez-le juste avant une frappe ou un raid, sur la zone que vous allez attaquer."),
 "Aguila Bridge": ("Aguila Bridge", """Pont temporaire de 10 cases au plus, posé au-dessus de n'importe quel obstacle.
-Il dure 90 secondes et peut être détruit.
+Il dure 10 minutes et peut être détruit.
 Attention : tout le monde peut l'emprunter, ennemis compris.""",
 "Franchissez une rivière ou un bras de mer là où l'ennemi ne vous attend pas, puis laissez le pont expirer derrière vous."),
 "Aguila Gate": ("Aguila Gate", """Tunnel temporaire entre deux zones explorées de la carte.

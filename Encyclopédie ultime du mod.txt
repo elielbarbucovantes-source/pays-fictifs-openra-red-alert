@@ -31,7 +31,7 @@ SOMMAIRE
   1. BÂTIMENTS (17)
   2. DÉFENSES (12)
   3. INFANTERIE (16)
-  4. VÉHICULES (33)
+  4. VÉHICULES (34)
   5. AVIATION (27)
   6. MARINE (19)
   7. TRAINS (23)
@@ -1096,6 +1096,21 @@ SOMMAIRE
     Prérequis : Radar Dome · Niveau technologique : moyen
   Stratégie :
     Visez les groupes et les convois. Repliez-le pendant le rechargement.
+--------------------------------------------------------------------------------------------
+■ RAVITAILLEUR
+  Pays : Rubénie
+  Lore :
+    Camion de troupes bâché, robuste et bon marché.
+    Il emmène huit fantassins au front et les garde ravitaillés autour de lui.
+    Aucune arme : il dépose ses hommes et se met à l'abri.
+  Statistiques :
+    Coût 600 $ · PV 16 000 · Blindage léger · Vitesse 120 · Vision 5 cases
+    Arme : aucune
+    Transport 8 places
+    Prérequis : aucun · Niveau technologique : bas
+  Stratégie :
+    Débarquez l'infanterie dans son rayon de 5 cases : elle reste ravitaillée tant que le
+    camion est là. Gardez-le derrière la ligne de feu.
 --------------------------------------------------------------------------------------------
 ■ TUNNELIER
   Pays : Rubénie
@@ -2381,7 +2396,7 @@ SOMMAIRE
 ■ AGUILA BRIDGE
   Lore :
     Pont temporaire de 10 cases au plus, posé au-dessus de n'importe quel obstacle.
-    Il dure 90 secondes et peut être détruit.
+    Il dure 10 minutes et peut être détruit.
     Attention : tout le monde peut l'emprunter, ennemis compris.
   Statistiques :
     Porté par : Palacio Presidencial, recharge 4 min

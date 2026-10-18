@@ -347,6 +347,33 @@ def vehicule_logistique():
 
 
 # ---------------------------------------------------------------------------
+# Ravitailleur : camion de troupes 6×6, longue bâche, bancs et ridelles
+# ---------------------------------------------------------------------------
+def ravitailleur():
+    peau = blinde(3.5, 90)
+    m = Mesh()
+    m.add(prism(rrect(-3.1, 5.8, 3.1, 11.0, 0.9), 1.6, 5.2, peau, bevel=0.6))
+    m.add(box(-2.8, 10.4, 3.7, 2.8, 11.05, 4.8, VITRE))
+    m.add(box(-3.1, -11.4, 1.4, 3.1, 5.8, 2.4, ACIER_SOMBRE))
+    # ridelles latérales et bâche continue jusqu'à l'arrière (ouverte)
+    for s in (1, -1):
+        m.add(box(s * 3.2 - 0.15, -11.2, 2.4, s * 3.2 + 0.15, 5.4, 3.6, peau))
+    rings = []
+    for y in (-11.2, 5.2):
+        rings.append([(3.3 * math.cos(math.pi * i / 8), y, 3.4 + 3.0 * math.sin(math.pi * i / 8) ** 0.7) for i in range(9)])
+    m.add(R.loft([list(reversed(r)) for r in rings], BACHE))
+    for k in range(5):
+        m.add(box(-3.35, -10.2 + k * 3.6, 3.4, 3.35, -9.95 + k * 3.6, 6.5, Mat((80, 76, 56), spec=0.05)))
+    for s in (1, -1):
+        for y in (-8.8, -5.8, 7.8):
+            m.add(roue(s * 3.2, y, 1.5, 1.5, 1.1, s))
+        m.add(tube((s * 2.3, 10.9, 3.3), (s * 2.3, 11.3, 3.3), 0.4, mat=PHARE, seg=6))
+    m.add(box(-1.0, 6.2, 5.2, 1.0, 7.0, 5.6, JERRICAN))
+    m.add(montagne(0, 8.4, 5.22, 0.9))
+    return m
+
+
+# ---------------------------------------------------------------------------
 # Bastion roulant : forteresse chenillée, deux tourelles de 130 mm, lance-missiles dorsal
 # ---------------------------------------------------------------------------
 def bastion_caisse():
