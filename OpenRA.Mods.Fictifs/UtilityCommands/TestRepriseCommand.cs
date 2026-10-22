@@ -31,6 +31,8 @@ namespace OpenRA.Mods.Fictifs.UtilityCommands
 			Console.WriteLine($"NetFrameInterval {r.Salon.GlobalSettings.NetFrameInterval}");
 			Console.WriteLine($"Carte {r.Salon.GlobalSettings.Map} graine {r.Salon.GlobalSettings.RandomSeed}");
 			Console.WriteLine($"Derniere image {r.DerniereImage}, sync {r.ImageSync} ({r.Sync.Length} o)");
+			if (r.ImageDesynchro > 0)
+				Console.WriteLine($"Desynchronisation a l'image {r.ImageDesynchro}");
 			foreach (var c in r.Salon.Clients)
 				Console.WriteLine($"  client {c.Index} {c.Name} slot={c.Slot} bot={c.Bot} admin={c.IsAdmin}");
 			foreach (var c in r.Participants)

@@ -26,6 +26,9 @@ namespace OpenRA.Mods.Fictifs.ServerTraits
 	/// ordre comme un autre), les déconnexions et les empreintes de synchronisation.
 	/// On garde les images complètes (celles que l'hôte a pu jouer) et la dernière
 	/// empreinte, qui vérifie à la fin du rejeu que la partie reprise est identique.
+	///
+	/// Après une désynchronisation, les joueurs ne voyaient plus la même partie : on
+	/// reprend à la dernière empreinte sur laquelle tous étaient d'accord.
 	/// </summary>
 	public sealed class RepriseReplay
 	{
@@ -41,6 +44,9 @@ namespace OpenRA.Mods.Fictifs.ServerTraits
 		public int DerniereImage { get; private set; }
 
 		public int ImageSync { get; private set; }
+
+		/// <summary>Première image où les empreintes des joueurs diffèrent (désynchronisation), ou 0.</summary>
+		public int ImageDesynchro { get; private set; }
 
 		/// <summary>Client d'origine → image où le serveur l'a déclaré déconnecté.</summary>
 		public Dictionary<int, int> Deconnexions { get; } = new();
@@ -96,7 +102,8 @@ namespace OpenRA.Mods.Fictifs.ServerTraits
 		{
 			var r = new RepriseReplay();
 			var deconnexions = r.Deconnexions;
-			var syncs = new SortedDictionary<int, byte[]>();
+			// image → empreintes reçues (celle du joueur local comprise), avec leur client
+			var syncs = new SortedDictionary<int, List<(int Client, byte[] Sync)>>();
 			var lancee = false;
 			Session salon = null;
 
@@ -123,7 +130,10 @@ namespace OpenRA.Mods.Fictifs.ServerTraits
 
 					if (OrderIO.TryParseSync(paquet, out var sync))
 					{
-						syncs.TryAdd(sync.Frame, paquet[4..]);
+						if (!syncs.TryGetValue(sync.Frame, out var recues))
+							syncs[sync.Frame] = recues = new List<(int, byte[])>();
+
+						recues.Add((client, paquet[4..]));
 						continue;
 					}
 
@@ -185,9 +195,25 @@ namespace OpenRA.Mods.Fictifs.ServerTraits
 			// Le jeu attend un paquet par image de chaque client non-IA, dans l'ordre du salon.
 			r.Participants = salon.Clients.Where(c => !c.IsBot).ToList();
 
+			// Désynchronisation : on s'arrête à la dernière image dont l'empreinte a été
+			// envoyée, identique, par chaque participant encore connecté.
+			var limite = int.MaxValue;
+			var desynchro = syncs.FirstOrDefault(kv => kv.Value.Any(e => !e.Sync.AsSpan().SequenceEqual(kv.Value[0].Sync)));
+			if (desynchro.Value != null)
+			{
+				r.ImageDesynchro = desynchro.Key;
+				limite = syncs.Keys.LastOrDefault(i => i < desynchro.Key && r.Participants.All(c =>
+					(deconnexions.TryGetValue(c.Index, out var d) && d <= i) || syncs[i].Any(e => e.Client == c.Index)));
+
+				// Partie elle-même reprise, désynchronisée pendant le rejeu : rien de sûr ici.
+				if (limite <= 0)
+					throw new InvalidDataException($"désynchronisation dès l'image {desynchro.Key}, avant tout accord entre les joueurs " +
+						"(si c'était déjà une reprise, reprenez depuis le replay d'origine)");
+			}
+
 			// Image complète : chaque participant encore connecté y a envoyé ses ordres.
 			var derniere = 0;
-			while (r.Participants.All(c =>
+			while (derniere < limite && r.Participants.All(c =>
 				(deconnexions.TryGetValue(c.Index, out var d) && derniere + 1 >= d)
 				|| (r.ordres.TryGetValue(c.Index, out var p) && p.ContainsKey(derniere + 1))))
 			{
@@ -202,7 +228,7 @@ namespace OpenRA.Mods.Fictifs.ServerTraits
 
 			r.DerniereImage = derniere;
 			r.ImageSync = derniereSync;
-			r.Sync = syncs[derniereSync];
+			r.Sync = syncs[derniereSync][0].Sync;
 			return r;
 		}
 

@@ -19,11 +19,35 @@ namespace OpenRA.Mods.Fictifs.Traits
 {
 	[TraitLocation(SystemActors.World)]
 	[Desc("Joueur déconnecté en cours de partie : une IA de l'hôte prend le relais (voir RepriseIA).",
-		"La partie peut ensuite être reprise depuis le salon (ReprisePartieServeur).")]
+		"La partie peut ensuite être reprise depuis le salon (ReprisePartieServeur), de même qu'après une désynchronisation.")]
 	public class ReprisePartieInfo : TraitInfo<ReprisePartie> { }
 
-	public class ReprisePartie : INotifyPlayerDisconnected
+	public class ReprisePartie : INotifyPlayerDisconnected, IGameOver
 	{
+		/// <summary>
+		/// Partie (hors replay) arrêtée par une désynchronisation : le moteur fige alors son
+		/// ReplayTimestep à 0, juste après avoir appelé les IGameOver.
+		/// </summary>
+		public static bool EstDesynchronisee(World world)
+		{
+			return !world.IsReplay && world.ReplayTimestep == 0;
+		}
+
+		// Une désynchronisation termine la partie ; le moteur ne la signale qu'après les IGameOver.
+		void IGameOver.GameOver(World world)
+		{
+			if (world.IsReplay || world.Type != WorldType.Regular)
+				return;
+
+			Game.RunAfterTick(() =>
+			{
+				if (EstDesynchronisee(world))
+					TextNotificationsManager.AddSystemLine("Reprise",
+						"Désynchronisation : la partie ne peut pas continuer. Quittez-la tous, puis, dans un nouveau salon, " +
+						"l'hôte choisit « Reprendre une partie » : elle reprendra juste avant la désynchronisation.");
+			});
+		}
+
 		// Appelé chez tous les joueurs à la même image de jeu.
 		void INotifyPlayerDisconnected.PlayerDisconnected(Actor self, Player p)
 		{

@@ -53,14 +53,22 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		void IGameOver.GameOver(World world)
 		{
-			try
+			// Une désynchronisation termine aussi la partie (signalée juste après) : elle ne
+			// compte pas, la partie reprise comptera à sa vraie fin.
+			Game.RunAfterTick(() =>
 			{
-				Enregistrer(world);
-			}
-			catch (Exception e)
-			{
-				Log.Write("debug", $"Classement Elo : enregistrement impossible : {e}");
-			}
+				if (ReprisePartie.EstDesynchronisee(world))
+					return;
+
+				try
+				{
+					Enregistrer(world);
+				}
+				catch (Exception e)
+				{
+					Log.Write("debug", $"Classement Elo : enregistrement impossible : {e}");
+				}
+			});
 		}
 
 		void Enregistrer(World world)

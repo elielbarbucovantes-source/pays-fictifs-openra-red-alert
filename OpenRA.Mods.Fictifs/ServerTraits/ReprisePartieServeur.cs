@@ -21,7 +21,7 @@ using S = OpenRA.Server.Server;
 namespace OpenRA.Mods.Fictifs.ServerTraits
 {
 	/// <summary>
-	/// Reprise d'une partie en ligne interrompue (un joueur déconnecté).
+	/// Reprise d'une partie en ligne interrompue (un joueur déconnecté, ou une désynchronisation).
 	///
 	/// Le moteur ne sait pas sauvegarder une partie à plusieurs : on repart du replay que
 	/// l'hôte enregistre de toute façon. Dans un nouveau salon, l'hôte choisit le replay
@@ -201,6 +201,7 @@ namespace OpenRA.Mods.Fictifs.ServerTraits
 
 			var absents = server.LobbyInfo.Clients.Where(EstAbsent).Select(c => c.Name).ToList();
 			server.SendMessage($"Partie reprise : {carte.Title}, image {r.DerniereImage}." +
+				(r.ImageDesynchro > 0 ? $" Désynchronisation à l'image {r.ImageDesynchro} : la partie reprend juste avant." : "") +
 				(absents.Count > 0 ? $" Absents : {string.Join(", ", absents)} — l'IA de l'hôte les jouera, sauf s'ils rejoignent le salon avec le même nom." : ""));
 		}
 
