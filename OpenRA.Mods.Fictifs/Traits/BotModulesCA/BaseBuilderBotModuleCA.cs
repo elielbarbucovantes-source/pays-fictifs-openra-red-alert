@@ -128,6 +128,10 @@ namespace OpenRA.Mods.Fictifs.Traits
 		[Desc("When should the AI start building specific buildings.")]
 		public readonly Dictionary<string, int> BuildingDelays = null;
 
+		[Desc("Fictifs: buildings the AI builds once, before the random picks of BuildingFractions, as soon as",
+			"their BuildingDelays have passed (e.g. the radar dome that unlocks the aviation).")]
+		public readonly HashSet<string> PriorityTypes = new();
+
 		[Desc("Delay (in ticks) between reassigning rally points.")]
 		public readonly int AssignRallyPointsInterval = 100;
 

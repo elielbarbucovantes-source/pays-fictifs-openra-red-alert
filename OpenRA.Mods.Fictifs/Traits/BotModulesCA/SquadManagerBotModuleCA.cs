@@ -169,6 +169,9 @@ namespace OpenRA.Mods.Fictifs.Traits
 		readonly HashSet<Actor> activeUnits = new();
 
 		public List<SquadCA> Squads = new();
+
+		// Fictifs : unités prêtées à un autre module (débarquements amphibies) ; les escouades n'y touchent pas.
+		readonly HashSet<Actor> reserved = new();
 		readonly Stack<SquadCA> squadsPendingUpdate = new();
 		readonly ActorIndex.NamesAndTrait<BuildingInfo> constructionYardBuildings;
 
@@ -402,11 +405,35 @@ namespace OpenRA.Mods.Fictifs.Traits
 			// and thus would mutate the Squads list we are iterating over.
 		}
 
+		/// <summary>Fictifs : retire l'unité des escouades ; le gestionnaire l'ignore jusqu'à Release.</summary>
+		public void Reserve(Actor a)
+		{
+			if (!reserved.Add(a))
+				return;
+
+			foreach (var s in Squads)
+				s.Units.Remove(a);
+
+			unitsHangingAroundTheBase.Remove(a);
+			activeUnits.Add(a);
+		}
+
+		/// <summary>Fictifs : rend l'unité au gestionnaire, qui lui redonnera un rôle.</summary>
+		public void Release(Actor a)
+		{
+			if (reserved.Remove(a))
+				activeUnits.Remove(a);
+		}
+
+		public bool IsReserved(Actor a) => reserved.Contains(a);
+
 		void AssignRolesToIdleUnits(IBot bot)
 		{
 			CleanSquads();
 
 			activeUnits.RemoveWhere(unitCannotBeOrdered);
+			// (une unité prêtée reste réservée pendant qu'elle est à bord d'un transport)
+			reserved.RemoveWhere(a => a == null || a.IsDead || a.Owner != Player);
 			unitsHangingAroundTheBase.RemoveAll(unitCannotBeOrdered);
 			foreach (var n in notifyIdleBaseUnits)
 				n.UpdatedIdleBaseUnits(unitsHangingAroundTheBase);
@@ -448,7 +475,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 			var newUnits = World.ActorsHavingTrait<IPositionable>()
 				.Where(a => a.Owner == Player &&
 					!Info.ExcludeFromSquadsTypes.Contains(a.Info.Name) &&
-					!activeUnits.Contains(a));
+					!activeUnits.Contains(a) && !reserved.Contains(a));
 
 			foreach (var a in newUnits)
 			{
@@ -594,7 +621,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 			if (!protectSq.IsValid)
 			{
 				var ownUnits = World.FindActorsInCircle(World.Map.CenterOfCell(GetRandomBaseCenter()), WDist.FromCells(Info.ProtectUnitScanRadius))
-					.Where(unit => unit.Owner == Player && unit.Info.HasTraitInfo<AttackBaseInfo>() && !unit.Info.HasTraitInfo<BuildingInfo>()
+					.Where(unit => unit.Owner == Player && !reserved.Contains(unit) && unit.Info.HasTraitInfo<AttackBaseInfo>() && !unit.Info.HasTraitInfo<BuildingInfo>()
 						&& !unit.Info.HasTraitInfo<HarvesterInfo>() && !unit.Info.HasTraitInfo<AircraftInfo>())
 					.WithPathTo(World, attacker.CenterPosition);
 

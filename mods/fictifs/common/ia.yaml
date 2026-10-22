@@ -54,6 +54,9 @@ Player:
 		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
 	PowerDownBotModuleCA:
 		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
+	# Débarquements amphibies quand aucun ennemi n'est joignable par la terre (DebarquementBotModule.cs).
+	DebarquementBotModule:
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
 	McvManagerBotModuleCA:
 		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
 		McvTypes: mcv
@@ -94,6 +97,8 @@ Player:
 		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
 		ProductionTypes: barr,tent,weap, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
 		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		# Le radar débloque l'aviation de l'Elielistan (Aeródromo) et de l'Australouis (Base aéronavale).
+		PriorityTypes: dome
 		BuildingIntervals:
 			proc: 1500
 			weap: 2250
@@ -159,6 +164,8 @@ Player:
 		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
 		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
 		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		# Le radar débloque l'aviation de l'Elielistan (Aeródromo) et de l'Australouis (Base aéronavale).
+		PriorityTypes: dome
 		BuildingIntervals:
 			proc: 1500
 			weap: 2250
@@ -241,6 +248,8 @@ Player:
 		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
 		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
 		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		# Le radar débloque l'aviation de l'Elielistan (Aeródromo) et de l'Australouis (Base aéronavale).
+		PriorityTypes: dome
 		BuildingIntervals:
 			proc: 1500
 			weap: 3000
@@ -323,6 +332,8 @@ Player:
 		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
 		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
 		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		# Le radar débloque l'aviation de l'Elielistan (Aeródromo) et de l'Australouis (Base aéronavale).
+		PriorityTypes: dome
 		BuildingIntervals:
 			proc: 1500
 		BuildingDelays:

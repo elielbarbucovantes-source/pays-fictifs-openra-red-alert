@@ -173,6 +173,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 				CPos? location = null;
 				string orderString = "PlaceBuilding";
+				chosenVariant = 0;
 
 				// Check if we've hit the limit for this building already, if so cancel it
 				if (baseBuilder.Info.BuildingLimits.ContainsKey(currentBuilding.Item))
@@ -242,6 +243,9 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 						// Actor ID to associate the placement with
 						ExtraData = queue.Actor.ActorID,
+
+						// Fictifs : variante choisie (index + 1, comme l'aperçu de placement)
+						ExtraLocation = new CPos(chosenVariant, 0),
 						SuppressVisualFeedback = true
 					});
 				}
@@ -344,6 +348,27 @@ namespace OpenRA.Mods.Fictifs.Traits
 					AIUtilsCA.BotDebug("{0} decided to build {1}: Priority override (would be low power)", queue.Actor.Owner, power.Name);
 					return power;
 				}
+			}
+
+			// Fictifs : bâtiments-clés (radar qui débloque l'aviation…) construits une fois, sans tirage au sort.
+			foreach (var name in baseBuilder.Info.PriorityTypes)
+			{
+				if (baseBuilder.Info.BuildingDelays != null && baseBuilder.Info.BuildingDelays.TryGetValue(name, out var delai) && delai > world.WorldTick)
+					continue;
+
+				var prioritaire = buildableThings.FirstOrDefault(b => b.Name == name);
+				if (prioritaire == null || playerBuildings.Any(a => a.Info.Name == name)
+					|| (baseBuilder.BuildingsBeingProduced != null && baseBuilder.BuildingsBeingProduced.ContainsKey(name)))
+					continue;
+
+				if (HasSufficientPowerForActor(prioritaire))
+				{
+					AIUtilsCA.BotDebug("{0} decided to build {1}: Priority override (priority type)", queue.Actor.Owner, name);
+					return prioritaire;
+				}
+
+				if (power != null)
+					return power;
 			}
 
 			// Make sure that we can spend as fast as we are earning
@@ -476,12 +501,23 @@ namespace OpenRA.Mods.Fictifs.Traits
 			return null;
 		}
 
+		// Fictifs : variante retenue par le dernier ChooseBuildLocation (0 = le bâtiment lui-même).
+		int chosenVariant;
+
 		CPos? ChooseBuildLocation(string actorType, bool distanceToBaseIsImportant, BuildingType type)
 		{
 			var actorInfo = world.Map.Rules.Actors[actorType];
 			var bi = actorInfo.TraitInfoOrDefault<BuildingInfo>();
 			if (bi == null)
 				return null;
+
+			chosenVariant = 0;
+			var candidates = new[] { (actorInfo, bi) }
+				.Concat(actorInfo.TraitInfos<PlaceBuildingVariantsInfo>().SelectMany(p => p.Actors)
+					.Select(n => world.Map.Rules.Actors[n])
+					.Select(i => (i, i.TraitInfoOrDefault<BuildingInfo>())))
+				.Where(c => c.Item2 != null)
+				.ToArray();
 
 			// Find the buildable cell that is closest to pos and centered around center
 			Func<CPos, CPos, int, int, CPos?> findPos = (center, target, minRange, maxRange) =>
@@ -496,13 +532,19 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 				foreach (var cell in cells)
 				{
-					if (!world.CanPlaceBuilding(cell, actorInfo, bi, null))
-						continue;
+					// Fictifs : bâtiments à variantes (base amphibie : quai au sud, au nord, à l'est, à l'ouest).
+					for (var v = 0; v < candidates.Length; v++)
+					{
+						var (vi, vbi) = candidates[v];
+						if (!world.CanPlaceBuilding(cell, vi, vbi, null))
+							continue;
 
-					if (distanceToBaseIsImportant && !bi.IsCloseEnoughToBase(world, player, actorInfo, cell))
-						continue;
+						if (distanceToBaseIsImportant && !vbi.IsCloseEnoughToBase(world, player, vi, cell))
+							continue;
 
-					return cell;
+						chosenVariant = v;
+						return cell;
+					}
 				}
 
 				return null;

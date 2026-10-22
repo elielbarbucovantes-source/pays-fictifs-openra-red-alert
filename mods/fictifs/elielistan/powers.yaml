@@ -120,10 +120,17 @@ PALACIO:
 		SupportPowerPaletteOrder: 40
 
 # Frappe Aguila : trois Rayo surgissent, bombardent et repartent aussitôt.
+# Condition sur le pays du joueur, pas sur celui de l'héliport : un héliport
+# construit depuis un chantier de construction capturé n'est pas « elielistanais ».
+Player:
+	ProvidesPrerequisite@pays-elielistan:
+		Factions: elielistan
+		Prerequisite: pays.elielistan
+
 HPAD:
 	AirstrikePower@AGUILASTRIKE:
 		OrderName: ElielistanAguilaStrike
-		Prerequisites: aircraft.elielistan, dome
+		Prerequisites: pays.elielistan, hpad, dome
 		IconImage: elielistan-powers
 		Icon: strike
 		ChargeInterval: 6000
