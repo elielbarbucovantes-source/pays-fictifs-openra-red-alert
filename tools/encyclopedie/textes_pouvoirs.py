@@ -18,7 +18,8 @@ Douze passages, 60 secondes : l'aller, puis la retraite.""",
 "Ouvrez-le avec un Aguila Carrier chargé de chars : cinq chars passent en un seul passage."),
 "Frappe Aguila": ("Frappe Aguila", """Trois avions d'attaque Rayo traversent la zone à très grande vitesse.
 Ils bombardent et repartent aussitôt.
-Frapper puis disparaître, version aérienne.""",
+Frapper puis disparaître, version aérienne.
+Il faut un Helipad et un Radar Dome ; un Helipad bâti depuis un chantier capturé d'un autre pays compte aussi.""",
 "Visez les défenses ou les groupes d'artillerie qui bloquent votre raid."),
 "Contre-attaque éclair": ("Contre-attaque éclair", """Les unités terrestres rubéniennes de la zone (5 cases) gagnent +40 % de vitesse et −25 % de temps de rechargement pendant 20 secondes.
 Le signal de la sortie.

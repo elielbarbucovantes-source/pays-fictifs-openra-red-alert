@@ -26,6 +26,10 @@ inaccessibles sont évitées ; une zone sans case accessible est refusée. Navet
 logistique amphibie ou rectangle sur une plage) ; il fait la boucle seul, comme les navettes
 ferroviaires.
 
+IA : quand aucune route terrestre ne mène à l'ennemi (îles), l'IA construit un transport
+amphibie (ou une Base logistique amphibie), charge ses unités et débarque sur la côte la
+moins défendue près de la base adverse. Sur une carte toute terrestre, elle ne débarque pas.
+
 SOMMAIRE
   0. LES PAYS (4)
   1. BÂTIMENTS (17)
@@ -2420,6 +2424,7 @@ SOMMAIRE
     Trois avions d'attaque Rayo traversent la zone à très grande vitesse.
     Ils bombardent et repartent aussitôt.
     Frapper puis disparaître, version aérienne.
+    Il faut un Helipad et un Radar Dome ; un Helipad bâti depuis un chantier capturé d'un autre pays compte aussi.
   Statistiques :
     Porté par : Helipad, recharge 4 min
   Stratégie :

@@ -211,6 +211,10 @@ def main():
                 "évitées ; une zone sans case accessible est refusée. Navette amphibie (touche J) : transport "
                 "sélectionné, escale de chargement puis de déchargement (Base logistique amphibie ou rectangle "
                 "sur une plage) ; il fait la boucle seul, comme les navettes ferroviaires.", ""),
+           "",
+           para("IA : quand aucune route terrestre ne mène à l'ennemi (îles), l'IA construit un transport "
+                "amphibie (ou une Base logistique amphibie), charge ses unités et débarque sur la côte la "
+                "moins défendue près de la base adverse. Sur une carte toute terrestre, elle ne débarque pas.", ""),
            ""]
     sommaire = [f"  0. LES PAYS ({len(PAYS)})"]
     corps = ["", "=" * LARGEUR, "0. LES PAYS".center(LARGEUR), "=" * LARGEUR]
