@@ -36,6 +36,11 @@ elif [ -n "$REPO" ]; then
 	if curl -fL -o "$TMP/mod.zip" "https://github.com/$REPO/archive/refs/heads/$BRANCH.zip" \
 		&& unzip -q "$TMP/mod.zip" -d "$TMP"; then
 		SRC=$(find "$TMP" -mindepth 1 -maxdepth 1 -type d | head -n 1)
+		# Remplace entièrement le contenu du mod : un fichier supprimé sur GitHub ne doit
+		# pas rester ici, sinon la version (empreinte du contenu) diffère des autres joueurs.
+		if [ -f "$SRC/mods/fictifs/mod.yaml" ]; then
+			rm -rf mods/fictifs OpenRA.Mods.Fictifs
+		fi
 		cp -R "$SRC"/. . && [ -n "$SHA" ] && echo "$SHA" > .version-commit
 	else
 		RESULT="Échec du téléchargement, voir update.log"

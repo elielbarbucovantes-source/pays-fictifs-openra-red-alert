@@ -18,13 +18,14 @@ using System.Text;
 namespace OpenRA.Mods.Fictifs.Widgets.Logic
 {
 	/// <summary>
-	/// Version du mod = version du moteur + commit installé + empreinte du contenu
-	/// (ex. release-20231010+8f4e95b.3fa91c). Le serveur OpenRA refuse les joueurs
+	/// Version du mod = version du moteur + empreinte du contenu
+	/// (ex. release-20231010+3fa91c). Le serveur OpenRA refuse les joueurs
 	/// dont la version diffère : deux joueurs qui n'ont pas exactement les mêmes
 	/// règles et le même code sont arrêtés à la connexion au lieu de se
 	/// désynchroniser dès la première image (« out of sync frame 1 »).
-	/// L'empreinte couvre aussi les modifications locales pas encore publiées,
-	/// que le seul numéro de commit ne voit pas.
+	/// Le numéro de commit n'entre PAS dans la version : deux installations au contenu
+	/// identique (dépôt Linux/Mac et dépôt Windows, clone git ou ZIP) doivent pouvoir
+	/// jouer ensemble. L'empreinte couvre aussi les modifications locales.
 	/// </summary>
 	public static class ModVersion
 	{
@@ -40,18 +41,15 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 		static readonly string[] FingerprintDirs = { "mods/fictifs", "OpenRA.Mods.Fictifs" };
 		static readonly string[] TextExtensions = { ".yaml", ".cs", ".lua", ".ftl", ".txt", ".md", ".csproj" };
 
+		// Lignes propres à chaque dépôt GitHub (site, dépôt de mise à jour) : sans effet sur
+		// une partie, elles sont ignorées pour que les deux dépôts aient la même empreinte.
+		static readonly string[] IgnoredYamlKeys = { "Website:", "Repository:" };
+
 		static string suffix;
 
 		public static void Apply(ModData modData)
 		{
-			if (suffix == null)
-			{
-				var root = Root(modData);
-				var commit = ReadLocalCommit(root);
-				var fingerprint = ContentFingerprint(root);
-				suffix = "+" + (string.IsNullOrEmpty(commit) ? "local" : commit[..Math.Min(7, commit.Length)])
-					+ (fingerprint != null ? "." + fingerprint : "");
-			}
+			suffix ??= "+" + (ContentFingerprint(Root(modData)) ?? "local");
 
 			foreach (var metadata in new[] { modData.Manifest.Metadata, Game.Mods[modData.Manifest.Id].Metadata })
 			{
@@ -81,8 +79,12 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 				foreach (var file in files)
 				{
 					var bytes = File.ReadAllBytes(Path.Combine(root, file));
-					if (TextExtensions.Contains(Path.GetExtension(file).ToLowerInvariant()))
+					var extension = Path.GetExtension(file).ToLowerInvariant();
+					if (TextExtensions.Contains(extension))
 						bytes = bytes.Where(b => b != (byte)'\r').ToArray();
+
+					if (extension == ".yaml")
+						bytes = WithoutIgnoredLines(bytes);
 
 					var name = Encoding.UTF8.GetBytes(file + "\n" + bytes.Length + "\n");
 					sha.TransformBlock(name, 0, name.Length, null, 0);
@@ -96,6 +98,13 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 			{
 				return null;
 			}
+		}
+
+		static byte[] WithoutIgnoredLines(byte[] bytes)
+		{
+			var lines = Encoding.UTF8.GetString(bytes).Split('\n')
+				.Where(l => !IgnoredYamlKeys.Any(k => l.TrimStart().StartsWith(k, StringComparison.Ordinal)));
+			return Encoding.UTF8.GetBytes(string.Join('\n', lines));
 		}
 
 		static bool Included(string path)

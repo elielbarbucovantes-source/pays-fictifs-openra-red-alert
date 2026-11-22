@@ -38,6 +38,13 @@ elseif ($Repo) {
 		Invoke-WebRequest -UseBasicParsing "https://github.com/$Repo/archive/refs/heads/$Branch.zip" -OutFile "$tmp\mod.zip"
 		Expand-Archive "$tmp\mod.zip" -DestinationPath $tmp
 		$src = Get-ChildItem $tmp -Directory | Select-Object -First 1
+		# Remplace entièrement le contenu du mod : un fichier supprimé sur GitHub ne doit
+		# pas rester ici, sinon la version (empreinte du contenu) diffère des autres joueurs.
+		if (Test-Path "$($src.FullName)\mods\fictifs\mod.yaml") {
+			foreach ($d in @("mods\fictifs", "OpenRA.Mods.Fictifs")) {
+				if (Test-Path $d) { Remove-Item -Recurse -Force $d }
+			}
+		}
 		Copy-Item -Path "$($src.FullName)\*" -Destination . -Recurse -Force
 		if ($sha) { Set-Content ".version-commit" $sha.Trim() }
 	}
