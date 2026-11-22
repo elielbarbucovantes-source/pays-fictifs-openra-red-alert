@@ -114,6 +114,9 @@ BOMBARDIER.TACTIQUE.Husk:
 		Image: ant40
 
 # B-2 Spirit : bombardier furtif lourd, invisible au radar.
+# Armement offensif (sur ordre) : 2 passages de 6 bombes incendiaires et un
+# missile sismique par sortie. Défense automatique en vol, sans ordre et quelle
+# que soit la posture : roquettes antiaériennes et mini-canons (DefenseAutomatique).
 B2.SPIRIT:
 	Inherits: YAK
 	Inherits@DOCTRINE: ^ElielistanDoctrine
@@ -123,7 +126,7 @@ B2.SPIRIT:
 		BuildPaletteOrder: 90
 		BuildLimit: 2
 		Prerequisites: ~aerodromo, atek, ~techlevel.high
-		Description: Bombardier furtif lourd. Invisible au radar ennemi.\n2 passages de 6 bombes incendiaires lourdes.\n2 au maximum.\n  Fort contre : bâtiments, infanterie, véhicules légers\n  Faible contre : chasseurs, défense antiaérienne
+		Description: Bombardier furtif lourd. Invisible au radar ennemi.\n2 passages de 6 bombes incendiaires lourdes,\n+ 1 missile sismique par sortie (tremblement de terre).\nDéfense automatique en vol : roquettes antiaériennes\net mini-canons (aviation, infanterie au sol).\n2 au maximum.\n  Fort contre : bâtiments, infanterie, véhicules légers\n  Faible contre : défense antiaérienne, chasseurs en nombre
 	Valued:
 		Cost: 2800
 	Tooltip:
@@ -136,12 +139,41 @@ B2.SPIRIT:
 		-MuzzleSequence:
 	-Armament@SECONDARY:
 	-WithMuzzleOverlay:
+	# Missile sismique : tiré avec les bombes, 1 par sortie.
+	Armament@SEISME:
+		Name: seisme
+		Weapon: B2MissileSismique
+		LocalOffset: 0,0,-100
+		PauseOnCondition: !ammo-seisme
 	AttackAircraft:
 		FacingTolerance: 16
+		Armaments: primary, seisme
 	# 1 munition = 1 bombe (le moteur en consomme une par bombe larguée).
 	AmmoPool:
 		Ammo: 12
 		-ReloadDelay:
+	AmmoPool@SEISME:
+		Name: seisme
+		Armaments: seisme
+		Ammo: 1
+		AmmoCondition: ammo-seisme
+	# Défense automatique (en vol seulement) : ces armes ne dépendent d'aucun ordre.
+	Armament@AAROQUETTES:
+		Name: aa-roquettes
+		Weapon: B2RoquettesAA
+		LocalOffset: 0,-400,0, 0,400,0
+	Armament@AACANONS:
+		Name: aa-canons
+		Weapon: B2CanonsAir
+		LocalOffset: 300,0,0
+	Armament@CANONSSOL:
+		Name: canons-sol
+		Weapon: B2CanonsSol
+		LocalOffset: 0,0,-150
+	DefenseAutomatique:
+		RequiresCondition: airborne
+		Armaments: aa-roquettes, aa-canons, canons-sol
+		PriorityTargets: AirborneActor
 	WithAmmoPipsDecoration:
 		PipCount: 2
 	Aircraft:
@@ -158,6 +190,7 @@ B2.SPIRIT:
 		StartColorAlpha: 128
 	Rearmable:
 		RearmActors: aerodromo
+		AmmoPools: primary, seisme
 	Selectable:
 		Bounds: 2048, 2048
 		DecorationBounds: 2560, 2560

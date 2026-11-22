@@ -314,6 +314,287 @@ B2FireBombs:
 		ImpactSounds: firebl3.aud
 		ValidTargets: Ground, Water, GroundActor
 
+# ---------------------------------------------------------------------
+# B-2 Spirit : missile sismique (1 par sortie, tiré avec les bombes).
+# Il s'enfonce dans le sol et déclenche un tremblement de terre d'environ
+# 5 secondes sur un rayon de 3 cases : 8 secousses, plus fortes au centre.
+# Le séisme ne fait pas la différence entre amis et ennemis.
+# Total au centre : 20 000 contre un bâtiment en béton, 24 000 en bois,
+# 10 000 contre un blindé lourd, 12 000 contre l'infanterie (6 000 couchée).
+# ---------------------------------------------------------------------
+B2MissileSismique:
+	ReloadDelay: 50
+	Range: 3c0
+	TargetActorCenter: true
+	ValidTargets: Ground, GroundActor
+	Report: missile1.aud
+	Projectile: Missile
+		Image: DRAGON
+		Speed: 260
+		Arm: 0
+		Blockable: false
+		Inaccuracy: 0
+		HorizontalRateOfTurn: 120
+		VerticalRateOfTurn: 120
+		RangeLimit: 10c0
+		TrailImage: smokey
+		Shadow: true
+	Warhead@0Eff: CreateEffect
+		Explosions: large_explosion
+		ImpactSounds: kaboom22.aud
+		ValidTargets: Ground, GroundActor, Water
+	Warhead@0Smu: LeaveSmudge
+		SmudgeType: Crater
+		Size: 2
+		ValidTargets: Ground
+	Warhead@S1Dam: SpreadDamage
+		Delay: 0
+		Spread: 1c0
+		Falloff: 100, 75, 40, 0
+		Damage: 2500
+		ValidTargets: GroundActor
+		Versus:
+			None: 60
+			Wood: 120
+			Light: 70
+			Heavy: 50
+			Concrete: 100
+		DamageTypes: TriggerProne, SmallExplosionDeath
+	Warhead@S1Shk: ShakeScreen
+		Delay: 0
+		Duration: 15
+		Intensity: 6
+		Multiplier: 1,1
+	Warhead@S1Fis: FireCluster
+		Delay: 0
+		Weapon: B2SeismeFissure
+		RandomClusterCount: 3
+		Dimensions: 5,5
+		Footprint: _xxx_ xxxxx xxxxx xxxxx _xxx_
+	Warhead@S2Dam: SpreadDamage
+		Delay: 15
+		Spread: 1c0
+		Falloff: 100, 75, 40, 0
+		Damage: 2500
+		ValidTargets: GroundActor
+		Versus:
+			None: 60
+			Wood: 120
+			Light: 70
+			Heavy: 50
+			Concrete: 100
+		DamageTypes: TriggerProne, SmallExplosionDeath
+	Warhead@S2Shk: ShakeScreen
+		Delay: 15
+		Duration: 15
+		Intensity: 3
+		Multiplier: 1,1
+	Warhead@S2Fis: FireCluster
+		Delay: 15
+		Weapon: B2SeismeFissure
+		RandomClusterCount: 3
+		Dimensions: 5,5
+		Footprint: _xxx_ xxxxx xxxxx xxxxx _xxx_
+	Warhead@S3Dam: SpreadDamage
+		Delay: 30
+		Spread: 1c0
+		Falloff: 100, 75, 40, 0
+		Damage: 2500
+		ValidTargets: GroundActor
+		Versus:
+			None: 60
+			Wood: 120
+			Light: 70
+			Heavy: 50
+			Concrete: 100
+		DamageTypes: TriggerProne, SmallExplosionDeath
+	Warhead@S3Shk: ShakeScreen
+		Delay: 30
+		Duration: 15
+		Intensity: 3
+		Multiplier: 1,1
+	Warhead@S3Fis: FireCluster
+		Delay: 30
+		Weapon: B2SeismeFissure
+		RandomClusterCount: 3
+		Dimensions: 5,5
+		Footprint: _xxx_ xxxxx xxxxx xxxxx _xxx_
+	Warhead@S4Dam: SpreadDamage
+		Delay: 45
+		Spread: 1c0
+		Falloff: 100, 75, 40, 0
+		Damage: 2500
+		ValidTargets: GroundActor
+		Versus:
+			None: 60
+			Wood: 120
+			Light: 70
+			Heavy: 50
+			Concrete: 100
+		DamageTypes: TriggerProne, SmallExplosionDeath
+	Warhead@S4Shk: ShakeScreen
+		Delay: 45
+		Duration: 15
+		Intensity: 3
+		Multiplier: 1,1
+	Warhead@S4Fis: FireCluster
+		Delay: 45
+		Weapon: B2SeismeFissure
+		RandomClusterCount: 3
+		Dimensions: 5,5
+		Footprint: _xxx_ xxxxx xxxxx xxxxx _xxx_
+	Warhead@S5Dam: SpreadDamage
+		Delay: 60
+		Spread: 1c0
+		Falloff: 100, 75, 40, 0
+		Damage: 2500
+		ValidTargets: GroundActor
+		Versus:
+			None: 60
+			Wood: 120
+			Light: 70
+			Heavy: 50
+			Concrete: 100
+		DamageTypes: TriggerProne, SmallExplosionDeath
+	Warhead@S5Shk: ShakeScreen
+		Delay: 60
+		Duration: 15
+		Intensity: 3
+		Multiplier: 1,1
+	Warhead@S5Fis: FireCluster
+		Delay: 60
+		Weapon: B2SeismeFissure
+		RandomClusterCount: 3
+		Dimensions: 5,5
+		Footprint: _xxx_ xxxxx xxxxx xxxxx _xxx_
+	Warhead@S6Dam: SpreadDamage
+		Delay: 75
+		Spread: 1c0
+		Falloff: 100, 75, 40, 0
+		Damage: 2500
+		ValidTargets: GroundActor
+		Versus:
+			None: 60
+			Wood: 120
+			Light: 70
+			Heavy: 50
+			Concrete: 100
+		DamageTypes: TriggerProne, SmallExplosionDeath
+	Warhead@S6Shk: ShakeScreen
+		Delay: 75
+		Duration: 15
+		Intensity: 3
+		Multiplier: 1,1
+	Warhead@S6Fis: FireCluster
+		Delay: 75
+		Weapon: B2SeismeFissure
+		RandomClusterCount: 3
+		Dimensions: 5,5
+		Footprint: _xxx_ xxxxx xxxxx xxxxx _xxx_
+	Warhead@S7Dam: SpreadDamage
+		Delay: 90
+		Spread: 1c0
+		Falloff: 100, 75, 40, 0
+		Damage: 2500
+		ValidTargets: GroundActor
+		Versus:
+			None: 60
+			Wood: 120
+			Light: 70
+			Heavy: 50
+			Concrete: 100
+		DamageTypes: TriggerProne, SmallExplosionDeath
+	Warhead@S7Shk: ShakeScreen
+		Delay: 90
+		Duration: 15
+		Intensity: 3
+		Multiplier: 1,1
+	Warhead@S7Fis: FireCluster
+		Delay: 90
+		Weapon: B2SeismeFissure
+		RandomClusterCount: 3
+		Dimensions: 5,5
+		Footprint: _xxx_ xxxxx xxxxx xxxxx _xxx_
+	Warhead@S8Dam: SpreadDamage
+		Delay: 105
+		Spread: 1c0
+		Falloff: 100, 75, 40, 0
+		Damage: 2500
+		ValidTargets: GroundActor
+		Versus:
+			None: 60
+			Wood: 120
+			Light: 70
+			Heavy: 50
+			Concrete: 100
+		DamageTypes: TriggerProne, SmallExplosionDeath
+	Warhead@S8Shk: ShakeScreen
+		Delay: 105
+		Duration: 15
+		Intensity: 3
+		Multiplier: 1,1
+	Warhead@S8Fis: FireCluster
+		Delay: 105
+		Weapon: B2SeismeFissure
+		RandomClusterCount: 3
+		Dimensions: 5,5
+		Footprint: _xxx_ xxxxx xxxxx xxxxx _xxx_
+
+# Fissure du séisme : petite explosion de terre et cratère, sans dégâts.
+B2SeismeFissure:
+	ValidTargets: Ground, Water, GroundActor
+	Warhead@1Eff: CreateEffect
+		Explosions: small_explosion
+		ImpactSounds: kaboom15.aud
+		ValidTargets: Ground, GroundActor
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Crater
+		ValidTargets: Ground
+
+# B-2 Spirit : roquettes antiaériennes embarquées (celles du rocket soldier),
+# tirées seules sur les avions et hélicoptères ennemis à portée (DefenseAutomatique).
+B2RoquettesAA:
+	Inherits: RedEye
+	Range: 7c0
+
+# B-2 Spirit : mini-canons de défense, tirés seuls (DefenseAutomatique).
+# Contre l'aviation : précis. Contre le sol : rafales imprécises, efficaces
+# sur l'infanterie, presque rien contre les blindés et les bâtiments.
+B2CanonsAir:
+	Inherits: FLAK-23-AA
+	Range: 5c0
+	Warhead@1Dam: SpreadDamage
+		ValidRelationships: Enemy, Neutral
+
+B2CanonsSol:
+	ReloadDelay: 12
+	Burst: 3
+	BurstDelays: 3
+	Range: 5c0
+	Report: aacanon3.aud
+	ValidTargets: Infantry, Vehicle
+	Projectile: InstantHit
+		Inaccuracy: 1c256
+		InaccuracyType: Absolute
+	Warhead@1Dam: SpreadDamage
+		Spread: 341
+		Damage: 1200
+		ValidTargets: GroundActor
+		ValidRelationships: Enemy, Neutral
+		Versus:
+			None: 100
+			Wood: 10
+			Light: 35
+			Heavy: 10
+			Concrete: 5
+		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: flak_explosion_ground
+		ValidTargets: Ground, GroundActor, Trees
+	Warhead@3EffWater: CreateEffect
+		Explosions: small_splash
+		ValidTargets: Water
+
 # Kirov : bombe lourde (bombe du Kirov de la carte WW3).
 KirovBomb:
 	ReloadDelay: 35

@@ -1390,16 +1390,28 @@ SOMMAIRE
   Pays : Elielistan
   Lore :
     Bombardier furtif lourd, invisible au radar ennemi.
-    Deux passages de six bombes incendiaires lourdes.
+    Deux passages de six bombes incendiaires lourdes, et un missile sismique qui
+    s'enfonce dans le sol et déclenche un tremblement de terre.
+    Il se défend seul en vol : roquettes antiaériennes de rocket soldier et
+    mini-canons qui arrosent aussi, sans grande précision, les troupes au sol.
     Deux appareils au maximum : chaque perte coûte très cher.
   Statistiques :
     Coût 2 800 $ · PV 30 000 · Blindage léger · Vitesse 200 · Vision 11 cases
     Arme : B2FireBombs : 16 000 dégâts, rafale de 6, portée 3 cases, recharge 2 s
+    Arme : B2MissileSismique : 1 par sortie, tiré avec les bombes. Séisme d'environ
+      5 s (8 secousses) sur 3 cases de rayon. Au centre : 24 000 contre un bâtiment
+      en bois, 20 000 en béton, 10 000 contre un blindé lourd. Touche aussi vos unités.
+    Défense automatique (en vol, sans ordre, même en posture « Ne pas tirer ») :
+      B2RoquettesAA : roquettes du rocket soldier contre l'aviation, portée 7 cases
+      B2CanonsAir : mini-canons contre l'aviation, portée 5 cases
+      B2CanonsSol : rafales imprécises contre l'infanterie (et un peu les véhicules)
     Limite 2 exemplaires
     Prérequis : Aeródromo, Centre technique allié · Niveau technologique : élevé
   Stratégie :
-    Frappez les bâtiments clés loin derrière les lignes. Il est invisible au radar, pas aux
-    yeux : évitez les zones couvertes par la DCA.
+    Frappez les bâtiments clés loin derrière les lignes : le missile sismique ébranle
+    tout le quartier autour de la cible. Gardez vos troupes à distance de l'impact.
+    Un hélicoptère ou un chasseur isolé n'a aucune chance contre lui, mais il reste
+    invisible au radar, pas aux yeux : évitez les zones couvertes par la DCA.
 --------------------------------------------------------------------------------------------
 ■ BLACK HAWK
   Pays : Elielistan
