@@ -359,12 +359,14 @@ KirovCrash:
 	Warhead@1Dam: SpreadDamage
 		Damage: 9000
 
-# Avispa : plongée du drone suicide. Tue un fantassin d'un coup (même couché),
-# presque rien contre les véhicules et les bâtiments.
+# Avispa : plongée du drone suicide. Tue un fantassin d'un coup (même couché,
+# quel que soit son blindage, ses bonus ou sa vétérance). Peut aussi plonger sur un véhicule ou un navire,
+# sans le détruire : environ 1/5 des PV d'un véhicule léger (5 000), 4 000
+# contre un blindé lourd. Les bâtiments et l'aviation restent hors d'atteinte.
 AvispaDive:
 	ReloadDelay: 50
 	Range: 2c512
-	ValidTargets: Infantry
+	ValidTargets: Infantry, Vehicle, Ship
 	Projectile: Missile
 		Image: avispa
 		Sequences: idle
@@ -381,19 +383,26 @@ AvispaDive:
 		Shadow: true
 	Warhead@1Dam: SpreadDamage
 		Spread: 256
-		Damage: 20000
-		ValidTargets: GroundActor
-		Versus:
-			None: 100
-			Wood: 5
-			Light: 10
-			Heavy: 5
-			Concrete: 5
+		# Très au-dessus des PV de tout fantassin : le one-shot tient même couché
+		# (-50 %), sous l'aura du Second Galactique, ravitaillé ou vétéran.
+		Damage: 100000
+		ValidTargets: Infantry
 		DamageTypes: TriggerProne, ExplosionDeath
+	Warhead@3Veh: SpreadDamage
+		Spread: 128
+		Damage: 20000
+		ValidTargets: Vehicle, Ship
+		Versus:
+			None: 25
+			Wood: 15
+			Light: 25
+			Heavy: 20
+			Concrete: 10
+		DamageTypes: ExplosionDeath
 	Warhead@2Eff: CreateEffect
 		Explosions: small_explosion
 		ImpactSounds: kaboom12.aud
-		ValidTargets: Ground, GroundActor
+		ValidTargets: Ground, GroundActor, Water, WaterActor
 
 # ---------------------------------------------------------------------
 # Krajina Ekspres (elielistan/trains.yaml) : grosse salve, recharge lente.

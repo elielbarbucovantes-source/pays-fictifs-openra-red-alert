@@ -466,7 +466,9 @@ BLACKHAWK:
 		FacingTolerance: 512
 
 # Avispa : drone suicide (FPV). Fonce sur un fantassin et le tue d'un coup,
-# puis disparaît. Presque aucun blindage : la moindre défense antiaérienne l'abat.
+# puis disparaît. Sur ordre, il plonge aussi sur un véhicule ou un navire
+# (dégâts sans destruction). Seul, il ne cible que l'infanterie, pour ne pas
+# se gaspiller sur un char. Presque aucun blindage : la moindre défense antiaérienne l'abat.
 AVISPA:
 	Inherits: ^ElielistanDrone
 	RenderSprites:
@@ -476,7 +478,7 @@ AVISPA:
 		BuildAtProductionType: Helicopter
 		BuildPaletteOrder: 30
 		Prerequisites: ~aircraft.elielistan, ~techlevel.medium
-		Description: Drone suicide. Fonce sur un fantassin et le tue d'un seul coup.\nUsage unique : le drone est détruit dans l'attaque.\nN'attaque que l'infanterie. Très fragile.\n  Fort contre : infanterie\n  Faible contre : défense antiaérienne, aviation
+		Description: Drone suicide. Fonce sur un fantassin et le tue d'un seul coup.\nUsage unique : le drone est détruit dans l'attaque.\nSur ordre, plonge aussi sur un véhicule ou un navire\n(dégâts, sans le détruire). Seul, il ne vise que l'infanterie.\nTrès fragile.\n  Fort contre : infanterie\n  Faible contre : défense antiaérienne, aviation, bâtiments
 	Valued:
 		Cost: 300
 	Tooltip:
@@ -497,6 +499,11 @@ AVISPA:
 		InitialStance: AttackAnything
 		InitialStanceAI: AttackAnything
 		ScanRadius: 6
+	# Ciblage automatique : infanterie seulement. Véhicules et navires sur ordre.
+	AutoTargetPriority@DEFAULT:
+		ValidTargets: Infantry
+	AutoTargetPriority@ATTACKANYTHING:
+		ValidTargets: Infantry
 	Aircraft:
 		CruiseAltitude: 1280
 		TurnSpeed: 24

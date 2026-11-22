@@ -1370,13 +1370,20 @@ SOMMAIRE
   Lore :
     Drone suicide piloté en vue subjective, le cauchemar des fantassins.
     Il fonce sur un soldat et le tue d'un seul coup, en se détruisant.
+    Sur ordre, il plonge aussi sur un véhicule ou un navire, sans le détruire.
     Minuscule et fragile : un seul tir antiaérien suffit à l'abattre.
   Statistiques :
     Coût 300 $ · PV 800 · Blindage léger · Vitesse 220 · Vision 6 cases
-    Arme : AvispaDive : 20 000 dégâts, portée 2,5 cases, recharge 2 s
+    Arme : AvispaDive : portée 2,5 cases, recharge 2 s
+      Infanterie : tuée d'un coup, quels que soient blindage, bonus et vétérance
+      Véhicules et navires : 5 000 (léger), 4 000 (lourd)
+      Bâtiments et aviation : hors d'atteinte
+    Ciblage automatique : infanterie seulement ; véhicules et navires sur ordre
     Prérequis : aucun · Niveau technologique : moyen
   Stratégie :
     Envoyez-les par deux ou trois sur l'infanterie ennemie, surtout les unités d'élite.
+    Contre un véhicule, il en faut plusieurs : à réserver pour achever un blindé
+    endommagé ou harceler un véhicule léger (environ 3 pour un Gavilán).
     Contournez la défense antiaérienne : ils n'y survivent pas.
 --------------------------------------------------------------------------------------------
 ■ B-2 SPIRIT
