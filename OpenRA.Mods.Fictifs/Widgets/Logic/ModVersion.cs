@@ -51,8 +51,13 @@ namespace OpenRA.Mods.Fictifs.Widgets.Logic
 		{
 			suffix ??= "+" + (ContentFingerprint(Root(modData)) ?? "local");
 
-			foreach (var metadata in new[] { modData.Manifest.Metadata, Game.Mods[modData.Manifest.Id].Metadata })
+			// Game.Mods n'existe pas sur un serveur dédié.
+			var installed = Game.Mods != null && Game.Mods.TryGetValue(modData.Manifest.Id, out var mod) ? mod.Metadata : null;
+			foreach (var metadata in new[] { modData.Manifest.Metadata, installed })
 			{
+				if (metadata == null)
+					continue;
+
 				var baseVersion = metadata.Version.Split('+')[0];
 				metadata.Version = baseVersion + suffix;
 			}

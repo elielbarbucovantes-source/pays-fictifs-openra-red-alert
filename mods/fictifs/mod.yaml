@@ -239,13 +239,14 @@ Hotkeys:
 	ra|hotkeys.yaml
 	fictifs|hotkeys.yaml
 
-LoadScreen: LogoStripeLoadScreen
+LoadScreen: FictifsLoadScreen
 	Image: ra|uibits/loadscreen.png
 	Image2x: ra|uibits/loadscreen-2x.png
 	Image3x: ra|uibits/loadscreen-3x.png
 	Text: Filling Crates..., Charging Capacitors..., Reticulating Splines..., Planting Trees..., Building Bridges..., Aging Empires..., Compiling EVA..., Constructing Pylons..., Activating Skynet..., Splitting Atoms...
 
 ServerTraits:
+	VersionFictifs
 	ReprisePartieServeur
 	LobbyCommands
 	PlayerPinger
