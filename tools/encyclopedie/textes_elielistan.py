@@ -124,10 +124,10 @@ Aucune défense antiaérienne : elle dépend de son escorte.""",
 Ses torpilles lourdes visent les grands bâtiments : porte-avions et croiseurs.
 La terreur des flottes lentes.""",
 "Chassez les gros navires ennemis en embuscade. Évitez les escorteurs et destroyers, qui le détectent."),
-"PORTA.AGUILA": ("Porte-avions Aguila", """Porte-avions amphibie, plus polyvalent que tout ce que l'ennemi aligne.
-Cinq Harpía à bord, et quinze fantassins ou cinq chars ou canons à débarquer.
-Frappe aérienne et projection terrestre au même endroit.""",
-"Approchez de la côte ennemie sous escorte, faites décoller les Harpía, puis collez-vous au rivage pour débarquer les troupes. La touche F fait les deux."),
+"PORTA.AGUILA": ("Porte-avions Aguila", """Porte-avions amphibie et base mobile, plus polyvalent que tout ce que l'ennemi aligne.
+Cinq avions à bord, quinze fantassins ou cinq chars à débarquer, trois canons Trueno à 20 cases, DCA, missiles mer-mer et canons mer-sol.
+Frappe aérienne, artillerie et projection terrestre au même endroit, et un chantier de construction qui flotte.""",
+"Approchez de la côte ennemie sous escorte, pilonnez-la aux Trueno, faites décoller les avions, puis collez-vous au rivage pour débarquer les troupes (touche F). Il bâtit dans un rayon de 8 cases et remplace votre centre technique ou votre dôme radar s'ils tombent. Toute unité à bord est réparée en 4 s."),
 "LOCOMOTIVE.ELI": ("Locomotive rapide", """Locomotive du train rapide : la plus rapide du jeu ; 2 wagons (10 véhicules ou 14 fantassins).
 Base, front, récupération, nouvelle position : tout en quelques secondes.
 Peu blindée.""",

@@ -30,7 +30,7 @@ Faction défensive au drapeau blanc et vert frappé d'une montagne. Ses unités 
 - **Véhicules et artillerie** : véhicule de reconnaissance, véhicule antiaérien, lance-missiles mobile, canon automoteur, artillerie lourde (18 cases), lance-roquettes multiple.
 - **Défenses** : tranchées, bunker à 5 places, casemate antichar, tourelle AA, SAM, artillerie côtière.
 - **Aviation** (base aérienne) : chasseur polyvalent (air-air, air-sol, antinavire ; seul à apponter sur le porte-avions), intercepteur, avion d'attaque au sol, avion de reconnaissance.
-- **Marine** (chantier naval rubénien) : escorteur (bouclier antiaérien du groupe), frégate lance-missiles, sous-marin, porte-avions (3 chasseurs polyvalents).
+- **Marine** (chantier naval rubénien) : escorteur (bouclier antiaérien du groupe), frégate lance-missiles, sous-marin, porte-avions (3 avions, bombe atomique miniature).
 - **Logistique** : le centre logistique, le QG, le chantier de construction, le véhicule logistique, le Ravitailleur (camion de troupes, 8 fantassins) et le Bastion roulant ravitaillent les unités terrestres proches. Ravitaillées, elles sont les plus fortes du jeu (+10 % de dégâts, −10 % de dégâts reçus, réparation lente hors combat) ; sans ravitaillement, un peu en dessous de la moyenne (−10 % de dégâts, +10 % de dégâts reçus). Le bonus dure encore 10 secondes après la sortie du rayon. Le véhicule logistique répare aussi vite, même au combat, les unités qui l'entourent.
 - **Bastion roulant** : la Battle Fortress à la rubénienne. Deux canons de 130 mm et des missiles qui ne tirent que si des fantassins sont à bord, ravitaillement embarqué (toujours ravitaillé lui-même, ravitaille les unités autour), réparation autonome.
 - **Tunnelier** : livré avec 10 chasseurs antichars, il roule sous terre à mi-vitesse, invisible sauf pour les détecteurs sismiques (Éclaireur, véhicule de reconnaissance, QG, dômes radar). À l'arrêt, il émerge : 3 secondes immobile et vulnérable.
@@ -57,7 +57,7 @@ Faction alliée d'un archipel, dont la puissance tient à l'aviation et à la ma
 - **Moustique** : drone kamikaze antichar, très fragile ; il en faut trois pour détruire un char léger.
 - **Cormoran** : hydravion bombardier d'eau. Il écope en survolant l'eau, puis pulvérise un brouillard (Ctrl + clic) : les ennemis perdent tout ce qu'ils avaient découvert dans la zone, qui redevient noire.
 
-- **Marine** : les navires alliés, plus le **L-0U15** (destroyer faible dont le sonar détecte les sous-marins à 18 cases), le **sous-marin ICBM** de la carte WW3 (missiles V3 à 24 cases) et le **Mothership**, navire-mère géant presque sans armes qui fait sortir de l'océan des îles de 8×8 cases (2 min 50, sans bouger). Un chantier de construction débarqué sur l'île peut y bâtir une base.
+- **Marine** : les navires alliés, plus le **L-0U15** (destroyer faible dont le sonar détecte les sous-marins à 18 cases), le **sous-marin ICBM** de la carte WW3 (missiles V3 à 24 cases) le porte-avions **Southern Cross** (nuées de missiles à tête chercheuse) et le **Mothership**, navire-mère géant presque sans armes qui fait sortir de l'océan des îles de 8×8 cases (2 min 50, sans bouger). Un chantier de construction débarqué sur l'île peut y bâtir une base.
 - **Chantier naval avancé** (centre technique, 2 000 $, 3 au maximum) : seul à produire le sous-marin ICBM et le Mothership.
 - **Centrale d'enrichissement** (centre technique, 2 500 $, 1 au maximum) : +5 % de revenus du minerai tant qu'elle est debout.
 - **Infanterie** : le jeu soviétique (fusilier, grenadier, lance-roquettes, lance-flammes, ingénieur, voleur), plus le **Révolutionnaire** : quand sa révolution est prête (5 minutes), toutes les unités et tous les bâtiments ennemis à 5 cases passent dans son camp.
@@ -74,7 +74,7 @@ Superpuissance technologique au drapeau vert citron, liseré de vert pomme et de
 - **Blindés et véhicules** : Vidra (char léger très rapide), Lunkra (char de combat principal), Karnvasha (char lourd à protection active : −35 % de dégâts des missiles et roquettes), Ratha (transport de 5 fantassins), Mukhar (lance-drones : 4 munitions rôdeuses gratuites), Agnar (missiles de croisière à 16 cases), Ambarkesh (défense antiaérienne mobile), Nayrath (poste de commandement mobile).
 - **Bâtiments** : Haut Commandement (pouvoirs), fabrique de drones, institut d'innovation (technologies avancées), base aérienne et chantier naval ananthaniens. Défenses : Kheshkarn (missiles antichars), Batterie Ambar (sol-air à 12 cases), Ruche (drones intercepteurs).
 - **Aviation** : Lunkravyn (chasseur furtif, invisible tant qu'il ne tire pas), Vidravyn (intercepteur), Agnivyn (bombardier à missiles de croisière), Ulkar (drone armé), Kheshar (hélicoptère d'attaque), Nayra-Ambar (avion radar : +20 % de portée aux avions alliés proches).
-- **Marine** : Vasha (patrouilleur lance-drones), Ambarkarn (frégate antiaérienne), Agnikhesh (destroyer lance-missiles), Ulmar (sous-marin d'attaque), Rathambar (navire amphibie).
+- **Marine** : Vasha (patrouilleur lance-drones), Ambarkarn (frégate antiaérienne), Agnikhesh (destroyer lance-missiles), Ulmar (sous-marin d'attaque), Rathambar (navire amphibie), porte-avions Ambarnath (missiles de type V2 à 26 cases).
 - **Unités expérimentales** (une de chaque au maximum) : Vidrakarn (canon électromagnétique qui transperce tout ce qui est aligné), Ananta (laser qui abat avions, drones et missiles en vol), Ambaroth (forteresse volante qui lâche des vagues de drones explosifs).
 - **Blitz 7** : une jauge d'offensive qui se remplit en 7 minutes, seulement hors combat, et plus vite avec des unités en réserve et des Nayrath. Déclenchée, elle donne 70 secondes de Blitz à toute l'armée (+30 % de vitesse, +25 % de cadence, +15 % de dégâts), puis 30 secondes de fatigue.
 - **Pouvoirs du Haut Commandement** : Essaim (12 drones kamikazes), Salve Agni (6 missiles de croisière), Raid furtif (3 bombardiers furtifs), Œil d'Ambar (reconnaissance), Pont aérien (2 chars Vidra, 4 Thal et 2 Khesh-Thal parachutés) et Pacte de Fraternité (pouvoir de coalition : pendant 45 secondes, +15 % de dégâts et réparation pour tes unités et celles de tes alliés dans la zone).
@@ -82,6 +82,27 @@ Superpuissance technologique au drapeau vert citron, liseré de vert pomme et de
 L'Ananthanie construit la base soviétique, avec ses propres bâtiments en plus.
 
 L'IA sait jouer l'Ananthanie : elle construit ses bâtiments et défenses, produit ses unités terrestres, aériennes et navales et ses unités expérimentales, et utilise Blitz 7 et les pouvoirs du Haut Commandement. Le Nayrath, le Nayra-Ambar, le Rathambar et l'Œil d'Ambar restent réservés aux joueurs humains.
+
+## Mécaniques communes
+
+### Porte-avions
+
+Chaque pays a son porte-avions : Porta Aguila (Elielistan), porte-avions rubénien, Ambarnath (Ananthanie) et Southern Cross (Australouis). Tous :
+
+- sont très bien armés : défense antiaérienne, missiles mer-mer et canons mer-sol ;
+- servent de **chantier de construction mobile** : files Bâtiments et Défenses, zone de construction de 8 cases de rayon (la moitié de celle d'un chantier de construction) ;
+- **remplacent le centre technique ou le dôme radar** du joueur quand celui-ci a été détruit (prérequis et minicarte), tant qu'un porte-avions est en vie ;
+- **réparent en 4 secondes**, quels que soient les dégâts, toute unité qui y entre : avions appontés (réarmés aussi) et unités en soute.
+
+Selon le pays : 3 canons Trueno à 20 cases (Elielistan) ; bombe atomique miniature, pouvoir avec chrono de 4 minutes, à 20 cases d'un porte-avions (Rubénie) ; missiles de type V2 à 26 cases (Ananthanie) ; nuées de 16 petits missiles à tête chercheuse contre les unités, à 26 cases (Australouis).
+
+### Virements entre alliés
+
+L'icône en haut à gauche (pièces et flèche) ouvre un petit panneau : choisir un allié, le montant, puis **Envoyer**. Une taxe de 5 % est prélevée : pour 1000 $ envoyés, l'allié reçoit 950 $.
+
+### Files de production
+
+Option de partie **Files de production** : *Normale* (une file par type, comme Red Alert) ou *Multi-file* (chaque usine a sa propre file, comme Combined Arms). En multi-file, chaque chantier de construction et chaque porte-avions a aussi ses propres files Bâtiments et Défenses : plusieurs bâtiments se construisent en parallèle.
 
 ## Installation
 

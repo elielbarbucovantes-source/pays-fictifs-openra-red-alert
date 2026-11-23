@@ -323,6 +323,9 @@ SPEN:
 # 10 ordres prioritaires par quinquennat ; un quinquennat = 15 minutes.
 # ---------------------------------------------------------------------
 Player:
+	# Virements entre alliés, taxe de 5 % (Traits/Player/Virements.cs, icône en haut à gauche).
+	Virements:
+		TaxPercent: 5
 	SuiviOrdres:
 	RepriseIA:
 	PresidentialMandate:
@@ -426,12 +429,12 @@ MH60:
 # porte-avions (Porta Aguila, porte-avions rubénien).
 MIG:
 	Rearmable:
-		RearmActors: afld, afld.ukraine, porta.aguila, porte.avions.rub
+		RearmActors: afld, afld.ukraine, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 	CarrierAircraft:
 
 YAK:
 	Rearmable:
-		RearmActors: afld, afld.ukraine, porta.aguila, porte.avions.rub
+		RearmActors: afld, afld.ukraine, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 	CarrierAircraft:
 
 # ^Helicopter hérite de ^Plane : les hélicoptères n'ont pas l'anti-drone.

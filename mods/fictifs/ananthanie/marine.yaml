@@ -193,3 +193,55 @@ RATHAMBAR:
 		LocalOffset: 300,0,200
 	AttackFrontal:
 		FacingTolerance: 512
+
+# ---------------------------------------------------------------------
+# Ambarnath : porte-avions ananthanien (règles communes et armes :
+# common/porte-avions.yaml). 5 avions à bord, soute de 15 places,
+# missiles de type V2 à 26 cases. Sprite : celui du porte-avions rubénien,
+# en attendant un modèle propre.
+# ---------------------------------------------------------------------
+PORTE.AVIONS.ANA:
+	Inherits: ^Ship
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@CARGOPIPS: ^CargoPips
+	RenderSprites:
+		Image: porte.avions.ana
+	Buildable:
+		Queue: Ship
+		BuildAtProductionType: Boat
+		BuildPaletteOrder: 40
+		Prerequisites: ~ships.ananthanie, institut, ~techlevel.high
+		Description: Porte-avions et base mobile. 5 avions à bord\n(Lunkravyn, Vidravyn, Agnivyn, Ulkar, Kheshar et avions alliés ;\nclic droit d'un avion dessus pour l'apponter).\nSoute de 15 places (fantassin ou véhicule : 1 place).\nDéploiement (F) : décollage des avions prêts,\net débarquement des troupes s'il touche la côte.\nArmement : défense antiaérienne, missiles mer-mer, canons mer-sol\net missiles de type V2 à 26 cases.\nChantier de construction mobile (rayon de 8 cases).\nRemplace l'institut d'innovation ou le dôme radar détruit.\nRépare et réarme en 4 s toute unité à bord.\n  Faible contre : sous-marins\n  Requiert : institut d'innovation
+	Selectable:
+		Class: porte.avions.ana
+		Bounds: 2560, 2560
+		DecorationBounds: 3072, 3072
+	Valued:
+		Cost: 3250
+	Tooltip:
+		Name: Porte-avions Ambarnath
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 90000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 60
+		TurnSpeed: 8
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 9c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+	AircraftCarrier:
+		MaxAircraft: 5
+	Cargo:
+		Types: Infantry, Vehicle, Char
+		MaxWeight: 15
+		EjectOnDeath: false
+		BeforeUnloadDelay: 4
+		AfterUnloadDelay: 8
+	WithCargoPipsDecoration:
+		PipCount: 15

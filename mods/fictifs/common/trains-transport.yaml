@@ -41,6 +41,10 @@ PORTE.AVIONS.RUB:
 	-Passenger:
 PORTE.DRONE:
 	-Passenger:
+PORTE.AVIONS.ANA:
+	-Passenger:
+PORTE.AVIONS.AUS:
+	-Passenger:
 MOTHERSHIP:
 	-Passenger:
 AGNIKHESH:

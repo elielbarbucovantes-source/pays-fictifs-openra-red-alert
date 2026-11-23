@@ -71,7 +71,7 @@ CHASSEUR.POLY:
 		Ammo: 4
 		AmmoCondition: ammo-aa
 	Rearmable:
-		RearmActors: base.aerienne, porta.aguila, porte.avions.rub
+		RearmActors: base.aerienne, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 		AmmoPools: ag, aa
 	WithAmmoPipsDecoration:
 		AmmoPools: ag, aa
@@ -112,7 +112,7 @@ INTERCEPTEUR:
 	AutoTargetPriority@ATTACKANYTHING:
 		ValidTargets: AirborneActor
 	Rearmable:
-		RearmActors: base.aerienne, porta.aguila, porte.avions.rub
+		RearmActors: base.aerienne, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 	CarrierAircraft:
 	SpawnActorOnDeath:
 		Actor: INTERCEPTEUR.Husk
@@ -143,7 +143,7 @@ AVION.ATTAQUE:
 	Aircraft:
 		Speed: 170
 	Rearmable:
-		RearmActors: base.aerienne, porta.aguila, porte.avions.rub
+		RearmActors: base.aerienne, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 	CarrierAircraft:
 	SpawnActorOnDeath:
 		Actor: AVION.ATTAQUE.Husk
@@ -190,7 +190,7 @@ AVION.RECO:
 		RepulsionSpeed: 40
 		MaximumPitch: 56
 	Rearmable:
-		RearmActors: base.aerienne, porta.aguila, porte.avions.rub
+		RearmActors: base.aerienne, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 	Contrail@1:
 		Offset: -432,560,0
 		StartColorAlpha: 128

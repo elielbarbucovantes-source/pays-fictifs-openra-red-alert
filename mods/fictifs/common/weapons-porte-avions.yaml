@@ -1,0 +1,154 @@
+# =====================================================================
+# Armes des porte-avions (règles : common/porte-avions.yaml).
+# Tous : défense antiaérienne, missiles mer-mer, canons mer-sol.
+# En plus, selon le pays :
+#   Elielistan  : 3 canons Trueno à longue portée (20 cases) ;
+#   Ananthanie  : missiles de type V2 encore plus loin (26 cases) ;
+#   Australouis : nuées de petits missiles à tête chercheuse contre les
+#                 unités, dans le même rayon que l'Ananthanie (26 cases) ;
+#   Rubénie     : bombe atomique miniature (pouvoir avec chrono, 20 cases).
+# =====================================================================
+
+# Défense antiaérienne : salves de 4 missiles.
+PorteAvionsAA:
+	Inherits: StingerAA
+	Range: 10c0
+	ReloadDelay: 40
+	Burst: 4
+	BurstDelays: 6
+	Projectile: Missile
+		RangeLimit: 12c0
+
+# Missiles mer-mer : contre les navires de surface (pas les sous-marins).
+PorteAvionsMerMer:
+	Inherits: Stinger
+	Range: 10c0
+	ReloadDelay: 70
+	Burst: 2
+	BurstDelays: 10
+	ValidTargets: WaterActor
+	InvalidTargets: Underwater
+	Projectile: Missile
+		RangeLimit: 12c0
+		Speed: 240
+		Image: DRAGON
+	Warhead@1Dam: SpreadDamage
+		Damage: 7500
+		Versus:
+			None: 40
+			Wood: 80
+			Light: 100
+			Heavy: 100
+			Concrete: 60
+
+# Canons mer-sol : contre les unités et bâtiments à terre.
+PorteAvionsMerSol:
+	Inherits: 8Inch
+	Range: 12c0
+	MinRange: 2c0
+	ReloadDelay: 120
+	Burst: 2
+	ValidTargets: Ground, GroundActor
+	Warhead@1Dam: SpreadDamage
+		Damage: 6000
+		Versus:
+			None: 70
+			Wood: 60
+			Light: 70
+			Heavy: 45
+			Concrete: 90
+
+# Elielistan : un canon Trueno (le porte-avions en a 3), portée 20 cases au lieu de 14.
+PorteAvionsTrueno:
+	Inherits: TruenoShell
+	Range: 20c0
+	MinRange: 4c0
+	ReloadDelay: 110
+	Burst: 1
+	-BurstDelays:
+
+# Ananthanie : missiles de type V2, portée 26 cases (plus que les Trueno).
+PorteAvionsV2:
+	Inherits: SCUD
+	Range: 26c0
+	MinRange: 5c0
+	ReloadDelay: 200
+	Burst: 2
+	BurstDelays: 20
+	Projectile: Bullet
+		Speed: 220
+		Inaccuracy: 384
+		LaunchAngle: 100
+	Warhead@1Dam: SpreadDamage
+		Damage: 6000
+
+# Australouis : nuée de 16 petits missiles à tête chercheuse, contre les
+# unités seulement (pas les bâtiments), dans un rayon de 26 cases.
+PorteAvionsEssaim:
+	Inherits: ^AntiGroundMissile
+	Range: 26c0
+	MinRange: 1c0
+	ReloadDelay: 375
+	Burst: 16
+	BurstDelays: 3
+	Report: missile6.aud
+	ValidTargets: GroundActor, WaterActor, AirborneActor
+	InvalidTargets: Structure, Underwater, Husk
+	Projectile: Missile
+		Speed: 300
+		Arm: 3
+		Inaccuracy: 0
+		HorizontalRateOfTurn: 120
+		VerticalRateOfTurn: 120
+		RangeLimit: 30c0
+		CloseEnough: 256
+		Image: DRAGON
+		ContrailLength: 6
+	Warhead@1Dam: SpreadDamage
+		Spread: 128
+		Damage: 1500
+		ValidTargets: GroundActor, WaterActor, AirborneActor
+		Versus:
+			None: 80
+			Wood: 20
+			Light: 100
+			Heavy: 70
+			Concrete: 15
+
+# Rubénie : bombe atomique miniature (pouvoir du porte-avions rubénien).
+# Petite boule de feu : 2 cases de rayon, presque rien au-delà.
+PorteAvionsMiniNuke:
+	Range: 20c0
+	ValidTargets: Ground, Water, GroundActor, WaterActor, Underwater, Trees
+	Report: missile1.aud
+	Projectile: Bullet
+		Speed: 300
+		Blockable: false
+		LaunchAngle: 160
+		Inaccuracy: 0
+		Image: V2
+		Shadow: True
+		TrailImage: smokey
+		TrailDelay: 3
+	Warhead@1Dam: SpreadDamage
+		Spread: 1c0
+		Damage: 40000
+		Falloff: 100, 60, 25, 0
+		ValidTargets: GroundActor, WaterActor, Underwater, AirborneActor, Trees
+		Versus:
+			Wood: 60
+			Concrete: 40
+		DamageTypes: Prone50Percent, TriggerProne, FireDeath, Incendiary
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Scorch
+		ValidTargets: Ground, Infantry
+		Size: 2
+	Warhead@3Eff: CreateEffect
+		Explosions: nuke3
+		ImpactSounds: kaboom1.aud
+		ImpactActors: false
+		ValidTargets: Ground, Water, Air
+	Warhead@4Shake: ShakeScreen
+		Duration: 15
+		Intensity: 4
+		Multiplier: 1,1

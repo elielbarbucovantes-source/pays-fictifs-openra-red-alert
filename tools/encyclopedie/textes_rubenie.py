@@ -142,9 +142,9 @@ Ses torpilles lourdes frappent les navires en embuscade.
 La menace invisible des routes maritimes.""",
 "Embusquez-le sur le trajet des porte-avions ennemis. Évitez les escorteurs."),
 "PORTE.AVIONS.RUB": ("Porte-avions rubénien", """Base aérienne mobile, plus résistante que son équivalent elielistanais.
-Trois chasseurs polyvalents au maximum, réarmés à bord.
-Défense antiaérienne rapprochée, mais aucune arme contre les sous-marins.""",
-"Faites-le escorter par des escorteurs et utilisez ses chasseurs pour couvrir vos côtes et votre flotte."),
+Trois avions au maximum, réarmés et réparés à bord en 4 s ; DCA, missiles mer-mer et canons mer-sol.
+Dans ses soutes, une bombe atomique miniature : quand le chrono arrive à zéro, elle part sur n'importe quelle cible à 20 cases.""",
+"Approchez-le d'une côte pour mettre la base ennemie à portée de la bombe : la cible doit être à 20 cases au plus d'un porte-avions rubénien (cercles affichés pendant la visée). Il bâtit dans un rayon de 8 cases et remplace votre centre technique ou votre dôme radar s'ils tombent. Escortez-le : il n'a rien contre les sous-marins."),
 "BASTION": ("Bastion roulant", """Forteresse roulante : deux canons de 130 mm et un lanceur de missiles.
 Ses armes ne tirent que si des fantassins sont à bord ; il est livré avec quatre hommes.
 Il ravitaille les unités autour de lui et n'est jamais isolé.""",

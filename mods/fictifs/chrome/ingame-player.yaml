@@ -15,7 +15,7 @@ Container@PLAYER_WIDGETS:
 		Container@SUPPORT_POWERS:
 			Logic: SupportPowerBinLogic
 			X: 10
-			Y: 10
+			Y: 56
 			Children:
 				SupportPowers@SUPPORT_PALETTE:
 					IconSize: 62, 46
@@ -40,6 +40,131 @@ Container@PLAYER_WIDGETS:
 			X: 80
 			Y: 10
 			Order: Descending
+		# Virements entre alliés (VirementLogic, Traits/Player/Virements.cs) : icône en
+		# haut à gauche, au-dessus des pouvoirs spéciaux ; elle ouvre un petit panneau.
+		Container@VIREMENT:
+			Logic: VirementLogic
+			X: 10
+			Y: 10
+			# Assez grand pour contenir le panneau ouvert (un widget ne reçoit
+			# les clics que dans le cadre de son parent) ; laisse passer les clics.
+			Width: 360
+			Height: 480
+			Children:
+				Button@VIREMENT_BOUTON:
+					Width: 40
+					Height: 40
+					TooltipText: Virement (taxe 5 %)
+					TooltipContainer: TOOLTIP_CONTAINER
+					TooltipTemplate: BUTTON_WITH_DESC_HIGHLIGHT_TOOLTIP
+					Children:
+						Image@ICONE:
+							X: 8
+							Y: 8
+							Width: 24
+							Height: 24
+							ImageCollection: virement
+							ImageName: virement
+				Background@VIREMENT_PANNEAU:
+					X: 70
+					Y: 0
+					Width: 270
+					Height: 240
+					Background: dialog
+					Children:
+						Label@TITRE:
+							X: 10
+							Y: 6
+							Width: 250
+							Height: 20
+							Font: Bold
+							Text: Virement à un allié (taxe 5 %)
+						Label@MONTANT_LABEL:
+							X: 10
+							Y: 32
+							Width: 70
+							Height: 25
+							Text: Montant :
+						TextField@MONTANT:
+							X: 80
+							Y: 32
+							Width: 180
+							Height: 25
+							Type: Integer
+							MaxLength: 7
+						Button@PLUS_100:
+							X: 10
+							Y: 62
+							Width: 46
+							Height: 22
+							Font: TinyBold
+							Text: +100
+						Button@PLUS_500:
+							X: 60
+							Y: 62
+							Width: 46
+							Height: 22
+							Font: TinyBold
+							Text: +500
+						Button@PLUS_1000:
+							X: 110
+							Y: 62
+							Width: 50
+							Height: 22
+							Font: TinyBold
+							Text: +1000
+						Button@TOUT:
+							X: 164
+							Y: 62
+							Width: 46
+							Height: 22
+							Font: TinyBold
+							Text: Tout
+						Button@ZERO:
+							X: 214
+							Y: 62
+							Width: 46
+							Height: 22
+							Font: TinyBold
+							Text: 0
+						Label@DESTINATAIRE_LABEL:
+							X: 10
+							Y: 90
+							Width: 250
+							Height: 20
+							Text: Destinataire :
+						Container@JOUEURS:
+							X: 10
+							Y: 112
+							Width: 250
+							Height: 25
+							Children:
+								Button@JOUEUR_MODELE:
+									Width: 250
+									Height: 25
+									Font: Bold
+						Container@BAS:
+							X: 10
+							Y: 143
+							Width: 250
+							Height: 60
+							Children:
+								Label@RECU:
+									Width: 250
+									Height: 20
+									Font: Small
+								Button@ENVOYER:
+									Y: 26
+									Width: 150
+									Height: 26
+									Font: Bold
+									Text: Envoyer
+								Button@FERMER:
+									X: 160
+									Y: 26
+									Width: 90
+									Height: 26
+									Text: Fermer
 		Image@COMMAND_BAR_BACKGROUND:
 			X: 5
 			Y: WINDOW_BOTTOM - HEIGHT - 5

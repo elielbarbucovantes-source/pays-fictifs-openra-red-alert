@@ -65,7 +65,7 @@ ALBATROS:
 		Ammo: 4
 		AmmoCondition: ammo-aa
 	Rearmable:
-		RearmActors: base.aeronavale, porta.aguila, porte.avions.rub
+		RearmActors: base.aeronavale, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 		AmmoPools: ag, aa
 	WithAmmoPipsDecoration:
 		AmmoPools: ag, aa
@@ -146,7 +146,7 @@ WARTHOG:
 		Margin: 4, 3
 		RequiresSelection: true
 	Rearmable:
-		RearmActors: base.aeronavale, porta.aguila, porte.avions.rub
+		RearmActors: base.aeronavale, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 		AmmoPools: primary, secondary
 	Contrail@1:
 		Offset: -258,-823,0

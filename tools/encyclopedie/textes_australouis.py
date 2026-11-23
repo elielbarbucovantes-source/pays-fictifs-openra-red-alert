@@ -36,6 +36,10 @@ Là où il jette l'ancre, l'Australouis peut bâtir une nouvelle base.""",
 Sans arme et peu blindé, il fabrique lui-même, gratuitement, six drones à la fois, sans base ni munitions.
 Le lot suivant ne sort des ateliers que 20 secondes après la chute du sixième drone : tant qu'un seul vole encore, rien ne se régénère.""",
 "Clic droit sur un véhicule ou un navire ennemi : un drone part (cliquez plusieurs cibles pour répartir l'essaim). Réfléchissez avant de sacrifier le dernier drone : vous restez 20 s sans défense. Plusieurs Porte-Drones ont chacun leur propre cycle."),
+"PORTE.AVIONS.AUS": ("Porte-avions Southern Cross", """Le vrai porte-avions de l'archipel : cinq avions, quinze places en soute.
+Il lâche des nuées de seize petits missiles à tête chercheuse sur les unités ennemies à 26 cases, sans gaspiller une salve sur un bâtiment.
+DCA, missiles mer-mer et canons mer-sol ; chantier de construction flottant.""",
+"Gardez-le derrière la flotte : ses nuées vident les colonnes de chars et les escadrilles. Il bâtit dans un rayon de 8 cases et remplace votre centre technique ou votre dôme radar s'ils tombent. Toute unité à bord est réparée en 4 s."),
 "L0U15": ("L-0U15", """Destroyer léger, mal armé et peu blindé.
 Son sonar est le meilleur de toutes les mers : aucun sous-marin ne lui échappe à 18 cases.
 Il ne gagne pas les combats : il dit à la flotte où tirer.""",

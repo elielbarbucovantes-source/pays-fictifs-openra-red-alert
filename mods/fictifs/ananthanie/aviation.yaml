@@ -88,7 +88,7 @@ LUNKRAVYN:
 		Ammo: 4
 		AmmoCondition: ammo-aa
 	Rearmable:
-		RearmActors: base.ananthanie
+		RearmActors: base.ananthanie, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 		AmmoPools: ag, aa
 	WithAmmoPipsDecoration:
 		AmmoPools: ag, aa
@@ -101,6 +101,7 @@ LUNKRAVYN:
 		UncloakOn: Attack, Dock
 	SpawnActorOnDeath:
 		Actor: LUNKRAVYN.Husk
+	CarrierAircraft:
 
 # Vidravyn : intercepteur bon marché, pour la supériorité aérienne en nombre.
 VIDRAVYN:
@@ -135,9 +136,10 @@ VIDRAVYN:
 	AutoTargetPriority@ATTACKANYTHING:
 		ValidTargets: AirborneActor
 	Rearmable:
-		RearmActors: base.ananthanie
+		RearmActors: base.ananthanie, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 	SpawnActorOnDeath:
 		Actor: VIDRAVYN.Husk
+	CarrierAircraft:
 
 # Agnivyn : bombardier d'attaque, missiles tirés hors de portée des défenses.
 AGNIVYN:
@@ -165,9 +167,10 @@ AGNIVYN:
 	AmmoPool:
 		Ammo: 4
 	Rearmable:
-		RearmActors: base.ananthanie
+		RearmActors: base.ananthanie, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 	SpawnActorOnDeath:
 		Actor: AGNIVYN.Husk
+	CarrierAircraft:
 
 # Ulkar : drone armé longue endurance (famille Reaper). Peu cher, en nombre.
 ULKAR:
@@ -206,11 +209,12 @@ ULKAR:
 	AmmoPool:
 		Ammo: 6
 	Rearmable:
-		RearmActors: base.ananthanie
+		RearmActors: base.ananthanie, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 	-Contrail@1:
 	-Contrail@2:
 	SpawnActorOnDeath:
 		Actor: ULKAR.Husk
+	CarrierAircraft:
 
 # Kheshar : hélicoptère d'attaque, canon et missiles antichars.
 KHESHAR:
@@ -248,7 +252,7 @@ KHESHAR:
 	WithAmmoPipsDecoration:
 		AmmoPools: primary, atgm
 	Rearmable:
-		RearmActors: base.ananthanie
+		RearmActors: base.ananthanie, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 		AmmoPools: primary, atgm
 	Aircraft:
 		Speed: 135
@@ -257,6 +261,7 @@ KHESHAR:
 		InitialStanceAI: AttackAnything
 	SpawnActorOnDeath:
 		Actor: KHESHAR.Husk
+	CarrierAircraft:
 
 # Nayra-Ambar : avion radar. Révèle une très grande zone, détecte les furtifs,
 # et donne +20 % de portée aux avions ananthaniens (et alliés) à 10 cases.

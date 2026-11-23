@@ -1834,17 +1834,22 @@ SOMMAIRE
 ■ PORTE-AVIONS AGUILA
   Pays : Elielistan
   Lore :
-    Porte-avions amphibie, plus polyvalent que tout ce que l'ennemi aligne.
-    Cinq Harpía à bord, et quinze fantassins ou cinq chars ou canons à débarquer.
-    Frappe aérienne et projection terrestre au même endroit.
+    Porte-avions amphibie et base mobile, plus polyvalent que tout ce que l'ennemi aligne.
+    Cinq avions à bord, quinze fantassins ou cinq chars à débarquer, trois canons Trueno à 20 cases, DCA, missiles mer-mer et canons mer-sol.
+    Frappe aérienne, artillerie et projection terrestre au même endroit, et un chantier de construction qui flotte.
   Statistiques :
     Coût 3 000 $ · PV 80 000 · Blindage lourd · Vitesse 64 · Vision 9 cases
-    Arme : PortaAguilaAA : 1 650 dégâts, rafale de 2, portée 6 cases, recharge 2,4 s
+    Arme : PorteAvionsAA : 1 650 dégâts, rafale de 4, portée 10 cases, recharge 1,6 s
+    Arme : PorteAvionsMerMer : 7 500 dégâts, rafale de 2, portée 10 cases, recharge 2,8 s
+    Arme : PorteAvionsMerSol : 6 000 dégâts, rafale de 2, portée 12 cases, recharge 4,8 s
+    Arme : PorteAvionsTrueno : 23 000 dégâts, portée 20 cases, recharge 4,4 s
     Transport 15 places
     Prérequis : Centre technique allié · Niveau technologique : élevé
   Stratégie :
-    Approchez de la côte ennemie sous escorte, faites décoller les Harpía, puis collez-vous
-    au rivage pour débarquer les troupes. La touche F fait les deux.
+    Approchez de la côte ennemie sous escorte, pilonnez-la aux Trueno, faites décoller les
+    avions, puis collez-vous au rivage pour débarquer les troupes (touche F). Il bâtit dans
+    un rayon de 8 cases et remplace votre centre technique ou votre dôme radar s'ils
+    tombent. Toute unité à bord est réparée en 4 s.
 --------------------------------------------------------------------------------------------
 ■ TIBURÓN
   Pays : Elielistan
@@ -1927,15 +1932,20 @@ SOMMAIRE
   Pays : Rubénie
   Lore :
     Base aérienne mobile, plus résistante que son équivalent elielistanais.
-    Trois chasseurs polyvalents au maximum, réarmés à bord.
-    Défense antiaérienne rapprochée, mais aucune arme contre les sous-marins.
+    Trois avions au maximum, réarmés et réparés à bord en 4 s ; DCA, missiles mer-mer et canons mer-sol.
+    Dans ses soutes, une bombe atomique miniature : quand le chrono arrive à zéro, elle part sur n'importe quelle cible à 20 cases.
   Statistiques :
     Coût 2 500 $ · PV 90 000 · Blindage lourd · Vitesse 56 · Vision 9 cases
-    Arme : RubPorteAvionsAA : 1 650 dégâts, rafale de 2, portée 6 cases, recharge 2,4 s
+    Arme : PorteAvionsAA : 1 650 dégâts, rafale de 4, portée 10 cases, recharge 1,6 s
+    Arme : PorteAvionsMerMer : 7 500 dégâts, rafale de 2, portée 10 cases, recharge 2,8 s
+    Arme : PorteAvionsMerSol : 6 000 dégâts, rafale de 2, portée 12 cases, recharge 4,8 s
     Prérequis : Centre technique soviétique · Niveau technologique : élevé
+    Pouvoir de soutien : Bombe atomique miniature (recharge 4 min)
   Stratégie :
-    Faites-le escorter par des escorteurs et utilisez ses chasseurs pour couvrir vos côtes
-    et votre flotte.
+    Approchez-le d'une côte pour mettre la base ennemie à portée de la bombe : la cible doit
+    être à 20 cases au plus d'un porte-avions rubénien (cercles affichés pendant la visée).
+    Il bâtit dans un rayon de 8 cases et remplace votre centre technique ou votre dôme radar
+    s'ils tombent. Escortez-le : il n'a rien contre les sous-marins.
 --------------------------------------------------------------------------------------------
 ■ SOUS-MARIN
   Pays : Rubénie
@@ -1984,6 +1994,25 @@ SOMMAIRE
   Stratégie :
     Escortez-le jusqu'à un point stratégique, déployez-le (F) et ne le bougez plus jusqu'à
     la fin. Amenez ensuite un chantier de construction avec un transport.
+--------------------------------------------------------------------------------------------
+■ PORTE-AVIONS SOUTHERN CROSS
+  Pays : Australouis
+  Lore :
+    Le vrai porte-avions de l'archipel : cinq avions, quinze places en soute.
+    Il lâche des nuées de seize petits missiles à tête chercheuse sur les unités ennemies à 26 cases, sans gaspiller une salve sur un bâtiment.
+    DCA, missiles mer-mer et canons mer-sol ; chantier de construction flottant.
+  Statistiques :
+    Coût 3 250 $ · PV 85 000 · Blindage lourd · Vitesse 64 · Vision 9 cases
+    Arme : PorteAvionsAA : 1 650 dégâts, rafale de 4, portée 10 cases, recharge 1,6 s
+    Arme : PorteAvionsMerMer : 7 500 dégâts, rafale de 2, portée 10 cases, recharge 2,8 s
+    Arme : PorteAvionsMerSol : 6 000 dégâts, rafale de 2, portée 12 cases, recharge 4,8 s
+    Arme : PorteAvionsEssaim : 1 500 dégâts, rafale de 16, portée 26 cases, recharge 15 s
+    Transport 15 places
+    Prérequis : Centre technique allié · Niveau technologique : élevé
+  Stratégie :
+    Gardez-le derrière la flotte : ses nuées vident les colonnes de chars et les
+    escadrilles. Il bâtit dans un rayon de 8 cases et remplace votre centre technique ou
+    votre dôme radar s'ils tombent. Toute unité à bord est réparée en 4 s.
 --------------------------------------------------------------------------------------------
 ■ PORTE-DRONE
   Pays : Australouis
@@ -2048,6 +2077,25 @@ SOMMAIRE
   Stratégie :
     Toujours une Ambarkarn par groupe naval : elle protège l'Agnikhesh des avions et repère
     les sous-marins.
+--------------------------------------------------------------------------------------------
+■ PORTE-AVIONS AMBARNATH
+  Pays : Ananthanie
+  Lore :
+    Porte-avions de la puissance maritime : cinq avions, quinze places en soute.
+    Ses missiles de type V2 frappent à 26 cases, plus loin que les Trueno de l'Aguila ; DCA, missiles mer-mer et canons mer-sol en plus.
+    Un chantier de construction qui flotte, capable de remplacer l'institut d'innovation ou le dôme radar perdus.
+  Statistiques :
+    Coût 3 250 $ · PV 90 000 · Blindage lourd · Vitesse 60 · Vision 9 cases
+    Arme : PorteAvionsAA : 1 650 dégâts, rafale de 4, portée 10 cases, recharge 1,6 s
+    Arme : PorteAvionsMerMer : 7 500 dégâts, rafale de 2, portée 10 cases, recharge 2,8 s
+    Arme : PorteAvionsMerSol : 6 000 dégâts, rafale de 2, portée 12 cases, recharge 4,8 s
+    Arme : PorteAvionsV2 : 6 000 dégâts, rafale de 2, portée 26 cases, recharge 8 s
+    Transport 15 places
+    Prérequis : Institut d'innovation · Niveau technologique : élevé
+  Stratégie :
+    Restez au large et écrasez les défenses côtières aux V2, guidé par le Nayra-Ambar.
+    Construisez une tête de pont dans un rayon de 8 cases du navire. Toute unité à bord est
+    réparée en 4 s.
 --------------------------------------------------------------------------------------------
 ■ RATHAMBAR
   Pays : Ananthanie

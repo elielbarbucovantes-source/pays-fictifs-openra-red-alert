@@ -1,0 +1,243 @@
+# =====================================================================
+# PORTE-AVIONS — ce que les 4 porte-avions ont en commun, plus les armes
+# propres à chaque pays (armes : common/weapons-porte-avions.yaml).
+#
+#   - Très bien armés : défense antiaérienne, missiles mer-mer, canons
+#     mer-sol.
+#   - Chantier de construction mobile : files Bâtiments et Défenses,
+#     zone de construction autour du navire, rayon de 8 cases (la moitié
+#     des 16 cases d'un chantier de construction, MCV déployé).
+#   - Remplacent le centre technique et le dôme radar du joueur quand
+#     ceux-ci ont été détruits (RemplaceBatimentPerdu.cs) : prérequis et
+#     radar reviennent tant qu'un porte-avions est en vie.
+#   - Réparation en 4 secondes (100 ticks) de toute unité qui y entre,
+#     quels que soient ses dégâts : avions apponté (réarmés aussi) et
+#     unités en soute.
+#
+#   Elielistan  (Porta Aguila)       : 3 canons Trueno à 20 cases.
+#   Rubénie     (porte-avions rub.)  : bombe atomique miniature, pouvoir
+#                                      avec chrono de 4 min, à 20 cases.
+#   Ananthanie  (Ambarnath)          : missiles de type V2 à 26 cases.
+#   Australouis (Southern Cross)     : nuées de 16 missiles à tête
+#                                      chercheuse contre les unités, 26 cases.
+# =====================================================================
+
+Player:
+	MemoireBatiments:
+
+^PorteAvions:
+	# --- Armement commun (le pays ajoute son arme « special ») ---
+	Armament:
+		Name: primary
+		Weapon: PorteAvionsAA
+		LocalOffset: 0,-300,200, 0,300,200
+	Armament@MERMER:
+		Name: secondary
+		Weapon: PorteAvionsMerMer
+		LocalOffset: 500,-200,200, 500,200,200
+	Armament@MERSOL:
+		Name: tertiary
+		Weapon: PorteAvionsMerSol
+		LocalOffset: 700,0,250
+	AttackFrontal:
+		FacingTolerance: 512
+		TargetFrozenActors: True
+		Armaments: primary, secondary, tertiary, special
+	# --- Chantier de construction mobile ---
+	Production@CHANTIER:
+		Produces: Building, Defense
+	BaseProvider:
+		Range: 8c0
+	GivesBuildableArea:
+		AreaTypes: building
+	WithRangeCircle@CONSTRUCTION:
+		Type: ConstructionPorteAvions
+		Range: 8c0
+		Color: FFD70060
+		Visible: WhenSelected
+	MultiModeProductionQueue@Building:
+		Type: Building
+		DisplayOrder: 0
+		LowPowerModifier: 300
+		ReadyAudio: ConstructionComplete
+		ReadyTextNotification: Construction complete.
+		BlockedAudio: NoBuild
+		BlockedTextNotification: Unable to build more.
+		LimitedAudio: BuildingInProgress
+		LimitedTextNotification: Unable to comply. Building in progress.
+		QueuedAudio: Building
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	MultiModeProductionQueue@Defense:
+		Type: Defense
+		DisplayOrder: 1
+		LowPowerModifier: 300
+		ReadyAudio: ConstructionComplete
+		ReadyTextNotification: Construction complete.
+		BlockedAudio: NoBuild
+		BlockedTextNotification: Unable to build more.
+		LimitedAudio: BuildingInProgress
+		LimitedTextNotification: Unable to comply. Building in progress.
+		QueuedAudio: Building
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ModeProductionBar@Building:
+		ProductionType: Building
+	ModeProductionBar@Defense:
+		ProductionType: Defense
+		Color: 8A8A8A
+	# --- Remplace le dôme radar détruit ---
+	GrantConditionOnBuildingLost@RADAR:
+		Types: dome
+		Condition: remplace-radar
+	ProvidesPrerequisite@RADAR:
+		Prerequisite: dome
+		RequiresCondition: remplace-radar
+	ProvidesRadar:
+		RequiresCondition: remplace-radar
+	# --- Réparation et réarmement en 4 secondes ---
+	AircraftCarrier:
+		Types: harpia, pelicano, chasseur.poly, intercepteur, avion.attaque, avion.reco, albatros, warthog, mig, yak, lunkravyn, vidravyn, agnivyn, ulkar, kheshar
+		RearmDelay: 100
+		PassengerRepairInterval: 5
+	Reservable:
+	WithCarrierPipsDecoration:
+		Position: BottomRight
+		Margin: 4, 3
+		RequiresSelection: true
+
+# Remplacement du centre technique allié (Elielistan, Australouis).
+^PorteAvionsTechAlliee:
+	GrantConditionOnBuildingLost@TECH:
+		Types: atek
+		Condition: remplace-tech
+	ProvidesPrerequisite@TECH:
+		Prerequisite: atek
+		RequiresCondition: remplace-tech
+	ProvidesPrerequisite@TECHCENTER:
+		Prerequisite: techcenter
+		RequiresCondition: remplace-tech
+
+# ---------------------------------------------------------------------
+# Elielistan : Porta Aguila — 3 canons Trueno à longue portée.
+# ---------------------------------------------------------------------
+PORTA.AGUILA:
+	Inherits@PA: ^PorteAvions
+	Inherits@PATECH: ^PorteAvionsTechAlliee
+	Armament:
+		Weapon: PorteAvionsAA
+	Armament@TRUENO1:
+		Name: special
+		Weapon: PorteAvionsTrueno
+		LocalOffset: -600,-250,250
+	Armament@TRUENO2:
+		Name: special
+		Weapon: PorteAvionsTrueno
+		LocalOffset: -800,0,250
+	Armament@TRUENO3:
+		Name: special
+		Weapon: PorteAvionsTrueno
+		LocalOffset: -600,250,250
+	AircraftCarrier:
+		Types: harpia, pelicano, chasseur.poly, intercepteur, avion.attaque, avion.reco, albatros, warthog, mig, yak, lunkravyn, vidravyn, agnivyn, ulkar, kheshar
+		RearmDelay: 100
+		PassengerRepairInterval: 5
+	ProvidesPrerequisite@STRUCTURES:
+		Prerequisite: structures.elielistan
+	ProvidesPrerequisite@STRUCTURESALLIES:
+		Prerequisite: structures.allies
+	Buildable:
+		Description: Porte-avions amphibie et base mobile.\n5 avions à bord (tous sauf bombardiers et Cormoran ;\nclic droit d'un avion dessus pour l'apponter).\nTransporte 15 fantassins OU 5 chars / pièces d'artillerie.\nDéploiement (F) : décollage des avions prêts,\net débarquement des troupes s'il touche la côte.\nArmement : défense antiaérienne, missiles mer-mer, canons mer-sol\net 3 canons Trueno à 20 cases.\nChantier de construction mobile (rayon de 8 cases).\nRemplace le centre technique ou le dôme radar détruit.\nRépare et réarme en 4 s toute unité à bord.\n  Faible contre : sous-marins
+
+# ---------------------------------------------------------------------
+# Rubénie : porte-avions rubénien — bombe atomique miniature (pouvoir
+# avec chrono ; cible à 20 cases au plus d'un porte-avions rubénien).
+# ---------------------------------------------------------------------
+PORTE.AVIONS.RUB:
+	Inherits@PA: ^PorteAvions
+	Armament:
+		Weapon: PorteAvionsAA
+	AttackFrontal:
+		Armaments: primary, secondary, tertiary
+	AircraftCarrier:
+		Types: harpia, pelicano, chasseur.poly, intercepteur, avion.attaque, avion.reco, albatros, warthog, mig, yak, lunkravyn, vidravyn, agnivyn, ulkar, kheshar
+		RearmDelay: 100
+		PassengerRepairInterval: 5
+	GrantConditionOnBuildingLost@TECH:
+		Types: stek
+		Condition: remplace-tech
+	ProvidesPrerequisite@TECH:
+		Prerequisite: stek
+		RequiresCondition: remplace-tech
+	ProvidesPrerequisite@TECHCENTER:
+		Prerequisite: techcenter
+		RequiresCondition: remplace-tech
+	ProvidesPrerequisite@STRUCTURES:
+		Prerequisite: structures.rubenie
+	ProvidesPrerequisite@STRUCTURESSOVIET:
+		Prerequisite: structures.soviet
+	ProjectileSalvoPower@MININUKE:
+		OrderName: RubeniePorteAvionsBombe
+		Icon: abomb
+		ChargeInterval: 6000
+		Name: Bombe atomique miniature
+		Description: Le porte-avions rubénien le plus proche de la cible\nlargue une bombe atomique miniature (2 cases de rayon).\nCible à 20 cases au plus d'un porte-avions rubénien.\nChrono : 4 minutes.
+		Weapon: PorteAvionsMiniNuke
+		Count: 1
+		Scatter: 0
+		LaunchOffset: 0,0,512
+		MaxRange: 20c0
+		Cursor: nuke
+		DisplayTimerRelationships: Ally, Neutral, Enemy
+		DisplayRadarPing: True
+		DisplayBeacon: True
+		BeaconPoster: atomicon
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		SelectTargetSpeechNotification: SelectTarget
+		SelectTargetTextNotification: Choisissez la cible de la bombe (20 cases autour d'un porte-avions).
+		BeginChargeTextNotification: Bombe atomique miniature en préparation.
+		EndChargeSpeechNotification: AbombReady
+		EndChargeTextNotification: Bombe atomique miniature prête.
+		IncomingSpeechNotification: AbombLaunchDetected
+		IncomingTextNotification: Lancement d'une bombe atomique détecté.
+		SupportPowerPaletteOrder: 60
+	SupportPowerChargeBar:
+	Buildable:
+		Description: Porte-avions et base mobile. 3 avions au maximum\n(tous sauf bombardiers et Cormoran, livré vide ;\nclic droit d'un avion dessus pour l'apponter).\nDéploiement (F) : décollage des avions prêts.\nArmement : défense antiaérienne, missiles mer-mer, canons mer-sol.\nBombe atomique miniature : pouvoir avec chrono (4 min),\ncible à 20 cases du porte-avions.\nChantier de construction mobile (rayon de 8 cases).\nRemplace le centre technique ou le dôme radar détruit.\nRépare et réarme en 4 s tout avion apponté.\n  Faible contre : sous-marins
+
+# ---------------------------------------------------------------------
+# Ananthanie : Ambarnath — missiles de type V2 à 26 cases.
+# ---------------------------------------------------------------------
+PORTE.AVIONS.ANA:
+	Inherits@PA: ^PorteAvions
+	Armament@V2:
+		Name: special
+		Weapon: PorteAvionsV2
+		LocalOffset: -700,0,300
+	GrantConditionOnBuildingLost@TECH:
+		Types: institut
+		Condition: remplace-tech
+	ProvidesPrerequisite@TECH:
+		Prerequisite: institut
+		RequiresCondition: remplace-tech
+	ProvidesPrerequisite@STRUCTURES:
+		Prerequisite: structures.ananthanie
+	ProvidesPrerequisite@STRUCTURESSOVIET:
+		Prerequisite: structures.soviet
+
+# ---------------------------------------------------------------------
+# Australouis : Southern Cross — nuées de missiles à tête chercheuse.
+# ---------------------------------------------------------------------
+PORTE.AVIONS.AUS:
+	Inherits@PA: ^PorteAvions
+	Inherits@PATECH: ^PorteAvionsTechAlliee
+	Armament@ESSAIM:
+		Name: special
+		Weapon: PorteAvionsEssaim
+		LocalOffset: -600,-200,300, -600,200,300
+	ProvidesPrerequisite@STRUCTURES:
+		Prerequisite: structures.australouis
+	ProvidesPrerequisite@STRUCTURESALLIES:
+		Prerequisite: structures.allies

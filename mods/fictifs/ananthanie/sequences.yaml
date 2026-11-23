@@ -477,3 +477,11 @@ d311:
 	idle:
 		Filename: fictifs|bits/d311.png
 		Facings: 32
+
+# Porte-avions Ambarnath : sprite du porte-avions rubénien (provisoire).
+porte.avions.ana:
+	idle:
+		Filename: fictifs|bits/porte.avions.rub.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/porte.avions.rubicon.png

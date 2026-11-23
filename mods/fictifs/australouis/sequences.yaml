@@ -288,3 +288,11 @@ gare.portuaire.o:
 		Start: 2
 		Length: 12
 		Tick: 60
+
+# Porte-avions Southern Cross : sprite du Porta Aguila (provisoire).
+porte.avions.aus:
+	idle:
+		Filename: fictifs|bits/porta.aguila.png
+		Facings: 32
+	icon:
+		Filename: fictifs|bits/porta.aguilaicon.png

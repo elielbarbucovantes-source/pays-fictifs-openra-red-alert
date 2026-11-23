@@ -261,7 +261,7 @@ WAGON.ATELIER.AERIEN:
 # Les appareils elielistanais se posent sur les plateformes du train aérien.
 HARPIA:
 	Rearmable:
-		RearmActors: aerodromo, porta.aguila, porte.avions.rub, wagon.munitions, wagon.atelier.aerien
+		RearmActors: aerodromo, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus, wagon.munitions, wagon.atelier.aerien
 GARRA:
 	Rearmable:
 		RearmActors: hpad, wagon.munitions, wagon.atelier.aerien

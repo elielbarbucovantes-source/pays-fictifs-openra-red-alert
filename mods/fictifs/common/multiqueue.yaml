@@ -4,13 +4,46 @@
 # - Normale : files RA classiques sur le joueur (une par type, chaque
 #   usine en plus accélère la file).
 # - Multi-file : chaque usine a sa propre file d'unités et produit en
-#   parallèle. Les bâtiments et défenses gardent une file unique.
+#   parallèle. Chaque chantier de construction (et chaque porte-avions)
+#   a aussi ses propres files Bâtiments et Défenses.
 # Les deux jeux utilisent les mêmes types (Infantry, Vehicle, Aircraft,
 # Ship) : rien à changer dans les Buildable des unités.
 # =====================================================================
 
 Player:
 	ProductionModeOption:
+	ClassicProductionQueue@Building:
+		Factions: aucune
+	NormalModeProductionQueue@Building:
+		Type: Building
+		DisplayOrder: 0
+		LowPowerModifier: 300
+		ReadyAudio: ConstructionComplete
+		ReadyTextNotification: Construction complete.
+		BlockedAudio: NoBuild
+		BlockedTextNotification: Unable to build more.
+		LimitedAudio: BuildingInProgress
+		LimitedTextNotification: Unable to comply. Building in progress.
+		QueuedAudio: Building
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+		SpeedUp: True
+	ClassicProductionQueue@Defense:
+		Factions: aucune
+	NormalModeProductionQueue@Defense:
+		Type: Defense
+		DisplayOrder: 1
+		LowPowerModifier: 300
+		ReadyAudio: ConstructionComplete
+		ReadyTextNotification: Construction complete.
+		BlockedAudio: NoBuild
+		BlockedTextNotification: Unable to build more.
+		LimitedAudio: BuildingInProgress
+		LimitedTextNotification: Unable to comply. Building in progress.
+		QueuedAudio: Building
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+		SpeedUp: True
 	# Files RA d'origine rendues inertes (faction inexistante) plutôt que
 	# supprimées : des cartes RA (Fort Lonestar) les modifient encore.
 	ClassicProductionQueue@Infantry:
@@ -80,9 +113,37 @@ Player:
 		SpeedUp: True
 
 # Sur tous les bâtiments : une file ne s'active que si le bâtiment a une
-# Production du même type (casernes, usine, aérodromes, chantiers navals,
-# et tout nouveau bâtiment producteur sans rien ajouter).
+# Production du même type (chantiers de construction, casernes, usine,
+# aérodromes, chantiers navals, et tout nouveau bâtiment producteur sans
+# rien ajouter). Les porte-avions reçoivent Bâtiments et Défenses dans
+# common/porte-avions.yaml.
 ^Building:
+	MultiModeProductionQueue@Building:
+		Type: Building
+		DisplayOrder: 0
+		LowPowerModifier: 300
+		ReadyAudio: ConstructionComplete
+		ReadyTextNotification: Construction complete.
+		BlockedAudio: NoBuild
+		BlockedTextNotification: Unable to build more.
+		LimitedAudio: BuildingInProgress
+		LimitedTextNotification: Unable to comply. Building in progress.
+		QueuedAudio: Building
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	MultiModeProductionQueue@Defense:
+		Type: Defense
+		DisplayOrder: 1
+		LowPowerModifier: 300
+		ReadyAudio: ConstructionComplete
+		ReadyTextNotification: Construction complete.
+		BlockedAudio: NoBuild
+		BlockedTextNotification: Unable to build more.
+		LimitedAudio: BuildingInProgress
+		LimitedTextNotification: Unable to comply. Building in progress.
+		QueuedAudio: Building
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
 	MultiModeProductionQueue@Infantry:
 		Type: Infantry
 		DisplayOrder: 2

@@ -342,3 +342,55 @@ DRONE.ESSAIM:
 	AutoTarget:
 		InitialStance: Defend
 		InitialStanceAI: AttackAnything
+
+# ---------------------------------------------------------------------
+# Southern Cross : porte-avions australouisien (règles communes et armes :
+# common/porte-avions.yaml). 5 avions à bord, soute de 15 places,
+# nuées de 16 missiles à tête chercheuse contre les unités à 26 cases.
+# Sprite : celui du Porta Aguila, en attendant un modèle propre.
+# ---------------------------------------------------------------------
+PORTE.AVIONS.AUS:
+	Inherits: ^Ship
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@CARGOPIPS: ^CargoPips
+	RenderSprites:
+		Image: porte.avions.aus
+	Buildable:
+		Queue: Ship
+		BuildAtProductionType: Boat
+		BuildPaletteOrder: 50
+		Prerequisites: ~ships.australouis, atek, ~techlevel.high
+		Description: Porte-avions et base mobile. 5 avions à bord\n(Albatros, Warthog et avions alliés ;\nclic droit d'un avion dessus pour l'apponter).\nSoute de 15 places (fantassin ou véhicule : 1 place).\nDéploiement (F) : décollage des avions prêts,\net débarquement des troupes s'il touche la côte.\nArmement : défense antiaérienne, missiles mer-mer, canons mer-sol\net nuées de 16 missiles à tête chercheuse contre les unités, à 26 cases.\nChantier de construction mobile (rayon de 8 cases).\nRemplace le centre technique ou le dôme radar détruit.\nRépare et réarme en 4 s toute unité à bord.\n  Faible contre : sous-marins\n  Requiert : centre technique
+	Selectable:
+		Class: porte.avions.aus
+		Bounds: 2560, 2560
+		DecorationBounds: 3072, 3072
+	Valued:
+		Cost: 3250
+	Tooltip:
+		Name: Porte-avions Southern Cross
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 85000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 64
+		TurnSpeed: 8
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 9c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+	AircraftCarrier:
+		MaxAircraft: 5
+	Cargo:
+		Types: Infantry, Vehicle, Char
+		MaxWeight: 15
+		EjectOnDeath: false
+		BeforeUnloadDelay: 4
+		AfterUnloadDelay: 8
+	WithCargoPipsDecoration:
+		PipCount: 15

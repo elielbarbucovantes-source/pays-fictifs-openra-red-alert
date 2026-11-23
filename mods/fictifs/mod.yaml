@@ -108,6 +108,8 @@ Rules:
 	fictifs|common/amphibie.yaml
 	fictifs|elielistan/amphibie.yaml
 	fictifs|rubenie/amphibie.yaml
+	# Porte-avions (après les pays et la logistique amphibie : complète leurs navires).
+	fictifs|common/porte-avions.yaml
 
 Sequences:
 	ra|sequences/ships.yaml
@@ -217,6 +219,7 @@ Weapons:
 	fictifs|rubenie/weapons.yaml
 	fictifs|australouis/weapons.yaml
 	fictifs|ananthanie/weapons.yaml
+	fictifs|common/weapons-porte-avions.yaml
 
 Voices:
 	ra|audio/voices.yaml

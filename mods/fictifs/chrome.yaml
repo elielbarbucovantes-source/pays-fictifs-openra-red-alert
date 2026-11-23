@@ -49,3 +49,12 @@ production-icons-train:
 		train: 0, 0, 16, 16
 		train-disabled: 16, 0, 16, 16
 		train-alert: 32, 0, 16, 16
+
+# Bouton « Virement » en haut à gauche en partie (tools/icone_virement.py).
+virement:
+	Image: fictifs|uibits/virement.png
+	Image2x: fictifs|uibits/virement-2x.png
+	Image3x: fictifs|uibits/virement-3x.png
+	Regions:
+		virement: 0, 0, 24, 24
+		virement-disabled: 24, 0, 24, 24

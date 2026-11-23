@@ -240,7 +240,7 @@ HARPIA:
 	Armament:
 		Weapon: HarpiaMissile
 	Rearmable:
-		RearmActors: aerodromo, porta.aguila, porte.avions.rub
+		RearmActors: aerodromo, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 	CarrierAircraft:
 
 # ---------------------------------------------------------------------
@@ -289,7 +289,7 @@ PELICANO:
 		MaximumPitch: 56
 		LandableTerrainTypes: Clear, Rough, Road, Ore, Beach, Gems
 	Rearmable:
-		RearmActors: aerodromo, porta.aguila, porte.avions.rub
+		RearmActors: aerodromo, porta.aguila, porte.avions.rub, porte.avions.ana, porte.avions.aus
 	Cargo:
 		Types: Infantry, Char
 		MaxWeight: 15

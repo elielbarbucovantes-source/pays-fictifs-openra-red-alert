@@ -132,6 +132,10 @@ La « vague » qui frappe sans prévenir.""",
 Il débarque sur les plages et la côte.
 Indispensable aux offensives d'une puissance maritime.""",
 "Chargez Vidra, Lunkra et Ratha, débarquez sous la couverture de la flotte, et frappez là où l'ennemi ne vous attend pas."),
+"PORTE.AVIONS.ANA": ("Porte-avions Ambarnath", """Porte-avions de la puissance maritime : cinq avions, quinze places en soute.
+Ses missiles de type V2 frappent à 26 cases, plus loin que les Trueno de l'Aguila ; DCA, missiles mer-mer et canons mer-sol en plus.
+Un chantier de construction qui flotte, capable de remplacer l'institut d'innovation ou le dôme radar perdus.""",
+"Restez au large et écrasez les défenses côtières aux V2, guidé par le Nayra-Ambar. Construisez une tête de pont dans un rayon de 8 cases du navire. Toute unité à bord est réparée en 4 s."),
 "VIDRAKARN": ("Vidrakarn", """Char expérimental à canon électromagnétique.
 Son projectile traverse tout ce qui se trouve sur sa trajectoire, sur 9 cases.
 « Le rempart de l'éclair » : une seule ligne de tir suffit à briser une colonne.""",

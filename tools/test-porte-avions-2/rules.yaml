@@ -1,0 +1,18 @@
+World:
+	LuaScript:
+		Scripts: test.lua
+	-SpawnStartingUnits:
+	-CrateSpawner:
+	IndustrialZoneSpawner:
+		Default: none
+Player:
+	-ConquestVictoryConditions:
+	PlayerResources:
+		DefaultCash: 50000
+	ProductionModeOption:
+		Default: multi
+	Shroud:
+		FogCheckboxEnabled: false
+		FogCheckboxLocked: true
+		ExploredMapCheckboxEnabled: true
+		ExploredMapCheckboxLocked: true
