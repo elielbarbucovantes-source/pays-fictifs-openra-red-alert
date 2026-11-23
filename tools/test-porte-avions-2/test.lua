@@ -99,6 +99,11 @@ WorldLoaded = function()
 	CAir = Actor.Create("yak", true, { Owner = Enemy, Location = CPos.New(seaE.X + 12, seaE.Y) })
 	CAir.Stance = "HoldFire"
 	CAir.Move(seaE)
+	-- Les porte-avions voient à 9 cases : une caméra repère chaque cible lointaine
+	-- (comme un éclaireur en partie), sinon ils ne tirent pas dans le brouillard.
+	for _, a in ipairs({ CTrueno, CV2, CEssaim, CEssaimBat }) do
+		Actor.Create("camera", true, { Owner = Me, Location = a.Location })
+	end
 	Log("distances : trueno " .. tostring(CTrueno.Location) .. " v2 " .. tostring(CV2.Location) .. " essaim " .. tostring(CEssaim.Location) .. " batiment " .. tostring(CEssaimBat.Location))
 
 	-- Réparation en 4 s : char à 10 % et fantassin à 25 % dans la soute de l'Ambarnath.

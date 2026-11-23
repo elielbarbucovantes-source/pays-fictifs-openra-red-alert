@@ -3,6 +3,8 @@
 
 Produit mods/fictifs/uibits/virement.png, virement-2x.png, virement-3x.png :
 deux icônes de 24×24 (normale, désactivée) côte à côte, à l'échelle 1, 2 et 3.
+La planche est complétée par du transparent jusqu'à des dimensions en puissance de deux :
+le moteur refuse (crash en partie) une image de chrome qui ne l'est pas.
 """
 import os
 from PIL import Image, ImageDraw
@@ -41,9 +43,17 @@ def icone(echelle, desactive):
     return im.resize((TAILLE * echelle, TAILLE * echelle), Image.LANCZOS)
 
 
+def puissance_de_deux(n):
+    p = 1
+    while p < n:
+        p *= 2
+    return p
+
+
 def main():
     for echelle, suffixe in ((1, ""), (2, "-2x"), (3, "-3x")):
-        planche = Image.new("RGBA", (2 * TAILLE * echelle, TAILLE * echelle), (0, 0, 0, 0))
+        taille = (puissance_de_deux(2 * TAILLE * echelle), puissance_de_deux(TAILLE * echelle))
+        planche = Image.new("RGBA", taille, (0, 0, 0, 0))
         planche.paste(icone(echelle, False), (0, 0))
         planche.paste(icone(echelle, True), (TAILLE * echelle, 0))
         planche.save(os.path.join(SORTIE, "virement%s.png" % suffixe))

@@ -3,7 +3,7 @@
 # propres à chaque pays (armes : common/weapons-porte-avions.yaml).
 #
 #   - Très bien armés : défense antiaérienne, missiles mer-mer, canons
-#     mer-sol.
+#     mer-sol. AttackPorteAvions : chaque arme tire dans sa propre portée.
 #   - Chantier de construction mobile : files Bâtiments et Défenses,
 #     zone de construction autour du navire, rayon de 8 cases (la moitié
 #     des 16 cases d'un chantier de construction, MCV déployé).
@@ -39,7 +39,9 @@ Player:
 		Name: tertiary
 		Weapon: PorteAvionsMerSol
 		LocalOffset: 700,0,250
-	AttackFrontal:
+	# Tire dès qu'UNE arme est à portée (AttackFrontal attendait la plus courte,
+	# les canons mer-sol à 12 cases : V2, nuée et Trueno ne partaient jamais).
+	AttackPorteAvions:
 		FacingTolerance: 512
 		TargetFrozenActors: True
 		Armaments: primary, secondary, tertiary, special
@@ -123,6 +125,7 @@ Player:
 # ---------------------------------------------------------------------
 PORTA.AGUILA:
 	Inherits@PA: ^PorteAvions
+	-AttackFrontal:
 	Inherits@PATECH: ^PorteAvionsTechAlliee
 	Armament:
 		Weapon: PorteAvionsAA
@@ -155,9 +158,10 @@ PORTA.AGUILA:
 # ---------------------------------------------------------------------
 PORTE.AVIONS.RUB:
 	Inherits@PA: ^PorteAvions
+	-AttackFrontal:
 	Armament:
 		Weapon: PorteAvionsAA
-	AttackFrontal:
+	AttackPorteAvions:
 		Armaments: primary, secondary, tertiary
 	AircraftCarrier:
 		Types: harpia, pelicano, chasseur.poly, intercepteur, avion.attaque, avion.reco, albatros, warthog, mig, yak, lunkravyn, vidravyn, agnivyn, ulkar, kheshar
