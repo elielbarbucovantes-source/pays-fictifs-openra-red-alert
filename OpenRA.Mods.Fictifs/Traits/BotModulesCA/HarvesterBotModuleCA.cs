@@ -137,6 +137,11 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		void IBotTick.BotTick(IBot bot)
 		{
+			AIUtilsCA.Securise(bot, "Récolteurs", () => BotTickProtege(bot));
+		}
+
+		void BotTickProtege(IBot bot)
+		{
 			if (resourceLayer == null || resourceLayer.IsEmpty)
 				return;
 

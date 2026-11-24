@@ -137,6 +137,11 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		void IBotTick.BotTick(IBot bot)
 		{
+			AIUtilsCA.Securise(bot, "Débarquement", () => BotTickProtege(bot));
+		}
+
+		void BotTickProtege(IBot bot)
+		{
 			if (IsTraitDisabled || pied == null || --ticks > 0)
 				return;
 

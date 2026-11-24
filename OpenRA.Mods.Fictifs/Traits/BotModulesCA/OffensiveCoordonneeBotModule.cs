@@ -65,6 +65,11 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		void IBotTick.BotTick(IBot bot)
 		{
+			AIUtilsCA.Securise(bot, "Offensive coordonnée", () => BotTickProtege(bot));
+		}
+
+		void BotTickProtege(IBot bot)
+		{
 			if (IsTraitDisabled || --ticks > 0)
 				return;
 

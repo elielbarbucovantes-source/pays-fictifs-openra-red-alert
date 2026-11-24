@@ -152,6 +152,11 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		void IBotTick.BotTick(IBot bot)
 		{
+			AIUtilsCA.Securise(bot, "Production", () => BotTickProtege(bot));
+		}
+
+		void BotTickProtege(IBot bot)
+		{
 			// Decrement any active unit intervals, removing any that reach zero
 			foreach (var i in activeUnitIntervals.ToList())
 			{

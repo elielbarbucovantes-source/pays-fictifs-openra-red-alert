@@ -247,6 +247,11 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		void IBotTick.BotTick(IBot bot)
 		{
+			AIUtilsCA.Securise(bot, "Escouades", () => BotTickProtege(bot));
+		}
+
+		void BotTickProtege(IBot bot)
+		{
 			AssignRolesToIdleUnits(bot);
 		}
 
@@ -451,7 +456,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 			{
 				var squadPendingUpdate = squadsPendingUpdate.Pop();
 				if (squadPendingUpdate.IsValid)
-					squadPendingUpdate.Update();
+					AIUtilsCA.Securise(bot, "Escouade " + squadPendingUpdate.Type, squadPendingUpdate.Update);
 			}
 
 			if (--assignRolesTicks <= 0)
@@ -637,6 +642,11 @@ namespace OpenRA.Mods.Fictifs.Traits
 		void IBotPositionsUpdated.UpdatedDefenseCenter(CPos newLocation) { }
 
 		void IBotRespondToAttack.RespondToAttack(IBot bot, Actor self, AttackInfo e)
+		{
+			AIUtilsCA.Securise(bot, "Escouades (riposte)", () => RespondToAttackProtege(bot, self, e));
+		}
+
+		void RespondToAttackProtege(IBot bot, Actor self, AttackInfo e)
 		{
 			if (!IsPreferredEnemyUnit(e.Attacker))
 				return;

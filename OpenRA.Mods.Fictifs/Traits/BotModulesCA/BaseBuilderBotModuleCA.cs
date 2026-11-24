@@ -265,6 +265,11 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		void IBotTick.BotTick(IBot bot)
 		{
+			AIUtilsCA.Securise(bot, "Construction", () => BotTickProtege(bot));
+		}
+
+		void BotTickProtege(IBot bot)
+		{
 			if (--assignRallyPointsTicks <= 0)
 			{
 				assignRallyPointsTicks = Math.Max(2, Info.AssignRallyPointsInterval);
@@ -330,6 +335,11 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		// CA: Modified to add selling capability to protect buildings
 		void IBotRespondToAttack.RespondToAttack(IBot bot, Actor self, AttackInfo e)
+		{
+			AIUtilsCA.Securise(bot, "Construction (riposte)", () => RespondToAttackProtege(bot, self, e));
+		}
+
+		void RespondToAttackProtege(IBot bot, Actor self, AttackInfo e)
 		{
 			if (e.Attacker == null || e.Attacker.Disposed)
 				return;

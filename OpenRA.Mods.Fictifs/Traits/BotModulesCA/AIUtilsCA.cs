@@ -102,6 +102,27 @@ namespace OpenRA.Mods.Fictifs
 			return owner.World.Map.Rules.Actors.Where(k => names.Contains(k.Key)).Random(owner.World.LocalRandom).Value;
 		}
 
+		// PAYS FICTIFS : filet de sécurité de l'IA. La logique des bots ne tourne que sur le PC de
+		// l'hôte et n'agit que par des ordres : une erreur dans un module d'IA ne doit pas faire
+		// planter la partie de l'hôte. Elle est interceptée et écrite une fois dans debug.log ; le
+		// module reprend au passage suivant. Sans effet sur la synchronisation (ce code ne touche
+		// pas à l'état synchronisé du monde).
+		static readonly HashSet<string> ErreursSignalees = new();
+
+		public static void Securise(IBot bot, string module, Action action)
+		{
+			try
+			{
+				action();
+			}
+			catch (Exception e)
+			{
+				var cle = module + "|" + e.GetType().FullName + "|" + e.TargetSite;
+				if (ErreursSignalees.Add(cle))
+					Log.Write("debug", $"IA {bot?.Player?.PlayerName} : erreur interceptée dans {module} : {e}");
+			}
+		}
+
 		public static void BotDebug(string s, params object[] args)
 		{
 			if (Game.Settings.Debug.BotDebug)

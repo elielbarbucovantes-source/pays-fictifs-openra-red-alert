@@ -34,6 +34,11 @@ namespace OpenRA.Mods.Fictifs.Traits
 
 		void IBotRespondToAttack.RespondToAttack(IBot bot, Actor self, AttackInfo e)
 		{
+			AIUtilsCA.Securise(bot, "Réparations (riposte)", () => RespondToAttackProtege(bot, self, e));
+		}
+
+		void RespondToAttackProtege(IBot bot, Actor self, AttackInfo e)
+		{
 			// HACK: We don't want D2k bots to repair all their buildings on placement
 			// where half their HP is removed via neutral terrain damage.
 			// TODO: Implement concrete placement for D2k bots and remove this hack on players relationship check.
