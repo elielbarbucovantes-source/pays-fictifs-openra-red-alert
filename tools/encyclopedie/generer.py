@@ -215,6 +215,15 @@ def main():
            para("IA : quand aucune route terrestre ne mène à l'ennemi (îles), l'IA construit un transport "
                 "amphibie (ou une Base logistique amphibie), charge ses unités et débarque sur la côte la "
                 "moins défendue près de la base adverse. Sur une carte toute terrestre, elle ne débarque pas.", ""),
+           "",
+           para("Desperate AI : la 5e IA, hyper-agressive et expansionniste. Jusqu'à 4 chantiers de "
+                "construction posés sur les champs de minerai libres, 3 récolteurs par raffinerie, 5 usines, "
+                "6 aérodromes et 3 chantiers navals ; elle attaque dès que son armée au repos vaut 3000 $. "
+                "Elle débarque aussi quand l'ennemi est joignable par la terre : toutes les 2 minutes, si "
+                "assez de troupes attendent, elle vise sa cible prioritaire la moins défendue (chantier, "
+                "raffinerie, technologie…), sur ses arrières. Ses attaques sont coordonnées : aviation, "
+                "marine et autres escouades convergent sur la cible de l'assaut ou du débarquement. Elle ne "
+                "triche pas. Elo fixe : 1400.", ""),
            ""]
     sommaire = [f"  0. LES PAYS ({len(PAYS)})"]
     corps = ["", "=" * LARGEUR, "0. LES PAYS".center(LARGEUR), "=" * LARGEUR]

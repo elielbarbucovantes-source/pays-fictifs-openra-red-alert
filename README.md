@@ -155,7 +155,7 @@ La version du mod contient le commit installé (`release-20231010+8f4e95b`, par 
 
 ## Intelligence artificielle
 
-Les quatre IA (Rush, Normale, Turtle, Naval) utilisent les modules d'IA de **Combined Arms** (portés de CA 1.08.2), plus forts que ceux de Red Alert :
+Les cinq IA (Rush, Normale, Turtle, Naval, Desperate) utilisent les modules d'IA de **Combined Arms** (portés de CA 1.08.2), plus forts que ceux de Red Alert :
 
 - **Attaques en escouades de valeur** : l'IA attaque quand son armée au repos vaut assez cher (et non à un nombre fixe d'unités) ; ce seuil grandit pendant les 20 premières minutes. Les escouades fuient un combat perdu et prennent parfois des **itinéraires de contournement**.
 - **Harcèlement** : les unités rapides (jeep, Gavilán, véhicule de reconnaissance rubénien, Vidra) forment de petites escouades qui contournent l'ennemi pour frapper les cibles prioritaires (récolteurs, raffineries…).
@@ -164,11 +164,23 @@ Les quatre IA (Rush, Normale, Turtle, Naval) utilisent les modules d'IA de **Com
 - **Base** : plusieurs casernes et usines, un deuxième chantier de construction (VCM), défenses tournées vers l'ennemi, coupure de l'énergie des bâtiments secondaires en cas de manque, réparations automatiques.
 - **Économie** : jusqu'à 2 récolteurs par raffinerie, qui évitent les zones ennemies ; des ingénieurs capturent les derricks et les bâtiments neutres.
 
-Les IA ne trichent pas (pas de bonus d'argent ni de production). Le code est dans `OpenRA.Mods.Fictifs/Traits/BotModulesCA/`, les réglages dans `mods/fictifs/common/ia.yaml` et `mods/fictifs/<pays>/ia.yaml`.
+### Desperate AI
+
+La plus dangereuse : hyper-agressive, expansionniste et forte partout (économie, armée, marine, aviation).
+
+- **Expansion** : jusqu'à 4 chantiers de construction, dont les VCM partent s'installer sur les champs de minerai libres, loin de la base ; jusqu'à 4 raffineries de plus et 3 récolteurs par raffinerie (18 au maximum) ; 3 ingénieurs pour les derricks.
+- **Production** : 5 usines, 3 casernes, 6 aérodromes, 3 chantiers navals, technologie et superarmes plus tôt ; elle produit dès 100 $ en caisse, 16 avions et jusqu'à 14 chasseurs pour la supériorité aérienne, une marine nombreuse.
+- **Agressivité** : elle attaque dès que son armée au repos vaut 3000 $ (le seuil monte vers 9000 à 15000 $ en 20 minutes), vise plus souvent les cibles prioritaires, dont les chantiers navals, aérodromes et usines.
+- **Débarquements offensifs** : même quand l'ennemi est joignable par la terre, elle lance toutes les 2 minutes (si au moins 4000 $ de troupes attendent à la base et qu'il y a une côte) une opération amphibie vers la cible prioritaire la moins défendue, sur les arrières de l'ennemi, avec jusqu'à 4 transports.
+- **Attaques coordonnées** : quand une escouade d'assaut part ou qu'un débarquement a des troupes en mer, son objectif devient commun ; les escadrilles (hors chasseurs), la marine et les autres escouades en marche y convergent pour frapper en même temps. Chaque escouade garde son jugement (fuite devant la DCA ou un combat perdu).
+
+Code : `DebarquementBotModule.cs` (option `Offensif`) et `OffensiveCoordonneeBotModule.cs` ; réglages `@desperate` dans les fichiers `ia.yaml`.
+
+Les IA ne trichent pas, la Desperate AI non plus (pas de bonus d'argent ni de production). Le code est dans `OpenRA.Mods.Fictifs/Traits/BotModulesCA/`, les réglages dans `mods/fictifs/common/ia.yaml` et `mods/fictifs/<pays>/ia.yaml`.
 
 ## Classement Elo et grades
 
-Chaque escarmouche ou partie en ligne terminée (avec un gagnant) compte pour le classement Elo. Tout le monde commence à 1000. Les parties contre l'IA comptent aussi : chaque IA a un Elo fixe (Turtle 900, Naval 1000, Normal 1100, Rush 1200) et ne gagne ni ne perd de points. Chaque camp est comparé à tous les autres réunis, dont les forces s'additionnent : seul contre deux joueurs de son niveau, on a une chance sur trois. Plus il y a d'adversaires, plus une victoire rapporte et moins une défaite coûte. Les points gagnés augmentent en plus de 10 % par adversaire au-delà du premier. Dans un camp, chaque joueur reçoit la même variation. Exemple à 1000 : contre la seule IA Rush, +30 ou −10 ; contre les IA Rush et Normale, +37 ou −7. Les 10 premières parties bougent plus vite (K = 40, puis 24). Les missions et les replays ne comptent pas.
+Chaque escarmouche ou partie en ligne terminée (avec un gagnant) compte pour le classement Elo. Tout le monde commence à 1000. Les parties contre l'IA comptent aussi : chaque IA a un Elo fixe (Turtle 900, Naval 1000, Normal 1100, Rush 1200, Desperate 1400) et ne gagne ni ne perd de points. Chaque camp est comparé à tous les autres réunis, dont les forces s'additionnent : seul contre deux joueurs de son niveau, on a une chance sur trois. Plus il y a d'adversaires, plus une victoire rapporte et moins une défaite coûte. Les points gagnés augmentent en plus de 10 % par adversaire au-delà du premier. Dans un camp, chaque joueur reçoit la même variation. Exemple à 1000 : contre la seule IA Rush, +30 ou −10 ; contre les IA Rush et Normale, +37 ou −7. Les 10 premières parties bougent plus vite (K = 40, puis 24). Les missions et les replays ne comptent pas.
 
 Grades : Soldat (< 1050), Caporal (1050), Sergent (1100), Lieutenant (1175), Capitaine (1250), Commandant (1350), Colonel (1450), Général (1575), Maréchal (1700).
 

@@ -166,6 +166,54 @@ Player:
 			escorteur: 30
 			fregate: 20
 			sous.marin: 20
+	# --- Desperate AI : tout le roster, aviation et marine renforcées ----------
+	BaseBuilderBotModuleCA@desperate:
+		BuildingLimits:
+			qg.rub: 1
+			centre.logistique: 3
+			base.aerienne: 6
+			chantier.rub: 3
+		BuildingFractions:
+			qg.rub: 1
+			centre.logistique: 4
+			base.aerienne: 8
+			chantier.rub: 4
+			bunker.rub: 6
+			casemate.at: 6
+			tourelle.aa: 6
+			sam.rub: 3
+	UnitBuilderBotModuleCA@desperate:
+		UnitsToBuild:
+			bastion: 15
+			fusilier: 55
+			grenadier: 25
+			chasseur.at: 35
+			eclaireur: 5
+			second.galactique: 5
+			reco.rub: 15
+			vehicule.logistique: 10
+			ravitailleur: 10
+			contreattaque: 55
+			sicatient: 60
+			forteresse: 30
+			aa.rub: 25
+			canon.auto: 20
+			lrm: 25
+			artillerie.lourde: 15
+			lancemissile: 15
+			chasseur.poly: 40
+			intercepteur: 30
+			avion.attaque: 40
+			escorteur: 20
+			fregate: 20
+			sous.marin: 15
+		UnitLimits:
+			eclaireur: 2
+			vehicule.logistique: 2
+			ravitailleur: 3
+			reco.rub: 5
+			aa.rub: 8
+			artillerie.lourde: 5
 	# Pouvoirs du QG que l'IA sait utiliser.
 	SupportPowerBotModule:
 		Decisions:

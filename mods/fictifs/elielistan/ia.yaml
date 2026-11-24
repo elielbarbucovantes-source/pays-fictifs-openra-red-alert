@@ -106,6 +106,41 @@ Player:
 			centinela: 30
 			tormenta: 20
 			tiburon: 20
+	# --- Desperate AI : tout le roster, aviation et marine renforcées ----------
+	BaseBuilderBotModuleCA@desperate:
+		BuildingLimits:
+			palacio: 1
+			aerodromo: 5
+		BuildingFractions:
+			palacio: 1
+			aerodromo: 8
+	UnitBuilderBotModuleCA@desperate:
+		UnitsToBuild:
+			aguila: 55
+			cazador: 35
+			explorador: 5
+			nathan: 5
+			gavilan: 20
+			halcon: 30
+			jaguar: 60
+			trueno: 25
+			vigia: 25
+			carro.aguila: 50
+			aguila.nuclear: 20
+			lanzador: 15
+			avispa: 20
+			pico: 15
+			garra: 20
+			harpia: 30
+			bombardier.tactique: 15
+			b2.spirit: 8
+			kirov: 8
+			centinela: 20
+			tormenta: 20
+			tiburon: 15
+		UnitLimits:
+			explorador: 2
+			nathan: 2
 	# Pouvoirs du palais et de l'héliport que l'IA sait utiliser.
 	SupportPowerBotModule:
 		Decisions:

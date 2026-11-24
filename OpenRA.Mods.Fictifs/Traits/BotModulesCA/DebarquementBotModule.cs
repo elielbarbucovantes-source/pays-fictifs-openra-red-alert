@@ -18,7 +18,9 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.Fictifs.Traits
 {
-	// Débarquements de l'IA : seulement quand aucun ennemi n'est joignable par la terre (île, autre rive).
+	// Débarquements de l'IA : quand aucun ennemi n'est joignable par la terre (île, autre rive) et, en mode
+	// Offensif (Desperate AI), aussi sur les arrières d'un ennemi joignable : une opération à la fois, vers la
+	// cible prioritaire la moins défendue, quand assez de troupes attendent à la base.
 	// L'IA construit alors des transports amphibies de son pays (au besoin la Base logistique amphibie qui
 	// les produit), choisit une plage chez elle et une plage près de l'ennemi, met ses transports en navette
 	// amphibie entre les deux (NavetteAmphibie : chargement des unités au repos sur la plage, débarquement
@@ -61,6 +63,21 @@ namespace OpenRA.Mods.Fictifs.Traits
 		[Desc("Units waiting on the beach, as a multiple of the transport capacity.")]
 		public readonly int WaitingFactor = 2;
 
+		[Desc("Offensive landings: also land behind the enemy lines when the enemy can be reached by land.")]
+		public readonly bool Offensif = false;
+
+		[Desc("Offensive mode: ticks between the end of an operation and the next one.")]
+		public readonly int IntervalleOffensif = 3000;
+
+		[Desc("Offensive mode: maximum duration of an operation (ticks).")]
+		public readonly int DureeOperation = 4500;
+
+		[Desc("Offensive mode: value ($) of idle units near the base needed to start an operation.")]
+		public readonly int ValeurMinimale = 4000;
+
+		[Desc("Offensive mode: number of high value targets tried when looking for a landing.")]
+		public readonly int CiblesEssayees = 4;
+
 		public override object Create(ActorInitializer init) { return new DebarquementBotModule(init.Self, this); }
 	}
 
@@ -80,12 +97,22 @@ namespace OpenRA.Mods.Fictifs.Traits
 		readonly HashSet<Actor> transports = new();
 
 		IPathFinder pathFinder;
-		Locomotor pied;
+		Locomotor pied, locoTransport;
 		SquadManagerBotModuleCA squads;
 		ActorInfo[] typesTransport;
 		int ticks, scans, demandesBase, attenteBase;
 		Escale chargement, dechargement;
 		Actor cible;
+
+		// Mode offensif : fin de l'opération en cours, début possible de la suivante (WorldTick).
+		int finOperation, prochaineOperation;
+		bool operationOffensive;
+		readonly HashSet<Actor> ciblesEssayees = new();
+
+		// Lus par l'OffensiveCoordonneeBotModule.
+		public Actor Cible => cible != null && !cible.IsDead && cible.IsInWorld ? cible : null;
+		public bool TroupesEnMer => unites.Values.Any(s => s.Etat == Etat.ABord);
+		public bool OperationEnCours => Cible != null && chargement != null;
 
 		public DebarquementBotModule(Actor self, DebarquementBotModuleInfo info)
 			: base(info)
@@ -101,6 +128,9 @@ namespace OpenRA.Mods.Fictifs.Traits
 			typesTransport = world.Map.Rules.Actors.Values
 				.Where(a => a.HasTraitInfo<NavetteAmphibieInfo>() && a.HasTraitInfo<BuildableInfo>() && a.HasTraitInfo<MobileInfo>())
 				.ToArray();
+
+			var nomLoco = typesTransport.Select(t => t.TraitInfo<MobileInfo>().Locomotor).FirstOrDefault();
+			locoTransport = world.WorldActor.TraitsImplementing<Locomotor>().FirstOrDefault(l => l.Info.Name == nomLoco);
 
 			base.Created(self);
 		}
@@ -123,18 +153,35 @@ namespace OpenRA.Mods.Fictifs.Traits
 					&& !a.Owner.NonCombatant && !a.Info.HasTraitInfo<LineBuildInfo>())
 				.ToList();
 
-			if (maison == null || ennemis.Count == 0 || ennemis.Any(e => pathFinder.PathExistsForLocomotor(pied, maison.Value, e.Location)))
+			if (maison == null || ennemis.Count == 0)
 			{
-				Arreter(bot);
+				operationOffensive = false;
+				Arreter(bot, false);
 				return;
 			}
 
-			// Coupé de tous les ennemis : la cible est la base ennemie la plus proche.
-			var proche = ennemis.MinBy(e => (e.Location - maison.Value).LengthSquared);
-			if (cible == null || cible.IsDead || !cible.IsInWorld || cible != proche || scans % 8 == 0)
+			if (ennemis.Any(e => pathFinder.PathExistsForLocomotor(pied, maison.Value, e.Location)))
 			{
-				cible = proche;
-				chargement = dechargement = null;
+				// Ennemi joignable par la terre : rien à faire, sauf en mode offensif (débarquement sur ses arrières).
+				if (!Info.Offensif)
+				{
+					Arreter(bot, false);
+					return;
+				}
+
+				if (!OperationOffensive(bot, maison.Value, ennemis))
+					return;
+			}
+			else
+			{
+				// Coupé de tous les ennemis : la cible est la base ennemie la plus proche.
+				operationOffensive = false;
+				var proche = ennemis.MinBy(e => (e.Location - maison.Value).LengthSquared);
+				if (cible == null || cible.IsDead || !cible.IsInWorld || cible != proche || scans % 8 == 0)
+				{
+					cible = proche;
+					chargement = dechargement = null;
+				}
 			}
 
 			foreach (var t in world.ActorsHavingTrait<NavetteAmphibie>().Where(t => t.Owner == player && !t.IsDead && t.IsInWorld))
@@ -150,7 +197,20 @@ namespace OpenRA.Mods.Fictifs.Traits
 			var navette = transports.First();
 			var loco = navette.Trait<Mobile>().Locomotor;
 			if (chargement == null && !Plages(maison.Value, loco))
+			{
+				// Pas de plage vers cette cible : en mode offensif, on essaie la suivante.
+				if (operationOffensive)
+				{
+					ciblesEssayees.Add(cible);
+					var suivante = ciblesEssayees.Count < Info.CiblesEssayees ? CibleOffensive(maison.Value, ennemis) : null;
+					if (suivante == null)
+						TerminerOperation(bot);
+					else
+						cible = suivante;
+				}
+
 				return;
+			}
 
 			foreach (var t in transports)
 			{
@@ -182,8 +242,9 @@ namespace OpenRA.Mods.Fictifs.Traits
 		}
 
 		// Plus d'ennemi coupé de nous : les navettes vides s'arrêtent et rendent la main ; celles qui ont des
-		// troupes à bord finissent leur traversée.
-		void Arreter(IBot bot)
+		// troupes à bord finissent leur traversée. Entre deux opérations offensives, les navettes vides
+		// s'arrêtent mais restent réservées pour la suivante (garderTransports).
+		void Arreter(IBot bot, bool garderTransports)
 		{
 			cible = null;
 			chargement = dechargement = null;
@@ -195,6 +256,9 @@ namespace OpenRA.Mods.Fictifs.Traits
 				if (t.Trait<NavetteAmphibie>().Active)
 					bot.QueueOrder(new Order("Stop", t, false));
 
+				if (garderTransports)
+					continue;
+
 				squads?.Release(t);
 				transports.Remove(t);
 			}
@@ -204,6 +268,101 @@ namespace OpenRA.Mods.Fictifs.Traits
 				squads?.Release(a);
 				unites.Remove(a);
 			}
+		}
+
+		// Mode offensif, ennemi joignable par la terre : une opération de débarquement sur une cible prioritaire
+		// mal défendue toutes les IntervalleOffensif ticks, si assez de troupes attendent à la base. Renvoie
+		// vrai tant qu'une opération est en cours.
+		bool OperationOffensive(IBot bot, CPos maison, List<Actor> ennemis)
+		{
+			var maintenant = world.WorldTick;
+			if (operationOffensive)
+			{
+				if (maintenant < finOperation && Cible != null)
+					return true;
+
+				TerminerOperation(bot);
+				return false;
+			}
+
+			Arreter(bot, true);
+
+			if (maintenant < prochaineOperation)
+				return false;
+
+			// Carte sans côte près de la base : pas de débarquement possible, on n'y revient que plus tard.
+			if (!CoteProche(maison))
+			{
+				prochaineOperation = maintenant + Info.IntervalleOffensif * 3;
+				return false;
+			}
+
+			var valeur = Candidats(maison).Sum(a => a.Info.TraitInfoOrDefault<ValuedInfo>()?.Cost ?? 0);
+			if (valeur < Info.ValeurMinimale)
+				return false;
+
+			ciblesEssayees.Clear();
+			var c = CibleOffensive(maison, ennemis);
+			if (c == null)
+			{
+				prochaineOperation = maintenant + Info.IntervalleOffensif / 2;
+				return false;
+			}
+
+			operationOffensive = true;
+			finOperation = maintenant + Info.DureeOperation;
+			cible = c;
+			chargement = dechargement = null;
+			AIUtilsCA.BotDebug("{0}: débarquement offensif vers {1} de {2} ({3} $ de troupes au repos)", player, c.Info.Name, c.Owner, valeur);
+			return true;
+		}
+
+		void TerminerOperation(IBot bot)
+		{
+			operationOffensive = false;
+			prochaineOperation = world.WorldTick + Info.IntervalleOffensif;
+			Arreter(bot, true);
+		}
+
+		// Cible prioritaire ennemie (chantier, raffinerie, technologie…) la moins défendue, la plus éloignée de
+		// notre base à égalité (sur les arrières de l'ennemi, loin du front).
+		Actor CibleOffensive(CPos maison, List<Actor> ennemis)
+		{
+			var prioritaires = squads?.Info.HighValueTargetTypes;
+			var possibles = ennemis.Where(e => !ciblesEssayees.Contains(e)
+				&& (prioritaires == null || prioritaires.Count == 0 || prioritaires.Contains(e.Info.Name))).ToList();
+			if (possibles.Count == 0)
+				possibles = ennemis.Where(e => !ciblesEssayees.Contains(e)).ToList();
+
+			if (possibles.Count == 0)
+				return null;
+
+			var defenses = DefensesEnnemies();
+			var r2 = Info.DefenseRadius * Info.DefenseRadius;
+			return possibles
+				.OrderBy(e => defenses.Count(d => (d - e.Location).LengthSquared <= r2))
+				.ThenByDescending(e => (e.Location - maison).LengthSquared)
+				.ThenBy(e => e.ActorID)
+				.First();
+		}
+
+		// Une plage (terre au bord d'une eau navigable par les transports) près de la base ?
+		bool CoteProche(CPos maison)
+		{
+			if (locoTransport == null)
+				return false;
+
+			var portee = System.Math.Min(Info.CoastSearchRadius, world.Map.Grid.MaximumTileSearchRange);
+			return world.Map.FindTilesInAnnulus(maison, 0, portee)
+				.Any(c => Praticable(pied, c) && EauVoisine(locoTransport, c) != null);
+		}
+
+		List<CPos> DefensesEnnemies()
+		{
+			return world.ActorsHavingTrait<AttackBase>()
+				.Where(d => !d.IsDead && d.IsInWorld && d.Info.HasTraitInfo<BuildingInfo>() && player.RelationshipWith(d.Owner) == PlayerRelationship.Enemy)
+				.Select(d => d.Location)
+				.ToList();
 		}
 
 		void Produire(IBot bot)
@@ -318,10 +477,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 		CPos? Debarquement(Locomotor loco, CPos eauDepart)
 		{
 			var portee = System.Math.Min(Info.CoastSearchRadius, world.Map.Grid.MaximumTileSearchRange);
-			var defenses = world.ActorsHavingTrait<AttackBase>()
-				.Where(d => !d.IsDead && d.IsInWorld && d.Info.HasTraitInfo<BuildingInfo>() && player.RelationshipWith(d.Owner) == PlayerRelationship.Enemy)
-				.Select(d => d.Location)
-				.ToList();
+			var defenses = DefensesEnnemies();
 
 			CPos? meilleure = null, repli = null;
 			var meilleurScore = int.MaxValue;
@@ -379,16 +535,7 @@ namespace OpenRA.Mods.Fictifs.Traits
 			if (plage.Count == 0)
 				return;
 
-			var candidats = world.ActorsHavingTrait<Passenger>()
-				.Where(a => a.Owner == player && !a.IsDead && a.IsInWorld && a.IsIdle && !unites.ContainsKey(a)
-					&& !transports.Contains(a) && !Info.ExcludedTypes.Contains(a.Info.Name)
-					&& a.Info.HasTraitInfo<MobileInfo>() && a.Info.HasTraitInfo<AttackBaseInfo>()
-					&& !a.Info.HasTraitInfo<AircraftInfo>() && !a.Info.HasTraitInfo<HarvesterInfo>()
-					&& (a.Location - maison).LengthSquared <= Info.HomeRadius * Info.HomeRadius)
-				.OrderBy(a => a.ActorID)
-				.ToList();
-
-			foreach (var a in candidats)
+			foreach (var a in Candidats(maison))
 			{
 				var pi = a.Info.TraitInfo<PassengerInfo>();
 				if (!cargos.Any(c => c.Types.Contains(pi.CargoType) && c.MaxWeight >= pi.Weight))
@@ -406,6 +553,19 @@ namespace OpenRA.Mods.Fictifs.Traits
 				if (enAttente >= capacite)
 					break;
 			}
+		}
+
+		// Unités de combat au repos près de la base, qui peuvent monter dans un transport.
+		List<Actor> Candidats(CPos maison)
+		{
+			return world.ActorsHavingTrait<Passenger>()
+				.Where(a => a.Owner == player && !a.IsDead && a.IsInWorld && a.IsIdle && !unites.ContainsKey(a)
+					&& !transports.Contains(a) && !Info.ExcludedTypes.Contains(a.Info.Name)
+					&& a.Info.HasTraitInfo<MobileInfo>() && a.Info.HasTraitInfo<AttackBaseInfo>()
+					&& !a.Info.HasTraitInfo<AircraftInfo>() && !a.Info.HasTraitInfo<HarvesterInfo>()
+					&& (a.Location - maison).LengthSquared <= Info.HomeRadius * Info.HomeRadius)
+				.OrderBy(a => a.ActorID)
+				.ToList();
 		}
 
 		List<CPos> CasesPlage()

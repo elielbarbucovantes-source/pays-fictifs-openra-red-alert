@@ -211,6 +211,63 @@ Player:
 			ambarkarn: 25
 			agnikhesh: 20
 			ulmar: 20
+	# --- Desperate AI : tout le roster, aviation et marine renforcées ----------
+	BaseBuilderBotModuleCA@desperate:
+		BuildingDelays:
+			haut.commandement: 4500
+			institut: 7500
+			chantier.ana: 4500
+			base.ananthanie: 3000
+			fabrique.drones: 3000
+			kheshkarn: 4500
+			batterie.ambar: 6000
+			ruche: 6000
+		BuildingLimits:
+			haut.commandement: 1
+			fabrique.drones: 2
+			institut: 1
+			base.ananthanie: 5
+			chantier.ana: 3
+		BuildingFractions:
+			haut.commandement: 1
+			fabrique.drones: 3
+			institut: 1
+			base.ananthanie: 8
+			chantier.ana: 4
+			kheshkarn: 4
+			batterie.ambar: 3
+			ruche: 4
+	UnitBuilderBotModuleCA@desperate:
+		UnitsToBuild:
+			thal: 60
+			khesh.thal: 40
+			nayrak: 25
+			lunkar: 5
+			karnthal: 20
+			vidra: 35
+			lunkra: 65
+			karnvasha: 25
+			ratha: 25
+			mukhar: 15
+			agnar: 15
+			ambarkesh: 25
+			vidrakarn: 8
+			ananta: 8
+			lunkravyn: 40
+			vidravyn: 30
+			agnivyn: 20
+			ulkar: 25
+			kheshar: 25
+			ambaroth: 8
+			vasha: 25
+			ambarkarn: 20
+			agnikhesh: 15
+			ulmar: 20
+		UnitLimits:
+			lunkar: 3
+			mukhar: 4
+			agnar: 4
+			ambarkesh: 8
 	# Pouvoirs du Haut Commandement que l'IA sait utiliser.
 	SupportPowerBotModule:
 		Decisions:

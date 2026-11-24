@@ -118,6 +118,32 @@ Player:
 		UnitLimits:
 			moustique: 8
 			porte.drone: 5
+	# --- Desperate AI : tout le roster, aviation et marine renforcées ----------
+	BaseBuilderBotModuleCA@desperate:
+		BuildingDelays:
+			base.aeronavale: 2500
+			chantier.avance: 6000
+			centrale.enrichissement: 6000
+		BuildingLimits:
+			base.aeronavale: 6
+			chantier.avance: 2
+		BuildingFractions:
+			base.aeronavale: 10
+			chantier.avance: 3
+			centrale.enrichissement: 1
+	UnitBuilderBotModuleCA@desperate:
+		UnitsToBuild:
+			cheaper: 60
+			albatros: 40
+			warthog: 25
+			manta: 12
+			moustique: 35
+			l0u15: 25
+			porte.drone: 10
+			sousmarin.icbm: 10
+		UnitLimits:
+			moustique: 14
+			porte.drone: 4
 	# Pouvoirs que l'IA sait utiliser.
 	SupportPowerBotModule:
 		Decisions:

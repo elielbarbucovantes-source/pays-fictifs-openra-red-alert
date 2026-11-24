@@ -43,6 +43,21 @@ Player:
 	-UnitBuilderBotModule@turtle:
 	-UnitBuilderBotModule@naval:
 
+	# --- Desperate AI -------------------------------------------------------
+	# 5e IA : hyper-agressive et expansionniste, forte partout (économie,
+	# armée, marine, aviation), débarquements offensifs et attaques
+	# coordonnées terre/air/mer. Elle ne triche pas : ni bonus d'argent ni
+	# bonus de production. Ses réglages portent le suffixe @desperate.
+	ModularBot@DesperateAI:
+		Name: Desperate AI
+		Type: desperate
+	GrantConditionOnBotOwner@desperate:
+		Condition: enable-desperate-ai
+		Bots: desperate
+	# Pouvoirs de soutien (déclarés dans ra|rules/ai.yaml) : aussi pour la Desperate AI.
+	SupportPowerBotModule:
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai || enable-desperate-ai
+
 	# --- Économie et entretien -------------------------------------------
 	HarvesterBotModuleCA:
 		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
@@ -51,9 +66,9 @@ Player:
 		HarvestersPerRefinery: 2
 		MaxHarvesters: 10
 	BuildingRepairBotModuleCA:
-		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai || enable-desperate-ai
 	PowerDownBotModuleCA:
-		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai || enable-desperate-ai
 	# Débarquements amphibies quand aucun ennemi n'est joignable par la terre (DebarquementBotModule.cs).
 	DebarquementBotModule:
 		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
@@ -68,7 +83,7 @@ Player:
 	# Ingénieurs : derricks (revenu, et pétrole par pipeline) et bâtiments
 	# neutres ou ennemis de valeur.
 	CaptureManagerBotModule:
-		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai || enable-desperate-ai
 		CapturingActorTypes: e6
 		CapturableActorTypes: oilb, hosp, fcom, miss, bio, fact, proc, weap, barr, tent, dome, atek, stek
 		CheckCaptureTargetsForVisibility: false
@@ -665,3 +680,205 @@ Player:
 		UnitLimits:
 			e6: 1
 			harv: 10
+
+	# =====================================================================
+	# DESPERATE AI — réglages (@desperate)
+	# Plus de chantiers de construction, de raffineries, d'usines et de
+	# récolteurs que les autres IA ; attaques dès que l'armée au repos vaut
+	# 3000 $ ; aviation et marine nombreuses. Pas de triche.
+	# Les débarquements offensifs (DebarquementBotModule, Offensif: true) et
+	# l'OffensiveCoordonneeBotModule (aviation et marine sur la cible de
+	# l'assaut ou du débarquement) sont propres à cette IA.
+	# =====================================================================
+	HarvesterBotModuleCA@desperate:
+		RequiresCondition: enable-desperate-ai
+		HarvesterTypes: harv
+		RefineryTypes: proc
+		HarvestersPerRefinery: 3
+		MaxHarvesters: 18
+		ProduceHarvestersInterval: 250
+	McvManagerBotModuleCA@desperate:
+		RequiresCondition: enable-desperate-ai
+		McvTypes: mcv
+		ConstructionYardTypes: fact
+		McvFactoryTypes: weap
+		ScanForNewMcvInterval: 40
+		MaxBaseRadius: 30
+		MinimumConstructionYardCount: 4
+		# Expansion : les VCM partent vers les champs de minerai libres, loin de la base.
+		RestrictMCVDeploymentFallbackToBase: false
+	DebarquementBotModule@desperate:
+		RequiresCondition: enable-desperate-ai
+		Offensif: true
+		MaxTransports: 4
+		WaitingFactor: 2
+		IntervalleOffensif: 3000
+		ValeurMinimale: 4000
+	OffensiveCoordonneeBotModule@desperate:
+		RequiresCondition: enable-desperate-ai
+		ChasseursExclus: chasseur.poly, intercepteur, albatros, vidravyn, ambaroth
+	BaseBuilderBotModuleCA@desperate:
+		RequiresCondition: enable-desperate-ai
+		MinimumExcessPower: 60
+		MaximumExcessPower: 350
+		ExcessPowerIncrement: 40
+		ExcessPowerIncreaseThreshold: 2
+		PlaceDefenseTowardsEnemyChance: 90
+		MaxBaseRadius: 26
+		StructureProductionInactiveDelay: 75
+		StructureProductionActiveDelay: 15
+		CheckForNewBasesDelay: 750
+		BuildingProductionMinCashRequirement: 300
+		DefenseProductionMinCashRequirement: 800
+		NewProductionCashThreshold: 2000
+		MaxExtraRefineries: 4
+		NormalMinimumRefineryCount: 3
+		ConstructionYardTypes: fact
+		RefineryTypes: proc
+		PowerTypes: powr,apwr
+		BarracksTypes: barr,tent
+		VehiclesFactoryTypes: weap
+		SiloTypes: silo
+		AntiAirTypes: agun, sam, tourelle.aa, sam.rub, batterie.ambar, ruche
+		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam, bunker.rub, casemate.at, tourelle.aa, sam.rub, kheshkarn, batterie.ambar, ruche
+		ProductionTypes: barr,tent,weap,afld,hpad, aerodromo, base.aerienne, base.ananthanie, base.aeronavale
+		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		# Le radar débloque l'aviation de l'Elielistan (Aeródromo) et de l'Australouis (Base aéronavale).
+		PriorityTypes: dome
+		BuildingIntervals:
+			proc: 1000
+			weap: 1500
+		BuildingDelays:
+			kenn: 3000
+			dome: 1500
+			fix: 2000
+			afld: 2500
+			hpad: 2500
+			spen: 2500
+			syrd: 2500
+			atek: 4500
+			stek: 4500
+			mslo: 7500
+			iron: 7500
+			pdox: 7500
+		BuildingLimits:
+			barr: 3
+			tent: 3
+			kenn: 1
+			dome: 1
+			weap: 5
+			hpad: 6
+			afld: 6
+			afld.ukraine: 6
+			spen: 3
+			syrd: 3
+			atek: 1
+			stek: 1
+			fix: 2
+			gap: 1
+			mslo: 1
+			iron: 1
+			pdox: 1
+		BuildingFractions:
+			proc: 30
+			barr: 10
+			tent: 10
+			kenn: 1
+			weap: 14
+			hpad: 8
+			afld: 8
+			afld.ukraine: 8
+			spen: 4
+			syrd: 4
+			pbox: 5
+			hbox: 5
+			gun: 6
+			tsla: 5
+			ftur: 5
+			agun: 6
+			sam: 6
+			gap: 1
+			atek: 1
+			stek: 1
+			fix: 5
+			dome: 10
+			mslo: 1
+			iron: 1
+			pdox: 1
+	SquadManagerBotModuleCA@desperate:
+		RequiresCondition: enable-desperate-ai
+		MinimumAttackForceDelay: 0
+		RushInterval: 400
+		SquadValue: 3000
+		SquadValueMaxEarlyBonus: 1500
+		SquadValueMinLateBonus: 6000
+		SquadValueMaxLateBonus: 12000
+		IdleScanRadius: 18
+		AttackScanRadius: 12
+		MaxBaseRadius: 20
+		ProtectUnitScanRadius: 30
+		ProtectionScanRadius: 18
+		HighValueTargetPriority: 40
+		IndirectRouteChance: 60
+		AirToAirPriority: 50
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt, centinela, tormenta, tiburon, escorteur, fregate, sous.marin, vasha, ambarkarn, agnikhesh, ulmar, l0u15, porte.drone, sousmarin.icbm
+		AirUnitsTypes: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta, moustique
+		HarasserTypes: jeep, gavilan, reco.rub, vidra
+		ExcludeFromSquadsTypes: harv, mcv, dog, e6, badr, badr.bomber, u2, essaim.drone, raid.furtif, pont.aerien, rayo.flyby, rayo.strike, drone.ambaroth, rodeuse
+		ConstructionYardTypes: fact
+		NavalProductionTypes: spen, syrd, chantier.rub, chantier.ana, chantier.avance
+		StaticAntiAirTypes: agun, sam, tourelle.aa, sam.rub, batterie.ambar, ruche
+		BigAirThreats: kirov, b2.spirit
+		HighValueTargetTypes: fact, proc, harv, mcv, atek, stek, dome, raffinerie.petrole, palacio, qg.rub, haut.commandement, institut, centrale.enrichissement, spen, syrd, chantier.rub, chantier.ana, chantier.avance, afld, hpad, aerodromo, base.aerienne, base.ananthanie, base.aeronavale, weap
+		IgnoredEnemyTargetTypes: Wall
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf, palacio, aerodromo, antena, tranchee, trancheev, qg.rub, centre.logistique, base.aerienne, chantier.rub, bunker.rub, casemate.at, tourelle.aa, sam.rub, cotiere, tranchee.rub, trancheev.rub, haut.commandement, fabrique.drones, institut, base.ananthanie, chantier.ana, kheshkarn, batterie.ambar, ruche, base.aeronavale, chantier.avance, centrale.enrichissement
+	UnitBuilderBotModuleCA@desperate:
+		RequiresCondition: enable-desperate-ai
+		UnitQueues: Vehicle, Infantry, Aircraft, Ship
+		IdleBaseUnitsMaximum: 200
+		ProductionMinCashRequirement: 100
+		MaximiseProductionCashRequirement: 0
+		MaxAircraft: 16
+		MaintainAirSuperiority: true
+		MaxAirSuperiority: 14
+		AirToAirUnits: chasseur.poly, intercepteur, albatros, vidravyn, ambaroth
+		AirThreatUnits: mig, yak, heli, hind, mh60, blackhawk, harpia, avispa, pico, garra, bombardier.tactique, b2.spirit, kirov, chasseur.poly, intercepteur, avion.attaque, lunkravyn, vidravyn, agnivyn, ulkar, kheshar, ambaroth, albatros, warthog, manta
+		UnitIntervals:
+			harv: 1000
+			mcv: 2000
+		UnitsToBuild:
+			e1: 50
+			e2: 15
+			e3: 35
+			e4: 15
+			e6: 5
+			dog: 5
+			shok: 15
+			apc: 25
+			jeep: 20
+			arty: 25
+			v2rl: 45
+			ftrk: 30
+			1tnk: 40
+			2tnk: 60
+			3tnk: 60
+			4tnk: 35
+			ttnk: 30
+			stnk: 10
+			heli: 40
+			mh60: 40
+			mig: 40
+			yak: 40
+			ss: 15
+			msub: 20
+			dd: 20
+			ca: 15
+			pt: 15
+		UnitLimits:
+			dog: 2
+			e6: 3
+			harv: 18
+			jeep: 4
+			ftrk: 6
+			gavilan: 5
+			vidra: 6
